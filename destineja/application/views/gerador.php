@@ -90,14 +90,14 @@ header('Content-Type: text/html; charset=utf-8');
 						</div>
 						<div class="form-group col-md-4">
 							<label for="email" class="col-form-label">E-mail</label>
-							<input required type="email" class="form-control" id="email" placeholder="nome@dominio.com">
+                                                        <input required type="email" class="form-control" id="email" placeholder="nome@dominio.com">
 						</div>
 						</div>
 						<h3 class="">Endereço</h3>
 						<div class="form-row">
 						<div class="form-group col-md-2">
 							<label for="cep" class="col-form-label">CEP</label>
-                                                        <input Vtype="text" class="form-control cep" id="cep" placeholder="000000-000" maxlength="8" onblur="pesquisacep(this.value);">
+                                                        <input type="text" class="form-control cep" id="cep" placeholder="000000-000" maxlength="8" onblur="pesquisacep(this.value);">
 						</div>
 						<div class="form-group col-md-5">
 							<label for="Rua" class="col-form-label">Rua</label>

@@ -49,6 +49,9 @@ function limpa_formulario_cep() {
 
                         //Insere script no documento e carrega o conteúdo.
                         document.body.appendChild(script);
+                        
+                        //leva o cursor para o campo número
+                        $( "#numero" ).focus();
 
                     } //end if.
                     else {
@@ -62,6 +65,3 @@ function limpa_formulario_cep() {
                     limpa_formulario_cep();
                 }
             }
-            ;
-            
-    
