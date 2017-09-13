@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed'); //nao permite o acesso direto
+header('Content-Type: text/html; charset=utf-8');
 ?>
 <!DOCTYPE html>
 
