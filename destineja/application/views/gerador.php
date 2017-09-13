@@ -97,7 +97,7 @@ header('Content-Type: text/html; charset=utf-8');
 						<div class="form-row">
 						<div class="form-group col-md-2">
 							<label for="cep" class="col-form-label">CEP</label>
-							<input Vtype="text" class="form-control cep" id="cep" placeholder="000000-000">
+                                                        <input Vtype="text" class="form-control cep" id="cep" placeholder="000000-000" maxlength="8" onblur="pesquisacep(this.value);">
 						</div>
 						<div class="form-group col-md-5">
 							<label for="Rua" class="col-form-label">Rua</label>
@@ -149,9 +149,9 @@ header('Content-Type: text/html; charset=utf-8');
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
-	<script src="<?php echo ('assets/js/jquery.mask.js') ?>"></script>
-	<script src="<?php echo ('assets/js/js.js') ?>"></script>
-
+	<script src="<?php echo site_url('assets/js/jquery.mask.js') ?>"></script>
+	<script src="<?php echo site_url('assets/js/js.js') ?>"></script>
+        <script src="<?php echo site_url('assets/js/buscacep.js') ?>"></script>
 	<script type="text/javascript">
 	$( "#pjuridica" ).click(function() {
 		$( "#col_cnpj" ).show();
