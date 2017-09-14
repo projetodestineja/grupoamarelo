@@ -42,11 +42,11 @@ header('Content-Type: text/html; charset=utf-8');
 						<div class="form-row">
 						<div class="form-group col-md-4" id="col_cnpj">
 							<label for="cnpj" class="col-form-label">CNPJ</label>
-							<input type="text" class="form-control cnpj" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" onChange="valida_cnpj(form_cad_gerador.cnpj);">
+							<input required type="text" class="form-control cnpj" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" onChange="valida_cnpj(form_cad_gerador.cnpj);">
 						</div>
 						<div class="form-group col-md-4" id="col_cpf">
 							<label for="cpf" class="col-form-label">CPF</label>
-							<input type="text" class="form-control cpf" id="cpf" name="cpf" placeholder="000.000.000-00" onChange="valida_cpf(form_cad_gerador.cpf);">
+							<input required type="text" class="form-control cpf" id="cpf" name="cpf" placeholder="000.000.000-00" onChange="valida_cpf(form_cad_gerador.cpf);">
 						</div>
 						<div class="form-group col-md-4" id="col_rsocial">
 							<label for="rsocial" class="col-form-label">Razão Social</label>
@@ -158,6 +158,8 @@ header('Content-Type: text/html; charset=utf-8');
 		$( "#col_rsocial" ).show();
 		$( "#col_nfantasia" ).show();
 		$( "#col_cpf" ).hide();
+		document.getElementById("cpf").required = false;
+		document.getElementById("cnpj").required = true;
 		//alert("1");
 	});
 
@@ -167,6 +169,8 @@ header('Content-Type: text/html; charset=utf-8');
 		$( "#col_rsocial" ).hide();
 		$( "#col_nfantasia" ).hide();
 		$( "#col_cpf" ).show();
+		document.getElementById("cnpj").required = false;
+		document.getElementById("cpf").required = true;
 		//alert("2");
 	});
 
