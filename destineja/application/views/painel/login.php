@@ -94,7 +94,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <a class="btn btn-success btn-block" href="index.html">Login</a>
           </form>
           <div class="text-center">
-            <a class="d-block small mt-3" href="../">Efetue seu cadastro</a>
+            <a class="d-block small mt-3" href="<?php echo site_url('') ?>">Efetue seu cadastro</a>
             <a class="d-block small" href="#">Esqueceu a senha?</a>
           </div>
         </div>
