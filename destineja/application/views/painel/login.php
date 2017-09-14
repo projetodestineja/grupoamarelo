@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- Custom styles for this template >
     <link href="css/sb-admin.css" rel="stylesheet"-->
 
-    <link rel="stylesheet" href="<?php echo base_url('assets/css/css.css') ?>"> 
+    <link rel="stylesheet" href="<?php echo base_url('assets/css/css.css') ?>">
 
     <style type="text/css">
       #col_cnpj, #col_cpf{display: none;}
@@ -38,13 +38,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <div class="card card-login mx-auto mt-5">
         <div class="card-header">
           <center>
-          <img width="200px" src="../img/destinejalogo.png"/>
+          <img width="200px" src="<?php echo base_url('img/destinejalogo.png') ?>"/>
           <h3 style="margin:20px 0;">Acesse seu painel</h3>
           </center>
         </div>
         <div class="card-body">
           <form>
-            
+
             <div class="form-row">
             Tipo de login:&nbsp;
             <div class="form-check form-check-inline">
