@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <div class="card card-login mx-auto mt-5">
         <div class="card-header">
           <center>
-          <img width="200px" src="<?php echo base_url('img/destinejalogo.png') ?>"/>
+          <img width="200px" src="<?php echo base_url('assets/img/destinejalogo.png') ?>"/>
           <h3 style="margin:20px 0;">Acesse seu painel</h3>
           </center>
         </div>
