@@ -5,7 +5,7 @@ header('Content-Type: text/html; charset=utf-8');
 <!DOCTYPE html>
 
 <html lang="pt-br">
-	
+
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -18,7 +18,7 @@ header('Content-Type: text/html; charset=utf-8');
 	</head>
 
 	<body>
-		
+
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
@@ -42,11 +42,11 @@ header('Content-Type: text/html; charset=utf-8');
 						<div class="form-row">
 						<div class="form-group col-md-4" id="col_cnpj">
 							<label for="cnpj" class="col-form-label">CNPJ</label>
-							<input required type="text" class="form-control cnpj" id="cnpj" placeholder="00.000.000/0000-00" onChange="valida_cnpj(form_cad_gerador.cnpj);">
+							<input required type="text" class="form-control cnpj" id="cnpj" placeholder="00.000.000/0000-00" onChange="valida_cnpj(this);">
 						</div>
 						<div class="form-group col-md-4" id="col_cpf">
 							<label for="cpf" class="col-form-label">CPF</label>
-							<input required type="text" class="form-control cpf" id="cpf" placeholder="000.000.000-00" onChange="valida_cpf(form_cad_gerador.cpf);">
+							<input required type="text" class="form-control cpf" id="cpf" placeholder="000.000.000-00" onChange="valida_cpf(this);">
 						</div>
 						<div class="form-group col-md-4" id="col_rsocial">
 							<label required for="rsocial" class="col-form-label">Razão Social</label>
@@ -143,9 +143,9 @@ header('Content-Type: text/html; charset=utf-8');
 				</div>
 			</div>
 		</div>
-	
+
 	</body>
-	
+
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
