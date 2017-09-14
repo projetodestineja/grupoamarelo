@@ -21,8 +21,8 @@ header('Content-Type: text/html; charset=utf-8');
 					<div class="col-sm-12">
 						<div style="width:230px; margin:0 auto;"><img width="230px" src="<?php echo base_url('assets/img/destinejalogo.png') ?>"/></div><br/>
 						<h1>Efetue seu cadastro:</h1><br/>
-						<a href="<?php echo site_url('destineja/gerador') ?>"><button type="button" class="btn btn-success btn-lg">Gerador de Resíduo</button><br/><br/></a>
-						<a href="<?php echo site_url('destineja/coletor') ?>"><button type="button" class="btn btn-success btn-lg">Coletor de Resíduo</button></a>
+						<a href="<?php echo site_url('empresa/gerador') ?>"><button type="button" class="btn btn-success btn-lg">Gerador de Resíduo</button><br/><br/></a>
+						<a href="<?php echo site_url('empresa/coletor') ?>"><button type="button" class="btn btn-success btn-lg">Coletor de Resíduo</button></a>
 					</div>
 				</div>
 			</center>

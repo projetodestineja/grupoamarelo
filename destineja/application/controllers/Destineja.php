@@ -13,14 +13,6 @@ class Destineja extends CI_Controller {
 		$this->load->view('inicio', $dados);
 	}
 
-	public function gerador(){
-		$dados['titulo'] = "Destine Já - Cadastro";
-		$this->load->view('gerador', $dados);
-	}
-
-	public function coletor(){
-		$dados['titulo'] = "Destine Já - Cadastro";
-		$this->load->view('coletor', $dados);
-	}
+	
 
 }
