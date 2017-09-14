@@ -5,7 +5,7 @@ header('Content-Type: text/html; charset=utf-8');
 <!DOCTYPE html>
 
 <html lang="pt-br">
-	
+
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -14,7 +14,7 @@ header('Content-Type: text/html; charset=utf-8');
 	</head>
 
 	<body>
-		
+
 		<div class="container-fluid">
 			<center>
 				<div class="row">
@@ -27,11 +27,12 @@ header('Content-Type: text/html; charset=utf-8');
 				</div>
 			</center>
 		</div>
-	
+
 	</body>
 
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+	
 
-</html>	
+</html>
