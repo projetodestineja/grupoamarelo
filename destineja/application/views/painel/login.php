@@ -131,7 +131,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $( "#col_email" ).hide();
         $( "#col_cnpj" ).hide();
         $( "#col_cpf" ).show();
-        //alert("1");
       });
     </script>
 
