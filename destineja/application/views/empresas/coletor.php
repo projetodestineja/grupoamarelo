@@ -24,7 +24,7 @@ header('Content-Type: text/html; charset=utf-8');
 				<div class="col-md-12">
 					<img width="200px" src="<?php echo base_url('assets/img/destinejalogo.png') ?>"/><br/>
 					<h1 class="h1Forms">Cadastro - Coletor de Resíduo</h1>
-					<form id="form_cad_gerador">
+					<form id="form_cad_coletor" action="<?php echo site_url('empresa/cadastrar'); ?>" method="POST">
 						<h3 class="">Dados</h3>
 						<div class="form-row">
 						<div class="form-group col-md-4" id="col_cnpj">

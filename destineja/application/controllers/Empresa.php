@@ -5,6 +5,7 @@ class Empresa extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
+                $this->load->model('empresa_model');
 	}
 
 	public function index(){
@@ -13,6 +14,11 @@ class Empresa extends CI_Controller {
         
         public function gerador(){
 		$dados['titulo'] = "Destine Já - Cadastro";
+                
+                /*$this->db->where('id',1);
+                $rows = $this->db->get('empresas')->row();
+                $dados['cnpj'] = $rows->cnpj;*/
+                
 		$this->load->view('empresas/gerador', $dados);
 	}
 
@@ -22,6 +28,25 @@ class Empresa extends CI_Controller {
 	}
         
         public function cadastrar(){
-		echo "cadastrar";
+            
+            
+            
+            $erro = '';   
+           
+            if(empty($erro)){
+                $dados = array(
+                    'cnpj'=> $this->input->post('cnpj')
+                );
+                 
+                $this->empresa_model->gravar($dados);
+            }else{
+                $dados['erro'] = $erro; 
+            }
+            
+            $dados['titulo'] = "Cadastro - Gerador de Resíduo";
+            
+            $this->load->view('empresas/gerador', $dados);
+            
+            
 	}
 }
