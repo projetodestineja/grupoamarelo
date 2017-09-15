@@ -46,7 +46,7 @@ header('Content-Type: text/html; charset=utf-8');
 							<input required type="text" class="form-control" id="nresponsavel" name="nresponsavel" placeholder="Ex.: César Silva, Amauri Jr...">
 						</div>
 						</div>
-						<h3 class="">Áreas de atuação</h3>
+						<!--h3 class="">Áreas de atuação</h3>
 						<div class="form-row">
 						<div class="col-sm-2 form-check">
 							<label class="form-check-label"><input type="checkbox" name="checkbox1" value="opt1"> Option</label>
@@ -66,7 +66,7 @@ header('Content-Type: text/html; charset=utf-8');
 						<div class="col-sm-2 form-check">
 							<label class="form-check-label"><input type="checkbox" name="checkbox6" value="opt6"> Option</label>
 						</div>
-						</div>
+					</div-->
 						<h3 class="">Contato</h3>
 						<div class="form-row">
 						<div class="form-group col-md-4">
@@ -126,6 +126,7 @@ header('Content-Type: text/html; charset=utf-8');
 							<input required type="password" class="form-control" id="senha2" name="senha2" onchange="valida_senha();" placeholder="Confirme sua Senha">
 						</div>
 						</div>
+						<input type="hidden" name="tipo" value="coletor">
 						<a href="<?php echo base_url('') ?>"><button class="btn btn-outline-secondary" type="button">Voltar</button></a>
 						<button class="btn btn-success" type="submit">Salvar</button>
 					</form>

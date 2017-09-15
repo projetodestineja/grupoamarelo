@@ -24,11 +24,11 @@ header('Content-Type: text/html; charset=utf-8');
 				<div class="col-md-12">
 					<img width="200px" src="<?php echo base_url('assets/img/destinejalogo.png') ?>"/><br/>
 					<h1 class="h1Forms">Cadastro - Gerador de Resíduo</h1>
-                                        
-                                        <?php if(!empty($erro)){  ?>            
-                                            <div class="alert alert-danger"><?php echo $erro; ?></div>
-                                        <?php } ?>
-                                        
+
+          <?php if(!empty($erro)){  ?>
+              <div class="alert alert-danger"><?php echo $erro; ?></div>
+          <?php } ?>
+
      			<form id="form_cad_gerador" action="<?php echo site_url('empresa/cadastrar'); ?>" method="POST">
 						<h3 class="">Tipo de cadastro</h3>
 						<div class="form-row">
@@ -47,7 +47,7 @@ header('Content-Type: text/html; charset=utf-8');
 						<div class="form-row">
 						<div class="form-group col-md-4" id="col_cnpj">
 							<label for="cnpj" class="col-form-label">CNPJ</label>
-                                                        <input required type="text" class="form-control cnpj" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" value="<?php echo (isset($cnpj)?$cnpj:''); ?>" onChange="valida_cnpj(form_cad_gerador.cnpj);">
+              <input required type="text" class="form-control cnpj" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" value="<?php echo (isset($cnpj)?$cnpj:''); ?>" onChange="valida_cnpj(form_cad_gerador.cnpj);">
 						</div>
 						<div class="form-group col-md-4" id="col_cpf">
 							<label for="cpf" class="col-form-label">CPF</label>
@@ -69,17 +69,17 @@ header('Content-Type: text/html; charset=utf-8');
 						</div>
 						<div class="form-group col-md-4">
 							<label for="rnegocio">Ramo de Negócio</label>
-							<select class="form-control" id="rnegocio">
-								<option selected value=""></option>
-								<option value="">Oficina Mecânica</option>
-								<option value="">Posto de Gasolina</option>
-								<option value="">Restaurante</option>
-								<option value="">Serralheria</option>
+							<select class="form-control" id="rnegocio" name="rnegocio">
+								<option selected></option>
+								<option value="Oficina Mecânica">Oficina Mecânica</option>
+								<option value="Posto de Gasolina">Posto de Gasolina</option>
+								<option value="Restaurante">Restaurante</option>
+								<option value="Serralheria">Serralheria</option>
 								<option value="outro">Outro</option>
 							</select>
 						</div>
 						<div class="form-group col-md-4" id="outro_ramo_option">
-							<label for="digite_ramo" class="col-form-label">Digite o Ramo de Negócio</label>
+						<label for="digite_ramo" class="col-form-label">Digite o Ramo de Negócio</label>
 							<input type="text" class="form-control" id="digite_ramo" name="digite_ramo" placeholder="Especifique o Ramo de Negócio">
 						</div>
 						</div>
@@ -142,6 +142,7 @@ header('Content-Type: text/html; charset=utf-8');
 							<input type="password" class="form-control" id="senha2" name="senha2" onchange="valida_senha();" placeholder="Confirme sua Senha">
 						</div>
 						</div>
+						<input type="hidden" name="tipo" value="gerador">
 						<a href="<?php echo base_url('') ?>"><button class="btn btn-outline-secondary" type="button">Voltar</button></a>
 						<button class="btn btn-success" type="submit">Salvar</button>
 					</form>

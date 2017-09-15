@@ -13,6 +13,4 @@ class Destineja extends CI_Controller {
 		$this->load->view('inicio', $dados);
 	}
 
-	
-
 }
