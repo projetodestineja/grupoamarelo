@@ -47,7 +47,7 @@ header('Content-Type: text/html; charset=utf-8');
 						<div class="form-row">
 						<div class="form-group col-md-4" id="col_cnpj">
 							<label for="cnpj" class="col-form-label">CNPJ</label>
-              <input required type="text" class="form-control cnpj" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" value="<?php echo (isset($cnpj)?$cnpj:''); ?>" onChange="valida_cnpj(form_cad_gerador.cnpj);">
+              <input required type="text" class="form-control cnpj" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" value="<?php echo (isset($cnpj)?$cnpj:''); ?>" onChange="valida_cnpj(form_cad_gerador.cnpj);" onblur="pesquisacnpj(this.value);">
 						</div>
 						<div class="form-group col-md-4" id="col_cpf">
 							<label for="cpf" class="col-form-label">CPF</label>
@@ -158,6 +158,7 @@ header('Content-Type: text/html; charset=utf-8');
 	<script src="<?php echo site_url('assets/js/jquery.mask.js') ?>"></script>
 	<script src="<?php echo site_url('assets/js/js.js') ?>"></script>
 	<script src="<?php echo site_url('assets/js/buscacep.js') ?>"></script>
+        <script src="<?php echo site_url('assets/js/buscacnpj.js') ?>"></script>
 	<script type="text/javascript">
 	$( "#pjuridica" ).click(function() {
 		$( "#col_cnpj" ).show();
