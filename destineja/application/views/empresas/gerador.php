@@ -43,6 +43,12 @@ header('Content-Type: text/html; charset=utf-8');
 							</label>
 						</div>
 						</div>
+                                                
+                                                <div id="div_pesquisa_cnpj" name="div_pesquisa_cnpj" class="alert alert-warning">
+                                                    Pesquisando CNPJ...
+                                                </div>
+                                                
+                                                
 						<h3 class="">Dados</h3>
 						<div class="form-row">
 						<div class="form-group col-md-4" id="col_cnpj">
@@ -160,6 +166,9 @@ header('Content-Type: text/html; charset=utf-8');
 	<script src="<?php echo site_url('assets/js/buscacep.js') ?>"></script>
         <script src="<?php echo site_url('assets/js/buscacnpj.js') ?>"></script>
 	<script type="text/javascript">
+        
+       $( "#div_pesquisa_cnpj" ).hide();
+            
 	$( "#pjuridica" ).click(function() {
 		$( "#col_cnpj" ).show();
 		$( "#col_rsocial" ).show();
