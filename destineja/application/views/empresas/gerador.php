@@ -45,7 +45,7 @@ header('Content-Type: text/html; charset=utf-8');
 						</div>
                                                 
                                                 <div id="div_pesquisa_cnpj" name="div_pesquisa_cnpj" class="alert alert-warning">
-                                                    Pesquisando CNPJ...
+                                                    
                                                 </div>
                                                 
                                                 

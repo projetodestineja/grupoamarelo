@@ -1,7 +1,10 @@
 function pesquisacnpj(valor) {
+    
+    var valor = valor.replace(/\D/g, '');
 
     if (valor.length > 0)
     {
+        $( "#div_pesquisa_cnpj" ).text('Pesquisando CNPJ...');
         $( "#div_pesquisa_cnpj" ).show();
         //Preenche os campos com "..." enquanto consulta webservice.
         document.getElementById('rsocial').value = "...";
@@ -19,8 +22,8 @@ function pesquisacnpj(valor) {
         var script = document.createElement('script');
 
         script.src = 'https://www.receitaws.com.br/v1/cnpj/' + valor + '/?callback=preenche_dados_cnpj';
-
         document.body.appendChild(script);
+ 
     }
 }
 
@@ -41,6 +44,7 @@ function preenche_dados_cnpj(conteudo) {
         document.getElementById('numero').value = (conteudo.numero);
         document.getElementById('complemento').value = (conteudo.complemento);
         $("#nresponsavel").focus();
+        $( "#div_pesquisa_cnpj" ).hide();
     }
     else{
         document.getElementById('rsocial').value = "";
@@ -54,8 +58,9 @@ function preenche_dados_cnpj(conteudo) {
         document.getElementById('rua').value = "";
         document.getElementById('numero').value = "";
         document.getElementById('complemento').value = "";
+        $( "#div_pesquisa_cnpj" ).text('CNPJ não encontrado, digite os dados da empresa');
     }
 
-   $( "#div_pesquisa_cnpj" ).hide();
+   
 
 }
