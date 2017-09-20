@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
+@import url('../pluguins/font-awesome/css/font-awesome.min.css');
+
+@import url('../pluguins/bootstrap/css/bootstrap.min.css');
+@import url('../css/sb-admin.css');
+*{font-family: Montserrat, "sans-serif"; color:#595959;}
+h1,h2,h3,h4,h5,h6{font-weight: 700; color: #008146;}
+/*a{color:#008146;}*/
+.h1Forms{margin:40px 0;}
+label{color:#FF7E00;}
+body{margin:50px 0;}
+.btn-success i,.btn-danger i,.btn-warning i,.btn-warning{ color:#fff}
