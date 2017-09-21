@@ -9,6 +9,7 @@ header('Content-Type: text/html; charset=utf-8');
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+                <link rel="stylesheet" href="<?php echo base_url('painel/assets/pluguins/bootstrap/css/bootstrap.min.css') ?>">
 		<link rel="stylesheet" href="<?php echo base_url('painel/assets/css/css.css') ?>">
 		<title><?php echo $titulo; ?></title>
 	</head>
@@ -35,7 +36,7 @@ header('Content-Type: text/html; charset=utf-8');
                                 <i class="fa fa-truck" ></i> Coletor de Resíduo
                             </a>
                             <br/><br/>
-                            <a href="<?php echo site_url('empresa/login') ?>" class="btn btn-warning btn-lg" >
+                            <a href="<?php echo site_url('empresa/login') ?>" class="btn btn-info btn-lg" >
                                 <i class="fa fa-lock" ></i> Efetue Seu Login
                             </a>
                         </div>

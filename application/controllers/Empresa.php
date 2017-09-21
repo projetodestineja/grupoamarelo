@@ -14,10 +14,9 @@ class Empresa extends CI_Controller {
 
         public function gerador(){
 		$dados['titulo'] = "Destine Já - Cadastro";
-
-		/*$this->db->where('id',1);
-		$rows = $this->db->get('empresas')->row();
-		$dados['cnpj'] = $rows->cnpj;*/
+                
+                $this->load->model('estados_model');
+                $dados['estados'] =$this->estados_model->lista_estados();
 
 		$this->load->view('empresa/gerador', $dados);
 	}

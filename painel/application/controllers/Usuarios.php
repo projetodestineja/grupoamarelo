@@ -28,8 +28,18 @@ class Usuarios extends CI_Controller {
 		
 		//$this->session->set_flashdata('resposta_erro', 'Dados inválidos');
 		//$this->session->set_flashdata('resposta_ok', 'É sucesso...');
+                
+                $this->db->where('id',2); 
+                $this->db->delete('usuarios');
+                
+                $this->db->where('id',3); 
+                $data['user_row'] = $this->db->get('usuarios')->row();
+                
+                
+               // $this->db->order_by('id','desc');
+                //$this->db->where('id <= ',9); 
+                $data['result'] = $this->db->query('select * from usuarios')->result();
 		
-		$data['texto'] = '';
 		
 		$this->load->view('usuarios/index',$data);
 		

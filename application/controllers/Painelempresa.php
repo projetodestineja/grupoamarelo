@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class PainelEmpresa extends CI_Controller {
+class Painelempresa extends CI_Controller {
 
 	function __construct()
 	{

@@ -130,8 +130,13 @@ header('Content-Type: text/html; charset=utf-8');
 							<input type="text" class="form-control" id="cidade" name="cidade" placeholder="Ex.: Volta Redonda, Vila Velha...">
 						</div>
 						<div class="form-group col-md-4">
-							<label for="estado" class="col-form-label">Estado</label>
-							<input type="text" class="form-control" id="estado" name="estado" placeholder="Ex.: Rio de Janeiro, Espírito Santo...">
+						<label for="estado" class="col-form-label">Estado</label>
+                                                    <select class="form-control" id="estado" name="estado">
+                                                        <option value="">Selecione o Estado</option>
+                                                        <?php foreach ($estados as $n) {?>
+                                                        <option value="<?php echo $n->id; ?>"><?php echo $n->uf;?></option>
+                                                        <?php } ?>
+                                                    </select>
 						</div>
 						</div>
 						<h3 class="">Acesso</h3>

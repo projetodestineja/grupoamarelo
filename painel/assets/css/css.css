@@ -9,4 +9,4 @@ h1,h2,h3,h4,h5,h6{font-weight: 700; color: #008146;}
 .h1Forms{margin:40px 0;}
 label{color:#FF7E00;}
 body{margin:50px 0;}
-.btn-success i,.btn-danger i,.btn-warning i,.btn-warning{ color:#fff}
+.btn i.fa{color:#fff}

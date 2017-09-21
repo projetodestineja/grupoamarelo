@@ -170,8 +170,7 @@
 	$(document).ready(function(){
 	    $('[data-toggle="tooltip"]').tooltip(); 
             $('.menu-vertical-principal .menu-v-<?php echo $this->uri->segment(1); ?>').addClass("active");
-          
-	});
+  	});
     </script>
 
   </body>
