@@ -13,6 +13,7 @@ function limpa_formulario_cep() {
                     document.getElementById('bairro').value = (conteudo.bairro);
                     document.getElementById('cidade').value = (conteudo.localidade);
                     document.getElementById('estado').value = (conteudo.uf);
+                    load_cidades(conteudo.uf,conteudo.localidade);
                 } //end if.
                 else {
                     //CEP não Encontrado.

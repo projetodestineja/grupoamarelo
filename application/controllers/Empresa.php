@@ -15,8 +15,8 @@ class Empresa extends CI_Controller {
         public function gerador(){
 		$dados['titulo'] = "Destine Já - Cadastro";
                 
-                $this->load->model('estados_model');
-                $dados['estados'] =$this->estados_model->lista_estados();
+                $this->load->model('estado_model');
+                $dados['estados'] =$this->estado_model->lista_estados();
 
 		$this->load->view('empresa/gerador', $dados);
 	}
@@ -55,5 +55,25 @@ class Empresa extends CI_Controller {
             $dados['titulo'] = "Destine Já - Login";
             $this->load->view('empresa/login', $dados);
 	}
+        
+        function getcidades($uf) {
+        
+            $cidade = $this->input->get('cidade');
+            $retorno = array();
+            $this->load->model('cidade_model');
+         
+            $cidades = $this->cidade_model->getcidades($uf);
+            foreach($cidades as $row){
+                
+                $selected = ($cidade==$row->nome_cidade?'selected':'');
+                
+                $retorno[] = array('nome_cidade'=>$row->nome_cidade,'id'=>$row->id,'selected'=>$selected); 
+            }        
+         
+            echo json_encode($retorno);
+ 
+        return;
+         
+        }
 
 }

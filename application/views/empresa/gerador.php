@@ -125,19 +125,24 @@ header('Content-Type: text/html; charset=utf-8');
 							<label for="bairro" class="col-form-label">Bairro</label>
 							<input type="text" class="form-control" id="bairro" name="bairro" placeholder="Ex.: São Gonçalo, Manguinhos...">
 						</div>
-						<div class="form-group col-md-4">
-							<label for="cidade" class="col-form-label">Cidade</label>
-							<input type="text" class="form-control" id="cidade" name="cidade" placeholder="Ex.: Volta Redonda, Vila Velha...">
-						</div>
+						
 						<div class="form-group col-md-4">
 						<label for="estado" class="col-form-label">Estado</label>
                                                     <select class="form-control" id="estado" name="estado">
                                                         <option value="">Selecione o Estado</option>
                                                         <?php foreach ($estados as $n) {?>
-                                                        <option value="<?php echo $n->id; ?>"><?php echo $n->uf;?></option>
+                                                        <option value="<?php echo $n->uf; ?>"  ><?php echo $n->nome_estado;?></option>
                                                         <?php } ?>
                                                     </select>
 						</div>
+                                                    
+                                                <div class="form-group col-md-4">
+							<label for="cidade" class="col-form-label">Cidade</label>
+                                                        <select class="form-control" id="cidade" name="cidade">
+                                                        <option value="">Selecione o Estado Antes</option>
+                                                        </select>
+						</div>    
+                                                    
 						</div>
 						<h3 class="">Acesso</h3>
 						<div class="form-row">
@@ -159,7 +164,7 @@ header('Content-Type: text/html; charset=utf-8');
 		</div>
 
 	</body>
-
+  
 	<script src="<?php echo base_url('painel/assets/pluguins/jquery/jquery.min.js'); ?>"></script>
         <script src="<?php echo base_url('painel/assets/pluguins/popper/popper.min.js'); ?>"></script>
         <script src="<?php echo base_url('painel/assets/pluguins/bootstrap/js/bootstrap.min.js'); ?>"></script>
@@ -197,6 +202,52 @@ header('Content-Type: text/html; charset=utf-8');
 			$( "#outro_ramo_option" ).hide();
 		}
 	});
+        
+        
+        $(function(){
+     
+            $("select[name=estado]").change(function(){
+
+                var estado = $(this).val();
+
+                resetaCombo('cidade');
+                load_cidades(estado);
+
+            });
+
+        });
+        
+        function load_cidades(estado,cidade=NUll){
+        
+                $.getJSON( '<?php echo site_url(); ?>' + 'empresa/getcidades/' + estado+'?cidade='+cidade, function (data){
+
+                    var option = new Array();
+
+                    $.each(data, function(i, obj){
+
+                        option[i] = document.createElement('option');
+                        $( option[i] ).attr( {value : obj.id} );
+                        if(obj.selected!=''){
+                            $( option[i] ).attr( {selected : obj.selected} );
+                        }
+                        $( option[i] ).append( obj.nome_cidade );
+
+                        $("select[name='cidade']").append( option[i] );
+
+                    }); 
+
+                });  
+       
+        }
+
+        function resetaCombo( el ) {
+           $("select[name='"+el+"']").empty();
+           var option = document.createElement('option');                                  
+           $( option ).attr( {value : ''} );
+           $( option ).append( 'Selecione a Cidade' );
+           $("select[name='"+el+"']").append( option );
+        }
+        
 	</script>
 
 </html>
