@@ -1,5 +1,5 @@
     <ul class="navbar-nav navbar-sidenav menu-vertical-principal" id="exampleAccordion">
-         
+
         <li class="nav-item menu-v-painel <?php echo ($this->uri->segment(1)==''?'active':''); ?>" data-toggle="tooltip" data-placement="right" title="Painel Administrativo">
             <a class="nav-link" href="<?php echo site_url('painel'); ?>" >
               <i class="fa fa-fw fa-dashboard"></i> <span class="nav-link-text">Painel</span>
@@ -10,8 +10,8 @@
               <i class="fa fa-fw fa-building"></i> <span class="nav-link-text">Empresas</span>
             </a>
             <ul class="sidenav-second-level collapse" id="collapseEmpresas">
-              <li><a href="static-nav.html">Geradoras</a></li>
-              <li><a href="#">Coletoras</a></li>
+              <li><a href="<?php echo site_url('empresa/consultar_g'); ?>">Geradoras</a></li>
+              <li><a href="<?php echo site_url('empresa/consultar_c'); ?>">Coletoras</a></li>
               <li><a href="#">Consultores</a></li>
             </ul>
         </li>
@@ -36,9 +36,9 @@
             </a>
           </li>
     </ul>
-        
-        
-        
+
+
+
         <ul class="navbar-nav sidenav-toggler">
           <li class="nav-item">
             <a class="nav-link text-center" id="sidenavToggler" rel="menu-vertital-painel" >
@@ -46,10 +46,10 @@
             </a>
           </li>
         </ul>
-        
-        
-        
-        
+
+
+
+
         <ul class="navbar-nav ml-auto">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle mr-lg-2" href="#" id="messagesDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -99,7 +99,7 @@
                 <span class="number">6</span>
               </span>
             </a>
-            
+
             <div class="dropdown-menu" aria-labelledby="alertsDropdown">
               <h6 class="dropdown-header">New Alerts:</h6>
               <div class="dropdown-divider"></div>
@@ -138,15 +138,15 @@
               </a>
             </div>
           </li>
-          
-         
+
+
           <li class="nav-item" >
             <a class="nav-link dropdown-toggle mr-lg-2" href="<?php echo site_url('usuarios'); ?>" >
               <i class="fa fa-fw fa-user"></i>
             </a>
           </li>
-          
-          
+
+
           <li class="nav-item">
               <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
               	<i class="fa fa-fw fa-sign-out"></i>Sair

@@ -6,6 +6,14 @@ class Empresa extends CI_Controller {
 	function __construct(){
 		parent::__construct();
     $this->load->model('empresa_model');
+		$this->_init();
+	}
+
+	private function _init()
+	{
+		$this->output->set_template('default');
+		$this->load->js('assets/pluguins/datatables/jquery.dataTables.js');
+		$this->load->js('assets/pluguins/datatables/dataTables.bootstrap4.js');
 	}
 
 	public function index(){
@@ -14,17 +22,32 @@ class Empresa extends CI_Controller {
 
   public function gerador(){
 		$dados['titulo'] = "Destine Já - Cadastro";
-
-		/*$this->db->where('id',1);
-		$rows = $this->db->get('empresas')->row();
-		$dados['cnpj'] = $rows->cnpj;*/
-
 		$this->load->view('empresas/gerador', $dados);
+	}
+
+	public function consultar_g()
+	{
+		$data['title'] = 'Geradoras';
+		$this->output->set_common_meta($data['title'],'',''); //Title / Description / Tags
+
+		$data['result'] = $this->empresa_model->consultar_geradoras();
+
+		$this->load->view('empresas/lst_geradoras',$data);
 	}
 
 	public function coletor(){
 		$dados['titulo'] = "Destine Já - Cadastro";
 		$this->load->view('empresas/coletor', $dados);
+	}
+
+	public function consultar_c()
+	{
+		$data['title'] = 'Coletoras';
+		$this->output->set_common_meta($data['title'],'',''); //Title / Description / Tags
+
+		$data['result'] = $this->empresa_model->consultar_coletoras();
+
+		$this->load->view('empresas/lst_coletoras',$data);
 	}
 
 	public function cadastrar(){
