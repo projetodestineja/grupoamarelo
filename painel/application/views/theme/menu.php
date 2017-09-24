@@ -10,8 +10,8 @@
               <i class="fa fa-fw fa-building"></i> <span class="nav-link-text">Empresas</span>
             </a>
             <ul class="sidenav-second-level collapse" id="collapseEmpresas">
-              <li><a href="<?php echo site_url('empresa/consultar_g'); ?>">Geradoras</a></li>
-              <li><a href="<?php echo site_url('empresa/consultar_c'); ?>">Coletoras</a></li>
+              <li><a href="<?php echo site_url('empresa/consultar/1'); ?>">Geradoras</a></li>
+              <li><a href="<?php echo site_url('empresa/consultar/2'); ?>">Coletoras</a></li>
               <li><a href="#">Consultores</a></li>
             </ul>
         </li>

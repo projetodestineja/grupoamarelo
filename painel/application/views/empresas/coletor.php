@@ -32,8 +32,8 @@ header('Content-Type: text/html; charset=utf-8');
 							<input required type="text" class="form-control cnpj" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" onChange="valida_cnpj(form_cad_gerador.cnpj);">
 						</div>
 						<div class="form-group col-md-4" id="col_rsocial">
-							<label required for="rsocial" class="col-form-label">Razão Social</label>
-							<input type="text" class="form-control" id="rsocial" id="rsocial" placeholder="Razão Social">
+							<label for="rsocial" class="col-form-label">Razão Social</label>
+							<input required type="text" class="form-control" id="rsocial" name="rsocial" placeholder="Razão Social">
 						</div>
 						<div class="form-group col-md-4" id="col_nfantasia">
 							<label for="nfantasia" class="col-form-label">Nome Fantasia</label>

@@ -33,7 +33,7 @@ header('Content-Type: text/html; charset=utf-8');
                     <?php } ?>
 
                     <form id="form_cad_gerador" action="<?php echo site_url('empresa/cadastrar'); ?>" method="POST">    
-                        <input type="number" maxlength="1" id="ativo" name="ativo" value="1" hidden> 
+                        <input type="number" maxlength="1" id="ativo" name="ativo" value="1" hidden>
 
                         <div class="form-group col-md-4">
                             <label for="funcao" class="col-form-label">Função da Empresa</label>
@@ -151,7 +151,7 @@ header('Content-Type: text/html; charset=utf-8');
                                 <select class="form-control" id="cidade" name="cidade">
                                     <option value="">Selecione a Cidade</option>
                                 </select>
-                            </div>    
+                            </div>
 
                         </div>
                         <h3 class="">Acesso</h3>
@@ -174,11 +174,11 @@ header('Content-Type: text/html; charset=utf-8');
         </div>
 
     </body>
-  
+
 	<script src="<?php echo base_url('painel/assets/pluguins/jquery/jquery.min.js'); ?>"></script>
         <script src="<?php echo base_url('painel/assets/pluguins/popper/popper.min.js'); ?>"></script>
         <script src="<?php echo base_url('painel/assets/pluguins/bootstrap/js/bootstrap.min.js'); ?>"></script>
-        
+
 	<script src="<?php echo site_url('painel/assets/pluguins/jquery.mask.js') ?>"></script>
 	<script src="<?php echo site_url('painel/assets/js/js.js') ?>"></script>
 	<script src="<?php echo site_url('painel/assets/pluguins/buscacep.js') ?>"></script>
@@ -213,10 +213,10 @@ header('Content-Type: text/html; charset=utf-8');
 			$( "#outra_area_option" ).hide();
 		}
 	});
-        
-        
+
+
         $(function(){
-     
+
             $("select[name=estado]").change(function(){
 
                 var estado = $(this).val();
@@ -227,7 +227,7 @@ header('Content-Type: text/html; charset=utf-8');
             });
 
         });
-        
+
         function load_cidades(estado,cidade=NUll){
         //alert(cidade);
                 $.getJSON( '<?php echo site_url(); ?>' + 'empresa/getcidades/' + estado+'?cidade='+cidade, function (data){
@@ -245,20 +245,20 @@ header('Content-Type: text/html; charset=utf-8');
 
                         $("select[name='cidade']").append( option[i] );
 
-                    }); 
+                    });
 
-                });  
-       
+                });
+
         }
 
         function resetaCombo( el ) {
            $("select[name='"+el+"']").empty();
-           var option = document.createElement('option');                                  
+           var option = document.createElement('option');
            $( option ).attr( {value : ''} );
            $( option ).append( 'Selecione a Cidade' );
            $("select[name='"+el+"']").append( option );
         }
-        
+
 	</script>
 
 </html>

@@ -22,23 +22,23 @@ header('Content-Type: text/html; charset=utf-8');
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
-                                    <a href="<?php echo site_url();?>" >
-					<img width="200px" src="<?php echo base_url('painel/assets/img/destinejalogo.png') ?>"/>
-                                    </a>
-                                        <br/>
-                                        
-                                        
+          <a href="<?php echo site_url();?>" >
+						<img width="200px" src="<?php echo base_url('painel/assets/img/destinejalogo.png') ?>"/>
+          </a>
+        	<br/>
+
+
 					<h1 class="h1Forms">Cadastro - Coletor de Resíduo</h1>
 					<form id="form_cad_coletor" action="<?php echo site_url('empresa/cadastrar'); ?>" method="POST">
 						<h3 class="">Dados</h3>
 						<div class="form-row">
 						<div class="form-group col-md-4" id="col_cnpj">
 							<label for="cnpj" class="col-form-label">CNPJ</label>
-							<input required type="text" class="form-control cnpj" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" onChange="valida_cnpj(form_cad_gerador.cnpj);">
+							<input required type="text" class="form-control cnpj" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" value="<?php echo (isset($cnpj) ? $cnpj : ''); ?>" onChange="valida_cnpj(form_cad_coletor.cnpj);" onblur="pesquisacnpj(this.value);">
 						</div>
 						<div class="form-group col-md-4" id="col_rsocial">
 							<label required for="rsocial" class="col-form-label">Razão Social</label>
-							<input type="text" class="form-control" id="rsocial" id="rsocial" placeholder="Razão Social">
+							<input type="text" class="form-control" id="rsocial" name="rsocial" placeholder="Razão Social">
 						</div>
 						<div class="form-group col-md-4" id="col_nfantasia">
 							<label for="nfantasia" class="col-form-label">Nome Fantasia</label>
@@ -46,32 +46,24 @@ header('Content-Type: text/html; charset=utf-8');
 						</div>
 						</div>
 						<div class="form-row">
-						<div class="form-group col-md-8">
+						<div class="form-group col-md-5">
 							<label for="nresponsavel" class="col-form-label">Nome do Responsável</label>
 							<input required type="text" class="form-control" id="nresponsavel" name="nresponsavel" placeholder="Ex.: César Silva, Amauri Jr...">
 						</div>
+						<div class="form-group col-md-4">
+								<label for="area_atuacao">Área de Atuação</label>
+								<select class="form-control" id="area_atuacao" name="area_atuacao">
+										<option value="0">Outra</option>
+										<?php foreach ($areas as $n3) { ?>
+												<option value="<?php echo $n3->codigo; ?>"  ><?php echo $n3->area_atuacao; ?></option>
+										<?php } ?>
+								</select>
 						</div>
-						<!--h3 class="">Áreas de atuação</h3>
-						<div class="form-row">
-						<div class="col-sm-2 form-check">
-							<label class="form-check-label"><input type="checkbox" name="checkbox1" value="opt1"> Option</label>
+						<div class="form-group col-md-3" id="outra_area_option">
+								<label for="digite_ramo" class="col-form-label">Digite Outra Área de Atuação</label>
+								<input type="text" class="form-control" id="digite_area" name="digite_area" placeholder="Especifique a área de atuação">
 						</div>
-						<div class="col-sm-2 form-check">
-							<label class="form-check-label"><input type="checkbox" name="checkbox2" value=opt2""> Option</label>
 						</div>
-						<div class="col-sm-2 form-check">
-							<label class="form-check-label"><input type="checkbox" name="checkbox3" value="opt3"> Option</label>
-						</div>
-						<div class="col-sm-2 form-check">
-							<label class="form-check-label"><input type="checkbox" name="checkbox4"  value="opt4"> Option</label>
-						</div>
-						<div class="col-sm-2 form-check">
-							<label class="form-check-label"><input type="checkbox" name="checkbox5" value="opt5"> Option</label>
-						</div>
-						<div class="col-sm-2 form-check">
-							<label class="form-check-label"><input type="checkbox" name="checkbox6" value="opt6"> Option</label>
-						</div>
-					</div-->
 						<h3 class="">Contato</h3>
 						<div class="form-row">
 						<div class="form-group col-md-4">
@@ -112,12 +104,20 @@ header('Content-Type: text/html; charset=utf-8');
 							<input type="text" class="form-control" id="bairro" name="bairro" placeholder="Ex.: São Gonçalo, Manguinhos...">
 						</div>
 						<div class="form-group col-md-4">
-							<label for="cidade" class="col-form-label">Cidade</label>
-							<input type="text" class="form-control" id="cidade" name="cidade" placeholder="Ex.: Volta Redonda, Vila Velha...">
+								<label for="estado" class="col-form-label">Estado</label>
+								<select class="form-control" id="estado" name="estado">
+										<option value="">Selecione o Estado</option>
+										<?php foreach ($estados as $n) { ?>
+												<option value="<?php echo $n->uf; ?>"  ><?php echo $n->nome_estado; ?></option>
+										<?php } ?>
+								</select>
 						</div>
+
 						<div class="form-group col-md-4">
-							<label for="estado" class="col-form-label">Estado</label>
-							<input type="text" class="form-control" id="estado" name="estado" placeholder="Ex.: Rio de Janeiro, Espírito Santo...">
+								<label for="cidade" class="col-form-label">Cidade</label>
+								<select class="form-control" id="cidade" name="cidade">
+										<option value="">Selecione a Cidade</option>
+								</select>
 						</div>
 						</div>
 						<h3 class="">Acesso</h3>
@@ -131,7 +131,9 @@ header('Content-Type: text/html; charset=utf-8');
 							<input required type="password" class="form-control" id="senha2" name="senha2" onchange="valida_senha();" placeholder="Confirme sua Senha">
 						</div>
 						</div>
-						<input type="hidden" name="tipo" value="coletor">
+						<input type="hidden" name="tipo_cadastro" value="J">
+						<input type="hidden" name="funcao" value="2">
+						<input type="number" maxlength="1" id="ativo" name="ativo" value="0" hidden>
 						<a href="<?php echo base_url('') ?>"><button class="btn btn-outline-secondary" type="button">Voltar</button></a>
 						<button class="btn btn-success" type="submit">Salvar</button>
 					</form>
@@ -142,11 +144,69 @@ header('Content-Type: text/html; charset=utf-8');
 	</body>
 
 	<script src="<?php echo base_url('painel/assets/pluguins/jquery/jquery.min.js'); ?>"></script>
-        <script src="<?php echo base_url('painel/assets/pluguins/popper/popper.min.js'); ?>"></script>
-        <script src="<?php echo base_url('painel/assets/pluguins/bootstrap/js/bootstrap.min.js'); ?>"></script>
-        
+  <script src="<?php echo base_url('painel/assets/pluguins/popper/popper.min.js'); ?>"></script>
+  <script src="<?php echo base_url('painel/assets/pluguins/bootstrap/js/bootstrap.min.js'); ?>"></script>
+
 	<script src="<?php echo base_url('painel/assets/pluguins/jquery.mask.js') ?>"></script>
 	<script src="<?php echo base_url('painel/assets/js/js.js') ?>"></script>
-        <script src="<?php echo site_url('painel/assets/pluguins/buscacep.js') ?>"></script>
+  <script src="<?php echo site_url('painel/assets/pluguins/buscacep.js') ?>"></script>
+	<script src="<?php echo site_url('painel/assets/pluguins/buscacnpj.js') ?>"></script>
+
+	<script type="text/javascript">
+
+	$( "#area_atuacao" ).change(function() {
+		if (this.value == 0){
+			$( "#outra_area_option" ).show();
+			//alert('teste');
+		} else{
+			$( "#outra_area_option" ).hide();
+		}
+	});
+
+  $(function(){
+
+      $("select[name=estado]").change(function(){
+
+          var estado = $(this).val();
+
+          resetaCombo('cidade');
+          load_cidades(estado,null);
+
+      });
+
+  });
+
+  function load_cidades(estado,cidade=NUll){
+  //alert(cidade);
+    $.getJSON( '<?php echo site_url(); ?>' + 'empresa/getcidades/' + estado+'?cidade='+cidade, function (data){
+
+        var option = new Array();
+
+        $.each(data, function(i, obj){
+
+            option[i] = document.createElement('option');
+            $( option[i] ).attr( {value : obj.id} );
+            if(obj.selected!=''){
+                $( option[i] ).attr( {selected : obj.selected} );
+            }
+            $( option[i] ).append( obj.nome_cidade );
+
+            $("select[name='cidade']").append( option[i] );
+
+        });
+
+    });
+
+  }
+
+  function resetaCombo( el ) {
+     $("select[name='"+el+"']").empty();
+     var option = document.createElement('option');
+     $( option ).attr( {value : ''} );
+     $( option ).append( 'Selecione a Cidade' );
+     $("select[name='"+el+"']").append( option );
+  }
+
+	</script>
 
 </html>
