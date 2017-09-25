@@ -46,11 +46,11 @@ header('Content-Type: text/html; charset=utf-8');
 						</div>
 						</div>
 						<div class="form-row">
-						<div class="form-group col-md-5">
+						<div class="form-group col-md-4">
 							<label for="nresponsavel" class="col-form-label">Nome do Responsável</label>
 							<input required type="text" class="form-control" id="nresponsavel" name="nresponsavel" placeholder="Ex.: César Silva, Amauri Jr...">
 						</div>
-						<div class="form-group col-md-4">
+						<div id="divatividadeprincipal" name="divatividadeprincipal" class="form-group col-md-4">
 								<label for="area_atuacao">Atividade Principal</label>
 								<select class="form-control" id="area_atuacao" name="area_atuacao">
 										<option value="0">Outra</option>
@@ -67,7 +67,7 @@ header('Content-Type: text/html; charset=utf-8');
                                                 
                                                  <div class="form-row" id="divatividadesecundaria" >    
                            
-                                                </div>
+                                                 </div><br>
 						<h3 class="">Contato</h3>
 						<div class="form-row">
 						<div class="form-group col-md-4">
