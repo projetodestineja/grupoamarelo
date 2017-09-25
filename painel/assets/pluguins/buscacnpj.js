@@ -18,10 +18,8 @@ function preenche_cnpj(conteudo) {
     if (conteudo.status == 'OK') {
         //trata variaveis
         
-        
         area_atuacao = conteudo.atividade_principal[0].code;
         area_atuacao = area_atuacao.replace(/\D/g, '');
-        
         
         for (i = 0; i < conteudo.atividades_secundarias.length; i++) { 
         if (conteudo.atividades_secundarias[i].code.length>0){
@@ -47,7 +45,7 @@ function preenche_cnpj(conteudo) {
         //Atualiza os campos com os valores.
         document.getElementById('rsocial').value = (conteudo.nome);
         document.getElementById('nfantasia').value = (conteudo.fantasia);
-        document.getElementById('area_atuacao').value = ($area_atuacao);
+        document.getElementById('area_atuacao').value = (area_atuacao);
         
         var e = document.getElementById("area_atuacao");
         var itemSelecionado = e.options[e.selectedIndex].value;
