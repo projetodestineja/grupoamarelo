@@ -7,4 +7,8 @@ class Empresa_model extends CI_Model {
         $this->db->insert('empresas',$dados);
     }
     
+    public function gravar_area_atuacao($dados2){
+        $this->db->insert('empresas_areas_atuacao',$dados2);
+    }
+    
 }

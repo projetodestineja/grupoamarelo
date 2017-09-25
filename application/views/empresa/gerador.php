@@ -36,7 +36,7 @@ header('Content-Type: text/html; charset=utf-8');
                         <input type="number" maxlength="1" id="ativo" name="ativo" value="1" hidden>
 
                         <div class="form-group col-md-4">
-                            <label for="funcao" class="col-form-label">Função da Empresa</label>
+                            <label for="funcao" class="col-form-label" hidden>Função da Empresa</label>
                             <select class="form-control" id="funcao" name="funcao" hidden>
                                 <?php foreach ($funcoes as $n4) { ?>
                                 <option value="<?php echo $n4->id; ?>"  selected="selected"><?php echo $n4->funcao; ?></option>
@@ -82,8 +82,8 @@ header('Content-Type: text/html; charset=utf-8');
                                 <label for="nresponsavel" class="col-form-label">Nome do Responsável</label>
                                 <input type="text" class="form-control" id="nresponsavel" name="nresponsavel" placeholder="Ex.: César Silva, Amauri Jr...">
                             </div>
-                            <div class="form-group col-md-4">
-                                <label for="area_atuacao">Área de Atuação</label>
+                            <div id="divatividadeprincipal" name="divatividadeprincipal" class="form-group col-md-4">
+                                <label for="area_atuacao">Atividade Principal</label>
                                 <select class="form-control" id="area_atuacao" name="area_atuacao">
                                     <option value="0">Outra</option>
                                     <?php foreach ($areas as $n3) { ?>
@@ -96,6 +96,11 @@ header('Content-Type: text/html; charset=utf-8');
                                 <input type="text" class="form-control" id="digite_area" name="digite_area" placeholder="Especifique a área de atuação">
                             </div>
                         </div>
+                        
+                        <div class="form-row" id="divatividadesecundaria" >    
+                           
+                        </div>
+                        <br>
                         <h3 class="">Contato</h3>
                         <div class="form-row">
                             <div class="form-group col-md-4">
