@@ -17,8 +17,11 @@ function limpa_formulario_cnpj() {
 function preenche_cnpj(conteudo) {
     if (conteudo.status == 'OK') {
         //trata variaveis
-        $area_atuacao = conteudo.atividade_principal[0].code;
-        $area_atuacao = $area_atuacao.replace(/\D/g, '');
+        
+        
+        area_atuacao = conteudo.atividade_principal[0].code;
+        area_atuacao = area_atuacao.replace(/\D/g, '');
+        
         
         for (i = 0; i < conteudo.atividades_secundarias.length; i++) { 
         if (conteudo.atividades_secundarias[i].code.length>0){
