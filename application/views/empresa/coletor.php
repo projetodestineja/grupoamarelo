@@ -51,7 +51,7 @@ header('Content-Type: text/html; charset=utf-8');
 							<input required type="text" class="form-control" id="nresponsavel" name="nresponsavel" placeholder="Ex.: César Silva, Amauri Jr...">
 						</div>
 						<div class="form-group col-md-4">
-								<label for="area_atuacao">Área de Atuação</label>
+								<label for="area_atuacao">Atividade Principal</label>
 								<select class="form-control" id="area_atuacao" name="area_atuacao">
 										<option value="0">Outra</option>
 										<?php foreach ($areas as $n3) { ?>
@@ -64,6 +64,10 @@ header('Content-Type: text/html; charset=utf-8');
 								<input type="text" class="form-control" id="digite_area" name="digite_area" placeholder="Especifique a área de atuação">
 						</div>
 						</div>
+                                                
+                                                 <div class="form-row" id="divatividadesecundaria" >    
+                           
+                                                </div>
 						<h3 class="">Contato</h3>
 						<div class="form-row">
 						<div class="form-group col-md-4">

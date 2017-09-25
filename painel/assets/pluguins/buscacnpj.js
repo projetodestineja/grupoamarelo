@@ -14,7 +14,7 @@ function limpa_formulario_cnpj() {
         resetaCombo('cidade');
 }
 
-function preenche_cnpj(conteudo) {
+function preenche_cnpj(conteudo) { 
     if (conteudo.status == 'OK') {
         //trata variaveis
         
