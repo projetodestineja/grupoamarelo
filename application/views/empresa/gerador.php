@@ -80,14 +80,14 @@ header('Content-Type: text/html; charset=utf-8');
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="nresponsavel" class="col-form-label">Nome do Responsável</label>
-                                <input type="text" class="form-control" id="nresponsavel" name="nresponsavel" placeholder="Ex.: César Silva, Amauri Jr...">
+                                <input required type="text" class="form-control" id="nresponsavel" name="nresponsavel" placeholder="Ex.: César Silva, Amauri Jr...">
                             </div>
                             <div id="divatividadeprincipal" name="divatividadeprincipal" class="form-group col-md-4">
                                 <label for="area_atuacao">Atividade Principal</label>
                                 <select class="form-control" id="area_atuacao" name="area_atuacao">
                                     <option value="0">Outra</option>
                                     <?php foreach ($areas as $n3) { ?>
-                                        <option value="<?php echo $n3->codigo; ?>"  ><?php echo $n3->area_atuacao; ?></option>
+                                        <option value="<?php echo $n3->codigo; ?>" title="<?php echo "Código da Atividade: $n3->codigo";  ?>" ><?php echo $n3->area_atuacao; ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -97,15 +97,18 @@ header('Content-Type: text/html; charset=utf-8');
                             </div>
                         </div>
                         
-                        <div class="form-row" id="divatividadesecundaria" >    
-                           
+                        <div id="corpo_form" name="corpo_form" >
+                        <div  id="divatividadesecundaria" >    
+                            
                         </div>
-                        <br>
+                        
+                        <input type="button" class="btn btn-secondary" value="Adicionar Atividade Secundária" onclick="add_atividade_secundaria();">
+                        <br><br>
                         <h3 class="">Contato</h3>
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="tel1" class="col-form-label">Telefone 1</label>
-                                <input type="text" class="form-control phone" id="tel1" name="tel1" placeholder="(21) 6564-0205, (27) 98500-6321...">
+                                <input required type="text" class="form-control phone" id="tel1" name="tel1" placeholder="(21) 6564-0205, (27) 98500-6321...">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="tel2" class="col-form-label">Telefone 2</label>
@@ -113,7 +116,7 @@ header('Content-Type: text/html; charset=utf-8');
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="email" class="col-form-label">E-mail</label>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="nome@dominio.com">
+                                <input required type="email" class="form-control" id="email" name="email" placeholder="nome@dominio.com">
                             </div>
                         </div>
                         <h3 class="">Endereço</h3>
@@ -124,7 +127,7 @@ header('Content-Type: text/html; charset=utf-8');
                             </div>
                             <div class="form-group col-md-5">
                                 <label for="Rua" class="col-form-label">Rua</label>
-                                <input type="text" class="form-control" id="rua" name="rua" placeholder="Ex.: Av. José Silva, Rua São Cosme...">
+                                <input required type="text" class="form-control" id="rua" name="rua" placeholder="Ex.: Av. José Silva, Rua São Cosme...">
                             </div>
                             <div class="form-group col-md-2">
                                 <label for="numero" class="col-form-label">Número</label>
@@ -138,12 +141,12 @@ header('Content-Type: text/html; charset=utf-8');
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="bairro" class="col-form-label">Bairro</label>
-                                <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Ex.: São Gonçalo, Manguinhos...">
+                                <input required type="text" class="form-control" id="bairro" name="bairro" placeholder="Ex.: São Gonçalo, Manguinhos...">
                             </div>
 
                             <div class="form-group col-md-4">
                                 <label for="estado" class="col-form-label">Estado</label>
-                                <select class="form-control" id="estado" name="estado">
+                                <select required class="form-control" id="estado" name="estado">
                                     <option value="">Selecione o Estado</option>
                                     <?php foreach ($estados as $n) { ?>
                                         <option value="<?php echo $n->uf; ?>"  ><?php echo $n->nome_estado; ?></option>
@@ -153,7 +156,7 @@ header('Content-Type: text/html; charset=utf-8');
 
                             <div class="form-group col-md-4">
                                 <label for="cidade" class="col-form-label">Cidade</label>
-                                <select class="form-control" id="cidade" name="cidade">
+                                <select required class="form-control" id="cidade" name="cidade">
                                     <option value="">Selecione a Cidade</option>
                                 </select>
                             </div>
@@ -163,16 +166,18 @@ header('Content-Type: text/html; charset=utf-8');
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="senha1" class="col-form-label">Digite sua Senha</label>
-                                <input type="password" class="form-control" id="senha1" name="senha1" placeholder="Digite sua Senha">
+                                <input required type="password" class="form-control" id="senha1" name="senha1" placeholder="Digite sua Senha">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="senha2" class="col-form-label">Confirme sua Senha</label>
-                                <input type="password" class="form-control" id="senha2" name="senha2" onchange="valida_senha();" placeholder="Confirme sua Senha">
+                                <input required type="password" class="form-control" id="senha2" name="senha2" onchange="valida_senha();" placeholder="Confirme sua Senha">
                             </div>
                         </div>
-                        <input type="hidden" name="tipo" value="gerador">
-                        <a href="<?php echo base_url('') ?>"><button class="btn btn-outline-secondary" type="button">Voltar</button></a>
+                        <br>
+                        </div>    
                         <button class="btn btn-success" type="submit">Salvar</button>
+                        <button class="btn btn-warning" type="button" onclick="location.reload();">Limpar Formulário</button>
+                        <a href="<?php echo base_url('') ?>"><button class="btn btn-outline-secondary" type="button">Voltar</button></a>
                     </form>
                 </div>
             </div>
@@ -231,6 +236,37 @@ header('Content-Type: text/html; charset=utf-8');
 
             });
 
+            $("select[name=area_atuacao]").change(function(){
+
+               var e = document.getElementById("area_atuacao");
+                var itemSelecionado = e.options[e.selectedIndex].value;
+
+                if(itemSelecionado!=0){
+                    $( "#outra_area_option" ).hide();
+                    $("#divatividadeprincipal").removeClass("form-group col-md-4");
+                    $("#divatividadeprincipal").addClass("form-group col-md-8");
+                }
+                else{
+                    $("#divatividadeprincipal").removeClass("form-group col-md-8");
+                    $("#divatividadeprincipal").addClass("form-group col-md-4");
+                }
+
+            });
+            
+            $("input[name=cpf]").change(function(){
+                var cpf = $(this).val();
+                if (cpf.length==14){
+                $("#corpo_form").show();
+            }
+            }); 
+            
+            $("input[name=cnpj]").change(function(){
+                var cnpj = $(this).val();
+                if (cnpj.length==18){
+                $("#corpo_form").show();
+                }
+            });
+            
         });
 
         function load_cidades(estado,cidade=NUll){
@@ -264,6 +300,15 @@ header('Content-Type: text/html; charset=utf-8');
            $("select[name='"+el+"']").append( option );
         }
 
+        $('#area_atuacao option').each(function() {
+	var minhaString = $(this).text();
+	if(minhaString.length > 90){
+		$(this).text(minhaString.substring(0,90) + ' ...');
+	}
+        });
+        
+        $("#corpo_form").hide();
+        
 	</script>
 
 </html>

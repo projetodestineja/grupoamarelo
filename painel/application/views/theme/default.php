@@ -51,8 +51,7 @@
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-          
+      <div class="collapse navbar-collapse" id="navbarResponsive">         
         <?php $this->load->view('theme/menu');?>
       </div>
     </nav>
@@ -64,33 +63,62 @@
     <div class="content-wrapper">
 
       <div class="container-fluid">
-
+		<?php if(isset($menu_mapa)){ ?>	
         <!-- Breadcrumbs -->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
             <a href="<?php echo site_url(); ?>">Painel</a>
           </li>
-          <li class="breadcrumb-item active">My Dashboard</li>
+          <?php 
+          
+            foreach($menu_mapa as $key => $item) { 
+              if(empty($item)){  
+                echo '<li class="breadcrumb-item active" >'.$key.'</li>';
+              }else{
+                echo '<li class="breadcrumb-item" ><a href="'.site_url($item).'" >'.$key.'</a></li>';  
+              }
+            }
+          
+          ?>
         </ol>
-        <h1><?php echo $title; ?></h1>
+        <?php } ?>
+        <div class="row" >
+            <div class="col-md-4">
+                <h1 style="font-size:27px;"><?php echo $title; ?></h1>
+            </div>
+            <div class="col-md-8 text-right">  
+                <span id="colvis"></span>
+                <?php 
+		if(isset($menu_opcao_direita)){
+                    foreach($menu_opcao_direita as $menu_r){
+                        echo ' '.$menu_r;
+                    } 
+		} 
+		?>
+            </div>
+        </div>
         
         <?php 
-		if($this->session->flashdata('resposta_erro')){ ?>
-            <div class="alert alert-danger" >
-				<?php echo $this->session->flashdata('resposta_erro'); ?>
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            </div>
-		<?php }
-         if($this->session->flashdata('resposta_ok')){ ?>
-            <div class="alert alert-success" >
-				<?php echo $this->session->flashdata('resposta_ok'); ?>
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	if($this->session->flashdata('resposta_erro') or isset($resposta_erro)){ ?>
+            <div class="alert alert-danger" > 
+             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+            
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			<?php echo ($this->session->flashdata('resposta_erro')?$this->session->flashdata('resposta_erro'):''); ?>
+            <?php echo ($resposta_erro?$resposta_erro:''); ?>
+        </div>
+	<?php }
+        if($this->session->flashdata('resposta_ok')){ ?>
+            <div class="alert alert-success " >
+           <i class="fa fa-check-circle-o" aria-hidden="true"></i>
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		<?php echo $this->session->flashdata('resposta_ok'); ?>
+                
             </div>
         <?php } ?>
         
         <div class="conteudo">
-           
-        <?php echo $output;?>
+            <?php echo $output;?>
         </div>
         
      </div>
@@ -112,66 +140,133 @@
       <i class="fa fa-angle-up"></i>
     </a>
 
-    <!-- Modal Logout-->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Confirmação</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-           Dseja sair do painel?
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
-            <a class="btn btn-primary" href="<?php echo site_url('login')?>">Sim</a>
-          </div>
-        </div>
-      </div>
-    </div>
+	
+    <!-- Modal sair do painel-->
+    <?php $this->load->view('modal/sair'); ?>
+    
 
     <!-- Bootstrap core JavaScript -->
     <script src="<?php echo base_url('assets/pluguins/jquery/jquery.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/pluguins/popper/popper.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/pluguins/bootstrap/js/bootstrap.min.js'); ?>"></script>
-    
+ 
     <!-- Plugin JavaScript -->
     <script src="<?php echo base_url('assets/pluguins/jquery-easing/jquery.easing.min.js'); ?>"></script>
-  
-  
+ 
     <?php
-	// Load CSS Controller
-	foreach($css as $file){
+      // Load CSS Controller
+      foreach($css as $file){
 	echo "\n\t\t";
-	?>
-    	<link rel="stylesheet" href="<?php echo $file; ?>" type="text/css" />
-	<?php
-	} 
-	echo "\n\t";
+    ?>
+        <link rel="stylesheet" href="<?php echo $file; ?>" type="text/css" />
+    <?php
+    } 
+    echo "\n\t";
 	
-	// Load JS Controller
-	foreach($js as $file){
-		echo "\n\t\t";
-	?>
-		<script src="<?php echo $file; ?>"></script>
-	<?php
-	} 
-	echo "\n\t";
-	?>
-                
-
+    // Load JS Controller
+    foreach($js as $file){
+    echo "\n\t\t";
+    ?>
+	<script src="<?php echo $file; ?>"></script>
+    <?php
+    } 
+    echo "\n\t";
+    /*
+    <script src="http://livedemo.mbahcoding.com/assets/datatables.colvis/dataTables.colVis.js"></script>
+    <link href="http://livedemo.mbahcoding.com/assets/datatables.colvis/dataTables.colVis.css" rel="stylesheet">
+     */
+    ?>
+    <script src="<?php echo site_url('assets/pluguins/buscacep.js') ?>"></script>           
+    <script src="<?php echo site_url('assets/pluguins/jquery.mask.js') ?>"></script>
+	<script src="<?php echo site_url('assets/js/js.js') ?>"></script>
+   
+    
     <!-- Custom scripts for this template -->
     <script src="<?php echo base_url('assets/js/sb-admin.js'); ?>"></script>
     
     <script>
+	
+	function form_empresa(value){
+		
+		if(value=='F'){
+			$('.col-pjuridica').hide();
+			$('.col-pfisica').show();
+			document.getElementById("cnpj").required = false;
+			document.getElementById("cpf").required = true;
+		 }else{
+			$('.col-pfisica').hide();
+			$('.col-pjuridica').show();
+			document.getElementById("cpf").required = false;
+			document.getElementById("cnpj").required = true;
+		}	
+	}
+	
+	function load_cidades(estado,cidade=NUll){
+		   	
+           $.getJSON( '<?php echo site_url(); ?>' + 'endereco/getcidades/' + estado+'?cidade='+cidade, function (data){
+		      var option = new Array();
+			     $.each(data, function(i, obj){
+                   option[i] = document.createElement('option');
+                   $( option[i] ).attr( {value : obj.id} );
+                   if(obj.selected!=''){
+                       $( option[i] ).attr( {selected : obj.selected} );
+                    }
+                   $(option[i]).append( obj.nome_cidade );
+                    $("select[name=cidade]").append( option[i] );
+                 }); 
+           });  
+       
+    }
+
+    function resetaCombo( el ) {
+           $("select[name='"+el+"']").empty();
+           var option = document.createElement('option');                                  
+           $(option).attr( {value : ''} );
+           $(option).append( 'Selecione a Cidade' );
+           $("select[name='"+el+"']").append( option );
+    }
+	
 	$(document).ready(function(){
-	    $('[data-toggle="tooltip"]').tooltip(); 
-            $('.menu-vertical-principal .menu-v-<?php echo $this->uri->segment(1); ?>').addClass("active");
-  	});
+		
+			if($('input[name=tipo_cadastro]:checked').val()){
+				form_empresa($('input[name=tipo_cadastro]:checked').val());
+			}
+			
+			$("input[name=tipo_cadastro]" ).click(function() {
+				form_empresa($(this).val());
+			});
+			
+		
+			$( "#rnegocio" ).change(function() {
+				if (this.value == "outro"){
+					$( "#outro_ramo_option" ).show();
+					//alert('teste');
+				} else{
+					$( "#outro_ramo_option" ).hide();
+				}
+			});
+	
+			
+			$('[data-toggle="tooltip"]').tooltip(); 
+			$('.menu-vertical-principal .menu-v-<?php echo $this->uri->segment(1); ?>').addClass("active");
+			
+			$("select[name=estado]").change(function(){
+	           var estado = $(this).val();
+			      resetaCombo('cidade');
+                load_cidades(estado,'');
+            });
+			
+			
+		});
+	    
+       
     </script>
+    
+	<?php 
+	//Carregamento javascript datatables JS
+	if(isset($datagrid_js)){echo $datagrid_js;}
+	?>
+  
 
   </body>
 

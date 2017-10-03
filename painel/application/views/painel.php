@@ -7,11 +7,30 @@
                   <i class="fa fa-fw fa-comments"></i>
                 </div>
                 <div class="mr-5">
-                  26 New Messages!
+                  26 Novas Mensagens!
                 </div>
               </div>
               <a href="#" class="card-footer text-white clearfix small z-1">
-                <span class="float-left">View Details</span>
+                <span class="float-left">Mais Informações</span>
+                <span class="float-right">
+                  <i class="fa fa-angle-right"></i>
+                </span>
+              </a>
+            </div>
+          </div>
+          
+          <div class="col-xl-3 col-sm-6 mb-3">
+            <div class="card text-white bg-success o-hidden h-100">
+              <div class="card-body">
+                <div class="card-body-icon">
+                  <i class="fa fa-fw fa-shopping-cart"></i>
+                </div>
+                <div class="mr-5">
+                  123 Novas Solicitações de Demanda!
+                </div>
+              </div>
+              <a href="#" class="card-footer text-white clearfix small z-1">
+                <span class="float-left">Mais Informações</span>
                 <span class="float-right">
                   <i class="fa fa-angle-right"></i>
                 </span>
@@ -25,29 +44,11 @@
                   <i class="fa fa-fw fa-list"></i>
                 </div>
                 <div class="mr-5">
-                  11 New Tasks!
+                  11 Aguardando Revisão!
                 </div>
               </div>
               <a href="#" class="card-footer text-white clearfix small z-1">
-                <span class="float-left">View Details</span>
-                <span class="float-right">
-                  <i class="fa fa-angle-right"></i>
-                </span>
-              </a>
-            </div>
-          </div>
-          <div class="col-xl-3 col-sm-6 mb-3">
-            <div class="card text-white bg-success o-hidden h-100">
-              <div class="card-body">
-                <div class="card-body-icon">
-                  <i class="fa fa-fw fa-shopping-cart"></i>
-                </div>
-                <div class="mr-5">
-                  123 New Orders!
-                </div>
-              </div>
-              <a href="#" class="card-footer text-white clearfix small z-1">
-                <span class="float-left">View Details</span>
+                <span class="float-left">Mais Informações</span>
                 <span class="float-right">
                   <i class="fa fa-angle-right"></i>
                 </span>
@@ -61,11 +62,11 @@
                   <i class="fa fa-fw fa-support"></i>
                 </div>
                 <div class="mr-5">
-                  13 New Tickets!
+                  13 Demandas bloqueadas para revisão
                 </div>
               </div>
               <a href="#" class="card-footer text-white clearfix small z-1">
-                <span class="float-left">View Details</span>
+                <span class="float-left">Mais Informações</span>
                 <span class="float-right">
                   <i class="fa fa-angle-right"></i>
                 </span>
@@ -78,13 +79,13 @@
         <div class="card mb-3">
           <div class="card-header">
             <i class="fa fa-area-chart"></i>
-            Area Chart Example
+            Novos Cadastros
           </div>
           <div class="card-body">
             <canvas id="myAreaChart" width="100%" height="30"></canvas>
           </div>
           <div class="card-footer small text-muted">
-            Updated yesterday at 11:59 PM
+           Última atualização 10/09/17 11:59h
           </div>
         </div>
 
@@ -96,7 +97,7 @@
             <div class="card mb-3">
               <div class="card-header">
                 <i class="fa fa-bar-chart"></i>
-                Bar Chart Example
+                Painel Financeiro
               </div>
               <div class="card-body">
                 <div class="row">
@@ -104,26 +105,26 @@
                     <canvas id="myBarChart" width="100" height="50"></canvas>
                   </div>
                   <div class="col-sm-4 text-center my-auto">
-                    <div class="h4 mb-0 text-primary">$34,693</div>
-                    <div class="small text-muted">YTD Revenue</div>
+                    <div class="h4 mb-0 text-primary">R$ 20.000,00</div>
+                    <div class="small text-muted">Previsão</div>
                     <hr>
-                    <div class="h4 mb-0 text-warning">$18,474</div>
-                    <div class="small text-muted">YTD Expenses</div>
+                    <div class="h4 mb-0 text-warning">R$ 50.000,00</div>
+                    <div class="small text-muted">Em Andamento</div>
                     <hr>
-                    <div class="h4 mb-0 text-success">$16,219</div>
-                    <div class="small text-muted">YTD Margin</div>
+                    <div class="h4 mb-0 text-success">R$ 150.000,00</div>
+                    <div class="small text-muted">Concluido</div>
                   </div>
                 </div>
               </div>
               <div class="card-footer small text-muted">
-                Updated yesterday at 11:59 PM
+                Última atualização 02/10/17 11:59h
               </div>
             </div>
 
             <!-- Card Columns Example Social Feed -->
             <div class="mb-0 mt-4">
               <i class="fa fa-newspaper-o"></i>
-              News Feed</div>
+              Últimas Demandas</div>
             <hr class="mt-2">
             <div class="card-columns">
 
@@ -134,14 +135,13 @@
                 </a>
                 <div class="card-body">
                   <h6 class="card-title mb-1">
-                    <a href="#">David Miller</a>
+                    <a href="#">João da Silva LTDA</a>
                   </h6>
-                  <p class="card-text small">These waves are looking pretty good today!
-                    <a href="#">#surfsup</a>
+                  <p class="card-text small">Remover Poluição da Praia
                   </p>
                 </div>
                 <hr class="my-0">
-                <div class="card-body py-2 small">
+                <!--<div class="card-body py-2 small">
                   <a class="mr-3 d-inline-block" href="#">
                     <i class="fa fa-fw fa-thumbs-up"></i>
                     Like
@@ -155,24 +155,18 @@
                     Share
                   </a>
                 </div>
-                <hr class="my-0">
+                <hr class="my-0">-->
                 <div class="card-body small bg-faded">
                   <div class="media">
                     <img class="d-flex mr-3" src="https://placehold.it/45x45" alt="">
                     <div class="media-body">
                       <h6 class="mt-0 mb-1">
-                        <a href="#">John Smith</a>
+                        <a href="#">Destine Já</a>
                       </h6>
-                      Very nice! I wish I was there! That looks amazing!
+                      Não atendemos esse tipo de demanda.
                       <ul class="list-inline mb-0">
                         <li class="list-inline-item">
-                          <a href="#">Like</a>
-                        </li>
-                        <li class="list-inline-item">
-                          ·
-                        </li>
-                        <li class="list-inline-item">
-                          <a href="#">Reply</a>
+                          <a href="#">Responder</a>
                         </li>
                       </ul>
                       <div class="media mt-3">
@@ -181,18 +175,12 @@
                         </a>
                         <div class="media-body">
                           <h6 class="mt-0 mb-1">
-                            <a href="#">David Miller</a>
+                            <a href="#">João da Silva LTDA</a>
                           </h6>
-                          Next time for sure!
+                          Onde consigo resolver isso?
                           <ul class="list-inline mb-0">
                             <li class="list-inline-item">
-                              <a href="#">Like</a>
-                            </li>
-                            <li class="list-inline-item">
-                              ·
-                            </li>
-                            <li class="list-inline-item">
-                              <a href="#">Reply</a>
+                              <a href="#">Responder</a>
                             </li>
                           </ul>
                         </div>
@@ -201,7 +189,7 @@
                   </div>
                 </div>
                 <div class="card-footer small text-muted">
-                  Posted 32 mins ago
+                  Publicado a 32 minutos
                 </div>
               </div>
 
@@ -212,26 +200,19 @@
                 </a>
                 <div class="card-body">
                   <h6 class="card-title mb-1">
-                    <a href="#">John Smith</a>
+                    <a href="#">Empresa do Manuel</a>
                   </h6>
-                  <p class="card-text small">Another day at the office...
-                    <a href="#">#workinghardorhardlyworking</a>
+                  <p class="card-text small">Computadores quebrados...
                   </p>
                 </div>
                 <hr class="my-0">
                 <div class="card-body py-2 small">
-                  <a class="mr-3 d-inline-block" href="#">
-                    <i class="fa fa-fw fa-thumbs-up"></i>
-                    Like
-                  </a>
+                 
                   <a class="mr-3 d-inline-block" href="#">
                     <i class="fa fa-fw fa-comment"></i>
-                    Comment
+                    Comentar
                   </a>
-                  <a class="d-inline-block" href="#">
-                    <i class="fa fa-fw fa-share"></i>
-                    Share
-                  </a>
+                  
                 </div>
                 <hr class="my-0">
                 <div class="card-body small bg-faded">
@@ -239,25 +220,21 @@
                     <img class="d-flex mr-3" src="https://placehold.it/45x45" alt="">
                     <div class="media-body">
                       <h6 class="mt-0 mb-1">
-                        <a href="#">Jessy Lucas</a>
+                        <a href="#">Destine Já</a>
                       </h6>
-                      Where did you get that camera?! I want one!
+                      Remova o telefone visivel na foto
                       <ul class="list-inline mb-0">
+                       
+                       
                         <li class="list-inline-item">
-                          <a href="#">Like</a>
-                        </li>
-                        <li class="list-inline-item">
-                          ·
-                        </li>
-                        <li class="list-inline-item">
-                          <a href="#">Reply</a>
+                          <a href="#">Responder</a>
                         </li>
                       </ul>
                     </div>
                   </div>
                 </div>
                 <div class="card-footer small text-muted">
-                  Posted 46 mins ago
+                 Publicado a 50 minutos
                 </div>
               </div>
 
@@ -268,31 +245,19 @@
                 </a>
                 <div class="card-body">
                   <h6 class="card-title mb-1">
-                    <a href="#">Jeffery Wellings</a>
+                    <a href="#">Lorenge Construtora LTDA</a>
                   </h6>
-                  <p class="card-text small">Nice shot from the skate park!
-                    <a href="#">#kickflip</a>
-                    <a href="#">#holdmybeer</a>
-                    <a href="#">#igotthis</a>
-                  </p>
+                  <p class="card-text small">Recolher entulho!</p>
                 </div>
                 <hr class="my-0">
                 <div class="card-body py-2 small">
                   <a class="mr-3 d-inline-block" href="#">
-                    <i class="fa fa-fw fa-thumbs-up"></i>
-                    Like
-                  </a>
-                  <a class="mr-3 d-inline-block" href="#">
                     <i class="fa fa-fw fa-comment"></i>
-                    Comment
-                  </a>
-                  <a class="d-inline-block" href="#">
-                    <i class="fa fa-fw fa-share"></i>
-                    Share
+                    Comentar
                   </a>
                 </div>
                 <div class="card-footer small text-muted">
-                  Posted 1 hr ago
+                  Publicado em 1 de Agosto de 2017
                 </div>
               </div>
 
@@ -303,30 +268,16 @@
                 </a>
                 <div class="card-body">
                   <h6 class="card-title mb-1">
-                    <a href="#">David Miller</a>
+                    <a href="#">João da Silva LTDA</a>
                   </h6>
-                  <p class="card-text small">It's hot, and I might be lost...
-                    <a href="#">#desert</a>
-                    <a href="#">#water</a>
-                    <a href="#">#anyonehavesomewater</a>
-                    <a href="#">#noreally</a>
-                    <a href="#">#thirsty</a>
-                    <a href="#">#dehydration</a>
+                  <p class="card-text small">Capinar no deserto...
                   </p>
                 </div>
                 <hr class="my-0">
                 <div class="card-body py-2 small">
                   <a class="mr-3 d-inline-block" href="#">
-                    <i class="fa fa-fw fa-thumbs-up"></i>
-                    Like
-                  </a>
-                  <a class="mr-3 d-inline-block" href="#">
                     <i class="fa fa-fw fa-comment"></i>
-                    Comment
-                  </a>
-                  <a class="d-inline-block" href="#">
-                    <i class="fa fa-fw fa-share"></i>
-                    Share
+                    Comentar
                   </a>
                 </div>
                 <hr class="my-0">
@@ -335,18 +286,16 @@
                     <img class="d-flex mr-3" src="https://placehold.it/45x45" alt="">
                     <div class="media-body">
                       <h6 class="mt-0 mb-1">
-                        <a href="#">John Smith</a>
+                        <a href="#">Destine Já</a>
                       </h6>
-                      The oasis is a mile that way, or is that just a mirage?
+                      Proibido fazer piadas
                       <ul class="list-inline mb-0">
-                        <li class="list-inline-item">
-                          <a href="#">Like</a>
-                        </li>
+                       
                         <li class="list-inline-item">
                           ·
                         </li>
                         <li class="list-inline-item">
-                          <a href="#">Reply</a>
+                          <a href="#">Responder</a>
                         </li>
                       </ul>
                       <div class="media mt-3">
@@ -355,19 +304,12 @@
                         </a>
                         <div class="media-body">
                           <h6 class="mt-0 mb-1">
-                            <a href="#">David Miller</a>
+                            <a href="#">João da Silva LTDA</a>
                           </h6>
-                          <img class="img-fluid w-100 mb-1" src="https://unsplash.it/700/450?image=789" alt="">
-                          I'm saved, I found a cactus. How do I open this thing?
+                          kkkkkk
                           <ul class="list-inline mb-0">
                             <li class="list-inline-item">
-                              <a href="#">Like</a>
-                            </li>
-                            <li class="list-inline-item">
-                              ·
-                            </li>
-                            <li class="list-inline-item">
-                              <a href="#">Reply</a>
+                              <a href="#">Responder</a>
                             </li>
                           </ul>
                         </div>
@@ -376,7 +318,7 @@
                   </div>
                 </div>
                 <div class="card-footer small text-muted">
-                  Posted yesterday
+                 Atualizado em 15/05/17 15:00h
                 </div>
               </div>
 
@@ -386,34 +328,39 @@
           </div>
 
           <div class="col-lg-4">
+          
+          
             <!-- Example Pie Chart Card -->
             <div class="card mb-3">
               <div class="card-header">
                 <i class="fa fa-pie-chart"></i>
-                Pie Chart Example
+                Demandas Recebidas
               </div>
               <div class="card-body">
                 <canvas id="myPieChart" width="100%" height="100"></canvas>
               </div>
               <div class="card-footer small text-muted">
-                Updated yesterday at 11:59 PM
+                Última atualização 08/09/17 11:59h
               </div>
             </div>
+            
+            
+            
             <!-- Example Notifications Card -->
             <div class="card mb-3">
               <div class="card-header">
                 <i class="fa fa-bell-o"></i>
-                Feed Example
+                 Últimas Atividades
               </div>
               <div class="list-group list-group-flush small">
                 <a href="#" class="list-group-item list-group-item-action">
                   <div class="media">
                     <img class="d-flex mr-3 rounded-circle" src="https://placehold.it/45x45" alt="">
                     <div class="media-body">
-                      <strong>David Miller</strong>
-                      posted a new article to
-                      <strong>David Miller Website</strong>.
-                      <div class="text-muted smaller">Today at 5:43 PM - 5m ago</div>
+                      <strong>João da Silva LTDA</strong>
+                      Fechou uma demanda com 
+                      <strong>João da Silva LTDA</strong>.
+                      <div class="text-muted smaller">15:43h</div>
                     </div>
                   </div>
                 </a>
@@ -422,8 +369,8 @@
                     <img class="d-flex mr-3 rounded-circle" src="https://placehold.it/45x45" alt="">
                     <div class="media-body">
                       <strong>Samantha King</strong>
-                      sent you a new message!
-                      <div class="text-muted smaller">Today at 4:37 PM - 1hr ago</div>
+                      Enviou uma mensagem para destine já
+                      <div class="text-muted smaller">14:00h</div>
                     </div>
                   </div>
                 </a>
@@ -431,10 +378,10 @@
                   <div class="media">
                     <img class="d-flex mr-3 rounded-circle" src="https://placehold.it/45x45" alt="">
                     <div class="media-body">
-                      <strong>Jeffery Wellings</strong>
-                      added a new photo to the album
+                      <strong>Lorenge Construtora LTDA</strong>
+                      Reve uma imagem bloqueada pelo administrador
                       <strong>Beach</strong>.
-                      <div class="text-muted smaller">Today at 4:31 PM - 1hr ago</div>
+                      <div class="text-muted smaller">11:55h</div>
                     </div>
                   </div>
                 </a>
@@ -443,21 +390,19 @@
                     <img class="d-flex mr-3 rounded-circle" src="https://placehold.it/45x45" alt="">
                     <div class="media-body">
                       <i class="fa fa-code-fork"></i>
-                      <strong>Monica Dennis</strong>
-                      forked the
-                      <strong>startbootstrap-sb-admin</strong>
-                      repository on
-                      <strong>GitHub</strong>.
-                      <div class="text-muted smaller">Today at 3:54 PM - 2hrs ago</div>
+                      <strong>Mônica Silva</strong>
+                     Efetuou login no painel
+                  
+                      <div class="text-muted smaller">10/09/17 15:00h</div>
                     </div>
                   </div>
                 </a>
                 <a href="#" class="list-group-item list-group-item-action">
-                  View all activity...
+                 Ver Mais Atividades
                 </a>
               </div>
               <div class="card-footer small text-muted">
-                Updated yesterday at 11:59 PM
+                Última atualização 18:00h
               </div>
             </div>
           </div>

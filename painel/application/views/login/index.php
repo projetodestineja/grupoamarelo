@@ -1,6 +1,4 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-?>
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
@@ -10,10 +8,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <title>Destine Já - Login</title>
 
     <link rel="stylesheet" href="<?php echo base_url('assets/css/css.css') ?>">
-
-    <style type="text/css">
-      #col_cnpj, #col_cpf{display: none;}
-    </style>
 
   </head>
 
@@ -29,29 +23,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </center>
         </div>
         <div class="card-body">
-          <form>
-
-           
-
+            <form class="form-login" action="<?php echo site_url('login/validar_login_post'); ?>" method="post" >
+             
             <div class="form-group" id="col_email">
-              <label for="exampleInputEmail1">E-mail</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="nome@dominio.com">
-            </div>
-
-            <div class="form-group" id="col_cnpj">
-              <label for="exampleInputEmail1">CNPJ</label>
-              <input type="text" class="form-control cnpj" id="" placeholder="00.000.000/0000-00">
-            </div>
-
-            <div class="form-group" id="col_cpf">
-              <label for="exampleInputEmail1">CPF</label>
-              <input type="text" class="form-control cpf" id="" placeholder="000.000.000-00">
+              <label for="login">E-mail</label>
+              <input type="email" name="login" class="form-control" id="login" aria-describedby="login" placeholder="nome@dominio.com">
             </div>
 
             <div class="form-group">
-              <label for="exampleInputPassword1">Senha</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Digite sua senha">
+              <label for="senha">Senha</label>
+              <input type="password" name="senha" class="form-control" id="senha" placeholder="Digite sua senha">
             </div>
+           <!--     
             <div class="form-group">
               <div class="form-check">
                 <label class="form-check-label">
@@ -60,7 +43,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </label>
               </div>
             </div>
-            <a class="btn btn-success btn-block" href="painel">Login</a>
+            -->    
+            <button type="submit" class="btn btn-success btn-block" ><i class="fa fa-lock" aria-hidden="true"></i> Entrar</button>     
           </form>
           <div class="text-center">
             <a class="d-block small" href="#">Esqueceu a senha?</a>
@@ -73,30 +57,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script src="<?php echo base_url('assets/pluguins/jquery/jquery.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/pluguins/popper/popper.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/pluguins/bootstrap/js/bootstrap.min.js'); ?>"></script>
-    
-    <script type="text/javascript" src="<?php echo base_url('assets/pluguins/jquery.mask.js') ?>"></script>
-    <script src="<?php echo base_url('assets/js/js.js') ?>"></script>
-
-    <script type="text/javascript">
-      $( "#email" ).click(function() {
-        $( "#col_email" ).show();
-        $( "#col_cnpj" ).hide();
-        $( "#col_cpf" ).hide();
-        //alert("1");
-      });
-
-      $( "#cnpj" ).click(function() {
-        $( "#col_email" ).hide();
-        $( "#col_cnpj" ).show();
-        $( "#col_cpf" ).hide();
-        //alert("1");
-      });
-
-      $( "#cpf" ).click(function() {
-        $( "#col_email" ).hide();
-        $( "#col_cnpj" ).hide();
-        $( "#col_cpf" ).show();
-      });
+  
+    <script>
+    $(document).ready(function(){
+      /* carrega o focus no campo login no load da pagina */  
+      $('input[name=login]').focus();
+      
+      $('.form-login').submit(function(){
+          var login = $('input[name=login]').val();
+          var senha = $('input[name=senha]').val();
+          var erro = '';
+          
+          if(login==''){
+              alert('Digite seu e-mail de login!');
+              $('input[name=login]').focus();
+          }else
+          if(senha==''){
+              alert('Digite sua senha!');
+              $('input[name=login]').focus();
+          }else{
+             $.ajax({
+              url: $(this).attr("action"), 
+              dataType: "json",
+              type: "POST",  
+              data: $(this).serialize(),
+              success: function(json){ 
+                   if(json.erro!=""){
+                     alert(json.erro);
+                   }else{
+                     location.href=json.redirect;
+                   }
+                   return false;
+                }
+             });
+          }
+          return false;
+       });
+    });
     </script>
 
   </body>

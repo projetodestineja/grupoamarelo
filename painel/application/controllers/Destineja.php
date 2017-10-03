@@ -5,6 +5,7 @@ class Destineja extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
+                $this->login_model->restrito(); 
 		#$this->load->helper('url');
 	}
 

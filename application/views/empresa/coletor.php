@@ -55,19 +55,23 @@ header('Content-Type: text/html; charset=utf-8');
 								<select class="form-control" id="area_atuacao" name="area_atuacao">
 										<option value="0">Outra</option>
 										<?php foreach ($areas as $n3) { ?>
-												<option value="<?php echo $n3->codigo; ?>"  ><?php echo $n3->area_atuacao; ?></option>
+												<option value="<?php echo $n3->codigo; ?>"  title="<?php echo "Código da Atividade: $n3->codigo";  ?>"><?php echo $n3->area_atuacao; ?></option>
 										<?php } ?>
 								</select>
 						</div>
-						<div class="form-group col-md-3" id="outra_area_option">
+						<div class="form-group col-md-4" id="outra_area_option">
 								<label for="digite_ramo" class="col-form-label">Digite Outra Área de Atuação</label>
 								<input type="text" class="form-control" id="digite_area" name="digite_area" placeholder="Especifique a área de atuação">
 						</div>
 						</div>
-                                                
-                                                 <div class="form-row" id="divatividadesecundaria" >    
+                                                <div id="corpo_form" name="corpo_form" >
+                                                 <div  id="divatividadesecundaria" >    
                            
-                                                 </div><br>
+                                                 </div>
+                                                
+                                                <input type="button" class="btn btn-secondary" value="Adicionar Atividade Secundária" onclick="add_atividade_secundaria();">
+                                                <br><br>
+                                                
 						<h3 class="">Contato</h3>
 						<div class="form-row">
 						<div class="form-group col-md-4">
@@ -86,8 +90,8 @@ header('Content-Type: text/html; charset=utf-8');
 						<h3 class="">Endereço</h3>
 						<div class="form-row">
 						<div class="form-group col-md-2">
-							<label for="cep" class="col-form-label">CEP</label>
-              <input type="text" class="form-control cep" id="cep" name="cep" placeholder="000000-000" maxlength="8" onblur="pesquisacep(this.value);">
+                                                    <label for="cep" class="col-form-label">CEP</label>
+                                                    <input type="text" class="form-control cep" id="cep" name="cep" placeholder="000000-000" maxlength="8" onblur="pesquisacep(this.value);">
 						</div>
 						<div class="form-group col-md-5">
 							<label for="Rua" class="col-form-label">Rua</label>
@@ -95,7 +99,7 @@ header('Content-Type: text/html; charset=utf-8');
 						</div>
 						<div class="form-group col-md-2">
 							<label for="numero" class="col-form-label">Número</label>
-							<input required type="number" class="form-control" id="numero" name="numero" placeholder="00">
+							<input  type="number" class="form-control" id="numero" name="numero" placeholder="00">
 						</div>
 						<div class="form-group col-md-3">
 							<label for="complemento" class="col-form-label">Complemento</label>
@@ -109,7 +113,7 @@ header('Content-Type: text/html; charset=utf-8');
 						</div>
 						<div class="form-group col-md-4">
 								<label for="estado" class="col-form-label">Estado</label>
-								<select class="form-control" id="estado" name="estado">
+								<select required class="form-control" id="estado" name="estado">
 										<option value="">Selecione o Estado</option>
 										<?php foreach ($estados as $n) { ?>
 												<option value="<?php echo $n->uf; ?>"  ><?php echo $n->nome_estado; ?></option>
@@ -119,7 +123,7 @@ header('Content-Type: text/html; charset=utf-8');
 
 						<div class="form-group col-md-4">
 								<label for="cidade" class="col-form-label">Cidade</label>
-								<select class="form-control" id="cidade" name="cidade">
+								<select required class="form-control" id="cidade" name="cidade">
 										<option value="">Selecione a Cidade</option>
 								</select>
 						</div>
@@ -138,8 +142,11 @@ header('Content-Type: text/html; charset=utf-8');
 						<input type="hidden" name="tipo_cadastro" value="J">
 						<input type="hidden" name="funcao" value="2">
 						<input type="number" maxlength="1" id="ativo" name="ativo" value="0" hidden>
-						<a href="<?php echo base_url('') ?>"><button class="btn btn-outline-secondary" type="button">Voltar</button></a>
-						<button class="btn btn-success" type="submit">Salvar</button>
+                                                </div>
+                                                <br>
+                                                <button class="btn btn-success" type="submit">Salvar</button>
+                                                <button class="btn btn-warning" type="button" onclick="location.reload();">Limpar Formulário</button>
+                                                <a href="<?php echo base_url('') ?>"><button class="btn btn-outline-secondary" type="button">Voltar</button></a>
 					</form>
 				</div>
 			</div>
@@ -153,10 +160,10 @@ header('Content-Type: text/html; charset=utf-8');
 
 	<script src="<?php echo base_url('painel/assets/pluguins/jquery.mask.js') ?>"></script>
 	<script src="<?php echo base_url('painel/assets/js/js.js') ?>"></script>
-  <script src="<?php echo site_url('painel/assets/pluguins/buscacep.js') ?>"></script>
+        <script src="<?php echo site_url('painel/assets/pluguins/buscacep.js') ?>"></script>
 	<script src="<?php echo site_url('painel/assets/pluguins/buscacnpj.js') ?>"></script>
 
-	<script type="text/javascript">
+<script type="text/javascript">
 
 	$( "#area_atuacao" ).change(function() {
 		if (this.value == 0){
@@ -177,6 +184,34 @@ header('Content-Type: text/html; charset=utf-8');
           load_cidades(estado,null);
 
       });
+      
+      $("select[name=area_atuacao]").change(function(){
+
+               var e = document.getElementById("area_atuacao");
+                var itemSelecionado = e.options[e.selectedIndex].value;
+
+                if(itemSelecionado!=0){
+                    $( "#outra_area_option" ).hide();
+                    $("#divatividadeprincipal").removeClass("form-group col-md-4");
+                    $("#divatividadeprincipal").addClass("form-group col-md-8");
+                }
+                else{
+                    $("#divatividadeprincipal").removeClass("form-group col-md-8");
+                    $("#divatividadeprincipal").addClass("form-group col-md-4");
+                }
+
+            });
+            
+       $("input[name=cnpj]").change(function(){
+
+          var cnpj = $(this).val();
+          
+          if (cnpj.length==18){
+             $("#corpo_form").show();
+          }
+
+      });   
+      
 
   });
 
@@ -211,6 +246,15 @@ header('Content-Type: text/html; charset=utf-8');
      $("select[name='"+el+"']").append( option );
   }
 
-	</script>
+   $('#area_atuacao option').each(function() {
+           var minhaString = $(this).text();
+           if(minhaString.length > 90){
+                   $(this).text(minhaString.substring(0,90) + ' ...');
+           }
+   });
+        $("#corpo_form").hide();
+        
+        
+</script>
 
 </html>

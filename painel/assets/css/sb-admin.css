@@ -353,3 +353,26 @@ footer.sticky-footer {
 	
 	.grid-list{ width:100%;}
 	.conteudo{ margin-bottom:40px;}
+
+.not-focusable:focus {
+    outline: none;
+    box-shadow: none;
+} 
+
+
+div.required .col-form-label:after{content:' * ';color:#F00;font-weight:bold;}
+.tab-pane{ padding-top:20px;}
+
+.btn-salvar{
+	padding-left: 35px;
+	position: relative;
+	cursor: pointer;
+	font-style: inherit;
+	text-transform: uppercase !important;
+}
+.btn-salvar:before{content:'\f0c7'; font-family: 'FontAwesome'; font-size:18px; left:13px; position:absolute}
+.breadcrumb {
+	font-size: 15px;
+	padding: 8px 15px
+}
+.btn-warning,.btn-warning:hover{ color:#FFF}

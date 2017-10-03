@@ -23,10 +23,11 @@ function limpa_formulario_cep() {
             }
 
             function pesquisacep(valor) {
-
+				
+				
                 //Nova variavel "cep" somente com dígitos.
                 var cep = valor.replace(/\D/g, '');
-
+				
                 //Verifica se campo cep possui valor informado.
                 if (cep != "") {
 
@@ -44,7 +45,7 @@ function limpa_formulario_cep() {
 
                         //Cria um elemento javascript.
                         var script = document.createElement('script');
-
+						
                         //Sincroniza com o callback.
                         script.src = '//viacep.com.br/ws/' + cep + '/json/?callback=meu_callback';
 
