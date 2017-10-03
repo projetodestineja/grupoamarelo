@@ -23,7 +23,8 @@ function limpa_formulario_cep() {
             }
 
             function pesquisacep(valor) {
-				
+		
+            if (document.getElementById('rua').value.length<3){   
 				
                 //Nova variavel "cep" somente com dígitos.
                 var cep = valor.replace(/\D/g, '');
@@ -38,10 +39,10 @@ function limpa_formulario_cep() {
                     if (validacep.test(cep)) {
 
                         //Preenche os campos com "..." enquanto consulta webservice.
-                        document.getElementById('rua').value = "...";
-                        document.getElementById('bairro').value = "...";
-                        document.getElementById('cidade').value = "...";
-                        document.getElementById('estado').value = "...";
+                        document.getElementById('rua').value = "";
+                        document.getElementById('bairro').value = "";
+                        document.getElementById('cidade').value = "";
+                        document.getElementById('estado').value = "";
 
                         //Cria um elemento javascript.
                         var script = document.createElement('script');
@@ -67,3 +68,4 @@ function limpa_formulario_cep() {
                     limpa_formulario_cep();
                 }
             }
+        }

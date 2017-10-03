@@ -1,5 +1,5 @@
 <?php
-//teste
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Empresa extends CI_Controller {
@@ -45,27 +45,41 @@ class Empresa extends CI_Controller {
 
     public function cadastrar() {
         $erro = '';
-
-        if (empty($erro)) {
-            $dados['cnpj'] = $this->input->post('cnpj');
-            $dados['cpf'] = $this->input->post('cpf');
-            $dados['ativo'] = $this->input->post('ativo');
-            $dados['razao_social'] = $this->input->post('rsocial');
-            $dados['nome_fantasia'] = $this->input->post('nfantasia');
-            $dados['nome_responsavel'] = $this->input->post('nresponsavel');
-            $dados['telefone1'] = $this->input->post('tel1');
-            $dados['telefone2'] = $this->input->post('tel2');
-            $dados['email'] = $this->input->post('email');
-            $dados['cep'] = $this->input->post('cep');
-            $dados['logradouro'] = $this->input->post('rua');
-            $dados['numero'] = $this->input->post('numero');
-            $dados['complemento'] = $this->input->post('complemento');
-            $dados['bairro'] = $this->input->post('bairro');
-            $dados['id_cidade'] = $this->input->post('cidade');
-            $dados['uf_estado'] = $this->input->post('estado');
-            $dados['senha'] = $this->input->post('senha1');
-            $dados['tipo_cadastro'] = $this->input->post('tipo_cadastro');
-            $dados['id_funcao'] = $this->input->post('funcao');
+        
+        $this->load->library(array('form_validation','util'));
+        
+        $dados['cnpj'] = $this->input->post('cnpj');
+        $dados['cpf'] = $this->input->post('cpf');
+        $dados['ativo'] = $this->input->post('ativo');
+        $dados['razao_social'] = $this->input->post('rsocial');
+        $dados['nome_fantasia'] = $this->input->post('nfantasia');
+        $dados['nome_responsavel'] = $this->input->post('nresponsavel');
+        $dados['telefone1'] = $this->input->post('tel1');
+        $dados['telefone2'] = $this->input->post('tel2');
+        $dados['email'] = $this->input->post('email');
+        $dados['cep'] = $this->input->post('cep');
+        $dados['logradouro'] = $this->input->post('rua');
+        $dados['numero'] = $this->input->post('numero');
+        $dados['complemento'] = $this->input->post('complemento');
+        $dados['bairro'] = $this->input->post('bairro');
+        $dados['id_cidade'] = $this->input->post('cidade');
+        $dados['uf_estado'] = $this->input->post('estado');
+        $dados['senha'] = $this->util->SenhaEncode($this->input->post('senha1'));
+        $dados['tipo_cadastro'] = $this->input->post('tipo_cadastro');
+        $dados['id_funcao'] = $this->input->post('funcao');
+        
+        $this->form_validation->set_rules('cnpj', 'CNPJ', "is_unique[empresas.cnpj]");
+        $this->form_validation->set_rules('nresponsavel', 'Nome Responsável', 'required');
+        $this->form_validation->set_rules('tel1', 'Telefone', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'required');
+        $this->form_validation->set_rules('bairro', 'Bairro', 'required');
+        $this->form_validation->set_rules('cidade', 'Cidade', 'required');
+        $this->form_validation->set_rules('estado', 'Estado', 'required');
+        $this->form_validation->set_rules('senha1', 'Senha', 'required');
+        
+        $erro =   "Erro ao cadastrar. Entre em contato com a Destine Já". validation_errors();
+        
+        if ($this->form_validation->run() == TRUE){
 
             $this->empresa_model->gravar($dados);
             
@@ -84,13 +98,15 @@ class Empresa extends CI_Controller {
                         $this->empresa_model->gravar_area_atuacao($dados3);
                 }
             }
-        } else {
-            $dados['erro'] = $erro;
-        }
+
         $dados['mensagem'] = "Cadastro inserido com sucesso. Faça o Login";
         $dados['titulo'] = "Destine Já - Login";
-        $this->load->view('empresa/login', $dados);
-    }
+        redirect(base_url('empresa/login'), $dados);
+        } else {
+            $this->session->set_flashdata("msg",$erro);
+            redirect(base_url());
+        }
+    }    
 
     function getcidades($id_uf) {
         $cidade = $this->input->get('cidade');
