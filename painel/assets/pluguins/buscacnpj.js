@@ -1,3 +1,5 @@
+var i = 0;
+
 function limpa_formulario_cnpj() {
     //Limpa valores do formulario de cnpj.
         document.getElementById('rsocial').value = "";
@@ -21,14 +23,15 @@ function preenche_cnpj(conteudo) {
         area_atuacao = conteudo.atividade_principal[0].code;
         area_atuacao = area_atuacao.replace(/\D/g, '');
         
-        for (i = 0; i < conteudo.atividades_secundarias.length; i++) { 
+        for (i=0; i < conteudo.atividades_secundarias.length; i++) { 
         if (conteudo.atividades_secundarias[i].code.length>0){
             var divPai = $("#divatividadesecundaria");
-            divPai.append("<div class='form-group col-md-12' >");
-            divPai.append("<label for=\"area_atuacao_secundaria"+i+"\">Atividade Secundária "+(i+1)+"</label>");
-            divPai.append("<select class=\"form-control\" id=\"area_atuacao_secundaria"+i+"\" name=\"area_atuacao_secundaria"+i+"\">");
-            divPai.append("</select>");
+           
+            divPai.append("<div class=\"form-row\" >");
+            divPai.append("<label for=\"area_atuacao_secundaria"+i+"\" >Atividade Secundária </label>");
             divPai.append("</div>");
+            divPai.append("<div class=\"form-row\"><div class=\"form-group col-md-10\" id=\"divsel"+i+"\" name=\"divsel"+i+"\" ><select class=\"form-control col-md-10\" id=\"area_atuacao_secundaria"+i+"\" name=\"area_atuacao_secundaria"+i+"\"></select></div><div class=\"form-group col-md-2\" id=\"divbt"+i+"\" name=\"divbt"+i+"\"><button class=\"btn btn-danger\" type=\"button\" onclick=\"remove_atividade(document.getElementById('area_atuacao_secundaria"+i+"').value,"+i+") ;\">Excluir</button></div></div>");
+            //o html da div do select foi colocado na msm linha pois ele não conseguia dividir as colunas se fossem appends separados
             
             cod_atuacao = conteudo.atividades_secundarias[i].code;
             txt_atuacao = conteudo.atividades_secundarias[i].text;
@@ -69,6 +72,7 @@ function preenche_cnpj(conteudo) {
         
         //leva o cursor para o campo responsavel
         $("#nresponsavel").focus();
+
     } //end if.
     else {
         //CNPJ não Encontrado.
@@ -113,3 +117,31 @@ function pesquisacnpj(valor) {
     }
 }
 
+function remove_atividade(value,i){
+   document.getElementById('area_atuacao_secundaria'+i).value = "0";
+   $("label[for=\"area_atuacao_secundaria"+i+"\"]").css('display', 'none');
+   $("#divsel"+i).hide();
+   $("#divbt"+i).hide();
+   
+}
+
+function add_atividade_secundaria(){
+   var divPai = $("#divatividadesecundaria");    
+    divPai.append("<div class=\"form-row\" >");
+    divPai.append("<label for=\"area_atuacao_secundaria"+i+"\" >Atividade Secundária </label>");
+    divPai.append("</div>");
+    divPai.append("<div class=\"form-row\"><div class=\"form-group col-md-10\" id=\"divsel"+i+"\" name=\"divsel"+i+"\" ><select class=\"form-control col-md-10\" id=\"area_atuacao_secundaria"+i+"\" name=\"area_atuacao_secundaria"+i+"\">    </select></div><div class=\"form-group col-md-2\" id=\"divbt"+i+"\" name=\"divbt"+i+"\"><button class=\"btn btn-danger\" type=\"button\" onclick=\"remove_atividade(document.getElementById('area_atuacao_secundaria"+i+"').value,"+i+") ;\">Excluir</button></div></div>");
+ 
+    combopai = document.getElementById("area_atuacao").options;
+    for (j = 0; j < (combopai.length); j++) {
+        
+        if (combopai[j].value > 0) {
+            var option = new Option(combopai[j].text, combopai[j].value);
+            var select = document.getElementById("area_atuacao_secundaria" + i);
+            select.add(option);
+        }
+        
+    }
+    
+    i++; 
+}
