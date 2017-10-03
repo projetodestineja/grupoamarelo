@@ -1,5 +1,5 @@
 <?php
-
+//teste
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Empresa extends CI_Controller {
