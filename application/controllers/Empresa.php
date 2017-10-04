@@ -76,8 +76,7 @@ class Empresa extends CI_Controller {
         $this->form_validation->set_rules('cidade', 'Cidade', 'required');
         $this->form_validation->set_rules('estado', 'Estado', 'required');
         $this->form_validation->set_rules('senha1', 'Senha', 'required');
-        
-        $erro =   "Erro ao cadastrar. Entre em contato com a Destine Já". validation_errors();
+
         
         if ($this->form_validation->run() == TRUE){
 
@@ -103,6 +102,12 @@ class Empresa extends CI_Controller {
         $dados['titulo'] = "Destine Já - Login";
         redirect(base_url('empresa/login'), $dados);
         } else {
+            if (form_error('cnpj')){
+                $erro = "CNPJ já existente na base de dados. Entre em contato com a Destine Já.";
+            } else if ((form_error('nresponsavel')) || (form_error('tel1')) || (form_error('email')) ||(form_error('bairro')) || (form_error('cidade')) || (form_error('estado')) || (form_error('senha1')) ){
+                $erro = "Campos Obrigatórios não preenchidos. Tente cadastrar novamente."; 
+            }
+            
             $this->session->set_flashdata("msg",$erro);
             redirect(base_url());
         }
