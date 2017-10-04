@@ -16,33 +16,36 @@ header('Content-Type: text/html; charset=utf-8');
 
 	<body>
 
-  	<div class="container-fluid">
+            <div class="container-fluid">
 
-			<div class="row" >
-	      <div class="col-sm-12 text-center" >
+                <div class="row" >
+                    <div class="col-sm-12 text-center" >
 
-	          <div style="width:230px; margin:0 auto;">
-	              <img width="230px" src="<?php echo base_url('painel/assets/img/destinejalogo.png') ?>"/>
-	          </div>
-	          <hr>
+                        <div style="width:230px; margin:0 auto;">
+                            <img width="230px" src="<?php echo base_url('painel/assets/img/destinejalogo.png') ?>"/>
+                        </div>
+                        <hr>
 
-	          <div class="text-center"  >
-	              <h1>Efetue seu cadastro ou login:</h1><br/>
-	              <a href="<?php echo site_url('empresa/gerador') ?>" class="btn btn-success btn-lg" >
-	                  <i class="fa fa-trash" ></i> Gerador de Resíduo
-	              </a>
-	              <br/><br/>
-	              <a href="<?php echo site_url('empresa/coletor') ?>" class="btn btn-success btn-lg" >
-	                  <i class="fa fa-truck" ></i> Coletor de Resíduo
-	              </a>
-	              <br/><br/>
-	              <a href="<?php echo site_url('empresa/login') ?>" class="btn btn-info btn-lg" >
-	                  <i class="fa fa-lock" ></i> Efetue Seu Login
-	              </a>
-	          </div>
+                        <?php  if (!empty($this->session->flashdata('msg'))) 
+                        echo "<div class=\"alert alert-danger\" style=\"width:100%;\">".$this->session->flashdata('msg')." </div>"; ?>
+                        
+                        <div class="text-center"  >
+                            <h1>Efetue seu cadastro ou login:</h1><br/>
+                            <a href="<?php echo site_url('empresa/gerador') ?>" class="btn btn-success btn-lg" >
+                                <i class="fa fa-trash" ></i> Gerador de Resíduo
+                            </a>
+                            <br/><br/>
+                            <a href="<?php echo site_url('empresa/coletor') ?>" class="btn btn-success btn-lg" >
+                                <i class="fa fa-truck" ></i> Coletor de Resíduo
+                            </a>
+                            <br/><br/>
+                            <a href="<?php echo site_url('empresa/login') ?>" class="btn btn-info btn-lg" >
+                                <i class="fa fa-lock" ></i> Efetue Seu Login
+                            </a>
+                        </div>
 
-	      </div>
-			</div>
+                    </div>
+                </div>
 	    <hr>
 
 	    <div class="text-center">
