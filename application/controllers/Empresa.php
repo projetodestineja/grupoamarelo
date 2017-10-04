@@ -9,9 +9,6 @@ class Empresa extends CI_Controller {
         $this->load->model('empresa_model');
     }
 
-    public function login() {
-        $this->load->view('empresa/login');
-    }
 
     public function gerador() {
         $dados['titulo'] = "Destine Já - Cadastro";
@@ -98,9 +95,8 @@ class Empresa extends CI_Controller {
                 }
             }
 
-        $dados['mensagem'] = "Cadastro inserido com sucesso. Faça o Login";
-        $dados['titulo'] = "Destine Já - Login";
-        redirect(base_url('empresa/login'), $dados);
+        $this->session->set_flashdata("msg","Cadastro inserido com sucesso. Faça o login");
+        redirect(base_url('login'));
         } else {
             if (form_error('cnpj')){
                 $erro = "CNPJ já existente na base de dados. Entre em contato com a Destine Já.";

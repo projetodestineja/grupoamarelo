@@ -35,49 +35,55 @@ header('Content-Type: text/html; charset=utf-8');
         <div class="card-header">
           <center>
           <img width="200px" src="<?php echo base_url('painel/assets/img/destinejalogo.png') ?>"/>
+          <br>
+          <?php  if (!empty($this->session->flashdata('msg'))) 
+                        echo "<div class=\"alert alert-success\" style=\"width:100%;margin-top:5px;\">".$this->session->flashdata('msg')." </div>"; ?>
+          
           <h3 style="margin:20px 0;">Acesse seu painel</h3>
           </center>
+          <?php  if (!empty($this->session->flashdata('erro'))) 
+                        echo "<div class=\"alert alert-danger\" style=\"width:100%;margin-top:5px;\">".$this->session->flashdata('erro')." </div>"; ?>
         </div>
         <div class="card-body">
-          <form>
+            <form method="POST" action="<?php echo site_url('login') ?>">
 
             <div class="form-row">
             Tipo de login:&nbsp;
             <div class="form-check form-check-inline">
               <label class="form-check-label">
-              <input required checked class="form-check-input" type="radio" name="tipo_login" id="email" value=""> E-mail</input>
+              <input required checked class="form-check-input" type="radio" name="tipo_login" id="email" value="email"> E-mail</input>
               </label>
             </div>
             <div class="form-check form-check-inline">
               <label class="form-check-label">
-              <input required class="form-check-input" type="radio" name="tipo_login" id="cnpj" value=""> CNPJ</input>
+              <input required class="form-check-input" type="radio" name="tipo_login" id="cnpj" value="cnpj"> CNPJ</input>
               </label>
             </div>
             <div class="form-check form-check-inline">
               <label class="form-check-label">
-              <input required class="form-check-input" type="radio" name="tipo_login" id="cpf" value=""> CPF</input>
+              <input required class="form-check-input" type="radio" name="tipo_login" id="cpf" value="cpf"> CPF</input>
               </label>
             </div>
             </div>
 
             <div class="form-group" id="col_email">
-              <label for="exampleInputEmail1">E-mail</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="nome@dominio.com">
+              <label for="email">E-mail</label>
+              <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="nome@dominio.com">
             </div>
 
             <div class="form-group" id="col_cnpj">
-              <label for="exampleInputEmail1">CNPJ</label>
-              <input type="text" class="form-control cnpj" id="" placeholder="00.000.000/0000-00">
+              <label for="cnpj">CNPJ</label>
+              <input type="text" class="form-control cnpj" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00">
             </div>
 
             <div class="form-group" id="col_cpf">
-              <label for="exampleInputEmail1">CPF</label>
-              <input type="text" class="form-control cpf" id="" placeholder="000.000.000-00">
+              <label for="cpf">CPF</label>
+              <input type="text" class="form-control cpf" id="cpf" name="cpf" placeholder="000.000.000-00">
             </div>
 
             <div class="form-group">
               <label for="exampleInputPassword1">Senha</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Digite sua senha">
+              <input type="password" class="form-control" id="senha" name="senha" placeholder="Digite sua senha">
             </div>
             <div class="form-group">
               <div class="form-check">
@@ -87,7 +93,7 @@ header('Content-Type: text/html; charset=utf-8');
                 </label>
               </div>
             </div>
-            <a class="btn btn-success btn-block" href="<?php echo site_url('painelempresa') ?>">Login</a>
+              <input type="submit" class="btn btn-success btn-block">
           </form>
           <div class="text-center">
             <a class="d-block small mt-3" href="<?php echo site_url('') ?>">Efetue seu cadastro</a>

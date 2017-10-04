@@ -27,7 +27,7 @@ header('Content-Type: text/html; charset=utf-8');
                         <hr>
 
                         <?php  if (!empty($this->session->flashdata('msg'))) 
-                        echo "<div class=\"alert alert-danger\" style=\"width:100%;height: 45px;\">".$this->session->flashdata('msg')." </div>"; ?>
+                        echo "<div class=\"alert alert-danger\" style=\"width:100%;\">".$this->session->flashdata('msg')." </div>"; ?>
                         
                         <div class="text-center"  >
                             <h1>Efetue seu cadastro ou login:</h1><br/>
