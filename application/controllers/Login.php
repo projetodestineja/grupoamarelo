@@ -52,8 +52,10 @@ class Login extends CI_Controller {
                             $this->load->view('login'); 
                         }
                 
-            }else
+            }else{
+                $this->session->unset_userdata('empresa');
 		$this->load->view('login');
+            }    
 	}
 
 }
