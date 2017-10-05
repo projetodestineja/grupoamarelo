@@ -11,4 +11,6 @@ class Empresa_model extends CI_Model {
         $this->db->insert('empresas_areas_atuacao',$dados2);
     }
     
+    
+    
 }
