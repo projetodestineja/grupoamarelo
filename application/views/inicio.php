@@ -39,7 +39,7 @@ header('Content-Type: text/html; charset=utf-8');
                                 <i class="fa fa-truck" ></i> Coletor de Resíduo
                             </a>
                             <br/><br/>
-                            <a href="<?php echo site_url('empresa/login') ?>" class="btn btn-info btn-lg" >
+                            <a href="<?php echo site_url('login') ?>" class="btn btn-info btn-lg" >
                                 <i class="fa fa-lock" ></i> Efetue Seu Login
                             </a>
                         </div>
