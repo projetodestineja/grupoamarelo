@@ -1,5 +1,5 @@
 <form id="form_cad_gerador" action="" method="POST">
-		
+
 		<div class="form-row">
 			<div class="form-group col-md-12  required">
 				<label for="nome" class="col-form-label">Nome Completo:</label>
@@ -18,7 +18,7 @@
 				<input type="email" class="form-control" id="email" value="<?php echo $email; ?>" name="email" placeholder="nome@dominio.com">
 			</div>
 		</div>
-			
+
         <h3 class="">Endereço</h3>
 		<div class="form-row">
 			<div class="form-group col-md-2 required">
@@ -60,9 +60,9 @@
                   		<option value="<?php echo $n->id; ?>" <?php echo ($n->id==$cidade?'selected':''); ?>  ><?php echo $n->nome_cidade;?></option>
                    	 <?php } ?>
                 </select>
-			</div>    
+			</div>
 		</div>
-		
+
         <h3 class="">Acesso</h3>
         <div class="form-row">
         	<div class="form-group col-md-12">
@@ -80,7 +80,7 @@
 				<input type="password" class="form-control" id="senha2" value="<?php echo ($this->input->post('senha2')?$this->input->post('senha2'):''); ?>" name="senha2" onchange="valida_senha();" placeholder="Confirme sua Senha">
 			</div>
 		</div>
-		
-			
-		<button class="btn btn-success btn-md btn-salvar" type="submit"> <?php echo (!isset($id)?'CADASTRAR':'ATUALIZAR'); ?> </button>
+
+
+		<button class="btn btn-success btn-md btn-salvar" type="submit"> <?php echo (!isset($id)?'Cadastrar':'Atualizar'); ?> </button>
 </form>

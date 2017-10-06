@@ -5,24 +5,24 @@
               <i class="fa fa-fw fa-dashboard"></i> <span class="nav-link-text">Painel</span>
             </a>
         </li>
-        
+
         <li class="nav-item menu-v-empresa" data-toggle="tooltip" data-placement="right" title="Painel Administrativo">
             <a class="nav-link" href="<?php echo site_url('empresa'); ?>" >
               <i class="fa fa-fw fa-building"></i> <span class="nav-link-text">Empresas</span>
             </a>
         </li>
-        
-        
+
+
         <!--
         <li class="nav-item menu-v-empresas" data-toggle="tooltip" data-placement="right" title="Empresas">
             <a class="nav-link nav-link-collapse collapsed " data-toggle="collapse" href="#collapseEmpresas" data-parent="#exampleAccordion">
               <i class="fa fa-fw fa-building"></i> <span class="nav-link-text">Empresas</span>
             </a>
             <ul class="sidenav-second-level collapse" id="collapseEmpresas">
-              <li><a href="<?php echo site_url('empresa'); ?>">Cadastros</a></li>
+              <li><a href="<php echo site_url('empresa'); ?>">Cadastros</a></li>
             </ul>
         </li>-->
-        
+
 	<li class="nav-item menu-v-demandas" data-toggle="tooltip" data-placement="right" title="Demandas">
             <a class="nav-link" href="#">
               <i class="fa fa-fw fa-list"></i> <span class="nav-link-text">Demandas</span>
@@ -34,9 +34,9 @@
             </a>
             <ul class="sidenav-second-level collapse" id="collapseConfiguracoes">
               <li><a href="#">Status de Demandas</a></li>
-              <li><a href="#">Ramos de Negócio</a></li>
+              <li><a href="<?php echo site_url('areas_atuacao'); ?>">Áreas de Atuação</a></li>
 	      <li><a href="#">Alertas</a></li>
-              <li><a href="<?php echo site_url('config'); ?>">Config SMTP/E-mail Alertas</a></li>     
+              <li><a href="<?php echo site_url('config'); ?>">Config SMTP/E-mail Alertas</a></li>
               <li><a href="<?php echo site_url('cidades'); ?>">Cidades Cadastro</a></li>
             </ul>
           </li>

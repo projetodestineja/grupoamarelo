@@ -24,7 +24,7 @@
         </div>
         <div class="card-body">
             <form class="form-login" action="<?php echo site_url('login/validar_login_post'); ?>" method="post" >
-             
+
             <div class="form-group" id="col_email">
               <label for="login">E-mail</label>
               <input type="email" name="login" class="form-control" id="login" aria-describedby="login" placeholder="nome@dominio.com">
@@ -34,7 +34,7 @@
               <label for="senha">Senha</label>
               <input type="password" name="senha" class="form-control" id="senha" placeholder="Digite sua senha">
             </div>
-           <!--     
+           <!--
             <div class="form-group">
               <div class="form-check">
                 <label class="form-check-label">
@@ -43,8 +43,8 @@
                 </label>
               </div>
             </div>
-            -->    
-            <button type="submit" class="btn btn-success btn-block" ><i class="fa fa-lock" aria-hidden="true"></i> Entrar</button>     
+            -->
+            <button type="submit" class="btn btn-success btn-block" ><i class="fa fa-lock" aria-hidden="true"></i> Entrar</button>
           </form>
           <div class="text-center">
             <a class="d-block small" href="#">Esqueceu a senha?</a>
@@ -57,17 +57,17 @@
     <script src="<?php echo base_url('assets/pluguins/jquery/jquery.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/pluguins/popper/popper.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/pluguins/bootstrap/js/bootstrap.min.js'); ?>"></script>
-  
+
     <script>
     $(document).ready(function(){
-      /* carrega o focus no campo login no load da pagina */  
+      /* carrega o focus no campo login no load da pagina */
       $('input[name=login]').focus();
-      
+
       $('.form-login').submit(function(){
           var login = $('input[name=login]').val();
           var senha = $('input[name=senha]').val();
           var erro = '';
-          
+
           if(login==''){
               alert('Digite seu e-mail de login!');
               $('input[name=login]').focus();
@@ -77,11 +77,11 @@
               $('input[name=login]').focus();
           }else{
              $.ajax({
-              url: $(this).attr("action"), 
+              url: $(this).attr("action"),
               dataType: "json",
-              type: "POST",  
+              type: "POST",
               data: $(this).serialize(),
-              success: function(json){ 
+              success: function(json){
                    if(json.erro!=""){
                      alert(json.erro);
                    }else{
