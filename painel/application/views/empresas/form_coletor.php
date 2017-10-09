@@ -7,24 +7,31 @@
     <li class="nav-item">
         <a class="nav-link" href="#atuacao_secundaria" role="tab" data-toggle="tab">Atuação Secundária</a>
     </li>
+    <?php if(isset($id)){ ?>
+     <li class="nav-item">
+        <a class="nav-link" href="#certificados" role="tab" data-toggle="tab">Certificados</a>
+    </li>
+    <?php } ?>
 </ul>
 
-<form id="form_cad_coletor" action="" method="POST">
-<div class="tab-content">
-    <div role="tabpanel" class="tab-pane  active" id="perfil">
 
-        <div class="row">
-            <div class="col-md-12">
+
+<form id="form_cad_coletor"  action="" method="POST" enctype="multipart/form-data" >
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane  active" id="perfil">
+
+            <div class="row">
+                <div class="col-md-12">
 
                     <?php if ($id_funcao) { ?>
                         <input name="id_funcao" type="hidden" value="<?php echo $id_funcao; ?>" >
-                    <?php } ?>          
+                    <?php } ?>  
+                            
                     <div class="form-row  required">
                         <div class="form-group col-md-4 " >
                             <label for="cnpj" class="col-form-label">CNPJ</label>
                             <input type="text" class="form-control cnpj" id="cnpj" name="cnpj" value="<?php echo $cnpj; ?>" onblur="pesquisacnpj(this.value);"  >
                         </div>
-
                         <div class="form-group col-md-4" >
                             <label required for="rsocial" class="col-form-label">Razão Social</label>
                             <input type="text" class="form-control" id="rsocial" name="rsocial" value="<?php echo $razao_social; ?>" placeholder="Razão Social">
@@ -34,8 +41,6 @@
                             <input type="text" class="form-control" id="nfantasia" name="nfantasia" value="<?php echo $nome_fantasia; ?>" placeholder="Nome Fantasia">
                         </div>
                     </div>
-
-
                     <div class="form-row  required">
                         <div class="form-group col-md-5">
                             <label for="nresponsavel" class="col-form-label">Nome do Responsável</label>
@@ -46,9 +51,12 @@
                             <select class="form-control" id="area_atuacao" name="area_atuacao">
                                 <option value="0">Outra</option>
                                 <?php if ($areas_atuacoes) {
-                                    foreach ($areas_atuacoes as $n) {?>
-                                        <option <?php echo ((isset($row_atuacao_principal->codigo_area_atuacao) and $row_atuacao_principal->codigo_area_atuacao == $n->codigo) ? "selected" : ''); ?> value="<?php echo $n->codigo; ?>"  ><?php echo $n->area_atuacao; ?></option>
-                                <?php } } ?>
+                                    foreach ($areas_atuacoes as $n) {
+										$selected = ((isset($row_atuacao_principal->codigo_area_atuacao) and $row_atuacao_principal->codigo_area_atuacao == $n->codigo) ? "selected" : '');
+                                ?>
+                                <option <?php echo $selected; ?> value="<?php echo $n->codigo; ?>"  ><?php echo $n->area_atuacao; ?></option>
+								<?php } 
+								} ?>
                             </select>
                         </div>
                         <div style="display:none;" class="form-group col-md-3" id="outra_area_option">
@@ -63,7 +71,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-4  required">
                             <label for="tel1" class="col-form-label">Telefone 1</label>
-                            <input required type="tel" class="form-control phone" id="telefone1" name="telefone1" value="<?php echo $telefone1; ?>" placeholder="(21) 6564-0205">
+                            <input required type="tel" class="form-control phone" id="tel1" name="telefone1" value="<?php echo $telefone1; ?>" placeholder="(21) 6564-0205">
                         </div>
                         <div class="form-group col-md-4">
                             <label for="tel2" class="col-form-label">Telefone 2</label>
@@ -106,7 +114,7 @@
                                 <option value="">Selecione o Estado</option>
                                 <?php foreach ($estados as $n) { ?>
                                     <option value="<?php echo $n->uf; ?>" <?php echo ($n->uf == $uf_estado ? 'selected' : ''); ?>   ><?php echo $n->nome_estado; ?></option>
-                                <?php } ?>
+								<?php } ?>
                             </select>
                         </div>
                         <div class="form-group col-md-4">
@@ -115,7 +123,7 @@
                                 <option value="">Selecione o Estado Antes</option>
                                 <?php foreach ($cidades as $n) { ?>
                                     <option value="<?php echo $n->id; ?>" <?php echo ($n->id == $id_cidade ? 'selected' : ''); ?>  ><?php echo $n->nome_cidade; ?></option>
-                                <?php } ?>
+								<?php } ?>
                             </select>
                         </div>    
                     </div>
@@ -135,57 +143,75 @@
                     </div>
 
                     <button class="btn btn-success btn-md btn-salvar" type="submit">Salvar</button>
-                
-            </div>
-        </div>
 
-    </div>
-    <div role="tabpanel" class="tab-pane fade" id="atuacao_secundaria">
-        
-                            
-                            
-        <?php
-        if ($result_atuacoes) {
-            $atuacao = 0;
-            foreach ($result_atuacoes as $n) {
-                ?>
-                <div class="form-row">
-                    <div class="form-group col-md-10" id="divsel<?php echo $atuacao; ?>"  >
-                        <select class="form-control col-md-10" id="area_atuacao_secundaria<?php echo $atuacao; ?>" name="atuacao_secundaria[]" >
-                        <?php if ($areas_atuacoes) {
-                             foreach ($areas_atuacoes as $at) {?>
-                              <option <?php echo ($n->codigo_area_atuacao==$at->codigo? "selected" : ''); ?> value="<?php echo $at->codigo; ?>"  ><?php echo $at->area_atuacao; ?></option>
-                        <?php } } ?>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-2" id="divbt<?php echo $atuacao; ?>" name="divbt<?php echo $atuacao; ?>" >
-                         <button class="btn btn-danger" type="button" onclick="remove_atividade(document.getElementById('area_atuacao_secundaria<?php echo $atuacao; ?>').value,<?php echo $atuacao; ?>);" >
-                            Excluir
-                        </button>
-                    </div>
                 </div>
-                <?php
-                $atuacao++;
-            }
-        } else {
-            ?>
-            <h3>Nenhuma atuação secundaria cadastrada.</h3>
-        <?php } ?>
-         
-        <div  id="divatividadesecundaria" ></div>
+            </div>
 
-          
-         <input type="button" class="btn btn-secondary" value="Adicionar Atividade Secundária" onclick="add_atividade_secundaria();">
-         <br><br>
-         <button class="btn btn-success btn-md btn-salvar" type="submit">Salvar</button>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="atuacao_secundaria">
+
+            <?php
+            if ($result_atuacoes) {
+                $atuacao = 0;
+                foreach ($result_atuacoes as $n) {
+                    ?>
+                    <div class="form-row">
+                        <div class="form-group col-md-10" id="divsel<?php echo $atuacao; ?>"  >
+                            <select class="form-control col-md-10" id="area_atuacao_secundaria<?php echo $atuacao; ?>" name="atuacao_secundaria[]" >
+                                <?php if ($areas_atuacoes) {
+                                    foreach ($areas_atuacoes as $at) {
+                                ?>
+                                <option <?php echo ($n->codigo_area_atuacao == $at->codigo ? "selected" : ''); ?> value="<?php echo $at->codigo; ?>"  ><?php echo $at->area_atuacao; ?></option>
+            <?php }
+        } ?>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-2" id="divbt<?php echo $atuacao; ?>" name="divbt<?php echo $atuacao; ?>" >
+                            <button class="btn btn-danger" type="button" onclick="remove_atividade(document.getElementById('area_atuacao_secundaria<?php echo $atuacao; ?>').value,<?php echo $atuacao; ?>);" >
+                                Excluir
+                            </button>
+                        </div>
+                    </div>
+                    <?php
+                    $atuacao++;
+                }
+            } else {
+                ?>
+                <h3>Nenhuma atuação secundaria cadastrada.</h3>
+            <?php } ?>
+
+            <div  id="divatividadesecundaria" ></div>
+
+
+            <input type="button" class="btn btn-secondary" value="Adicionar Atividade Secundária" onclick="add_atividade_secundaria();">
+            <br><br>
+            <button class="btn btn-success btn-md btn-salvar" type="submit">Salvar</button>
+        </div>
+        
+        <?php if(isset($id)){ ?>
+        <div role="tabpanel" class="tab-pane fade" id="certificados">
+            <div align="right" >
+            <a class="btn btn-primary"  href="<?php echo site_url('empresa/certificado_form/'.$id); ?>" rel="modal_add_edit"   >
+              <i class="fa fa-fw fa-plus"></i>  Cadastrar Arquivo
+            </a>
+            </div>
+            <div id="result_certificados" style="margin-top:15px;" ></div>
+        </div> 
+        <?php } ?>
     </div>
-</div>
 </form>
 
+<style>
+    .has-error .form-control{ border:red solid 1px;}
+	.has-error{color:#F00}
+    
+    .loading_form{ display:none; background:  url('<?php echo base_url('assets/img/ajax-loader.gif');?>') no-repeat center center rgba(255,255,255,0.8);  position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px; z-index: 9999;  }
+</style>   
+
 <script>
-<?php if(isset($atuacao)){ ?>
-var atuacao = <?php echo (int)$atuacao; ?>;
-<?php }else{ ?>
- var atuacao = 0;   
-<?php } ?>
+	<?php if (isset($atuacao)) { ?>
+        var atuacao = <?php echo (int) $atuacao; ?>;
+	<?php } else { ?>
+        var atuacao = 0;
+	<?php } ?>
 </script>
