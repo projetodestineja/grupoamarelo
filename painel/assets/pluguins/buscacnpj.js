@@ -70,6 +70,9 @@ function preenche_cnpj(conteudo) {
         
         load_cidades(conteudo.uf, conteudo.municipio);
         
+        //desabilita campo cnpj para nao carregar tudo de novo
+        $("#cnpj").attr("disabled",true);
+        
         //leva o cursor para o campo responsavel
         $("#nresponsavel").focus();
 

@@ -60,7 +60,7 @@ header('Content-Type: text/html; charset=utf-8');
                         </div>
                         <h3 class="">Dados</h3>
                         <div class="form-row">
-                            <div class="form-group col-md-4" id="col_cnpj">
+                            <div class="form-group col-md-4 required" id="col_cnpj">
                                 <label for="cnpj" class="col-form-label">CNPJ</label>
                                 <input required type="text" class="form-control cnpj" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" value="<?php echo (isset($cnpj) ? $cnpj : ''); ?>" onChange="valida_cnpj(form_cad_gerador.cnpj);" onblur="pesquisacnpj(this.value);">
                             </div>
@@ -79,7 +79,7 @@ header('Content-Type: text/html; charset=utf-8');
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-4">
-                                <label for="nresponsavel" class="col-form-label">Nome do Responsável</label>
+                                <label for="nresponsavel" class="col-form-label required">Nome do Responsável</label>
                                 <input required type="text" class="form-control" id="nresponsavel" name="nresponsavel" placeholder="Ex.: César Silva, Amauri Jr...">
                             </div>
                             <div id="divatividadeprincipal" name="divatividadeprincipal" class="form-group col-md-4">
@@ -106,16 +106,16 @@ header('Content-Type: text/html; charset=utf-8');
                         <br><br>
                         <h3 class="">Contato</h3>
                         <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="tel1" class="col-form-label">Telefone 1</label>
+                            <div class="form-group col-md-4 required">
+                                <label for="tel1" class="col-form-label ">Telefone 1</label>
                                 <input required type="text" class="form-control phone" id="tel1" name="tel1" placeholder="(21) 6564-0205, (27) 98500-6321...">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="tel2" class="col-form-label">Telefone 2</label>
                                 <input type="text" class="form-control phone" id="tel2" name="tel2" placeholder="(21) 6564-0205, (27) 98500-6321...">
                             </div>
-                            <div class="form-group col-md-4">
-                                <label for="email" class="col-form-label">E-mail</label>
+                            <div class="form-group col-md-4 required">
+                                <label for="email" class="col-form-label ">E-mail</label>
                                 <input required type="email" class="form-control" id="email" name="email" placeholder="nome@dominio.com">
                             </div>
                         </div>
@@ -139,13 +139,13 @@ header('Content-Type: text/html; charset=utf-8');
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="bairro" class="col-form-label">Bairro</label>
+                            <div class="form-group col-md-4 required">
+                                <label for="bairro" class="col-form-label ">Bairro</label>
                                 <input required type="text" class="form-control" id="bairro" name="bairro" placeholder="Ex.: São Gonçalo, Manguinhos...">
                             </div>
 
-                            <div class="form-group col-md-4">
-                                <label for="estado" class="col-form-label">Estado</label>
+                            <div class="form-group col-md-4 required">
+                                <label for="estado" class="col-form-label ">Estado</label>
                                 <select required class="form-control" id="estado" name="estado">
                                     <option value="">Selecione o Estado</option>
                                     <?php foreach ($estados as $n) { ?>
@@ -154,8 +154,8 @@ header('Content-Type: text/html; charset=utf-8');
                                 </select>
                             </div>
 
-                            <div class="form-group col-md-4">
-                                <label for="cidade" class="col-form-label">Cidade</label>
+                            <div class="form-group col-md-4 required">
+                                <label for="cidade" class="col-form-label ">Cidade</label>
                                 <select required class="form-control" id="cidade" name="cidade">
                                     <option value="">Selecione a Cidade</option>
                                 </select>
@@ -164,12 +164,12 @@ header('Content-Type: text/html; charset=utf-8');
                         </div>
                         <h3 class="">Acesso</h3>
                         <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="senha1" class="col-form-label">Digite sua Senha</label>
+                            <div class="form-group col-md-6 required">
+                                <label for="senha1" class="col-form-label ">Digite sua Senha</label>
                                 <input required type="password" class="form-control" id="senha1" name="senha1" placeholder="Digite sua Senha">
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="senha2" class="col-form-label">Confirme sua Senha</label>
+                            <div class="form-group col-md-6 required">
+                                <label for="senha2" class="col-form-label ">Confirme sua Senha</label>
                                 <input required type="password" class="form-control" id="senha2" name="senha2" onchange="valida_senha();" placeholder="Confirme sua Senha">
                             </div>
                         </div>
