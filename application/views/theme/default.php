@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title><?php echo $title; ?></title>
-    
+
     	<?php
 		/** -- Copy from here -- */
 		if(!empty($meta))
@@ -16,12 +16,12 @@
 			?><meta name="<?php echo $name; ?>" content="<?php echo $content; ?>" /><?php
 				 }
 		echo "\n";
-	
+
 		if(!empty($canonical))
 		{
 			echo "\n\t\t";
 			?><link rel="canonical" href="<?php echo $canonical?>" /><?php
-	
+
 		}
 		echo "\n\t";
 		/** -- to here -- */
@@ -41,10 +41,10 @@
 
   </head>
 
-  <body class="fixed-nav sticky-footer bg-dark <?php echo ((isset($_COOKIE['menu-vertital-cliente']) and $_COOKIE['menu-vertital-cliente']=='sim')?'sidenav-toggled':''); ?>" id="page-top">
+  <body class="fixed-nav sticky-footer bg-light <?php echo ((isset($_COOKIE['menu-vertital-cliente']) and $_COOKIE['menu-vertital-cliente']=='sim')?'sidenav-toggled':''); ?>" id="page-top">
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="mainNav">
       <a class="navbar-brand" href="<?php echo site_url('painelempresa'); ?>" ><i class="fa fa-fw fa-lock"></i> Nome da Empresa</a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -53,11 +53,11 @@
         <?php $this->load->view('theme/menu');?>
       </div>
     </nav>
-   
-   
-   
-   
-    
+
+
+
+
+
     <div class="content-wrapper">
 
       <div class="container-fluid">
@@ -70,8 +70,8 @@
           <li class="breadcrumb-item active">My Dashboard</li>
         </ol>
         <h1><?php echo $title; ?></h1>
-        
-        <?php 
+
+        <?php
 		if($this->session->flashdata('resposta_erro')){ ?>
             <div class="alert alert-danger" >
 				<?php echo $this->session->flashdata('resposta_erro'); ?>
@@ -84,17 +84,17 @@
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             </div>
         <?php } ?>
-        
+
         <div class="conteudo">
         <?php echo $output;?>
         </div>
-        
+
      </div>
     </div>
-    
-    
-    
-    
+
+
+
+
     <footer class="sticky-footer">
       <div class="container">
         <div class="text-center">
@@ -136,8 +136,8 @@
 
     <!-- Plugin JavaScript -->
     <script src="<?php echo base_url('painel/assets/pluguins/jquery-easing/jquery.easing.min.js'); ?>"></script>
-  
-  
+
+
     <?php
 	// Load CSS Controller
 	foreach($css as $file){
@@ -145,26 +145,26 @@
     ?>
     	<link rel="stylesheet" href="<?php echo $file; ?>" type="text/css" />
     <?php
-	} 
+	}
 	echo "\n\t";
-	
+
 	// Load JS Controller
 	foreach($js as $file){
 		echo "\n\t\t";
     ?>
 	<script src="<?php echo $file; ?>"></script>
     <?php
-	} 
+	}
 	echo "\n\t";
     ?>
-                
+
 
     <!-- Custom scripts for this template -->
     <script src="<?php echo base_url('painel/assets/js/sb-admin.js'); ?>"></script>
-    
+
     <script>
 	$(document).ready(function(){
-	    $('[data-toggle="tooltip"]').tooltip(); 
+	    $('[data-toggle="tooltip"]').tooltip();
             $('.menu-vertical-principal .menu-v-<?php echo $this->uri->segment(1); ?>').addClass("active");
 	});
     </script>

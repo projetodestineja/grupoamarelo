@@ -85,11 +85,12 @@ class Empresa extends CI_Controller {
             $dados2["outra_area_atuacao"] = $this->input->post('digite_area');
             $this->empresa_model->gravar_area_atuacao($dados2);
 
-            for ($i = 0; $i <= 50; $i++) {
-                if (!empty($this->input->post("area_atuacao_secundaria$i"))) {
+            foreach ($this->input->post("area_atuacao_secundaria[]") as $key){
+                if (!empty($this->input->post("area_atuacao_secundaria[]"))) {
                     $dados3["id_empresa"] = $dados2["id_empresa"];
-                    $dados3["codigo_area_atuacao"] = $this->input->post("area_atuacao_secundaria$i");
+                    $dados3["codigo_area_atuacao"] = $key;
                     $dados3["principal"] = 2;
+                    $dados3["outra_area_atuacao"] = NULL;
                     if ($dados3["codigo_area_atuacao"] > 0)
                         $this->empresa_model->gravar_area_atuacao($dados3);
                 }

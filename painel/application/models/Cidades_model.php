@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
- 
+ //teste
 class Cidades_model extends CI_Model {
  
     private function _get_datatables_query(){

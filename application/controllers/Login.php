@@ -23,7 +23,10 @@ class Login extends CI_Controller {
                     case 'cnpj': $verifica = $this->login_model->verifica_cnpj($cnpj,$senha); break;
                     case 'cpf': $verifica = $this->login_model->verifica_cpf($cpf,$senha); break;
                 }
-                if( $verifica->num_rows()>0) {
+                
+                $num_registros = $verifica->num_rows();
+                
+                if( $num_registros==1) {
 
                     $empresa_info = array(
                         'logado' => true,
@@ -38,13 +41,21 @@ class Login extends CI_Controller {
 
                     $redirect = redirect(base_url('painelempresa'));
                 }
-                else{
-                    $this->session->set_flashdata("erro","Não foi possível fazer login com os dados informados.");
-                    $this->load->view('login');
-                }    
+                else 
+                    if ($num_registros==0) {
+                        $this->session->set_flashdata("erro","Login e senha incorretos.");
+                        $this->load->view('login');
+                    }
+                    else 
+                        if ($num_registros>1){
+                            $this->session->set_flashdata("erro","Login existente em mais de um cadastro. Faça o login por CNPJ ou CPF.");
+                            $this->load->view('login'); 
+                        }
                 
-            }else
+            }else{
+                $this->session->unset_userdata('empresa');
 		$this->load->view('login');
+            }    
 	}
 
 }
