@@ -1,4 +1,5 @@
 <div class="row">
+<div class="table-responsive" style="width:100%;">
     <table class="display table select table-striped table-bordered" width="100%" id="dataTable" cellspacing="0">
       <thead>
         <tr>
@@ -41,4 +42,5 @@
         <?php } ?>
       </tbody>
     </table>
+    </div>
 </div>

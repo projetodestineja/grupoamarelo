@@ -4,6 +4,9 @@ class Empresa extends CI_Controller {
 
     function __construct() {
         parent::__construct();
+        
+        $this->login_model->restrito();
+        
         $this->load->model(array('empresa_model', 'endereco_model'));
         $this->load->library(array('form_validation', 'util'));
         $this->_init();
@@ -201,10 +204,11 @@ class Empresa extends CI_Controller {
         $this->load->view('empresas/form_' . $row_funcao->controller, $data);
     }
 
-    private function post_coletora($post, $id) { // somente PJ
+    private function post_coletora($post,$id) { // somente PJ
         $data = array(
             //Config
             'tipo_cadastro' => 'J',
+			'id_funcao' => 2,
             //dados empresa
             'cnpj' => $post['cnpj'], // Deixa em branco se for pessoa física
             'cpf' => NULL, //Deixa em branco se for PJ
@@ -246,29 +250,25 @@ class Empresa extends CI_Controller {
             $this->form_validation->set_rules('senha2', 'senha', 'required|matches[senha]', array('required' => 'Confirme a %s.'));
         }
         if ($this->form_validation->run() == FALSE) {
+			
             $resposta = validation_errors('<div class="error">* ', '</div>');
             $retorno = false;
+			
         } else {
 
-            if ($post['senha']) {
-                $this->db->set('senha', $this->util->SenhaEncode($post['senha']));
-            }
-            if ($id_funcao) {
-                $this->db->set('id_funcao', (int) $id_funcao);
-            }
             if ($id == false) {// Não tem ID, então faz insert
-                $this->db->insert('empresas', $data);
-                $id = $this->db->insert_id();
+                
+				$id = $this->empresa_model->empresa_insert($data,$post); // retorna o insert_id
+				
                 $this->empresa_model->atuacao($id);//Atualizar o tabela atuacao
              
                 $resposta = 'Empresa coletora cadastrada com sucesso.';
+				
             } else {
-                $this->db->where('id', (int) $id);
-                $this->db->update('empresas', $data);
+				$id = $this->empresa_model->empresa_update($id,$data,$post);
                 
                 $this->empresa_model->atuacao((int)$id);//Atualizar o tabela atuacao
-             
-                
+               
                 $resposta = 'Empresa coletora atualizada com sucesso.';
             }
             $retorno = true;
@@ -277,10 +277,11 @@ class Empresa extends CI_Controller {
         return array('resposta' => $resposta, 'retorno' => $retorno, 'data' => $data);
     }
 
-    private function post_geradora($post, $id, $id_funcao) { // PF e PJ
+    private function post_geradora($post, $id) { // PF e PJ
         $data = array(
             //Config
             'tipo_cadastro' => $post['tipo_cadastro'],
+			'id_funcao' => 1,
             //dados empresa
             'cnpj' => ($post['tipo_cadastro'] == 'J' ? $post['cnpj'] : ''), // Deixa em branco se for pessoa física
             'cpf' => ($post['tipo_cadastro'] == 'F' ? $post['cpf'] : ''), //Deixa em branco se for PJ
@@ -325,21 +326,21 @@ class Empresa extends CI_Controller {
             $this->form_validation->set_rules('senha2', 'senha', 'required|matches[senha]', array('required' => 'Confirme a %s.'));
         }
         if ($this->form_validation->run() == FALSE) {
+			
             $resposta = validation_errors('<div class="error">* ', '</div>');
             $retorno = false;
+			
         } else {
-            if ($post['senha']) {
-                $this->db->set('senha', $this->util->SenhaEncode($post['senha']));
-            }
-            if ($id_funcao) {
-                $this->db->set('id_funcao', (int) $id_funcao);
-            }
+            
             if ($id == false) {// Não tem ID, então faz insert
-                $this->db->insert('empresas', $data);
+			
+                $this->empresa_model->empresa_insert($data,$post); // retorna o insert_id
+				
                 $resposta = 'Empresa geradora cadastrada com sucesso.';
+				
             } else {
-                $this->db->where('id', (int) $id);
-                $this->db->update('empresas', $data);
+				
+                $this->empresa_model->empresa_update($id,$data,$post);
                 
                 $resposta = 'Empresa geradora atualizada com sucesso.';
             }
@@ -354,5 +355,142 @@ class Empresa extends CI_Controller {
         $this->empresa_model->desbloquear($acao, $id);
         redirect(site_url('empresa/edit/' . $id));
     }
-
+   
+    public function certificado_form($id_empresa=0,$id_certificado=0) {
+		
+       $this->output->unset_template();
+	   
+       $data = array();
+       
+	   if($id_certificado==0){
+		   
+		 $data['titulo'] = ''; 
+		 $data['validade'] = '';
+		 $data['status'] = '';
+		 $data['action'] = site_url('empresa/certificado_upload/'.$id_empresa);
+		 
+	   }else
+	   if($id_certificado!=0){ // recebemos o id do arquivo, então exibe
+		 
+		 $row =  $this->empresa_model->empresa_certificado_row($id_certificado);
+		 
+		 $data['id_certificado'] = $row->id;
+		 $data['titulo'] = $row->titulo; 
+		 $data['validade'] = date('d/m/Y',strtotime($row->validade));
+		 $data['status'] = $row->status; 
+		 $data['action'] = site_url('empresa/certificado_upload/'.$id_empresa.'/'.$id_certificado);
+		 
+	   }
+	   $data['id_empresa'] = $id_empresa; 
+	   $data['result_status'] = $this->empresa_model->empresa_certificados_status_result(); // result com todo status possiveis
+	   
+	   $data['title'] = ($id_empresa==0?'Cadastrar Arquivo':'Atualizar Arquivo');
+	   
+       $this->load->view('empresas/certificado_form',$data);
+    }
+    
+    public function certificados_list($id_empresa){
+        $this->output->unset_template();
+		$data['result'] = $this->empresa_model->empresa_certificados_result($id_empresa);
+		
+        $this->load->view('empresas/certificados_list', $data);
+    }
+	
+	public function certificado_download($id_certificado){
+		
+		$this->output->unset_template();
+		 
+		$row =  $this->empresa_model->empresa_certificado_row($id_certificado);
+		
+		$arquivo = '../uploads/empresa/'.$row->id_empresa.'/'.$row->certificado;
+		$nome_saida = $row->titulo;
+		if(is_file($arquivo)){
+			$this->util->ArquivoVer($arquivo,$nome_saida);
+		}else{
+			echo 'arquivo não encontrado';
+			exit;
+		}
+	}
+    
+    public function certificado_upload($id_empresa=0,$id_certificado=0) {
+        $this->output->unset_template();
+        
+        $json = array();
+		
+		$nome_arquivo = NULL; //Não temos o nome do arquivo
+		
+        if($id_empresa==0) {
+           $json['error'] = $json['error_empresa'] = 'Erro interno ao identificar o ID da empresa';
+        }
+		
+		if(!$this->input->post('status')) {
+           $json['error'] = $json['error_status'] = 'Selecione o status do arquivo';
+		}
+        
+		// Cadastradndo ou já estamos editando e foi selecionado o arquivo para upload, então temos que validar novamente
+		if($id_certificado==0 or $id_certificado!=0 and is_uploaded_file($_FILES['certificado']['tmp_name'])){ 
+			
+			$dir_upload = '../uploads/empresa/'.(int)$id_empresa; //diretório para upload
+			if(!is_dir($dir_upload)){ // verificamos se ele existe
+				mkdir($dir_upload); // não existe, então vamos criar...           
+			}
+			
+			// Config upload
+			$config['upload_path']    = $dir_upload;
+			$config['allowed_types']  = 'pdf|jpg|png';
+			$config['file_name']      = date('Y-m-d_H-i').'_ID'.$id_empresa.'_'.rand(1000,9999); // Data Upload / ID empresa / Rand entre 1000 e 9999 
+			$config['max_filename_increment'] = 300;
+			$config['max_size']       = 10240; //(10*1024kb) = 10MB
+			$config['max_width']      = 5024;
+			$config['max_height']     = 5068;
+			
+			$this->load->library('upload', $config);
+			
+			// Tratamos se existe erro para o upload
+			if (!$this->upload->do_upload('certificado')){
+				$json['error'] = $json['error_certificado'] = $this->upload->display_errors('','');
+			}else{
+				$upload = $this->upload->data();
+				$nome_arquivo = $upload['file_name'];     
+			}
+		}
+		
+        if(!$this->input->post('validade')){
+           $json['error'] = $json['error_validade']  = 'Digite a valida do documento';
+		}else
+		if($this->util->ValidaData($this->input->post('validade'))==false){
+			$json['error'] = $json['error_validade']  = 'Data inválida';	
+		}else
+		if(date('Y-m-d', strtotime(str_replace('/','-',$this->input->post('validade'))))<=date('Y-m-d')){
+			$json['error'] = $json['error_validade']  = 'A data tem que ser maior que a data de hoje';	
+		}
+		
+        if(!$this->input->post('titulo')) {
+           $json['error'] = $json['error_titulo'] = 'Digite o titulo do certificado';
+		}
+		
+        if(!$json) { // Não existe erro, então faz o insert ou update
+           
+            $data = array(
+                'titulo' => $this->input->post('titulo'),
+                'validade' => date('Y-m-d', strtotime(str_replace('/','-',$this->input->post('validade')))),
+				'status' => $this->input->post('status'),
+				'atualizado' => date('Y-m-d H:i:s')
+            );
+			
+			if($id_certificado==0){
+            	$this->empresa_model->upload_certificado_insert($data,$id_empresa,$nome_arquivo);
+				$json['resposta'] = 'Arquivo cadastrado com sucesso';
+			}else{
+				$this->empresa_model->upload_certificado_update($data,$id_empresa,$nome_arquivo,$id_certificado);
+				$json['resposta'] = 'Arquivo atualizado com sucesso';
+			}
+			
+            $json['id_empresa'] = $id_empresa;// passamos o id da empresa para atualizar o grid
+            $json['ok'] = true;
+        }
+        
+        echo json_encode($json);
+    }
+    
 }
