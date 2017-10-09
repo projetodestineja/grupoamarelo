@@ -1,4 +1,5 @@
-<div class="row">   
+<div class="row">  
+<div class="table-responsive">
     <table id="table" class="display table select table-striped table-bordered" cellspacing="0" width="100%">
         <thead>
             <tr>
@@ -10,4 +11,5 @@
         <tbody>
         </tbody>
     </table>
+</div>    
 </div>

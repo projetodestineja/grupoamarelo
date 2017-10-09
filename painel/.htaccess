@@ -1,6 +1,11 @@
-<IfModule mod_rewrite.c>
-RewriteEngine On
+RewriteEngine on
+
+Options +FollowSymLinks
+#RewriteCond %{HTTP_HOST} ^destineja.pw [NC]
+#RewriteRule ^(.*)$ http://destineja.pw/$1 [R=301,L] 
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php/$1 [L]
-</IfModule>
+RewriteCond $1 !^(index\.php|images|robots\.txt)
+
+RewriteRule ^(.*)$ index.php?r=$1 [L,QSA] 
