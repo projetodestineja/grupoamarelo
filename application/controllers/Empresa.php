@@ -14,7 +14,7 @@ class Empresa extends CI_Controller {
         $dados['titulo'] = "Destine Já - Cadastro";
 
         $this->load->model('funcao_empresa_model');
-        $dados['funcoes'] = $this->funcao_empresa_model->lista_funcao('Gerador');
+        $dados['funcoes'] = $this->funcao_empresa_model->lista_funcao('Geradora');
 
         $this->load->model('area_atuacao_model');
         $dados['areas'] = $this->area_atuacao_model->lista_area_atuacao();
@@ -29,7 +29,7 @@ class Empresa extends CI_Controller {
         $dados['titulo'] = "Destine Já - Cadastro";
 
         $this->load->model('funcao_empresa_model');
-        $dados['funcoes'] = $this->funcao_empresa_model->lista_funcao('Coletor');
+        $dados['funcoes'] = $this->funcao_empresa_model->lista_funcao('Coletora');
 
         $this->load->model('area_atuacao_model');
         $dados['areas'] = $this->area_atuacao_model->lista_area_atuacao();
