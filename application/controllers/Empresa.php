@@ -97,7 +97,9 @@ class Empresa extends CI_Controller {
             }
 
         $this->session->set_flashdata("msg","Cadastro inserido com sucesso. Faça o login");
+        
         redirect(base_url('login'));
+        
         } else {
             if (form_error('cnpj')){
                 $erro = "CNPJ já existente na base de dados. Entre em contato com a Destine Já.";
