@@ -376,3 +376,4 @@ div.required .col-form-label:after{content:' * ';color:#F00;font-weight:bold;}
 	padding: 8px 15px
 }
 .btn-warning,.btn-warning:hover{ color:#FFF}
+input.has-error{ border: #F00 solid 1px !important;}
