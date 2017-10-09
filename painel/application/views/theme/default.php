@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>
 
+  <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title><?php echo $title; ?></title>
+
 
         <?php
         /** -- Copy from here -- */
@@ -178,12 +179,10 @@
       </div>
     </footer>
 
-
-        <!-- Ir para o Topo -->
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fa fa-angle-up"></i>
-        </a>
-
+    <!-- Ir para o Topo -->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fa fa-angle-up"></i>
+    </a>
 
         <!-- Modal sair do painel-->
         <?php $this->load->view('modal/sair'); ?>
@@ -479,6 +478,7 @@
                     limpa_formulario_cnpj();
                 }
             }
+
 
             function remove_atividade(value, i) {
                 document.getElementById('area_atuacao_secundaria' + i).value = "0";
