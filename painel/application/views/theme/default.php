@@ -30,17 +30,17 @@
         <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     </head>
 
-    <body class="fixed-nav sticky-footer bg-dark <?php echo ((isset($_COOKIE['menu-vertital-painel']) and $_COOKIE['menu-vertital-painel'] == 'sim') ? 'sidenav-toggled' : ''); ?>" id="page-top">
+    <body class="fixed-nav sticky-footer bg-light <?php echo ((isset($_COOKIE['menu-vertital-painel']) and $_COOKIE['menu-vertital-painel'] == 'sim') ? 'sidenav-toggled' : ''); ?>" id="page-top">
 
         <!-- Navigation -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="mainNav">
             <a class="navbar-brand" href="<?php echo site_url('painel'); ?>" >
                 <img style="height:25px;" src="<?php echo base_url('assets/img/destinejalogo.png'); ?>"/>
             </a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">         
+            <div class="collapse navbar-collapse" id="navbarResponsive">
                 <?php $this->load->view('theme/menu'); ?>
       		</div>
     </nav>
@@ -115,7 +115,7 @@
     </div>
 
 
-         
+
 
 
     <footer class="sticky-footer">
@@ -177,7 +177,7 @@
             <script src="<?php echo $file; ?>"></script>
         <?php } ?>
 
-        <script src="<?php echo site_url('assets/pluguins/buscacep.js') ?>" ></script>           
+        <script src="<?php echo site_url('assets/pluguins/buscacep.js') ?>" ></script>
         <script src="<?php echo site_url('assets/pluguins/jquery.mask.js') ?>" ></script>
         <script src="<?php echo site_url('assets/js/js.js') ?>"></script>
 
@@ -300,9 +300,9 @@
 
 
             /****************************************************
-             * 
+             *
              *      @type Buscar CNPJ e Cadastrar Atuacao
-             * 
+             *
              *****************************************************/
             if (atuacao != 0) {
                 var i = atuacao;

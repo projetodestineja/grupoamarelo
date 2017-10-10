@@ -27,7 +27,7 @@ header('Content-Type: text/html; charset=utf-8');
 
   </head>
 
-  <body class="bg-dark">
+  <body class="bg-light">
 
     <div class="container">
 
@@ -36,12 +36,12 @@ header('Content-Type: text/html; charset=utf-8');
           <center>
           <img width="200px" src="<?php echo base_url('painel/assets/img/destinejalogo.png') ?>"/>
           <br>
-          <?php  if (!empty($this->session->flashdata('msg'))) 
+          <?php  if (!empty($this->session->flashdata('msg')))
                         echo "<div class=\"alert alert-success\" style=\"width:100%;margin-top:5px;\">".$this->session->flashdata('msg')." </div>"; ?>
-          
+
           <h3 style="margin:20px 0;">Acesse seu painel</h3>
           </center>
-          <?php  if (!empty($this->session->flashdata('erro'))) 
+          <?php  if (!empty($this->session->flashdata('erro')))
                         echo "<div class=\"alert alert-danger\" style=\"width:100%;margin-top:5px;\">".$this->session->flashdata('erro')." </div>"; ?>
         </div>
         <div class="card-body">
@@ -111,7 +111,7 @@ header('Content-Type: text/html; charset=utf-8');
     <script src="<?php echo base_url('painel/assets/pluguins/jquery/jquery.min.js'); ?>"></script>
     <script src="<?php echo base_url('painel/assets/pluguins/popper/popper.min.js'); ?>"></script>
     <script src="<?php echo base_url('painel/assets/pluguins/bootstrap/js/bootstrap.min.js'); ?>"></script>
-        
+
     <script type="text/javascript" src="<?php echo base_url('painel/assets/pluguins/jquery.mask.js') ?>"></script>
     <script src="<?php echo base_url('painel/assets/js/js.js') ?>"></script>
 
