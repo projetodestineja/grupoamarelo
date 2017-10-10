@@ -17,6 +17,9 @@ function limpa_formulario_cnpj() {
 }
 
 function preenche_cnpj(conteudo) { 
+    
+    if (document.getElementById('rsocial').value.length<3){   
+    
     if (conteudo.status == 'OK') {
         //trata variaveis
         
@@ -83,6 +86,7 @@ function preenche_cnpj(conteudo) {
         alert("CNPJ não encontrado.");
     }
 }
+}    
 
 function pesquisacnpj(valor) {
 
