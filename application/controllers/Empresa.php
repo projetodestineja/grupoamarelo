@@ -14,7 +14,7 @@ class Empresa extends CI_Controller {
         $dados['titulo'] = "Destine Já - Cadastro";
 
         $this->load->model('funcao_empresa_model');
-        $dados['funcoes'] = $this->funcao_empresa_model->lista_funcao('Gerador');
+        $dados['funcoes'] = $this->funcao_empresa_model->lista_funcao('Geradora');
 
         $this->load->model('area_atuacao_model');
         $dados['areas'] = $this->area_atuacao_model->lista_area_atuacao();
@@ -29,7 +29,7 @@ class Empresa extends CI_Controller {
         $dados['titulo'] = "Destine Já - Cadastro";
 
         $this->load->model('funcao_empresa_model');
-        $dados['funcoes'] = $this->funcao_empresa_model->lista_funcao('Coletor');
+        $dados['funcoes'] = $this->funcao_empresa_model->lista_funcao('Coletora');
 
         $this->load->model('area_atuacao_model');
         $dados['areas'] = $this->area_atuacao_model->lista_area_atuacao();
@@ -85,18 +85,21 @@ class Empresa extends CI_Controller {
             $dados2["outra_area_atuacao"] = $this->input->post('digite_area');
             $this->empresa_model->gravar_area_atuacao($dados2);
 
-            for ($i = 0; $i <= 50; $i++) {
-                if (!empty($this->input->post("area_atuacao_secundaria$i"))) {
+            foreach ($this->input->post("area_atuacao_secundaria[]") as $key){
+                if (!empty($this->input->post("area_atuacao_secundaria[]"))) {
                     $dados3["id_empresa"] = $dados2["id_empresa"];
-                    $dados3["codigo_area_atuacao"] = $this->input->post("area_atuacao_secundaria$i");
+                    $dados3["codigo_area_atuacao"] = $key;
                     $dados3["principal"] = 2;
+                    $dados3["outra_area_atuacao"] = NULL;
                     if ($dados3["codigo_area_atuacao"] > 0)
                         $this->empresa_model->gravar_area_atuacao($dados3);
                 }
             }
 
         $this->session->set_flashdata("msg","Cadastro inserido com sucesso. Faça o login");
+        
         redirect(base_url('login'));
+        
         } else {
             if (form_error('cnpj')){
                 $erro = "CNPJ já existente na base de dados. Entre em contato com a Destine Já.";

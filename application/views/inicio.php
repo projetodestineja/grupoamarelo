@@ -30,30 +30,33 @@ header('Content-Type: text/html; charset=utf-8');
                         echo "<div class=\"alert alert-danger\" style=\"width:100%;\">".$this->session->flashdata('msg')." </div>"; ?>
                         
                         <div class="text-center"  >
-                            <h1>Efetue seu cadastro ou login:</h1><br/>
-                            <a href="<?php echo site_url('empresa/gerador') ?>" class="btn btn-success btn-lg" >
+                            <h1>Efetue seu cadastro:</h1><br/>
+                            <a href="<?php echo site_url('empresa/gerador') ?>" class="btn btn-success btn-lg" style="background-color: darkorange;">
                                 <i class="fa fa-trash" ></i> Gerador de Resíduo
                             </a>
-                            <br/><br/>
+                            <br><br>
                             <a href="<?php echo site_url('empresa/coletor') ?>" class="btn btn-success btn-lg" >
                                 <i class="fa fa-truck" ></i> Coletor de Resíduo
                             </a>
-                            <br/><br/>
-                            <a href="<?php echo site_url('empresa/login') ?>" class="btn btn-info btn-lg" >
+                            <br/><br/></br>
+                            
+                            <h1><div style="color:#008ae6">Já é cadastrado?</div></h1><br/>
+                            <a href="<?php echo site_url('login') ?>" class="btn btn-info btn-lg" >
                                 <i class="fa fa-lock" ></i> Efetue Seu Login
                             </a>
                         </div>
-
+                        <br><br>
+                        <h1><div style="color:	#da0b0b;">Área Restrita</div></h1><br/>
+                                    <div class="text-center">
+                                        <a href="<?php echo site_url('painel') ?>" target="_blank" class="btn btn-danger btn-lg" >
+                                            <i class="fa fa-lock" ></i> Login Destine Já
+                                                </a>
+                                    </div>
                     </div>
                 </div>
 	    <hr>
-
-	    <div class="text-center">
-	        <a href="<?php echo site_url('painel') ?>" target="_blank" class="btn btn-danger btn-sm" >
-	            <i class="fa fa-lock" ></i> Login Destine Já
-	    		</a>
-    	</div>
- 	</div>
+            
+            </div>
 
 	<script src="<?php echo base_url('painel/assets/pluguins/jquery/jquery.min.js'); ?>"></script>
   <script src="<?php echo base_url('painel/assets/pluguins/popper/popper.min.js'); ?>"></script>
