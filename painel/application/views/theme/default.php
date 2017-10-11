@@ -138,12 +138,16 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="title_modal">#</h5>
+                        <h5 class="modal-title" id="title_modal">Carregando...</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body"><!-- /# content goes here --></div>
+                    <div class="modal-body">
+                        <div style="margin-bottom: 25px;">
+                            <img src="<?php echo base_url('assets/img/ajax-loader.gif')?>" >
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -212,12 +216,12 @@
             });
 
             <?php if (isset($id)) { ?>
-                certificados_list(<?php echo $id; ?>);
+                licenca_list(<?php echo $id; ?>);
             <?php } ?>
 
-            function certificados_list(id) {
+            function licenca_list(id) {
 
-                $("#result_certificados").load("<?php echo site_url('empresa/certificados_list/') ?>" + id, function () {
+                $("#result_licenca").load("<?php echo site_url('empresa/licenca_list/') ?>" + id, function () {
                     /*alert( "carregouuuuu...." );*/
                 });
             }

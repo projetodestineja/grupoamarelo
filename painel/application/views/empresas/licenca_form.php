@@ -5,7 +5,7 @@
             <div class="erro_envio" ></div>
         </div> 
         <div class="form-group col-md-8 required">
-            <label for="titulo" class="col-form-label">Titulo do Certificado</label>
+            <label for="titulo" class="col-form-label">Titulo do Arquivo</label>
             <input name="titulo" class="form-control" value="<?php echo $titulo;?>" id="input-titulo" >
         </div>
         <div class="form-group col-md-4 required ">
@@ -14,8 +14,8 @@
         </div>
         
         <div class="form-group col-md-12 required">
-            <label for="certificado" class="col-form-label">Arquivo PDF</label>
-            <input type="file" class="form-control" id="input-certificado" name="certificado" >
+            <label for="licenca" class="col-form-label">Arquivo (Somente arquivo PDF,Tamanho Máx. 10MB)</label>
+            <input type="file" accept=".pdf" class="form-control" id="input-licenca" name="licenca" >
         </div>
         <div class="form-group col-md-12 required">
         <label for="status" class="col-form-label">Status</label><br>
@@ -28,7 +28,7 @@
         
         <div class="form-group col-md-12">
             <button class="btn btn-success btn-md btn-salvar" type="botton" >
-				<?php echo (isset($id_certificado)?'Atualizar':'Cadastrar'); ?>
+				<?php echo (isset($id_licenca)?'Atualizar':'Cadastrar'); ?>
             </button>
         </div>
         
@@ -67,9 +67,9 @@ function send_form(){
 							$(form_ind+' .input-status').parent().parent().addClass('has-error');
 							$(form_ind+' .input-status').focus();
 						}
-						if (json['error_certificado']) {
-							$(form_ind+' #input-certificado').parent().addClass('has-error');
-							$(form_ind+' #input-certificado').focus();
+						if (json['error_licenca']) {
+							$(form_ind+' #input-licenca').parent().addClass('has-error');
+							$(form_ind+' #input-licenca').focus();
 						}
 						if (json['error_validade']) {
 							$(form_ind+' #input-validade').parent().addClass('has-error');
@@ -85,7 +85,7 @@ function send_form(){
 							
 							$('#modal_add_edit').modal('toggle');
 							alert(json['resposta']);
-							$("#result_certificados").load("<?php echo site_url('empresa/certificados_list/'.$id_empresa); ?>", function () {
+							$("#result_licenca").load("<?php echo site_url('empresa/licenca_list/'.$id_empresa); ?>", function () {
 								/*alert( "carregouuuuu...." );*/
 							});
 						}

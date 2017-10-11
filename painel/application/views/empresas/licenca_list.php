@@ -14,13 +14,13 @@
        <?php foreach($result as $row){?>
         <tr>
           <td>
-            <a class="btn btn-info btn-sm" target="_blank" href="<?php echo site_url('empresa/certificado_download/'.$row->id); ?>">
+            <a class="btn btn-info btn-sm" target="_blank" href="<?php echo site_url('empresa/licenca_download/'.$row->id); ?>">
               <i class="fa fa-download" data-toggle="tooltip" title="Visualizar arquivo" ></i>
             </a>
           </td>	
           <td><?php echo $row->status; ?></td>
           <td><?php echo date('d/m/y', strtotime($row->validade)); ?></td>
-          <td><a href="<?php echo site_url('empresa/certificado_form/'.$row->id_empresa.'/'.$row->id); ?>" rel="modal_add_edit" ><?php echo $row->titulo; ?></a></td>
+          <td><a href="<?php echo site_url('empresa/licenca_form/'.$row->id_empresa.'/'.$row->id); ?>" rel="modal_add_edit" ><?php echo $row->titulo; ?></a></td>
           <td><?php echo date('d/m/y H:i', strtotime($row->cadastrado)); ?>h</td>
         </tr>
         <?php } ?>

@@ -9,7 +9,7 @@
     </li>
     <?php if(isset($id)){ ?>
      <li class="nav-item">
-        <a class="nav-link" href="#certificados" role="tab" data-toggle="tab">Certificados</a>
+        <a class="nav-link" href="#licenca" role="tab" data-toggle="tab">Licença</a>
     </li>
     <?php } ?>
 </ul>
@@ -189,13 +189,13 @@
         </div>
         
         <?php if(isset($id)){ ?>
-        <div role="tabpanel" class="tab-pane fade" id="certificados">
+        <div role="tabpanel" class="tab-pane fade" id="licenca">
             <div align="right" >
-            <a class="btn btn-primary"  href="<?php echo site_url('empresa/certificado_form/'.$id); ?>" rel="modal_add_edit"   >
+            <a class="btn btn-primary"  href="<?php echo site_url('empresa/licenca_form/'.$id); ?>" rel="modal_add_edit"   >
               <i class="fa fa-fw fa-plus"></i>  Cadastrar Arquivo
             </a>
             </div>
-            <div id="result_certificados" style="margin-top:15px;" ></div>
+            <div id="result_licenca" style="margin-top:15px;" ></div>
         </div> 
         <?php } ?>
     </div>
