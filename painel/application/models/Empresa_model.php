@@ -115,7 +115,7 @@ class Empresa_model extends CI_Model {
 
     public function upload_licenca_insert($data, $id_empresa, $nome_arquivo) {
         $this->db->set('id_empresa', $id_empresa);
-        $this->db->set('licenca', $nome_arquivo);
+        $this->db->set('certificado', $nome_arquivo);
         return $this->db->insert('empresas_certificados', $data);
     }
 

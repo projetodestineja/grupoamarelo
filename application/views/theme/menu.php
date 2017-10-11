@@ -10,12 +10,12 @@
               <i class="fa fa-fw fa-file-text-o"></i> <span class="nav-link-text">Novo Chamado</span>
             </a>
         </li>
-	<li class="nav-item menu-v-demandas" data-toggle="tooltip" data-placement="right" title="Demandas">
+		<li class="nav-item menu-v-demandas" data-toggle="tooltip" data-placement="right" title="Demandas">
             <a class="nav-link" href="#">
               <i class="fa fa-fw fa-list"></i> <span class="nav-link-text">Demandas</span>
             </a>
         </li>
-	<li class="nav-item menu-v-configuracoes" data-toggle="tooltip" data-placement="right" title="Configuracoes">
+		<li class="nav-item menu-v-configuracoes" data-toggle="tooltip" data-placement="right" title="Configuracoes">
             <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseConfiguracoes" data-parent="#exampleAccordion">
               <i class="fa fa-fw fa-wrench"></i><span class="nav-link-text">Configurações</span>
             </a>
@@ -49,8 +49,8 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle mr-lg-2" href="#" id="messagesDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fa fa-fw fa-envelope"></i>
-              <span class="d-lg-none">Messages
-                <span class="badge badge-pill badge-primary">12 New</span>
+              <span class="d-lg-none">Mensagens
+                <span class="badge badge-pill badge-primary">12 Mensagens</span>
               </span>
               <span class="new-indicator text-primary d-none d-lg-block">
                 <i class="fa fa-fw fa-circle"></i>
@@ -58,36 +58,26 @@
               </span>
             </a>
             <div class="dropdown-menu" aria-labelledby="messagesDropdown">
-              <h6 class="dropdown-header">New Messages:</h6>
+              <h6 class="dropdown-header">Novas Mensagens:</h6>
+              <?php for($msg=0;$msg<=4;$msg++){?>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#">
-                <strong>David Miller</strong>
-                <span class="small float-right text-muted">11:21 AM</span>
-                <div class="dropdown-message small">Hey there! This new version of SB Admin is pretty awesome! These messages clip off when they reach the end of the box so they don't overflow over to the sides!</div>
+                <strong>Fulano <?php echo $msg?></strong>
+                <span class="small float-right text-muted">11:21h</span>
+                <div class="dropdown-message small">Eu sou uma mensagem de teste!</div>
               </a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">
-                <strong>Jane Smith</strong>
-                <span class="small float-right text-muted">11:21 AM</span>
-                <div class="dropdown-message small">I was wondering if you could meet for an appointment at 3:00 instead of 4:00. Thanks!</div>
-              </a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">
-                <strong>John Doe</strong>
-                <span class="small float-right text-muted">11:21 AM</span>
-                <div class="dropdown-message small">I've sent the final files over to you for review. When you're able to sign off of them let me know and we can discuss distribution.</div>
-              </a>
+             <?php } ?>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item small" href="#">
-                View all messages
+                Ver Todas Mensagens
               </a>
             </div>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle mr-lg-2" href="#" id="alertsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fa fa-fw fa-bell"></i>
-              <span class="d-lg-none">Alerts
-                <span class="badge badge-pill badge-warning">6 New</span>
+              <span class="d-lg-none">Alertas
+                <span class="badge badge-pill badge-warning">6 Demandas</span>
               </span>
               <span class="new-indicator text-warning d-none d-lg-block">
                 <i class="fa fa-fw fa-circle"></i>
@@ -96,55 +86,33 @@
             </a>
             
             <div class="dropdown-menu" aria-labelledby="alertsDropdown">
-              <h6 class="dropdown-header">New Alerts:</h6>
+              <h6 class="dropdown-header">Novas demendas:</h6>
+              <?php for($msg=0;$msg<=4;$msg++){?>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#">
-                <span class="text-success">
-                  <strong>
-                    <i class="fa fa-long-arrow-up"></i>
-                    Status Update</strong>
-                </span>
-                <span class="small float-right text-muted">11:21 AM</span>
-                <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
+                <strong>Demanda Nº <?php echo $msg?></strong>
+                <span class="small float-right text-muted">11:21h</span>
+                <div class="dropdown-message small">Eu sou uma mensagem de teste!</div>
               </a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">
-                <span class="text-danger">
-                  <strong>
-                    <i class="fa fa-long-arrow-down"></i>
-                    Status Update</strong>
-                </span>
-                <span class="small float-right text-muted">11:21 AM</span>
-                <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
-              </a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">
-                <span class="text-success">
-                  <strong>
-                    <i class="fa fa-long-arrow-up"></i>
-                    Status Update</strong>
-                </span>
-                <span class="small float-right text-muted">11:21 AM</span>
-                <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
-              </a>
+             <?php } ?>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item small" href="#">
-                View all alerts
+                Ver Todas Demandas
               </a>
             </div>
           </li>
           
          
           <li class="nav-item" >
-            <a class="nav-link dropdown-toggle mr-lg-2" href="<?php echo site_url('usuarios'); ?>" >
-              <i class="fa fa-fw fa-user"></i>
+            <a class="nav-link dropdown-toggle mr-lg-2" href="<?php echo site_url('cadastro'); ?>" >
+              <i class="fa fa-fw fa-user"></i> <?php echo $this->session->userdata['empresa']['nome_responsavel']; ?>
             </a>
           </li>
           
           
           <li class="nav-item">
               <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
-              	<i class="fa fa-fw fa-sign-out"></i>Sair
+              	<i class="fa fa-fw fa-sign-out"></i> Sair
               </a>
           </li>
         </ul>
