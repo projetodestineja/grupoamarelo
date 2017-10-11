@@ -1,29 +1,30 @@
 <?php
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Cadastro extends CI_Controller {
 
-	function __construct(){
-		parent::__construct();
-		
-		$this->login_model->restrito();
-		
-		$this->load->model(array('empresa_model','endereco_model'));
-		$this->load->library(array('form_validation', 'util'));
-		$this->_init();
-	}
+    function __construct() {
+        parent::__construct();
 
-	private function _init(){
-		$this->output->set_template('default');
-	}
-	
-	public function index(){
-		
-		$data = array();
-		// Pegamos o ID da empresa
-		$id = (int)$this->session->userdata['empresa']['id'];
-	
-	 	$row = $this->empresa_model->consultar_coletoraId($id);
+        $this->login_model->restrito();
+
+        $this->load->model(array('empresa_model', 'endereco_model'));
+        $this->load->library(array('form_validation', 'util'));
+        $this->_init();
+    }
+
+    private function _init() {
+        $this->output->set_template('default');
+    }
+
+    public function index() {
+
+        $data = array();
+        // Pegamos o ID da empresa
+        $id = (int) $this->session->userdata['empresa']['id'];
+
+        $row = $this->empresa_model->consultar_coletoraId($id);
         if (!$row) {
             $this->session->set_flashdata('resposta_erro', 'Empresa não identificada.');
             redirect(site_url('empresa'));
@@ -47,7 +48,7 @@ class Cadastro extends CI_Controller {
         $data['telefone1'] = $row->telefone1;
         $data['telefone2'] = $row->telefone2;
         $data['email'] = $row->email;
-       
+
 
         //Endereço
         $data['cep'] = $row->cep;
@@ -63,17 +64,17 @@ class Cadastro extends CI_Controller {
 
         // Verifica se existe o POST se existir, faz a validação e sobrescreve as varivaveis passadas para o VALUE no form
         if ($this->input->post()) {
-            
-			if ($this->input->post('tipo_cadastro')) {
+
+            if ($this->input->post('tipo_cadastro')) {
                 $resposta = $this->post_geradora($this->input->post(), $id, false); // POST / ID EDIT / FUNCAO
             } else {
                 $resposta = $this->post_coletora($this->input->post(), $id, false); // POST / ID EDIT / FUNCAO
             }
-			
+
             $data = $resposta['data']; // recupera o data da chamada do método acima
             if ($resposta['retorno'] == true) {
                 $this->session->set_flashdata('resposta_ok', $resposta['resposta']);
-				redirect(site_url('cadastro'));
+                redirect(site_url('cadastro'));
             } else {
                 $data['resposta_erro'] = $resposta['resposta'];
             }
@@ -88,7 +89,7 @@ class Cadastro extends CI_Controller {
         $uf = ($this->input->post('estado') ? $this->input->post('estado') : $row->uf_estado);
         $data['estados'] = $this->endereco_model->get_all_estados(); // Listamos todos estados normalmente
         $data['cidades'] = $this->endereco_model->get_all_cidades($uf); //<-UF no EDIT pra listar apenas a cidades do estado selecionado
-        
+
         $title = 'Atualizar Cadastro - ' . $row_funcao->funcao;
         $this->output->set_common_meta($title, '', ''); //Title / Description / Tags
         $data['menu_mapa'] = array(
@@ -97,8 +98,8 @@ class Cadastro extends CI_Controller {
 
         $this->load->view('empresa/form_' . $row_funcao->controller, $data);
     }
-	
-	private function post_coletora($post, $id) { // somente PJ
+
+    private function post_coletora($post, $id) { // somente PJ
         $data = array(
             //dados empresa
             'razao_social' => $post['rsocial'], // Deixa em branco se for pessoa física
@@ -118,7 +119,7 @@ class Cadastro extends CI_Controller {
             'uf_estado' => $post['estado']
         );
 
-       // $this->form_validation->set_rules('cnpj', 'CNPJ', 'required');
+        // $this->form_validation->set_rules('cnpj', 'CNPJ', 'required');
         $this->form_validation->set_rules('rsocial', 'razão social', 'required');
         $this->form_validation->set_rules('nfantasia', 'nome fantasia', 'required');
 
@@ -143,20 +144,9 @@ class Cadastro extends CI_Controller {
             $resposta = validation_errors('<span class="error">* ', '</span>');
             $retorno = false;
         } else {
-
-            if ($id == false) {// Não tem ID, então faz insert
-                $id = $this->empresa_model->empresa_insert($data, $post); // retorna o insert_id
-
-                $this->empresa_model->atuacao($id); //Atualizar o tabela atuacao
-
-                $resposta = 'Empresa coletora cadastrada com sucesso.';
-            } else {
-                $id = $this->empresa_model->empresa_update($id, $data, $post);
-
-                $this->empresa_model->atuacao((int) $id); //Atualizar o tabela atuacao
-
-                $resposta = 'Empresa coletora atualizada com sucesso.';
-            }
+            $id = $this->empresa_model->empresa_update($id, $data, $post);
+            $this->empresa_model->atuacao((int) $id); //Atualizar o tabela atuacao
+            $resposta = 'Empresa coletora atualizada com sucesso.';
             $retorno = true;
         }
 
@@ -165,7 +155,6 @@ class Cadastro extends CI_Controller {
 
     private function post_geradora($post, $id) { // PF e PJ
         $data = array(
-           
             //dados empresa
             'razao_social' => ($post['tipo_cadastro'] == 'J' ? $post['rsocial'] : ''), // Deixa em branco se for pessoa física
             'nome_fantasia' => ($post['tipo_cadastro'] == 'J' ? $post['nfantasia'] : ''), // Deixa em branco se for pessoa física
@@ -187,7 +176,7 @@ class Cadastro extends CI_Controller {
         if ($post['tipo_cadastro'] == 'F') {
             //$this->form_validation->set_rules('cpf', 'CPF', 'required');
         } else {
-           // $this->form_validation->set_rules('cnpj', 'CNPJ', 'required');
+            // $this->form_validation->set_rules('cnpj', 'CNPJ', 'required');
             $this->form_validation->set_rules('rsocial', 'razão social', 'required');
             $this->form_validation->set_rules('nfantasia', 'nome fantasia', 'required');
         }
@@ -213,28 +202,22 @@ class Cadastro extends CI_Controller {
             $retorno = false;
         } else {
 
-            if ($id == false) {// Não tem ID, então faz insert
-                $this->empresa_model->empresa_insert($data, $post); // retorna o insert_id
-			    $resposta = 'Empresa geradora cadastrada com sucesso.';
-            } else {
+            $this->empresa_model->empresa_update($id, $data, $post);
 
-                $this->empresa_model->empresa_update($id, $data, $post);
-			
-                $resposta = 'Empresa geradora atualizada com sucesso.';
-            }
+            $resposta = 'Empresa geradora atualizada com sucesso.';
+
             $retorno = true;
         }
 
         return array('resposta' => $resposta, 'retorno' => $retorno, 'data' => $data);
     }
-	
-	
-	public function licenca_form($id_licenca = 0) {
+
+    public function licenca_form($id_licenca = 0) {
 
         $this->output->unset_template();
 
         $data = array();
-		$id_empresa = (int)$this->session->userdata['empresa']['id'];
+        $id_empresa = (int) $this->session->userdata['empresa']['id'];
         if ($id_licenca == 0) {
 
             $data['titulo'] = '';
@@ -250,14 +233,14 @@ class Cadastro extends CI_Controller {
             $data['action'] = site_url('cadastro/licenca_upload/' . $id_empresa . '/' . $id_licenca);
         }
         $data['id_empresa'] = $id_empresa;
-     
+
         $data['title'] = ($id_empresa == 0 ? 'Cadastrar Arquivo' : 'Atualizar Arquivo');
 
         $this->load->view('empresa/licenca_form', $data);
     }
 
     public function licenca_list() {
-		$id_empresa = (int)$this->session->userdata['empresa']['id'];
+        $id_empresa = (int) $this->session->userdata['empresa']['id'];
         $this->output->unset_template();
         $data['result'] = $this->empresa_model->empresa_licenca_result($id_empresa);
 
@@ -354,7 +337,5 @@ class Cadastro extends CI_Controller {
 
         echo json_encode($json);
     }
-
-
 
 }
