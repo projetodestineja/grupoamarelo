@@ -16,6 +16,14 @@ class Cadastro extends CI_Controller {
 
     private function _init() {
         $this->output->set_template('default');
+		
+		/****** Pluguin Calendário Input **************/
+		$this->load->css('painel/assets/pluguins/datepicker/css/bootstrap-datepicker.min.css');
+		$this->load->js('painel/assets/pluguins/datepicker/js/bootstrap-datepicker.min.js');
+		$this->load->js('painel/assets/pluguins/datepicker/locales/bootstrap-datepicker.pt-BR.min.js');
+		
+		/****** Busca CNPJ Global **************/
+		$this->load->js('painel/assets/pluguins/buscacnpj.js');
     }
 
     public function index() {
@@ -144,7 +152,7 @@ class Cadastro extends CI_Controller {
             $resposta = validation_errors('<span class="error">* ', '</span>');
             $retorno = false;
         } else {
-            $id = $this->empresa_model->empresa_update($id, $data, $post);
+            $this->empresa_model->empresa_update($id, $data, $post);
             $this->empresa_model->atuacao((int) $id); //Atualizar o tabela atuacao
             $resposta = 'Empresa coletora atualizada com sucesso.';
             $retorno = true;

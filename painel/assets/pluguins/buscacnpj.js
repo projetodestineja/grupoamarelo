@@ -1,4 +1,9 @@
-var i = 0;
+
+if(i!=0){
+	var i = i;
+}else{
+	var i = 0;
+}
 
 function limpa_formulario_cnpj() {
     //Limpa valores do formulario de cnpj.
