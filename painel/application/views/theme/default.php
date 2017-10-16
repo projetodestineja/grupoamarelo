@@ -16,6 +16,7 @@
             echo '<link rel="canonical" href="'.$canonical.'" />';
         }
         ?>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
         <!-- Bootstrap core CSS -->
         <link href="<?php echo base_url('assets/pluguins/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">
         <!-- Custom fonts for this template -->
@@ -148,13 +149,13 @@
         <script src="<?php echo base_url('assets/pluguins/datepicker/js/bootstrap-datepicker.min.js'); ?>"></script>
         <script src="<?php echo base_url('assets/pluguins/datepicker/locales/bootstrap-datepicker.pt-BR.min.js'); ?>"></script>
 
-        <?php 
-		foreach($css as $file){ 
+        <?php
+		foreach($css as $file){
 			echo "<link rel=\"stylesheet\" href=\"".$file."\" type=\"text/css\" />\n";
 		}
 		foreach($js as $file){
 			echo "<script src=\"".$file."\" ></script>\n";
-		} 
+		}
 		?>
 
         <script src="<?php echo site_url('assets/pluguins/buscacep.js') ?>" ></script>
@@ -178,7 +179,7 @@
                     return false;
                 });
             });
-        
+
 
             $(document).ready(function () {
                 $('.btn-add-edit-modal').on("click", function () {
@@ -186,7 +187,7 @@
                 });
             });
 
-           
+
             function load_cidades(estado, cidade = NUll) {
 
                 $.getJSON('<?php echo site_url(); ?>' + 'endereco/getcidades/' + estado + '?cidade=' + cidade, function (data) {
