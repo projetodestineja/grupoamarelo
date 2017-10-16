@@ -23,7 +23,7 @@ class Endereco extends CI_Controller {
 	   $cidades = $this->endereco_model->get_all_cidades($uf);
 	   
 	   foreach($cidades as $row){
-		  $selected = ($cidade==$row->nome_cidade?'selected':'');
+		  $selected = (strtoupper($cidade)==strtoupper($row->nome_cidade)?'selected':'');
 		  $retorno[] = array('nome_cidade'=>$row->nome_cidade,'id'=>$row->id,'selected'=>$selected); 
 	   }        
 	   echo json_encode($retorno);
