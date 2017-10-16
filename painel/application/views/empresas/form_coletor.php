@@ -155,23 +155,32 @@
                 $atuacao = 0;
                 foreach ($result_atuacoes as $n) {
                     ?>
-                    <div class="form-row">
-                        <div class="form-group col-md-10" id="divsel<?php echo $atuacao; ?>"  >
-                            <select class="form-control col-md-10" id="area_atuacao_secundaria<?php echo $atuacao; ?>" name="atuacao_secundaria[]" >
-                                <?php if ($areas_atuacoes) {
-                                    foreach ($areas_atuacoes as $at) {
-                                ?>
-                                <option <?php echo ($n->codigo_area_atuacao == $at->codigo ? "selected" : ''); ?> value="<?php echo $at->codigo; ?>"  ><?php echo $at->area_atuacao; ?></option>
-            <?php }
-        } ?>
-                            </select>
-                        </div>
+                    
+                    
+                             <div class="form-row">
+                             <div class="col-md-12"><label for="area_atuacao_secundaria<?php echo $atuacao; ?>" >Atividade Secundária </label></div>
+                           </div>
+                           
+                            <div class="form-row"   >
+                            
+                                <div class="form-group col-md-10" id="divsel<?php echo $atuacao; ?>" name="divsel<?php echo $atuacao; ?>" >
+                                   <select  class="form-control col-md-10" id="area_atuacao_secundaria<?php echo $atuacao; ?>" name="area_atuacao_secundaria[]" >
+                                        <?php if ($areas_atuacoes) {
+                                            foreach ($areas_atuacoes as $at) {
+                                        ?>
+                                        <option <?php echo ($n->codigo_area_atuacao == $at->codigo ? "selected" : ''); ?> value="<?php echo $at->codigo; ?>"  ><?php echo $at->area_atuacao; ?></option>
+                                            <?php }
+                                        } ?>
+                                    </select>
+                                
+                        	</div>
+                        
                         <div class="form-group col-md-2" id="divbt<?php echo $atuacao; ?>" name="divbt<?php echo $atuacao; ?>" >
                             <button class="btn btn-danger" type="button" onclick="remove_atividade(document.getElementById('area_atuacao_secundaria<?php echo $atuacao; ?>').value,<?php echo $atuacao; ?>);" >
                                 Excluir
                             </button>
                         </div>
-                    </div>
+                         </div> 
                     <?php
                     $atuacao++;
                 }
@@ -211,7 +220,33 @@
 <script>
 	<?php if (isset($atuacao)) { ?>
         var atuacao = <?php echo (int) $atuacao; ?>;
-	<?php } else { ?>
-        var atuacao = 0;
 	<?php } ?>
+	
+	 <?php if (isset($id)) { ?>
+                licenca_list(<?php echo $id; ?>);
+            <?php } ?>
+
+            function licenca_list(id) {
+
+                $("#result_licenca").load("<?php echo site_url('empresa/licenca_list/') ?>" + id, function () {
+                    /*alert( "carregouuuuu...." );*/
+                });
+            }
+
+            function form_empresa(value) {
+
+                if (value == 'F') {
+                    $('.col-pjuridica').hide();
+                    $('.col-pfisica').show();
+                    document.getElementById("cnpj").required = false;
+                    document.getElementById("cpf").required = true;
+                } else {
+                    $('.col-pfisica').hide();
+                    $('.col-pjuridica').show();
+                    document.getElementById("cpf").required = false;
+                    document.getElementById("cnpj").required = true;
+                }
+            }
+
+
 </script>
