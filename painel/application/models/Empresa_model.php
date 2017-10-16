@@ -86,7 +86,7 @@ class Empresa_model extends CI_Model {
         );
 
         //Montamos as demais arrays com as secundarias
-        foreach ($this->input->post('atuacao_secundaria') as $codigo) {
+        foreach ($this->input->post('area_atuacao_secundaria') as $codigo) {
             $data[] = array(
                 'principal' => 2,
                 'id_empresa' => (int) $id_empresa,
