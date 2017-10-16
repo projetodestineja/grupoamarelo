@@ -16,8 +16,19 @@ class Empresa extends CI_Controller {
 
     private function _init() {
         $this->output->set_template('default');
+		
+		/****** Data Tables **************/
         $this->load->js('assets/pluguins/datatables/datatables.min.js');
         $this->load->js('assets/pluguins/datatables/dataTables.bootstrap4.js');
+		
+		/****** Pluguin Calendário Input **************/
+		$this->load->css('assets/pluguins/datepicker/css/bootstrap-datepicker.min.css');
+		$this->load->js('assets/pluguins/datepicker/js/bootstrap-datepicker.min.js');
+		$this->load->js('assets/pluguins/datepicker/locales/bootstrap-datepicker.pt-BR.min.js');
+		
+		/****** Busca CNPJ Global **************/
+		$this->load->js('assets/pluguins/buscacnpj.js');
+		
     }
 
     public function index() {
@@ -264,7 +275,8 @@ class Empresa extends CI_Controller {
 
                 $resposta = 'Empresa coletora cadastrada com sucesso.';
             } else {
-                $id = $this->empresa_model->empresa_update($id, $data, $post);
+                
+				$this->empresa_model->empresa_update($id, $data, $post);
 
                 $this->empresa_model->atuacao((int) $id); //Atualizar o tabela atuacao
 
