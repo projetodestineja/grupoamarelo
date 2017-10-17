@@ -17,6 +17,7 @@
             echo '<link rel="canonical" href="' . $canonical . '" />';
         }
         ?>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
         <!-- Bootstrap core CSS -->
         <link href="<?php echo base_url('painel/assets/pluguins/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">
         <!-- Custom fonts for this template -->
