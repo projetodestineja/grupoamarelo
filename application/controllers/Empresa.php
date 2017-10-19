@@ -8,7 +8,8 @@ class Empresa extends CI_Controller {
         parent::__construct();
         $this->load->model('empresa_model');
     }
-
+	
+	
 
     public function gerador() {
         $dados['titulo'] = "Destine Já - Cadastro";

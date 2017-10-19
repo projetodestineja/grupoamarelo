@@ -68,13 +68,13 @@
 
   // Call the dataTables jQuery plugin
   $(document).ready(function() {
-	
-    $('#dataTable').DataTable( {
-            "language": {
-                "url": "assets/pluguins/datatables/Portuguese-Brasil.json"
-            }
-  	 });
-
+	if($("#dataTable").length){
+		$('#dataTable').DataTable( {
+				"language": {
+					"url": "assets/pluguins/datatables/Portuguese-Brasil.json"
+				}
+		 });
+	}
   });
 })(jQuery); // End of use strict
 

@@ -23,14 +23,11 @@
             <div class="row">
                 <div class="col-md-12">
 
-                    <?php if ($id_funcao) { ?>
-                        <input name="id_funcao" type="hidden" value="<?php echo $id_funcao; ?>" >
-                    <?php } ?>  
                             
                     <div class="form-row  required">
                         <div class="form-group col-md-4 " >
                             <label for="cnpj" class="col-form-label">CNPJ</label>
-                            <input type="text" class="form-control cnpj" id="cnpj" name="cnpj" value="<?php echo $cnpj; ?>" onblur="pesquisacnpj(this.value);"  >
+                            <input type="text" class="form-control cnpj" id="cnpj" name="cnpj" value="<?php echo $cnpj; ?>"  disabled  >
                         </div>
                         <div class="form-group col-md-4" >
                             <label required for="rsocial" class="col-form-label">Razão Social</label>
@@ -155,16 +152,16 @@
                 $atuacao = 0;
                 foreach ($result_atuacoes as $n) {
                     ?>
-                    
-                    
-                             <div class="form-row">
+                        
+                       
+                           <div class="form-row">
                              <div class="col-md-12"><label for="area_atuacao_secundaria<?php echo $atuacao; ?>" >Atividade Secundária </label></div>
                            </div>
                            
                             <div class="form-row"   >
                             
                                 <div class="form-group col-md-10" id="divsel<?php echo $atuacao; ?>" name="divsel<?php echo $atuacao; ?>" >
-                                   <select  class="form-control col-md-10" id="area_atuacao_secundaria<?php echo $atuacao; ?>" name="area_atuacao_secundaria[]" >
+                                   <select class="form-control col-md-10" id="area_atuacao_secundaria<?php echo $atuacao; ?>" name="area_atuacao_secundaria[]" >
                                         <?php if ($areas_atuacoes) {
                                             foreach ($areas_atuacoes as $at) {
                                         ?>
@@ -180,7 +177,9 @@
                                 Excluir
                             </button>
                         </div>
-                         </div> 
+                         </div>   
+                                 
+                       
                     <?php
                     $atuacao++;
                 }
@@ -200,7 +199,7 @@
         <?php if(isset($id)){ ?>
         <div role="tabpanel" class="tab-pane fade" id="licenca">
             <div align="right" >
-            <a class="btn btn-primary"  href="<?php echo site_url('empresa/licenca_form/'.$id); ?>" rel="modal_add_edit"   >
+            <a class="btn btn-primary"  href="<?php echo site_url('cadastro/licenca_form/'); ?>" rel="modal_add_edit"   >
               <i class="fa fa-fw fa-plus"></i>  Cadastrar Arquivo
             </a>
             </div>
@@ -214,39 +213,27 @@
     .has-error .form-control{ border:red solid 1px;}
 	.has-error{color:#F00}
     
-    .loading_form{ display:none; background:  url('<?php echo base_url('assets/img/ajax-loader.gif');?>') no-repeat center center rgba(255,255,255,0.8);  position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px; z-index: 9999;  }
+    .loading_form{ display:none; background:  url('<?php echo base_url('painel/assets/img/ajax-loader.gif');?>') no-repeat center center rgba(255,255,255,0.8);  position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px; z-index: 9999;  }
 </style>   
 
 <script>
 	<?php if (isset($atuacao)) { ?>
-        var atuacao = <?php echo (int) $atuacao; ?>;
+        var i = <?php echo (int) $atuacao; ?>;
+	<?php } else { ?>
+        var i = 0;
 	<?php } ?>
 	
 	 <?php if (isset($id)) { ?>
-                licenca_list(<?php echo $id; ?>);
-            <?php } ?>
+          licenca_list(<?php echo $id; ?>);
+     <?php } ?>
 
-            function licenca_list(id) {
+     function licenca_list(id) {
+        $("#result_licenca").load("<?php echo site_url('cadastro/licenca_list/') ?>" + id, function () {
+            /*alert( "carregouuuuu...." );*/
+         });
+     }
 
-                $("#result_licenca").load("<?php echo site_url('empresa/licenca_list/') ?>" + id, function () {
-                    /*alert( "carregouuuuu...." );*/
-                });
-            }
-
-            function form_empresa(value) {
-
-                if (value == 'F') {
-                    $('.col-pjuridica').hide();
-                    $('.col-pfisica').show();
-                    document.getElementById("cnpj").required = false;
-                    document.getElementById("cpf").required = true;
-                } else {
-                    $('.col-pfisica').hide();
-                    $('.col-pjuridica').show();
-                    document.getElementById("cpf").required = false;
-                    document.getElementById("cnpj").required = true;
-                }
-            }
-
-
+	<?php if (isset($atuacao)) { ?>
+        var atuacao = <?php echo (int) $atuacao; ?>;
+	<?php } ?>
 </script>

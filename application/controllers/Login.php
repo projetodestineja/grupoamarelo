@@ -5,7 +5,7 @@ class Login extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-                $this->load->model('login_model');
+                $this->load->model(array('login_model','empresa_model'));
                 $this->load->library('util');
 	}
 
@@ -27,11 +27,14 @@ class Login extends CI_Controller {
                 $num_registros = $verifica->num_rows();
                 
                 if( $num_registros==1) {
-
+                      
+                   $row_funcao = $this->empresa_model->get_funcao_row($verifica->row()->id_funcao);
+                      
                     $empresa_info = array(
                         'logado' => true,
                         'cnpj'   => $verifica->row()->cnpj,
                         'cpf'   => $verifica->row()->cpf,
+                        'funcao_titulo' => $row_funcao->funcao,
                         'nome_responsavel'   => $verifica->row()->nome_responsavel,
                         'funcao'   => $verifica->row()->id_funcao,
                         'email'   => $verifica->row()->email,
@@ -57,5 +60,12 @@ class Login extends CI_Controller {
 		$this->load->view('login');
             }    
 	}
+        
+    public function sair() {
+	
+        $this->session->unset_userdata('empresa');
+	
+	redirect(site_url('login'));
+    }    
 
 }
