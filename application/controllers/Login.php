@@ -7,6 +7,7 @@ class Login extends CI_Controller {
 		parent::__construct();
                 $this->load->model(array('login_model','empresa_model'));
                 $this->load->library('util');
+                $this->load->helper('cookie');
 	}
 
 	public function index(){
@@ -42,6 +43,24 @@ class Login extends CI_Controller {
                     );
                     $this->session->set_userdata('empresa',$empresa_info);
 
+                    if ($this->input->post('lembrar')){
+                        
+                        unset($_COOKIE["tipo_login"]);
+                        unset($_COOKIE["email"]);
+                        unset($_COOKIE["cnpj"]);
+                        unset($_COOKIE["cpf"]);
+                        unset($_COOKIE["senha"]);
+                        
+                        //Grava dados no cookie para lembrar login e senha
+                        setcookie("tipo_login",$tipo_login);
+                        switch ($tipo_login) {
+                            case 'email': setcookie("email",$this->input->post('email')); break;
+                            case 'cnpj':  setcookie("cnpj",$this->input->post('cnpj')) ; break;
+                            case 'cpf':   setcookie("cpf",$this->input->post('cpf')); break;
+                        }
+                        setcookie("senha",$this->input->post('senha'));
+                    }
+                    
                     $redirect = redirect(base_url('painelempresa'));
                 }
                 else 
