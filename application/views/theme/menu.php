@@ -11,7 +11,7 @@
             </a>
         </li>
 		<li class="nav-item menu-v-demandas" data-toggle="tooltip" data-placement="right" title="Demandas">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="<?php echo site_url('demandas'); ?>">
               <i class="fa fa-fw fa-list"></i> <span class="nav-link-text">Demandas</span>
             </a>
         </li>
