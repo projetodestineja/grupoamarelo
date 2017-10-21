@@ -48,7 +48,7 @@
 
 
 
-        <div class="content-wrapper">
+        <!--div class="content-wrapper">
 
             <div class="container-fluid">
 
@@ -93,7 +93,72 @@
                 </div>
 
             </div>
+        </div-->
+
+        <div class="content-wrapper">
+
+      <div class="container-fluid">
+		<?php if(isset($menu_mapa)){ ?>
+        <!-- Breadcrumbs -->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="<?php echo site_url(); ?>">Painel</a>
+          </li>
+          <?php
+
+            foreach($menu_mapa as $key => $item) {
+              if(empty($item)){
+                echo '<li class="breadcrumb-item active" >'.$key.'</li>';
+              }else{
+                echo '<li class="breadcrumb-item" ><a href="'.site_url($item).'" >'.$key.'</a></li>';
+              }
+            }
+
+          ?>
+        </ol>
+        <?php } ?>
+        <div class="row" >
+            <div class="col-md-4">
+                <h1 style="font-size:27px;"><?php echo $title; ?></h1>
+
+            </div>
+            <div class="col-md-8 text-right">
+                <span id="colvis"></span>
+                <?php
+				if(isset($menu_opcao_direita)){
+							foreach($menu_opcao_direita as $menu_r){
+								echo ' '.$menu_r;
+							}
+				}
+				?>
+            </div>
         </div>
+
+        <?php
+	if($this->session->flashdata('resposta_erro') or isset($resposta_erro)){ ?>
+            <div class="alert alert-danger" >
+             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			<?php echo ($this->session->flashdata('resposta_erro')?$this->session->flashdata('resposta_erro'):''); ?>
+            <?php echo ($resposta_erro?$resposta_erro:''); ?>
+        </div>
+	<?php }
+        if($this->session->flashdata('resposta_ok')){ ?>
+            <div class="alert alert-success " >
+           <i class="fa fa-check-circle-o" aria-hidden="true"></i>
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		<?php echo $this->session->flashdata('resposta_ok'); ?>
+
+            </div>
+        <?php } ?>
+
+        <div class="conteudo">
+            <?php echo $output;?>
+        </div>
+
+     </div>
+    </div>
 
 
 
@@ -156,5 +221,12 @@
 
             });
         </script>
+
+        <?php
+        //Carregamento javascript datatables JS
+        if (isset($datagrid_js)) {
+            echo $datagrid_js;
+        }
+        ?>
     </body>
 </html>
