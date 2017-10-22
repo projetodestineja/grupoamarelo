@@ -9,9 +9,9 @@ class Demandas extends CI_Controller {
 	var $order = array('data_validade' => 'desc'); // Ordem padrão do datagrid
 
 	function __construct(){
-    parent::__construct();
-    $this->login_model->restrito();
-		$this->load->model('demandas_model');
+		parent::__construct();
+		$this->login_model->restrito();
+		$this->load->model(array('empresa_model', 'demandas_model', 'endereco_model'));
 		$this->load->library(array('form_validation','util'));
 		$this->_init();
 	}
@@ -87,46 +87,68 @@ class Demandas extends CI_Controller {
 	}
 
 	function add(){
-      $this->output->set_common_meta('Cadastrar Demanda','',''); //Title / Description / Tags
+		$this->output->set_common_meta('Cadastrar Demanda','',''); //Title / Description / Tags
+		
+		$data = array(
+			//duração da demanda
+			'data_inicio' => $this->input->post('data_inicio'),
+			'data_validade' => $this->input->post('data_validade'),
+			//informações do resíduo
+			'residuo' => $this->input->post('residuo'),
+			'condicionado' => $this->input->post('condicionado'),
+			'qtd' => $this->input->post('qtd'),
+			'uni_medida' => $this->input->post('uni_medida'),
+			//observações
+			'obs' => $this->input->post('obs')
+		);
+		
+		// dados da empresa geradora
+		$id = (int) $this->session->userdata['empresa']['id'];
+		
+		$row = $this->empresa_model->consultar_coletoraId($id);
+		if (!$row) {
+			$this->session->set_flashdata('resposta_erro', 'Empresa não identificada.');
+			redirect(site_url('demandas'));
+		}
+		
+		$data['id'] = $row->id;
+		$data['cep'] = $row->cep;
+		$data['logradouro'] = $row->logradouro;
+		$data['numero'] = $row->numero;
+		$data['complemento'] = $row->complemento;
+		$data['bairro'] = $row->bairro;
+		$data['id_cidade'] = $row->id_cidade;
+		$data['uf_estado'] = $row->uf_estado;
+		$uf = ($this->input->post('estado') ? $this->input->post('estado') : $row->uf_estado);
+        $data['estados'] = $this->endereco_model->get_all_estados(); // Listamos todos estados normalmente
+        $data['cidades'] = $this->endereco_model->get_all_cidades($uf); //<-UF no EDIT pra listar apenas a cidades do estado selecionado
+		// dados da empresa geradora
+		
+		if($this->input->post()){
+			$this->form_validation->set_rules('data_inicio', 'data de início da demanda', 'required');
+			$this->form_validation->set_rules('data_validade', 'data de expiração da demanda', 'required');
+			$this->form_validation->set_rules('residuo', 'descrição do resíduo', 'required');
+			$this->form_validation->set_rules('condicionado', 'como está acondicionado', 'required');
+			$this->form_validation->set_rules('qtd', 'quantidade', 'required');
+			$this->form_validation->set_rules('uni_medida', 'unidade de medida', 'required');
+			$this->form_validation->set_rules('obs', 'observação', 'required');
 
-		  $data = array(
-            //duração da demanda
-            'data_inicio' => $this->input->post('data_inicio'),
-            'data_validade' => $this->input->post('data_validade'),
-            //informações do resíduo
-            'residuo' => $this->input->post('residuo'),
-            'condicionado' => $this->input->post('condicionado'),
-            'qtd' => $this->input->post('qtd'),
-            'uni_medida' => $this->input->post('uni_medida'),
-            //observações
-            'obs' => $this->input->post('obs')
-      );
+			if($this->form_validation->run()==FALSE){
+				$this->session->set_flashdata('resposta_erro',validation_errors('<div class="error">* ', '</div>'));
+			}else{
+				$this->demandas_model->add($data);
+				$this->session->set_flashdata('resposta_ok', 'Demanda <strong>'.$this->input->post('residuo').'</strong> cadastrada com sucesso.');
+				redirect(site_url('demandas'));
+			}
+		}
 
-      if($this->input->post()){
-        $this->form_validation->set_rules('data_inicio', 'data de início da demanda', 'required');
-        $this->form_validation->set_rules('data_validade', 'data de expiração da demanda', 'required');
-        $this->form_validation->set_rules('residuo', 'descrição do resíduo', 'required');
-        $this->form_validation->set_rules('condicionado', 'como está acondicionado', 'required');
-        $this->form_validation->set_rules('qtd', 'quantidade', 'required');
-        $this->form_validation->set_rules('uni_medida', 'unidade de medida', 'required');
-        $this->form_validation->set_rules('obs', 'observação', 'required');
+		$data['menu_mapa'] = array(
+			'Demandas' => $this->uri->segment(1),
+			'Cadastrar' => ''
+		);
 
-        if($this->form_validation->run()==FALSE){
-        $this->session->set_flashdata('resposta_erro',validation_errors('<div class="error">* ', '</div>'));
-        }else{
-        $this->demandas_model->add($data);
-        $this->session->set_flashdata('resposta_ok', 'Demanda <strong>'.$this->input->post('residuo').'</strong> cadastrada com sucesso.');
-        redirect(site_url('demandas'));
-        }
-      }
-
-      $data['menu_mapa'] = array(
-          'Demandas' => $this->uri->segment(1),
-          'Cadastrar' => ''
-      );
-
-      $data['menu_opcao_direita'][] = anchor('demandas', '<i class="fa fa-fw fa-undo"></i> Voltar', 'class="btn btn-info btn-sm not-focusable"');
-      $this->load->view('demandas/form_cad_demanda',$data);
+		$data['menu_opcao_direita'][] = anchor('demandas', '<i class="fa fa-fw fa-undo"></i> Voltar', 'class="btn btn-info btn-sm not-focusable"');
+		$this->load->view('demandas/form_cad_demanda',$data);
 	}
 
 	function edit($id){
