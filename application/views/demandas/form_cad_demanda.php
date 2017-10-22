@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-
-<form id="form_cad_demanda" action="" method="POST">
+<?php echo $error;?>
+<form id="form_cad_demanda" action="" method="POST" enctype="multipart/form-data">
 
 		<div class="form-row">
 			<div class="form-group col-md-3 required">
@@ -37,8 +37,8 @@
 
 		<div class="form-row">
 			<div class="form-group col-md-6">
-				<label for="licenca" class="col-form-label">Imagem 1 - Tamanho Máx.: 5MB</label>
-				<input type="file" accept="image/x-png,image/gif,image/jpeg" class="form-control" id="input-licenca" name="licenca" >
+				<label for="img1" class="col-form-label">Imagem 1 - Tamanho Máx.: 5MB</label>
+				<input type="file" class="form-control" id="img1" name="img1">
 			</div>
 		</div>
 
@@ -56,32 +56,32 @@
 			</div>
 		</div>
 
-		<div class="form-row  required">
+		<div class="form-row required">
 			<div class="form-group col-md-2">
 				<label for="cep" class="col-form-label">CEP</label>
-				<input required type="text" class="form-control cep" id="cep" name="cep" value="<?php echo $cep; ?>" placeholder="000000-000" maxlength="8" onblur="pesquisacep(this.value);">
+				<input readonly required type="text" class="form-control cep" id="cep" name="cep" value="<?php echo $cep; ?>" placeholder="000000-000" maxlength="8" onblur="pesquisacep(this.value);">
 			</div>
 			<div class="form-group col-md-5">
 				<label for="Rua" class="col-form-label">Rua</label>
-				<input required type="text" class="form-control" id="rua" name="logradouro" value="<?php echo $logradouro; ?>" placeholder="Ex.: Av. José Silva">
+				<input readonly required type="text" class="form-control" id="rua" name="logradouro" value="<?php echo $logradouro; ?>" placeholder="Ex.: Av. José Silva">
 			</div>
 			<div class="form-group col-md-2">
 				<label for="numero" class="col-form-label">Número</label>
-				<input required type="number" class="form-control" id="numero" name="numero" value="<?php echo $numero; ?>" placeholder="00">
+				<input readonly type="number" class="form-control" id="numero" name="numero" value="<?php echo $numero; ?>" placeholder="00">
 			</div>
 			<div class="form-group col-md-3">
 				<label for="complemento" class="col-form-label">Complemento</label>
-				<input required type="text" class="form-control" id="complemento" name="complemento" value="<?php echo $complemento; ?>" placeholder="Ex.: Casa, Apartamento...">
+				<input readonly required type="text" class="form-control" id="complemento" name="complemento" value="<?php echo $complemento; ?>" placeholder="Ex.: Casa, Apartamento...">
 			</div>
 	</div>
 	<div class="form-row  required">
 			<div class="form-group col-md-4">
 					<label for="bairro" class="col-form-label">Bairro</label>
-					<input required type="text" class="form-control" id="bairro" name="bairro" value="<?php echo $bairro; ?>" placeholder="Ex.: São Gonçalo">
+					<input readonly required type="text" class="form-control" id="bairro" name="bairro" value="<?php echo $bairro; ?>" placeholder="Ex.: São Gonçalo">
 			</div>
 			<div class="form-group col-md-4">
 				<label for="estado" class="col-form-label">Estado</label>
-				<select required class="form-control" id="estado" name="estado">
+				<select readonly required class="form-control" id="estado" name="estado">
 					<option value="">Selecione o Estado</option>
 					<?php foreach ($estados as $n) { ?>
 							<option value="<?php echo $n->uf; ?>" <?php echo ($n->uf == $uf_estado ? 'selected' : ''); ?>   ><?php echo $n->nome_estado; ?></option>
@@ -90,7 +90,7 @@
 			</div>
 			<div class="form-group col-md-4">
 				<label for="cidade" class="col-form-label">Cidade</label>
-				<select required class="form-control" id="cidade" name="cidade">
+				<select readonly required class="form-control" id="cidade" name="cidade">
 					<option value="">Selecione o Estado Antes</option>
 					<?php foreach ($cidades as $n) { ?>
 							<option value="<?php echo $n->id; ?>" <?php echo ($n->id == $id_cidade ? 'selected' : ''); ?>  ><?php echo $n->nome_cidade; ?></option>

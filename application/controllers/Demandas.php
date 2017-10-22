@@ -12,7 +12,7 @@ class Demandas extends CI_Controller {
 		parent::__construct();
 		$this->login_model->restrito();
 		$this->load->model(array('empresa_model', 'demandas_model', 'endereco_model'));
-		$this->load->library(array('form_validation','util'));
+		$this->load->library(array('form_validation','util','upload'));
 		$this->_init();
 	}
 
@@ -86,6 +86,22 @@ class Demandas extends CI_Controller {
 			echo json_encode($output);
 	}
 
+	public function do_upload(){
+		$dir_upload = '../teste/'; //diretório para upload
+		if (!is_dir($dir_upload)) { // verificamos se ele existe
+			mkdir($dir_upload); // não existe, então vamos criar...           
+		}
+
+		//$config['upload_path']          = '../uploads/demandas/';
+		$config['upload_path']          = $dir_upload;
+		$config['allowed_types']        = 'gif|jpg|png|jpeg';
+		$config['max_size']             = 5120;
+		/*$config['max_width']            = 1024;
+		$config['max_height']           = 768;*/
+
+		$this->load->library('upload', $config);
+	}
+
 	function add(){
 		$this->output->set_common_meta('Cadastrar Demanda','',''); //Title / Description / Tags
 		
@@ -98,6 +114,8 @@ class Demandas extends CI_Controller {
 			'condicionado' => $this->input->post('condicionado'),
 			'qtd' => $this->input->post('qtd'),
 			'uni_medida' => $this->input->post('uni_medida'),
+			//img
+			'img' => $this->input->post('img1'),
 			//observações
 			'obs' => $this->input->post('obs')
 		);
@@ -124,6 +142,7 @@ class Demandas extends CI_Controller {
         $data['cidades'] = $this->endereco_model->get_all_cidades($uf); //<-UF no EDIT pra listar apenas a cidades do estado selecionado
 		// dados da empresa geradora
 		
+		// validação dos campos
 		if($this->input->post()){
 			$this->form_validation->set_rules('data_inicio', 'data de início da demanda', 'required');
 			$this->form_validation->set_rules('data_validade', 'data de expiração da demanda', 'required');
@@ -131,17 +150,39 @@ class Demandas extends CI_Controller {
 			$this->form_validation->set_rules('condicionado', 'como está acondicionado', 'required');
 			$this->form_validation->set_rules('qtd', 'quantidade', 'required');
 			$this->form_validation->set_rules('uni_medida', 'unidade de medida', 'required');
+			/*$this->form_validation->set_rules('img1', 'imagem (1)', 'required');*/
 			$this->form_validation->set_rules('obs', 'observação', 'required');
+			$this->form_validation->set_rules('cep', 'CEP', 'required');
+			$this->form_validation->set_rules('logradouro', 'logradouro', 'required');
+			$this->form_validation->set_rules('numero', 'número', 'required');
+			/*$this->form_validation->set_rules('complemento', 'complemento', 'required');*/	
+			$this->form_validation->set_rules('bairro', 'bairro', 'required');
+			$this->form_validation->set_rules('cidade', 'cidade', 'required');
+			$this->form_validation->set_rules('estado', 'estado', 'required');
 
 			if($this->form_validation->run()==FALSE){
 				$this->session->set_flashdata('resposta_erro',validation_errors('<div class="error">* ', '</div>'));
 			}else{
-				$this->demandas_model->add($data);
-				$this->session->set_flashdata('resposta_ok', 'Demanda <strong>'.$this->input->post('residuo').'</strong> cadastrada com sucesso.');
-				redirect(site_url('demandas'));
-			}
-		}
+				//upload img
+				if ( ! $this->upload->do_upload('img1')){
+					$error = array('error' => $this->upload->display_errors());
+					$this->load->view('demandas/form_cad_demanda', $error);
+					/*redirect(site_url('demandas'));*/
+				} else{
+					$data = array('upload_data' => $this->upload->data());
+					/*$this->load->view('upload_success', $data);*/
+					
+					$this->demandas_model->add($data);
+					$this->session->set_flashdata('resposta_ok', 'Demanda <strong>'.$this->input->post('residuo').'</strong> cadastrada com sucesso.');
+					redirect(site_url('demandas'));
 
+				}
+				//upload img
+			}
+
+		}
+		// validação dos campos
+		
 		$data['menu_mapa'] = array(
 			'Demandas' => $this->uri->segment(1),
 			'Cadastrar' => ''
