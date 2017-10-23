@@ -1,0 +1,25 @@
+dist: trusty
+sudo: false
+language: php
+php:
+  - '7.0'
+  - hhvm # on Trusty only
+  - nightly
+
+jdk:
+- oraclejdk8
+
+addons:
+  sonarqube:
+    organization: "destineja"
+    token:
+      secure: "$SONAR_TOKEN"
+
+branches:
+  only:
+  - master
+  - dev
+
+script:
+- sonar-scanner
+
