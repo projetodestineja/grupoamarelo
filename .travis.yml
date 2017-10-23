@@ -3,8 +3,6 @@ sudo: TRUE
 language: php
 php:
   - '7.0'
-  - hhvm # on Trusty only
-  - nightly
 
 jdk:
 - oraclejdk8
