@@ -87,24 +87,30 @@ class Demandas extends CI_Controller {
 	}
 
 	public function do_upload(){
-		$dir_upload = '../teste/'; //diretório para upload
-		if (!is_dir($dir_upload)) { // verificamos se ele existe
-			mkdir($dir_upload); // não existe, então vamos criar...           
+		$dire_upload = './uploads/empresa/72/'; //diretório para upload
+		if (!is_dir($dire_upload)) { // verificamos se ele existe
+			mkdir($dire_upload); // não existe, então vamos criar...           
 		}
+		$config['upload_path'] = $dire_upload;
+		$config['allowed_types'] = 'gif|jpg|png|jpeg';
+		$config['file_name'] = date('Y-m-d_H-i') . '_asdasdsaID_' . rand(1000, 9999); // Data Upload / ID empresa / Rand entre 1000 e 9999 
+		$config['max_filename_increment'] = 300;
+		$config['max_size'] = 5120; //(10*1024kb) = 10MB
+		$config['max_width'] = 5024;
+		$config['max_height'] = 5068;
 
 		//$config['upload_path']          = '../uploads/demandas/';
-		$config['upload_path']          = $dir_upload;
+		/*$config['upload_path']          = $dir_upload;
 		$config['allowed_types']        = 'gif|jpg|png|jpeg';
 		$config['max_size']             = 5120;
-		/*$config['max_width']            = 1024;
+		$config['max_width']            = 1024;
 		$config['max_height']           = 768;*/
 
 		$this->load->library('upload', $config);
 	}
 
-	function add(){
+	public function add(){
 		$this->output->set_common_meta('Cadastrar Demanda','',''); //Title / Description / Tags
-		
 		$data = array(
 			//duração da demanda
 			'data_inicio' => $this->input->post('data_inicio'),
