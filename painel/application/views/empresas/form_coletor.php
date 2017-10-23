@@ -103,7 +103,7 @@
                         </div>
                         <div class="form-group col-md-3">
                             <label for="complemento" class="col-form-label">Complemento</label>
-                            <input required type="text" class="form-control" id="complemento" name="complemento" value="<?php echo $complemento; ?>" placeholder="Ex.: Casa, Apartamento...">
+                            <input  type="text" class="form-control" id="complemento" name="complemento" value="<?php echo $complemento; ?>" placeholder="Ex.: Casa, Apartamento...">
                         </div>
                     </div>
                     <div class="form-row  required">
