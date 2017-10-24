@@ -18,9 +18,18 @@ class Demandas extends CI_Controller {
 
 	private function _init(){
 		$this->output->set_template('default');
-		$this->load->js('painel/assets/pluguins/datatables/datatables.min.js');
-		$this->load->js('painel/assets/pluguins/datatables/dataTables.bootstrap4.js');
-		$this->load->js('painel/assets/pluguins/datatables/script.js');
+		
+		/****** Data Tables **************/
+        $this->load->js('painel/assets/pluguins/datatables/datatables.min.js');
+        $this->load->js('painel/assets/pluguins/datatables/dataTables.bootstrap4.js');
+		
+		/****** Pluguin Calendário Input **************/
+		$this->load->css('painel/assets/pluguins/datepicker/css/bootstrap-datepicker.min.css');
+		$this->load->js('painel/assets/pluguins/datepicker/js/bootstrap-datepicker.min.js');
+		$this->load->js('painel/assets/pluguins/datepicker/locales/bootstrap-datepicker.pt-BR.min.js');
+		
+		/****** Busca cep **************/
+		$this->load->js('painel/assets/pluguins/buscacep.js');
 	}
 
 	public function index(){
@@ -86,29 +95,6 @@ class Demandas extends CI_Controller {
 			echo json_encode($output);
 	}
 
-	public function do_upload(){
-		$dire_upload = './uploads/empresa/72/'; //diretório para upload
-		if (!is_dir($dire_upload)) { // verificamos se ele existe
-			mkdir($dire_upload); // não existe, então vamos criar...           
-		}
-		$config['upload_path'] = $dire_upload;
-		$config['allowed_types'] = 'gif|jpg|png|jpeg';
-		$config['file_name'] = date('Y-m-d_H-i') . '_asdasdsaID_' . rand(1000, 9999); // Data Upload / ID empresa / Rand entre 1000 e 9999 
-		$config['max_filename_increment'] = 300;
-		$config['max_size'] = 5120; //(10*1024kb) = 10MB
-		$config['max_width'] = 5024;
-		$config['max_height'] = 5068;
-
-		//$config['upload_path']          = '../uploads/demandas/';
-		/*$config['upload_path']          = $dir_upload;
-		$config['allowed_types']        = 'gif|jpg|png|jpeg';
-		$config['max_size']             = 5120;
-		$config['max_width']            = 1024;
-		$config['max_height']           = 768;*/
-
-		$this->load->library('upload', $config);
-	}
-
 	public function add(){
 		$this->output->set_common_meta('Cadastrar Demanda','',''); //Title / Description / Tags
 		$data = array(
@@ -120,8 +106,6 @@ class Demandas extends CI_Controller {
 			'condicionado' => $this->input->post('condicionado'),
 			'qtd' => $this->input->post('qtd'),
 			'uni_medida' => $this->input->post('uni_medida'),
-			//img
-			'img' => $this->input->post('img1'),
 			//observações
 			'obs' => $this->input->post('obs')
 		);
@@ -169,21 +153,9 @@ class Demandas extends CI_Controller {
 			if($this->form_validation->run()==FALSE){
 				$this->session->set_flashdata('resposta_erro',validation_errors('<div class="error">* ', '</div>'));
 			}else{
-				//upload img
-				if ( ! $this->upload->do_upload('img1')){
-					$error = array('error' => $this->upload->display_errors());
-					$this->load->view('demandas/form_cad_demanda', $error);
-					/*redirect(site_url('demandas'));*/
-				} else{
-					$data = array('upload_data' => $this->upload->data());
-					/*$this->load->view('upload_success', $data);*/
-					
-					$this->demandas_model->add($data);
-					$this->session->set_flashdata('resposta_ok', 'Demanda <strong>'.$this->input->post('residuo').'</strong> cadastrada com sucesso.');
-					redirect(site_url('demandas'));
-
-				}
-				//upload img
+				$this->demandas_model->add($data);
+				$this->session->set_flashdata('resposta_ok', 'Demanda <strong>'.$this->input->post('residuo').'</strong> cadastrada com sucesso.');
+				redirect(site_url('demandas'));
 			}
 
 		}

@@ -1,15 +1,14 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-<?php echo $error;?>
 <form id="form_cad_demanda" action="" method="POST" enctype="multipart/form-data">
 
 		<div class="form-row">
 			<div class="form-group col-md-3 required">
-				<label for="data_inicio" class="col-form-label">Início do Anúncio:</label>
-				<input type="date" class="form-control date" id="data_inicio" value="<?php echo $data_inicio; ?>" name="data_inicio" placeholder="Escolha uma data para o anúncio ser disponibilizado">
+				<label for="data_inicio" class="col-form-label">Data Início</label>
+				<input name="data_inicio" class="form-control date" value="<?php echo $data_inicio;?>" id="data_inicio" style="position:relative" >
 			</div>
       <div class="form-group col-md-3 required">
-				<label for="data_validade" class="col-form-label">Expiração do Anúncio:</label>
-				<input type="date" class="form-control date" id="data_validade" value="<?php echo $data_validade; ?>" name="data_validade" placeholder="Escolha uma data para o anúncio expirar">
+				<label for="data_validade" class="col-form-label">Data de Expiração</label>
+				<input name="data_validade" class="form-control date" value="<?php echo $data_validade;?>" id="data_validade" style="position:relative" >
 			</div>
 		</div>
     
@@ -101,3 +100,24 @@
 
 		<button class="btn btn-success btn-md btn-salvar" type="submit"> <?php echo (!isset($id)?'Cadastrar':'Atualizar'); ?> </button>
 </form>
+
+<script>
+$(document).ready(function () {
+		$('input[name=data_inicio]').datepicker({
+			format: "dd/mm/yyyy",
+			autoclose: true,
+			startView: 2,
+			maxViewMode: 2,
+			language: "pt-BR",
+			orientation: "botton left"
+		});
+		$('input[name=data_validade]').datepicker({
+			format: "dd/mm/yyyy",
+			autoclose: true,
+			startView: 2,
+			maxViewMode: 2,
+			language: "pt-BR",
+			orientation: "botton left"
+		});
+});		
+</script>
