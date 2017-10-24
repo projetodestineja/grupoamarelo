@@ -30,14 +30,18 @@ class Empresa extends CI_Controller {
 		$this->load->js('assets/pluguins/buscacnpj.js');
 		
     }
-
+	
+	
     public function index() {
 
-        $data['menu_opcao_direita'][] = anchor('empresa/index/1', '<i class="fa fa-fw fa-trash"></i> Listar Somente Geradora', 'class="btn btn-warning btn-sm not-focusable"  data-toggle="tooltip" title="Listar Somente Geradora"');
-        $data['menu_opcao_direita'][] = anchor('empresa/index/2', '<i class="fa fa-fw fa-truck"></i> Listar Somente Coletora', 'class="btn btn-info btn-sm not-focusable"  data-toggle="tooltip" title="Listar Somente Coletora"');
+        $data['menu_opcao_direita'][] = anchor('empresa/index/1', '<i class="fa fa-fw fa-trash"></i> Geradora', 'class="btn btn-warning btn-sm not-focusable"  data-toggle="tooltip" title="Listar Geradora"');
+        $data['menu_opcao_direita'][] = anchor('empresa/index/2', '<i class="fa fa-fw fa-truck"></i> Coletora', 'class="btn btn-info btn-sm not-focusable"  data-toggle="tooltip" title="Listar Coletora"');
 
-        $data['menu_opcao_direita'][] = anchor('empresa/add/2', '<i class="fa fa-fw fa-plus-circle"></i> Nova Coletora', 'class="btn btn-primary btn-sm not-focusable"  data-toggle="tooltip" title="Clique aqui para realizar um novo cadastro"');
+        /*$data['menu_opcao_direita'][] = anchor('empresa/add/2', '<i class="fa fa-fw fa-plus-circle"></i> Nova Coletora', 'class="btn btn-primary btn-sm not-focusable"  data-toggle="tooltip" title="Clique aqui para realizar um novo cadastro"');
         $data['menu_opcao_direita'][] = anchor('empresa/add/1', '<i class="fa fa-fw fa-plus-circle"></i> Nova Geradora', 'class="btn btn-primary btn-sm not-focusable"  data-toggle="tooltip" title="Clique aqui para realizar um novo cadastro"');
+		*/
+		$data['menu_opcao_direita'][] = anchor('empresa/add_empresa_modal', '<i class="fa fa-fw fa-plus-circle"></i> Nova Cadastro', ' rel="modal_add_edit" class="btn btn-primary btn-sm not-focusable"  data-toggle="tooltip" title="Clique aqui para realizar um novo cadastro"');
+		
         $data['menu_opcao_direita'][] = anchor('#', '<i class="fa fa-fw fa-trash"></i> Remover', 'class="btn btn-danger btn-sm not-focusable" id="deletar_row_table"');
 
 
@@ -416,6 +420,18 @@ class Empresa extends CI_Controller {
         }
     }
 
+	
+	public function add_empresa_modal(){
+	 	$this->output->unset_template();
+		
+		$data = array();
+		$data['title'] = 'Cadastrar Nova Empresa';
+		
+		$this->load->view('empresas/add_modal',$data);
+	}
+
+
+
     public function licenca_upload($id_empresa = 0, $id_licenca = 0) {
         $this->output->unset_template();
 
@@ -474,7 +490,8 @@ class Empresa extends CI_Controller {
         }
 
         if (!$json) { // Não existe erro, então faz o insert ou update
-            $data = array(
+            
+			$data = array(
                 'titulo' => $this->input->post('titulo'),
                 'validade' => date('Y-m-d', strtotime(str_replace('/', '-', $this->input->post('validade')))),
                 'status' => $this->input->post('status'),

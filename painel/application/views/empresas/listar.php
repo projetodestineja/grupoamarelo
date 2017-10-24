@@ -1,9 +1,9 @@
+
 <div class="row">
 <div class="table-responsive" style="width:100%;">
     <table class="display table select table-striped table-bordered" width="100%" id="dataTable" cellspacing="0">
       <thead>
         <tr>
-         
           <th>CNPJ / CPF</th>
           <th>Razão Social / Nome Fantasia / Responsável</th>
           <th>Contatos</th>
@@ -12,7 +12,6 @@
       </thead>
       <tfoot>
         <tr>
-         
           <th>CNPJ / CPF</th>
           <th>Razão Social / Nome Fantasia / Responsável</th>
           <th>Contatos</th>
@@ -20,10 +19,8 @@
         </tr>
       </tfoot>
       <tbody>
-
-        <?php foreach($result as $row){?>
+      <?php foreach($result as $row){?>
         <tr>
-         
           <td>
             <?php echo $row->cnpj; ?><?php echo $row->cpf; ?>
           </td>

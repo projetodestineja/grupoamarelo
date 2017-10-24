@@ -218,35 +218,33 @@
 </style>   
 
 <script>
+	
 	<?php if (isset($atuacao)) { ?>
         var atuacao = <?php echo (int) $atuacao; ?>;
 	<?php } ?>
 	
 	 <?php if (isset($id)) { ?>
-                licenca_list(<?php echo $id; ?>);
-            <?php } ?>
+       licenca_list(<?php echo $id; ?>);
+     <?php } ?>
 
-            function licenca_list(id) {
+     function licenca_list(id) {
+        $("#result_licenca").load("<?php echo site_url('empresa/licenca_list/') ?>" + id);
+     }
 
-                $("#result_licenca").load("<?php echo site_url('empresa/licenca_list/') ?>" + id, function () {
-                    /*alert( "carregouuuuu...." );*/
-                });
-            }
+     function form_empresa(value) {
 
-            function form_empresa(value) {
-
-                if (value == 'F') {
-                    $('.col-pjuridica').hide();
-                    $('.col-pfisica').show();
-                    document.getElementById("cnpj").required = false;
-                    document.getElementById("cpf").required = true;
-                } else {
-                    $('.col-pfisica').hide();
-                    $('.col-pjuridica').show();
-                    document.getElementById("cpf").required = false;
-                    document.getElementById("cnpj").required = true;
-                }
-            }
+       if (value == 'F') {
+           $('.col-pjuridica').hide();
+           $('.col-pfisica').show();
+           document.getElementById("cnpj").required = false;
+           document.getElementById("cpf").required = true;
+       } else {
+           $('.col-pfisica').hide();
+           $('.col-pjuridica').show();
+           document.getElementById("cpf").required = false;
+           document.getElementById("cnpj").required = true;
+       }
+    }
 
 
 </script>
