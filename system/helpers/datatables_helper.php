@@ -22,12 +22,16 @@ if (! function_exists('datagrid_js'))
 		$grid_js.= 'var altura_navegador = $(window).height(); ';
 		$grid_js.= 'var table_id;';	
 		$grid_js.= 'var rows_selected = [];';
-		 
+		
+		$grid_js.= ' if(altura_navegador<700){ altura_navegador = 700; }';
+		//$grid_js.= 'alert(altura_navegador);';
+		
 		$grid_js.= 'table = $("#'.$config['grid_id'].'").DataTable({ ';
 		$grid_js.= '"processing": true,';
 		$grid_js.= '"serverSide": true,';
 		$grid_js.= '"bStateSave":true,';
-		 			/*"sPaginationType": "full_numbers",*/
+		
+		/*"sPaginationType": "full_numbers",*/
 		$grid_js.= '"order": [],';
 		$grid_js.= '"language": {';
 		$grid_js.= '  "url": "'.base_url('assets/pluguins/datatables/Portuguese-Brasil.json').'"';
