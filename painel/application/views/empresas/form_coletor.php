@@ -30,7 +30,7 @@
                     <div class="form-row  required">
                         <div class="form-group col-md-4 " >
                             <label for="cnpj" class="col-form-label">CNPJ</label>
-                            <input type="text" class="form-control cnpj" id="cnpj" name="cnpj" value="<?php echo $cnpj; ?>" onblur="pesquisacnpj(this.value);"  >
+                            <input type="text" class="form-control cnpj" readonly id="cnpj" name="cnpj" value="<?php echo $cnpj; ?>" onblur="pesquisacnpj(this.value);"  >
                         </div>
                         <div class="form-group col-md-4" >
                             <label required for="rsocial" class="col-form-label">Razão Social</label>
@@ -38,7 +38,7 @@
                         </div>
                         <div class="form-group col-md-4" >
                             <label for="nfantasia" class="col-form-label">Nome Fantasia</label>
-                            <input type="text" class="form-control" id="nfantasia" name="nfantasia" value="<?php echo $nome_fantasia; ?>" placeholder="Nome Fantasia">
+                            <input type="text" required class="form-control" id="nfantasia" name="nfantasia" value="<?php echo $nome_fantasia; ?>" placeholder="Nome Fantasia">
                         </div>
                     </div>
                     <div class="form-row  required">
@@ -85,22 +85,22 @@
 
 
                     <h3 class="">Endereço</h3>
-                    <div class="form-row  required">
-                        <div class="form-group col-md-2">
+                    <div class="form-row  ">
+                        <div class="form-group col-md-2 required">
                             <label for="cep" class="col-form-label">CEP</label>
                             <input required type="text" class="form-control cep" id="cep" name="cep" value="<?php echo $cep; ?>" placeholder="000000-000" maxlength="8" onblur="pesquisacep(this.value);">
                         </div>
-                        <div class="form-group col-md-5">
+                        <div class="form-group col-md-5 required">
                             <label for="Rua" class="col-form-label">Rua</label>
                             <input required type="text" class="form-control" id="rua" name="logradouro" value="<?php echo $logradouro; ?>" placeholder="Ex.: Av. José Silva">
                         </div>
-                        <div class="form-group col-md-2">
+                        <div class="form-group col-md-2 required">
                             <label for="numero" class="col-form-label">Número</label>
                             <input required type="number" class="form-control" id="numero" name="numero" value="<?php echo $numero; ?>" placeholder="00">
                         </div>
                         <div class="form-group col-md-3">
                             <label for="complemento" class="col-form-label">Complemento</label>
-                            <input required type="text" class="form-control" id="complemento" name="complemento" value="<?php echo $complemento; ?>" placeholder="Ex.: Casa, Apartamento...">
+                            <input type="text" class="form-control" id="complemento" name="complemento" value="<?php echo $complemento; ?>" placeholder="Ex.: Casa, Apartamento...">
                         </div>
                     </div>
                     <div class="form-row  required">
@@ -134,11 +134,11 @@
                     <div class="form-row <?php echo (!isset($id) ? 'required' : ''); ?>" >
                         <div class="form-group col-md-6">
                             <label for="senha1" class="col-form-label">Digite a Senha</label>
-                            <input type="password" class="form-control" id="senha1" name="senha" value="<?php echo ($this->input->post('senha') ? $this->input->post('senha') : ''); ?>" placeholder="Digite a Senha">
+                            <input type="password" <?php echo ($this->uri->segment(2)=='add'?'required':''); ?> class="form-control" id="senha1" name="senha" value="<?php echo ($this->input->post('senha') ? $this->input->post('senha') : ''); ?>" placeholder="Digite a Senha">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="senha2" class="col-form-label">Confirme a Senha</label>
-                            <input type="password" class="form-control" id="senha2" name="senha2" value="<?php echo ($this->input->post('senha2') ? $this->input->post('senha2') : ''); ?>"  placeholder="Confirme a Senha">
+                            <input type="password" <?php echo ($this->uri->segment(2)=='add'?'required':''); ?> class="form-control" id="senha2" name="senha2" value="<?php echo ($this->input->post('senha2') ? $this->input->post('senha2') : ''); ?>"  placeholder="Confirme a Senha">
                         </div>
                     </div>
 
@@ -151,6 +151,7 @@
         <div role="tabpanel" class="tab-pane fade" id="atuacao_secundaria">
 
             <?php
+			
             if ($result_atuacoes) {
                 $atuacao = 0;
                 foreach ($result_atuacoes as $n) {
@@ -210,15 +211,13 @@
     </div>
 </form>
 
-<style>
-    .has-error .form-control{ border:red solid 1px;}
-	.has-error{color:#F00}
-    
-    .loading_form{ display:none; background:  url('<?php echo base_url('assets/img/ajax-loader.gif');?>') no-repeat center center rgba(255,255,255,0.8);  position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px; z-index: 9999;  }
-</style>   
 
 <script>
-	
+	<?php if($this->session->userdata('cpf_cnpj')){ ?>
+	 $(document).ready(function () {
+		pesquisacnpj('<?php echo $this->session->userdata('cpf_cnpj'); ?>');
+	});		
+	<?php } ?>	
 	<?php if (isset($atuacao)) { ?>
         var atuacao = <?php echo (int) $atuacao; ?>;
 	<?php } ?>

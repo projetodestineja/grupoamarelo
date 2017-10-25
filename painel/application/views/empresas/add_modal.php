@@ -1,20 +1,20 @@
-<form class="form_ajax"  onSubmit="send_form(); return false" action="" method="POST" enctype="multipart/form-data"  >
+<form class="form_ajax"  onSubmit="send_form(); return false" action="<?php echo site_url('empresa/post_valid_cpf_cnpj'); ?>" method="POST"  >
     <div class="row" > 
-          <div class="col-md-12" >
+        
+        <div class="col-md-12" >
             <div class="erro_envio" ></div>
         </div> 
         
-        <div class="form-group col-md-12 required">
+        <div class="form-group col-md-12">
             <label for="titulo" class="col-form-label">Tipo de Cadastro</label><br>
             <input name="tipo" type="radio" value="coletora" checked="checked" /> Coletora 
             <input name="tipo" type="radio" value="geradora" /> Geradora 
         </div>
         
         <div class="form-group col-md-12 required">
-            <label for="titulo" class="col-form-label">CNPJ / CPF</label>
-            <input name="titulo" class="form-control" value="" id="input-titulo" >
+            <label for="titulo" class="col-form-label">CPF ou CNPJ</label>
+            <input name="cpf_cnpj" class="form-control" value="" id="input-cpf-cnpj" >
         </div>
-       
         
         <div class="form-group col-md-12">
             <button class="btn btn-success btn-md btn-salvar" type="botton" >Cadastrar</button>
@@ -33,50 +33,56 @@
 	$(form_ind+' .required').removeClass('has-error');
 	$(form_ind+' .alert-danger').remove();
 	$(form_ind+' .loading_form').css("display","block");
-				
-	var data;
-	var contentType = "application/x-www-form-urlencoded";
-	var processData = true;
 	
-	if ($(form_ind).attr('enctype') == 'multipart/form-data') {
-		data = new FormData($(form_ind).get(0));//seleciona classe form-horizontal adicionada na tag form do html
-		contentType = false;
-		processData = false;
-	} else {
-		data = $(form_ind).serialize();
-	}
 	$.ajax({
-		data: data,
+		data: $(form_ind).serialize(),
 		type: $(form_ind).attr('method'),
 		url: $(form_ind).attr('action'),
-		contentType: contentType,
 		dataType: 'json',
-		processData: processData,
 		success: function (json) {
 						
-			if (json['error_status']) {
-				$(form_ind+' .input-status').parent().parent().addClass('has-error');
-				$(form_ind+' .input-status').focus();
+			if (json['error_cpf_cnpj']) {
+				$(form_ind+' #input-cpf-cnpj').parent().addClass('has-error');
+				$(form_ind+' #input-cpf-cnpj').focus();
 			}
 	
-			if (json['ok']==true) {
-					
-				$('#modal_add_edit').modal('toggle');
-				alert(json['resposta']);
-				$("#result_licenca").load("<?php echo site_url('empresa/licenca_list/'); ?>");
+			if (json['redirect']) {
+				location.href= json['redirect'];
+			}
+			
+			if (json['error']) {
+				$(form_ind+' .erro_envio').after('<div class="alert alert-danger" ><i class="fa fa-exclamation-circle"></i> ' + json['error'] + '</div>');
 			}
 						
 			$(form_ind+' .loading_form').css("display","none");
 			$(form_ind+' .btn-salvar').attr('disabled',false);
 			
 			return false;
-		},error: function (exr, sender) {
+			
+		},
+		error: function (exr, sender) {
+			
 			alert('Erro ao carregar pagina');
+			
+			$(form_ind+' .loading_form').css("display","none");
+			$(form_ind+' .btn-salvar').attr('disabled',false);
+			
 			return false;
 		}
 	});
 }	
 $(document).ready(function () {
+	
+	$('input[name=cpf_cnpj]').keydown(function() {
+		var el = $(this);
+		if (el.val().length > 13) {
+			el.unmask('000.000.000-00');
+			el.mask('99.999.999/0001-99')
+		} else {
+			el.mask('000.000.000-00');
+		}
+	});
+	
 	$('#modal_add_edit #title_modal').html('<?php echo $title; ?>');
 });		
 </script> 
