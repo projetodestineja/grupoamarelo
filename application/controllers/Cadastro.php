@@ -46,8 +46,8 @@ class Cadastro extends CI_Controller {
         $row_funcao = $this->empresa_model->get_funcao_row($row->id_funcao);
 
         //Dados empresa
-        $data['cnpj'] = $row->cnpj;
-        $data['cpf'] = $row->cpf;
+        $data['cnpj'] = (!empty($row->cnpj)?$row->cnpj:$row->cpf);
+		
         $data['razao_social'] = $row->razao_social;
         $data['nome_fantasia'] = $row->nome_fantasia;
         $data['nome_responsavel'] = $row->nome_responsavel;

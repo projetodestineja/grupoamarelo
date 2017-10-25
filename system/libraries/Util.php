@@ -5,7 +5,7 @@ if (!defined('BASEPATH'))
 
 class CI_Util {
 
-    function validaCpf($cpf = null) {
+    function ValidaCpf($cpf = null) {
 
         // Verifica se um n�mero foi informado
         if (empty($cpf)) {
@@ -69,7 +69,7 @@ class CI_Util {
         }
     }
 
-    function ValidarCnpj($cnpj_user) {
+    function ValidaCnpj($cnpj_user) {
         $cnpj = preg_replace('/[^0-9]/', '', (string) $cnpj_user);
         // Valida tamanho
         if (strlen($cnpj) != 14) {

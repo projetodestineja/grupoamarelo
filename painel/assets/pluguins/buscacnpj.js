@@ -103,7 +103,7 @@ function pesquisacnpj(valor) {
 
         //Expressão regular para retirar digitos nao numericos CNPJ.
         cnpj = cnpj.replace(/[^0-9]/g, '');
-
+			
         //Valida o formato do CNPJ.
         if (cnpj.length == 14) {
 

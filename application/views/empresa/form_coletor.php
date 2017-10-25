@@ -231,13 +231,6 @@
     </div>
 </form>
 
-<style>
-    .has-error .form-control{ border:red solid 1px;}
-	.has-error{color:#F00}
-    
-    .loading_form{ display:none; background:  url('<?php echo base_url('painel/assets/img/ajax-loader.gif');?>') no-repeat center center rgba(255,255,255,0.8);  position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px; z-index: 9999;  }
-</style>   
-
 <script>
 	<?php if (isset($atuacao)) { ?>
         var i = <?php echo (int) $atuacao; ?>;
@@ -250,9 +243,7 @@
      <?php } ?>
 
      function licenca_list(id) {
-        $("#result_licenca").load("<?php echo site_url('cadastro/licenca_list/') ?>" + id, function () {
-            /*alert( "carregouuuuu...." );*/
-         });
+        $("#result_licenca").load("<?php echo site_url('cadastro/licenca_list/') ?>" + id);
      }
 
 	<?php if (isset($atuacao)) { ?>
