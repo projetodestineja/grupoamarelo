@@ -1,3 +1,8 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+header('Content-Type: text/html; charset=utf-8');
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -55,7 +60,7 @@
                 <?php if (isset($menu_mapa)) { ?>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="<?php echo site_url(); ?>">Painel</a>
+                            <a href="<?php echo site_url('painelempresa'); ?>">Painel</a>
                         </li>
                         <?php
                         foreach ($menu_mapa as $key => $item) {

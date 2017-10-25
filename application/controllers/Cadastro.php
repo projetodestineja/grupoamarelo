@@ -24,6 +24,7 @@ class Cadastro extends CI_Controller {
 		
 		/****** Busca CNPJ Global **************/
 		$this->load->js('painel/assets/pluguins/buscacnpj.js');
+                $this->load->js('painel/assets/pluguins/buscacep.js');
     }
 
     public function index() {
@@ -46,8 +47,8 @@ class Cadastro extends CI_Controller {
         $row_funcao = $this->empresa_model->get_funcao_row($row->id_funcao);
 
         //Dados empresa
-        $data['cnpj'] = $row->cnpj;
-        $data['cpf'] = $row->cpf;
+        $data['cnpj'] = (!empty($row->cnpj)?$row->cnpj:$row->cpf);
+		
         $data['razao_social'] = $row->razao_social;
         $data['nome_fantasia'] = $row->nome_fantasia;
         $data['nome_responsavel'] = $row->nome_responsavel;
@@ -93,6 +94,9 @@ class Cadastro extends CI_Controller {
         $data['result_atuacoes'] = $this->empresa_model->consultar_area_secundaria_Id($id);
         $data['areas_atuacoes'] = $this->empresa_model->get_all_area_atuacao();
 
+        //Buscando categorias de residuos coletados
+        $data['categorias_residuos'] = $this->empresa_model->get_all_categorias_residuos($data['id']);
+        
         //Trabalho o select no form
         $uf = ($this->input->post('estado') ? $this->input->post('estado') : $row->uf_estado);
         $data['estados'] = $this->endereco_model->get_all_estados(); // Listamos todos estados normalmente
@@ -138,7 +142,6 @@ class Cadastro extends CI_Controller {
         $this->form_validation->set_rules('cep', 'CEP', 'required');
         $this->form_validation->set_rules('logradouro', 'lagradouro', 'required');
         $this->form_validation->set_rules('numero', 'número do endereço', 'required');
-        $this->form_validation->set_rules('complemento', 'complemento do endereço', 'required');
         $this->form_validation->set_rules('bairro', 'bairro', 'required');
         $this->form_validation->set_rules('cidade', 'cidade', 'required');
         $this->form_validation->set_rules('estado', 'estado', 'required');
@@ -154,6 +157,7 @@ class Cadastro extends CI_Controller {
         } else {
             $this->empresa_model->empresa_update($id, $data, $post);
             $this->empresa_model->atuacao((int) $id); //Atualizar o tabela atuacao
+            $this->empresa_model->update_categorias_residuos((int) $id);
             $resposta = 'Empresa coletora atualizada com sucesso.';
             $retorno = true;
         }

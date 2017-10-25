@@ -4,9 +4,11 @@
     <li class="nav-item">
         <a class="nav-link active" href="#perfil" role="tab" data-toggle="tab">Perfil</a>
     </li>
+    <?php if(strlen($cnpj)>14){ ?>
     <li class="nav-item">
         <a class="nav-link" href="#atuacao_secundaria" role="tab" data-toggle="tab">Atuação Secundária</a>
     </li>
+    <?php } ?>
 </ul>
 
 
@@ -18,14 +20,15 @@
 
                 <form id="form_cad_coletor" action="" method="POST">
                    
+
                     <div class="form-row">
                         <div class="form-group col-md-12" >
-                            <div class="form-check form-check-inline">
+                            <div class="form-check form-check-inline" id="radiopessoajuridica" id="radiopessoajuridica">
                                 <label class="form-check-label">
                                     <input <?php echo (($tipo_cadastro == 'J' or ! isset($tipo_cadastro)) ? 'checked' : '') ?> class="form-check-input" type="radio" name="tipo_cadastro" id="pjuridica" value="J"> Pessoa Jurídica</input>
                                 </label>
                             </div>
-                            <div class="form-check form-check-inline">
+                            <div class="form-check form-check-inline" id="radiopessoafisica" name="radiopessoafisica" >
                                 <label class="form-check-label">
                                     <input <?php echo ($tipo_cadastro == 'F' ? 'checked' : '') ?>  class="form-check-input" type="radio" name="tipo_cadastro" id="pfisica"  value="F"> Pessoa Física</input>
                                 </label>
@@ -33,21 +36,24 @@
                         </div>   
                     </div>
 
+                     <input name="tipo_cadastro" type="hidden" value="<?php echo (strlen($cnpj)<=14?'F':'J'); ?>" >
+
+
 
                     <div class="form-row  required">
-                        <div class="form-group col-md-4 col-pjuridica " >
+                        <div class="form-group col-md-2 col-pjuridica " id="divcnpj" id="divcnpj">
                             <label for="cnpj" class="col-form-label">CNPJ</label>
                             <input type="text" class="form-control cnpj" id="cnpj" name="cnpj" value="<?php echo $cnpj; ?>" disabled  >
                         </div>
-                        <div class="form-group col-md-4  col-pfisica" >
+                        <div class="form-group col-md-2  col-pfisica" id="divcpf" id="divcpf">
                             <label for="cpf" class="col-form-label">CPF</label>
-                            <input type="text" class="form-control cpf" id="cpf" name="cpf" value="<?php echo $cpf; ?>" placeholder="000.000.000-00"  disabled >
+                            <input type="text" class="form-control cpf" id="cpf" name="cpf" value="<?php echo $cnpj; ?>" placeholder="000.000.000-00"  disabled >
                         </div>
-                        <div class="form-group col-md-4 col-pjuridica" >
+                        <div class="form-group col-md-5 col-pjuridica" >
                             <label required for="rsocial" class="col-form-label">Razão Social</label>
                             <input type="text" class="form-control" id="rsocial" name="rsocial" value="<?php echo $razao_social; ?>" placeholder="Razão Social">
                         </div>
-                        <div class="form-group col-md-4  col-pjuridica" >
+                        <div class="form-group col-md-5  col-pjuridica" >
                             <label for="nfantasia" class="col-form-label">Nome Fantasia</label>
                             <input type="text" class="form-control" id="nfantasia" name="nfantasia" value="<?php echo $nome_fantasia; ?>" placeholder="Nome Fantasia">
                         </div>
@@ -59,17 +65,18 @@
                             <label for="nresponsavel" class="col-form-label">Nome do Responsável</label>
                             <input required type="text" class="form-control" id="nresponsavel" name="nresponsavel" value="<?php echo $nome_responsavel; ?>" placeholder="Ex.: César Silva">
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-4" id="divatividadeprincipal" name="divatividadeprincipal">
                             <label for="area_atuacao">Área de Atuação Principal</label>
                             <select class="form-control" id="area_atuacao" name="area_atuacao">
                                 <option value="0">Outra</option>
                                 <?php
                                 if ($areas_atuacoes) {
                                     foreach ($areas_atuacoes as $n) {
-                                        ?>
-                                        <option <?php echo ((isset($row_atuacao_principal->codigo_area_atuacao) and $row_atuacao_principal->codigo_area_atuacao == $n->codigo) ? "selected" : ''); ?> value="<?php echo $n->codigo; ?>"  ><?php echo $n->area_atuacao; ?></option>
-    <?php }
-} ?>
+                                 	$selected = ((isset($row_atuacao_principal->codigo_area_atuacao) and $row_atuacao_principal->codigo_area_atuacao == $n->codigo) ? "selected" : '');
+								 ?>
+                                 <option <?php echo $selected; ?> value="<?php echo $n->codigo; ?>"  ><?php echo $n->area_atuacao; ?></option>
+									<?php }
+                                } ?>
                             </select>
                         </div>
                         <div style="display:none;" class="form-group col-md-3" id="outra_area_option">
@@ -161,6 +168,9 @@
         </div>
 
     </div>
+    
+    
+    <?php if(strlen($cnpj)>14){ ?>
     <div role="tabpanel" class="tab-pane fade" id="atuacao_secundaria">
         <?php  if ($result_atuacoes) {
             foreach ($result_atuacoes as $n) {
@@ -176,7 +186,94 @@
         ?>
             <h3>Nenhuma atuação secundaria cadastrada.</h3>
         <?php } ?>
-
     </div>
+    <?php } ?>
+    
+    
 </div>
+
+<script>
+
+    
+     //redimensiona a div do select area_atuacao se nao precisar do campo "outra"
+     if ((document.getElementById('area_atuacao').value)!=0){
+         $("#divatividadeprincipal").removeClass("form-group col-md-4");
+         $("#divatividadeprincipal").addClass("form-group col-md-7");
+     }   
+     
+     $("#area_atuacao").change(function () {
+        if (this.value == 0) {
+            $("#divatividadeprincipal").removeClass("form-group col-md-7");
+            $("#divatividadeprincipal").addClass("form-group col-md-4");
+            $("#outra_area_option").show();
+            
+        } else {
+            $("#divatividadeprincipal").removeClass("form-group col-md-4");
+            $("#divatividadeprincipal").addClass("form-group col-md-7");
+            $("#outra_area_option").hide();
+        }
+     });
+
+
+    //atualizando lista de cidades a cada mudança no select estados
+    $("select[name=estado]").change(function(){
+        var estado = $(this).val();
+        resetaCombo('cidade');
+        load_cidades(estado,null);
+    });
+    
+    function load_cidades(estado,cidade=NUll){
+        //alert(cidade);
+                $.getJSON( '<?php echo site_url(); ?>' + 'empresa/getcidades/' + estado+'?cidade='+cidade, function (data){
+
+                    var option = new Array();
+
+                    $.each(data, function(i, obj){
+
+                        option[i] = document.createElement('option');
+                        $( option[i] ).attr( {value : obj.id} );
+                        if(obj.selected!=''){
+                            $( option[i] ).attr( {selected : obj.selected} );
+                        }
+                        $( option[i] ).append( obj.nome_cidade );
+
+                        $("select[name='cidade']").append( option[i] );
+
+                    });
+
+                });
+
+        }
+
+        function resetaCombo( el ) {
+           $("select[name='"+el+"']").empty();
+           var option = document.createElement('option');
+           $( option ).attr( {value : ''} );
+           $( option ).append( 'Selecione a Cidade' );
+           $("select[name='"+el+"']").append( option );
+        }
+     
+    
+
+	<?php if(strlen($cnpj)<=14){?>
+		form_empresa('F');
+	<?php }else{ ?>
+		form_empresa('J');
+	<?php } ?>	
+	
+	function form_empresa(value) {
+
+       if (value == 'F') {
+           $('.col-pjuridica').hide();
+           $('.col-pfisica').show();
+           document.getElementById("cnpj").required = false;
+           document.getElementById("cpf").required = true;
+       } else {
+           $('.col-pfisica').hide();
+           $('.col-pjuridica').show();
+           document.getElementById("cpf").required = false;
+           document.getElementById("cnpj").required = true;
+       }
+    }
+</script>
 

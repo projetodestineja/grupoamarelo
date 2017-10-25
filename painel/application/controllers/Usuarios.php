@@ -6,7 +6,7 @@ class Usuarios extends CI_Controller {
 
     var $table = 'usuarios';
     var $column_order = array('id', 'nome', 'email', 'celular', 'telefone', 'habilitado'); //Campos da tabela para ordernar coluna
-    var $column_search = array('id', 'Nome', 'email', 'celular', 'telefone', 'complemento'); //campos da tabela para fazer pesquisa no banco
+    var $column_search = array('id', 'nome', 'email', 'celular', 'telefone', 'complemento'); //campos da tabela para fazer pesquisa no banco
     var $order = array('id' => 'desc'); // Ordem padrão do datagrid
 
     function __construct() {
@@ -255,7 +255,7 @@ class Usuarios extends CI_Controller {
         $array_itens = explode(",", $this->input->post('ids_delete'));
         foreach ($array_itens as $index => $id) {
             if (is_numeric($id) && $id >= 1) {
-                $this->usuarios_model->deletar($id); /* model deletar noticia */
+                $this->usuarios_model->deletar($id);
             }
         }
         $error = "Selected countries (id's: " . $this->input->post('ids_delete') . ") deleted with success";

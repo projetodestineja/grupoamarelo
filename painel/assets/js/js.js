@@ -74,19 +74,62 @@ function valida_cpf(Objcpf) {
 }
 
 
+/************ Mascara CPF e CNPJ mesmo input ****************
+Coloque apenas isso no input:
+onkeypress="mascaraMutuario(this,cpfCnpj)" maxlength="18" onblur="clearTimeout()" 
+***************************************************************/
+function mascaraMutuario(o, f) {
+   v_obj = o
+   v_fun = f
+   setTimeout('execmascara()', 1)
+}
+function execmascara() {
+   v_obj.value = v_fun(v_obj.value)
+}
+function cpfCnpj(v) {
+  //Remove tudo o que não é dígito
+  v = v.replace(/\D/g, "")
+  if (v.length <= 13) { //CPF
+    //Coloca um ponto entre o terceiro e o quarto dígitos
+    v = v.replace(/(\d{3})(\d)/, "$1.$2")
+    //Coloca um ponto entre o terceiro e o quarto dígitos
+    //de novo (para o segundo bloco de números)
+    v = v.replace(/(\d{3})(\d)/, "$1.$2")
+    //Coloca um hífen entre o terceiro e o quarto dígitos
+    v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2")
+  } else { //CNPJ
+    //Coloca ponto entre o segundo e o terceiro dígitos
+    v = v.replace(/^(\d{2})(\d)/, "$1.$2")
+    //Coloca ponto entre o quinto e o sexto dígitos
+    v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
+    //Coloca uma barra entre o oitavo e o nono dígitos
+    v = v.replace(/\.(\d{3})(\d)/, ".$1/$2")
+    //Coloca um hífen depois do bloco de quatro dígitos
+    v = v.replace(/(\d{4})(\d)/, "$1-$2")
+  }
+  return v
+}
+/********************Fim mascara CPF e CNPJ**************/		
+		
+		
 //MÁSCARAS JQUERY MASK
 
 //PARA TEL-CEL
 var SPMaskBehavior = function (val) {
     return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
 },
-        spOptions = {
-            onKeyPress: function (val, e, field, options) {
-                field.mask(SPMaskBehavior.apply({}, arguments), options);
-            }
-        };
+ spOptions = {
+    onKeyPress: function (val, e, field, options) {
+    field.mask(SPMaskBehavior.apply({}, arguments), options);
+}
+};
 
 $(document).ready(function () {
+	
+	$( "select[name=area_atuacao]").change(function() {
+		(this.value == 0?$( "#outra_area_option" ).show():$( "#outra_area_option" ).hide());
+	});
+	
     $('.date').mask('00/00/0000');
     $('.time').mask('00:00:00');
     $('.date_time').mask('00/00/0000 00:00:00');
