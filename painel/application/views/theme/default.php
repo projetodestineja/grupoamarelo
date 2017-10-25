@@ -166,19 +166,7 @@
         <script src="<?php echo base_url('assets/js/sb-admin.js'); ?>"></script>
 
         <script type="text/javascript">
-            $(document).ready(function () {
-				
-                $('a[rel=modal_add_edit]').on('click', function (evt) {
-                    evt.preventDefault();
-                  
-					$('#modal_add_edit').modal({backdrop: 'static', keyboard: false}).modal('show').find('.modal-body').load($(this).attr('href'));
-
-                    return false;
-                });
-            
-			});
-
-
+          
             function load_cidades(estado, cidade = NUll) {
 
                 $.getJSON('<?php echo site_url(); ?>' + 'endereco/getcidades/' + estado + '?cidade=' + cidade, function (data) {
@@ -205,7 +193,15 @@
             }
 
             $(document).ready(function () {
+				
+				$('a[rel=modal_add_edit]').on('click', function (evt) {
+                    evt.preventDefault();
+                  
+					$('#modal_add_edit').modal({backdrop: 'static', keyboard: false}).modal('show').find('.modal-body').load($(this).attr('href'));
 
+                    return false;
+                });
+				
                 if ($('input[name=tipo_cadastro]:checked').val()) {
                     form_empresa($('input[name=tipo_cadastro]:checked').val());
                 }
@@ -218,12 +214,10 @@
                 $("#rnegocio").change(function () {
                     if (this.value == "outro") {
                         $("#outro_ramo_option").show();
-                        //alert('teste');
                     } else {
                         $("#outro_ramo_option").hide();
                     }
                 });
-
 
                 $('[data-toggle="tooltip"]').tooltip();
                 $('.menu-vertical-principal .menu-v-<?php echo $this->uri->segment(1); ?>').addClass("active");
