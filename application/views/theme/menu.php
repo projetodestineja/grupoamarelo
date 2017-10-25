@@ -1,3 +1,4 @@
+
 <ul class="navbar-nav navbar-sidenav menu-vertical-principal" id="exampleAccordion">
 
     <li class="nav-item menu-v-painelempresa <?php echo ($this->uri->segment(1) == '' ? 'active' : ''); ?>" data-toggle="tooltip" data-placement="right" title="Painel Administrativo">
@@ -27,6 +28,7 @@
             <li><a href="#">Status de Demandas</a></li>
             <li><a href="#">Ramos de Negócio</a></li>
             <li><a href="#">Alertas</a></li>
+
         </ul>
     </li>
     
