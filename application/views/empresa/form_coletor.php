@@ -270,4 +270,48 @@
      });
      
      
+     
+     
+     
+     
+     
+     //atualizando lista de cidades a cada mudança no select estados
+    $("select[name=estado]").change(function(){
+        var estado = $(this).val();
+        resetaCombo('cidade');
+        load_cidades(estado,null);
+    });
+    
+    function load_cidades(estado,cidade=NUll){
+        //alert(cidade);
+                $.getJSON( '<?php echo site_url(); ?>' + 'empresa/getcidades/' + estado+'?cidade='+cidade, function (data){
+
+                    var option = new Array();
+
+                    $.each(data, function(i, obj){
+
+                        option[i] = document.createElement('option');
+                        $( option[i] ).attr( {value : obj.id} );
+                        if(obj.selected!=''){
+                            $( option[i] ).attr( {selected : obj.selected} );
+                        }
+                        $( option[i] ).append( obj.nome_cidade );
+
+                        $("select[name='cidade']").append( option[i] );
+
+                    });
+
+                });
+
+        }
+
+        function resetaCombo( el ) {
+           $("select[name='"+el+"']").empty();
+           var option = document.createElement('option');
+           $( option ).attr( {value : ''} );
+           $( option ).append( 'Selecione a Cidade' );
+           $("select[name='"+el+"']").append( option );
+        }
+     
+     
 </script>
