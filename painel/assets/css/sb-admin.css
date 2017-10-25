@@ -513,4 +513,17 @@ body.fixed-nav {
   	padding: 8px 15px
   }
   .btn-warning,.btn-warning:hover{ color:#FFF}
-   input.has-error{ border: #F00 solid 1px !important;}
+  input.has-error{ border: #DC3545 solid 1px !important;}
+  .has-error .form-control{ border:#DC3545 solid 1px;}
+  .has-error{color:#DC3545}
+  .loading_form{
+	display: none;
+	background:  url(../img/ajax-loader.gif) no-repeat center center rgba(255,255,255,0.8);  	
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	z-index: 9999;
+
+}

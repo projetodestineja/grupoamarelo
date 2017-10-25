@@ -4,9 +4,11 @@
     <li class="nav-item">
         <a class="nav-link active" href="#perfil" role="tab" data-toggle="tab">Perfil</a>
     </li>
+    <?php if(strlen($cnpj)>14){ ?>
     <li class="nav-item">
         <a class="nav-link" href="#atuacao_secundaria" role="tab" data-toggle="tab">Atuação Secundária</a>
     </li>
+    <?php } ?>
 </ul>
 
 
@@ -18,6 +20,7 @@
 
                 <form id="form_cad_coletor" action="" method="POST">
                    
+
                     <div class="form-row">
                         <div class="form-group col-md-12" >
                             <div class="form-check form-check-inline" id="radiopessoajuridica" id="radiopessoajuridica">
@@ -33,6 +36,9 @@
                         </div>   
                     </div>
 
+                     <input name="tipo_cadastro" type="hidden" value="<?php echo (strlen($cnpj)<=14?'F':'J'); ?>" >
+
+
 
                     <div class="form-row  required">
                         <div class="form-group col-md-2 col-pjuridica " id="divcnpj" id="divcnpj">
@@ -41,7 +47,7 @@
                         </div>
                         <div class="form-group col-md-2  col-pfisica" id="divcpf" id="divcpf">
                             <label for="cpf" class="col-form-label">CPF</label>
-                            <input type="text" class="form-control cpf" id="cpf" name="cpf" value="<?php echo $cpf; ?>" placeholder="000.000.000-00"  disabled >
+                            <input type="text" class="form-control cpf" id="cpf" name="cpf" value="<?php echo $cnpj; ?>" placeholder="000.000.000-00"  disabled >
                         </div>
                         <div class="form-group col-md-5 col-pjuridica" >
                             <label required for="rsocial" class="col-form-label">Razão Social</label>
@@ -66,10 +72,11 @@
                                 <?php
                                 if ($areas_atuacoes) {
                                     foreach ($areas_atuacoes as $n) {
-                                        ?>
-                                        <option <?php echo ((isset($row_atuacao_principal->codigo_area_atuacao) and $row_atuacao_principal->codigo_area_atuacao == $n->codigo) ? "selected" : ''); ?> value="<?php echo $n->codigo; ?>"  ><?php echo $n->area_atuacao; ?></option>
-    <?php }
-} ?>
+                                 	$selected = ((isset($row_atuacao_principal->codigo_area_atuacao) and $row_atuacao_principal->codigo_area_atuacao == $n->codigo) ? "selected" : '');
+								 ?>
+                                 <option <?php echo $selected; ?> value="<?php echo $n->codigo; ?>"  ><?php echo $n->area_atuacao; ?></option>
+									<?php }
+                                } ?>
                             </select>
                         </div>
                         <div style="display:none;" class="form-group col-md-3" id="outra_area_option">
@@ -161,6 +168,9 @@
         </div>
 
     </div>
+    
+    
+    <?php if(strlen($cnpj)>14){ ?>
     <div role="tabpanel" class="tab-pane fade" id="atuacao_secundaria">
         <?php  if ($result_atuacoes) {
             foreach ($result_atuacoes as $n) {
@@ -176,11 +186,14 @@
         ?>
             <h3>Nenhuma atuação secundaria cadastrada.</h3>
         <?php } ?>
-
     </div>
+    <?php } ?>
+    
+    
 </div>
 
 <script>
+
     
      //redimensiona a div do select area_atuacao se nao precisar do campo "outra"
      if ((document.getElementById('area_atuacao').value)!=0){
@@ -200,16 +213,7 @@
             $("#outra_area_option").hide();
         }
      });
-     
 
-     // escondendo campos desnecessários dependendo do tipo de cadastro física ou jurídica
-     if ('<?php echo $tipo_cadastro;?>'=='J'){
-         $("#radiopessoafisica").hide();
-         $("#divcpf").hide();
-     } else {
-         $("#radiopessoajuridica").hide();
-         $("#divcnpj").hide();
-     }
 
     //atualizando lista de cidades a cada mudança no select estados
     $("select[name=estado]").change(function(){
@@ -250,4 +254,26 @@
         }
      
     
-</script>    
+
+	<?php if(strlen($cnpj)<=14){?>
+		form_empresa('F');
+	<?php }else{ ?>
+		form_empresa('J');
+	<?php } ?>	
+	
+	function form_empresa(value) {
+
+       if (value == 'F') {
+           $('.col-pjuridica').hide();
+           $('.col-pfisica').show();
+           document.getElementById("cnpj").required = false;
+           document.getElementById("cpf").required = true;
+       } else {
+           $('.col-pfisica').hide();
+           $('.col-pjuridica').show();
+           document.getElementById("cpf").required = false;
+           document.getElementById("cnpj").required = true;
+       }
+    }
+</script>
+

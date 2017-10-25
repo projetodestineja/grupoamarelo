@@ -301,10 +301,10 @@ header('Content-Type: text/html; charset=utf-8');
         }
 
         $('#area_atuacao option').each(function() {
-	var minhaString = $(this).text();
-	if(minhaString.length > 90){
-		$(this).text(minhaString.substring(0,90) + ' ...');
-	}
+			var minhaString = $(this).text();
+			if(minhaString.length > 90){
+				$(this).text(minhaString.substring(0,90) + ' ...');
+			}
         });
         
         $("#corpo_form").hide();

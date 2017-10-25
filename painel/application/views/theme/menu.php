@@ -12,7 +12,6 @@
         </a>
     </li>
 
-
     <!--
     <li class="nav-item menu-v-empresas" data-toggle="tooltip" data-placement="right" title="Empresas">
         <a class="nav-link nav-link-collapse collapsed " data-toggle="collapse" href="#collapseEmpresas" data-parent="#exampleAccordion">
@@ -23,12 +22,13 @@
         </ul>
     </li>-->
 
-<li class="nav-item menu-v-demandas" data-toggle="tooltip" data-placement="right" title="Demandas">
+	<li class="nav-item menu-v-demandas" data-toggle="tooltip" data-placement="right" title="Demandas">
         <a class="nav-link" href="#">
           <i class="fa fa-fw fa-list"></i> <span class="nav-link-text">Demandas</span>
         </a>
-    </li>
-<li class="nav-item menu-v-config menu-v-cidades" data-toggle="tooltip" data-placement="right" title="Configuracoes">
+     </li>
+    
+	 <li class="nav-item menu-v-config menu-v-cidades menu-v-demandas_status menu-v-areas_atuacao" data-toggle="tooltip" data-placement="right" title="Configurações" >
         <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseConfiguracoes" data-parent="#exampleAccordion">
           <i class="fa fa-fw fa-wrench"></i><span class="nav-link-text">Configurações</span>
         </a>
@@ -40,12 +40,13 @@
           <li><a href="<?php echo site_url('cidades'); ?>">Cidades Cadastro</a></li>
         </ul>
       </li>
+      
       <li class="nav-item menu-v-usuarios" data-toggle="tooltip" data-placement="right" title="Usuários">
         <a class="nav-link" href="<?php echo site_url('usuarios'); ?>" >
           <i class="fa fa-fw fa-user"></i><span class="nav-link-text">Usuários</span>
         </a>
       </li>
-</ul>
+	</ul>
 
 
 
