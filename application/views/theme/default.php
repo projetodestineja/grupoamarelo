@@ -123,11 +123,11 @@ header('Content-Type: text/html; charset=utf-8');
         </ol>
         <?php } ?>
         <div class="row" >
-            <div class="col-md-4">
+            <div class="col-md-8">
                 <h1 style="font-size:27px;"><?php echo $title; ?></h1>
 
             </div>
-            <div class="col-md-8 text-right">
+            <div class="col-md-4 text-right">
                 <span id="colvis"></span>
                 <?php
 				if(isset($menu_opcao_direita)){

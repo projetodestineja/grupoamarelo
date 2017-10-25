@@ -37,5 +37,9 @@ class Demanda_model extends CI_Model {
                             and ds.descricao not like 'Finalizado'
                order by status" )->result();
     }
+    
+    function add($data){
+        $this->db->insert('demandas',$data);
+    }
 
 }
