@@ -100,10 +100,12 @@ class Demandas extends CI_Controller {
 
 	public function add(){
 		$this->output->set_common_meta('Cadastrar Demanda','',''); //Title / Description / Tags
+		$data_inicio = ($this->input->post('data_inicio')?date('Y-m-d', strtotime(str_replace("/","-",$this->input->post('data_inicio')))):'');
+		$data_validade = ($this->input->post('data_validade')?date('Y-m-d', strtotime(str_replace("/","-",$this->input->post('data_validade')))):'');
 		$data = array(
 			//duração da demanda
-			'data_inicio' => $this->input->post('data_inicio'),
-			'data_validade' => $this->input->post('data_validade'),
+			'data_inicio' => $data_inicio,
+			'data_validade' => $data_validade,
 			//informações do resíduo
 			'residuo' => $this->input->post('residuo'),
 			'condicionado' => $this->input->post('condicionado'),
@@ -160,6 +162,11 @@ class Demandas extends CI_Controller {
 			
 		}
 		// validação dos campos
+
+		$data['responsavel'] = $row->nome_responsavel;
+		$data['ger_email'] = $row->email;
+		$data['ger_telefone1'] = $row->telefone1;
+		$data['ger_telefone2'] = $row->telefone2;
 		$uf = ($this->input->post('estado') ? $this->input->post('estado') : $row->uf_estado);
 		$data['estados'] = $this->endereco_model->get_all_estados(); // Listamos todos estados normalmente
 		$data['cidades'] = $this->endereco_model->get_all_cidades($uf); //<-UF no EDIT pra listar apenas a cidades do estado selecionado
