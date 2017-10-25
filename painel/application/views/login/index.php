@@ -81,9 +81,9 @@
     <script>
     $(document).ready(function(){
 		
-		$('#btn-rec-senha,#btn-rec-senha-close').on("click", function() {
-		  $('#form_rec_senha,#form-login').slideToggle();
-		});
+      $('#btn-rec-senha,#btn-rec-senha-close').on("click", function() {
+        $('#form_rec_senha,#form-login').slideToggle();
+      });
 
       /* carrega o focus no campo login no load da pagina */
       $('input[name=login]').focus();
@@ -149,10 +149,8 @@
                   return false;
                 }
              });
-			 
-			 
-          }
-		  $('.botao').attr("disabled",false);
+			    }
+		      $('.botao').attr("disabled",false);
           return false;
        });
 	   
