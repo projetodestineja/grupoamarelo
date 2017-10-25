@@ -121,9 +121,11 @@ class Empresa extends CI_Controller {
 			$empresa=(!empty($dados->razao_social)?$dados->razao_social.'<br>':'');
             $empresa.= (!empty($dados->nome_fantasia)?$dados->nome_fantasia.'<br>':'');
             $empresa.=(!empty($dados->nome_responsavel)?$dados->nome_responsavel.'<br>':''); 
-          
-            $row[] = '<input type="checkbox" value="' . $dados->id . '" rel="' . $dados->nome_responsavel . '" >';
-		    $row[] = $dados->cnpj.'<br>'.($dados->id_funcao=='1'?'Geradora':'Coletora');
+          	
+			$documento = (!empty($dados->cnpj)?$dados->cnpj:$dados->cpf);
+            
+			$row[] = '<input type="checkbox" value="' . $dados->id . '" rel="' . $dados->nome_responsavel . '" >';
+		    $row[] = $documento.'<br>'.($dados->id_funcao=='1'?'Geradora':'Coletora');
             $row[] = $empresa;
             $row[] = $dados->telefone1.'<br>'.$dados->telefone2;
             $row[] = '<a href="' . site_url('empresa/edit/' . $dados->id) . '" class="btn btn-sm btn-warning" ><i class="fa fa-fw fa-pencil-square-o"></i></a>';
@@ -201,6 +203,8 @@ class Empresa extends CI_Controller {
             $data['bairro'] = $this->input->post('bairro');
             $data['id_cidade'] = $this->input->post('cidade');
             $data['uf_estado'] = $this->input->post('estado');
+			
+			$data['outra_area_atuacao'] = $this->input->post('digite_area');
         }
 		
 		if($this->session->userdata('cpf_cnpj')){
@@ -233,6 +237,8 @@ class Empresa extends CI_Controller {
         $this->load->view('empresas/form_' . $row_funcao->controller, $data);
     }
 
+
+
     public function edit($id) {
 
         $row = $this->empresa_model->consultar_coletoraId($id);
@@ -249,8 +255,8 @@ class Empresa extends CI_Controller {
         $row_funcao = $this->empresa_model->get_funcao_row($row->id_funcao);
 
         //Dados empresa
-        $data['cnpj'] = $row->cnpj;
-        $data['cpf'] = $row->cpf;
+        $data['cnpj'] = (!empty($row->cnpj)?$row->cnpj:$row->cpf);
+        
         $data['razao_social'] = $row->razao_social;
         $data['nome_fantasia'] = $row->nome_fantasia;
         $data['nome_responsavel'] = $row->nome_responsavel;
@@ -292,7 +298,9 @@ class Empresa extends CI_Controller {
         $data['row_atuacao_principal'] = $this->empresa_model->consultar_area_Id($id);
         $data['result_atuacoes'] = $this->empresa_model->consultar_area_secundaria_Id($id);
         $data['areas_atuacoes'] = $this->empresa_model->get_all_area_atuacao();
-
+		if($data['row_atuacao_principal']){
+			$data['outra_area_atuacao'] = $data['row_atuacao_principal']->outra_area_atuacao;
+		}
         //Trabalho o select no form
         $uf = ($this->input->post('estado') ? $this->input->post('estado') : $row->uf_estado);
         $data['estados'] = $this->endereco_model->get_all_estados(); // Listamos todos estados normalmente
@@ -324,6 +332,10 @@ class Empresa extends CI_Controller {
 
         $this->load->view('empresas/form_' . $row_funcao->controller, $data);
     }
+
+
+
+
 
     private function post_coletora($post, $id) { // somente PJ
         $data = array(

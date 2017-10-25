@@ -59,9 +59,9 @@
 								} ?>
                             </select>
                         </div>
-                        <div style="display:none;" class="form-group col-md-3" id="outra_area_option">
+                        <div style="display:<?php echo (empty($outra_area_atuacao)?'none':'block'); ?>" class="form-group col-md-3" id="outra_area_option">
                             <label for="digite_ramo" class="col-form-label">Digite Outra Área de Atuação </label>
-                            <input type="text" class="form-control" id="digite_area" name="digite_area" value="" placeholder="Especifique a área de atuação">
+                            <input type="text" class="form-control" id="digite_area" name="digite_area" value="<?php echo $outra_area_atuacao; ?>" placeholder="Especifique a área de atuação">
                         </div>
                     </div>
 
@@ -230,20 +230,7 @@
         $("#result_licenca").load("<?php echo site_url('empresa/licenca_list/') ?>" + id);
      }
 
-     function form_empresa(value) {
-
-       if (value == 'F') {
-           $('.col-pjuridica').hide();
-           $('.col-pfisica').show();
-           document.getElementById("cnpj").required = false;
-           document.getElementById("cpf").required = true;
-       } else {
-           $('.col-pfisica').hide();
-           $('.col-pjuridica').show();
-           document.getElementById("cpf").required = false;
-           document.getElementById("cnpj").required = true;
-       }
-    }
+     
 
 
 </script>

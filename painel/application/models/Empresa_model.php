@@ -138,11 +138,14 @@ class Empresa_model extends CI_Model {
         $this->db->delete('empresas_areas_atuacao');
 
         //Montamos a primeira array com a atividade principal
+		
+		$digite_area = ($this->input->post('area_atuacao')==0?$this->input->post('digite_area'):NULL);
+		
         $data[] = array(
             'principal' => 1,
             'id_empresa' => (int) $id_empresa,
             'codigo_area_atuacao' => $this->input->post('area_atuacao'),
-            'outra_area_atuacao' => $this->input->post('digite_area')
+            'outra_area_atuacao' => $digite_area
         );
 
         //Montamos as demais arrays com as secundarias
