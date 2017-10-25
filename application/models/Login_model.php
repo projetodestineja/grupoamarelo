@@ -31,6 +31,11 @@ class Login_model extends CI_Model {
         }
     }
 
+    public function recuperar_senha($email){
+        $this->db->where('email',$email);
+        return $this->db->get('empresas'); 
+    }
+
     public function restrito() {
         if (!$this->session->has_userdata('empresa')) {
             redirect(site_url('login'));
