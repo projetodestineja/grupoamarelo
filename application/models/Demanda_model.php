@@ -25,5 +25,17 @@ class Demanda_model extends CI_Model {
                             and ds.descricao not like 'Finalizado'
                order by status" )->result();
     }
+    
+    public function lista_demandasbycidade($id_cidade) {
+      return $query = $this->db->query("select * 
+                            from demandas d
+                                    join demandas_status ds on d.status = ds.id
+                                    left join cidades c on c.id = d.col_id_cidade
+                            where col_id_cidade like '$id_cidade'
+                            and removido is null   
+                            and ds.descricao not like 'Aguardando %'
+                            and ds.descricao not like 'Finalizado'
+               order by status" )->result();
+    }
 
 }

@@ -36,9 +36,19 @@ class Demanda extends CI_Controller {
                if ($this->session->userdata['empresa']['funcao']==2){
                   $uf = $this->session->userdata['empresa']['uf'];
                   $nome_estado = $this->estado_model->busca_nomeestadobyuf($uf);
+                  $data['local'] = $nome_estado;
                   
-                  $dados['demandas'] = $this->demanda_model->lista_demandasbyuf($uf);
-                  $this->output->set_common_meta('Lista de Demandas de '.$nome_estado,'',''); 
+                  if ($this->input->post('btcidade')){
+                     $this->load->model('cidade_model');
+                     $data['local'] = $this->cidade_model->getcidadebyid($this->session->userdata['empresa']['id_cidade']);
+                     $dados['demandas'] = $this->demanda_model->lista_demandasbycidade($this->session->userdata['empresa']['id_cidade']);
+                     $this->load->view('demanda/nav_lista_demandas',$data);
+                  }
+                  else{
+                      $this->load->view('demanda/nav_lista_demandas',$data);
+                      $dados['demandas'] = $this->demanda_model->lista_demandasbyuf($uf);
+                  }
+
                } 
             }
             
