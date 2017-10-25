@@ -19,7 +19,7 @@
         <tr>
             <td>
                 <div style="padding:5px;">
-                    <img src="https://www.w3schools.com/bootstrap/paris.jpg" class="img-rounded" height="100" width="100">
+                    <img src="<?php echo $key->img; ?>" class="img-rounded" height="100" width="100">
                 </div>
             </td>
             <td>

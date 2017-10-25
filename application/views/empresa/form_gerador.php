@@ -20,12 +20,12 @@
                    
                     <div class="form-row">
                         <div class="form-group col-md-12" >
-                            <div class="form-check form-check-inline">
+                            <div class="form-check form-check-inline" id="radiopessoajuridica" id="radiopessoajuridica">
                                 <label class="form-check-label">
                                     <input <?php echo (($tipo_cadastro == 'J' or ! isset($tipo_cadastro)) ? 'checked' : '') ?> class="form-check-input" type="radio" name="tipo_cadastro" id="pjuridica" value="J"> Pessoa Jurídica</input>
                                 </label>
                             </div>
-                            <div class="form-check form-check-inline">
+                            <div class="form-check form-check-inline" id="radiopessoafisica" name="radiopessoafisica" >
                                 <label class="form-check-label">
                                     <input <?php echo ($tipo_cadastro == 'F' ? 'checked' : '') ?>  class="form-check-input" type="radio" name="tipo_cadastro" id="pfisica"  value="F"> Pessoa Física</input>
                                 </label>
@@ -35,19 +35,19 @@
 
 
                     <div class="form-row  required">
-                        <div class="form-group col-md-4 col-pjuridica " >
+                        <div class="form-group col-md-2 col-pjuridica " id="divcnpj" id="divcnpj">
                             <label for="cnpj" class="col-form-label">CNPJ</label>
                             <input type="text" class="form-control cnpj" id="cnpj" name="cnpj" value="<?php echo $cnpj; ?>" disabled  >
                         </div>
-                        <div class="form-group col-md-4  col-pfisica" >
+                        <div class="form-group col-md-2  col-pfisica" id="divcpf" id="divcpf">
                             <label for="cpf" class="col-form-label">CPF</label>
                             <input type="text" class="form-control cpf" id="cpf" name="cpf" value="<?php echo $cpf; ?>" placeholder="000.000.000-00"  disabled >
                         </div>
-                        <div class="form-group col-md-4 col-pjuridica" >
+                        <div class="form-group col-md-5 col-pjuridica" >
                             <label required for="rsocial" class="col-form-label">Razão Social</label>
                             <input type="text" class="form-control" id="rsocial" name="rsocial" value="<?php echo $razao_social; ?>" placeholder="Razão Social">
                         </div>
-                        <div class="form-group col-md-4  col-pjuridica" >
+                        <div class="form-group col-md-5  col-pjuridica" >
                             <label for="nfantasia" class="col-form-label">Nome Fantasia</label>
                             <input type="text" class="form-control" id="nfantasia" name="nfantasia" value="<?php echo $nome_fantasia; ?>" placeholder="Nome Fantasia">
                         </div>
@@ -59,7 +59,7 @@
                             <label for="nresponsavel" class="col-form-label">Nome do Responsável</label>
                             <input required type="text" class="form-control" id="nresponsavel" name="nresponsavel" value="<?php echo $nome_responsavel; ?>" placeholder="Ex.: César Silva">
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-4" id="divatividadeprincipal" name="divatividadeprincipal">
                             <label for="area_atuacao">Área de Atuação Principal</label>
                             <select class="form-control" id="area_atuacao" name="area_atuacao">
                                 <option value="0">Outra</option>
@@ -180,3 +180,38 @@
     </div>
 </div>
 
+<script>
+    
+     //redimensiona a div do select area_atuacao se nao precisar do campo "outra"
+     if ((document.getElementById('area_atuacao').value)!=0){
+         $("#divatividadeprincipal").removeClass("form-group col-md-4");
+         $("#divatividadeprincipal").addClass("form-group col-md-7");
+     }   
+     
+     $("#area_atuacao").change(function () {
+        if (this.value == 0) {
+            $("#divatividadeprincipal").removeClass("form-group col-md-7");
+            $("#divatividadeprincipal").addClass("form-group col-md-4");
+            $("#outra_area_option").show();
+            
+        } else {
+            $("#divatividadeprincipal").removeClass("form-group col-md-4");
+            $("#divatividadeprincipal").addClass("form-group col-md-7");
+            $("#outra_area_option").hide();
+        }
+     });
+     
+
+     // escondendo campos desnecessários dependendo do tipo de cadastro física ou jurídica
+     if ('<?php echo $tipo_cadastro;?>'=='J'){
+         $("#radiopessoafisica").hide();
+         $("#divcpf").hide();
+     } else {
+         $("#radiopessoajuridica").hide();
+         $("#divcnpj").hide();
+     }
+
+
+     
+    
+</script>    
