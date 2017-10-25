@@ -93,7 +93,7 @@ class Demanda extends CI_Controller {
 			$this->session->set_flashdata('resposta_erro', 'Empresa não identificada.');
 			redirect(site_url('demanda/lista_demandas'));
 		}
-		
+                
 		$data['ger_id_empresa'] = $row->id;
 		$data['ger_cep'] = $row->cep;
 		$data['ger_logradouro'] = $row->logradouro;
