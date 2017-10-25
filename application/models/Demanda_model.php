@@ -8,7 +8,6 @@ class Demanda_model extends CI_Model {
                             from demandas d
                                     join demandas_status ds on d.status = ds.id
                                     left join cidades c on c.id = d.col_id_cidade
-                                    join demandas_status ds on d.status = ds.id 
                             where ger_id_empresa = $id_geradora 
                             and removido is null    
                             and ds.descricao not like 'Finalizado'
