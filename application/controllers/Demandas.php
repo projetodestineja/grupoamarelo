@@ -19,6 +19,9 @@ class Demandas extends CI_Controller {
 	private function _init(){
 		$this->output->set_template('default');
 		
+        $this->load->js('painel/assets/pluguins/jquery.mask.js');
+        $this->load->js('painel/assets/js/js.js');
+		
 		/****** Data Tables **************/
         $this->load->js('painel/assets/pluguins/datatables/datatables.min.js');
         $this->load->js('painel/assets/pluguins/datatables/dataTables.bootstrap4.js');
