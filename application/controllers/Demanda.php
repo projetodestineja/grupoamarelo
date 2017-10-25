@@ -25,12 +25,23 @@ class Demanda extends CI_Controller {
             $this->load->js('painel/assets/pluguins/datatables/datatables.min.js');
             $this->load->js('painel/assets/pluguins/datatables/dataTables.bootstrap4.js');
             $this->load->js('painel/assets/pluguins/datatables/script.js');
+            $this->load->model('demanda_model');
+            $this->load->model('estado_model');
             
             if ($this->session->userdata['empresa']['funcao']==1){
-                $this->load->model('demanda_model');
                 $dados['demandas'] = $this->demanda_model->lista_demandasbyid($this->session->userdata['empresa']['id']);
+                $this->output->set_common_meta('Lista de Demandas da Geradora de Resíduos','',''); 
             }
-            $this->output->set_common_meta('Lista de Demandas','',''); //Title / Description / Tags
+            else{
+               if ($this->session->userdata['empresa']['funcao']==2){
+                  $uf = $this->session->userdata['empresa']['uf'];
+                  $nome_estado = $this->estado_model->busca_nomeestadobyuf($uf);
+                  
+                  $dados['demandas'] = $this->demanda_model->lista_demandasbyuf($uf);
+                  $this->output->set_common_meta('Lista de Demandas de '.$nome_estado,'',''); 
+               } 
+            }
+            
             $this->load->view('demanda/lista_demandas',$dados);
 	}
 
