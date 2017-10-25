@@ -48,58 +48,71 @@
       </div>
     </div>
 
-		<div class="form-row">
-			<div class="form-group col-md-12">
-				<input name="outro_endereco" id="outro_endereco" type="checkbox" value="1" <?php /*echo (($outro_endereco==1)?'checked':'');*/ ?> >
-				<label for="outro_endereco" class="col-form-label">A coleta será em outro endereço?</label>
-			</div>
+	<div class="form-row">
+		<div class="form-group col-md-12">
+			<input name="outro_endereco" id="outro_endereco" type="checkbox" value="1" <?php /*echo (($outro_endereco==1)?'checked':'');*/ ?> >
+			<label for="outro_endereco" class="col-form-label">A coleta será em outro endereço?</label>
 		</div>
-
-		<div class="form-row">
-			<div class="form-group col-md-2">
-					<label for="cep" class="col-form-label">CEP</label>
-					<input type="text" class="form-control cep" id="cep" name="cep" placeholder="000000-000" maxlength="8" onblur="pesquisacep(this.value);">
-			</div>
-			<div class="form-group col-md-5">
-					<label for="Rua" class="col-form-label">Rua</label>
-					<input required type="text" class="form-control" id="rua" name="rua" placeholder="Ex.: Av. José Silva, Rua São Cosme...">
-			</div>
-			<div class="form-group col-md-2">
-					<label for="numero" class="col-form-label">Número</label>
-					<input  type="number" class="form-control" id="numero" name="numero" placeholder="00">
-			</div>
-			<div class="form-group col-md-3">
-					<label for="complemento" class="col-form-label">Complemento</label>
-					<input type="text" class="form-control" id="complemento" name="complemento" placeholder="Ex.: Casa, Apartamento...">
-			</div>
+	</div>
+	
+	<div class="form-row">
+		<div class="form-group col-md-2 required">
+				<label for="cep" class="col-form-label">CEP</label>
+				<input type="text" class="form-control cep" id="cep" name="cep" placeholder="000000-000" maxlength="8" onblur="pesquisacep(this.value);" value="<?php echo $ger_cep; ?>">
 		</div>
-		<div class="form-row">
-				<div class="form-group col-md-4">
-						<label for="bairro" class="col-form-label">Bairro</label>
-						<input type="text" class="form-control" id="bairro" name="bairro" placeholder="Ex.: São Gonçalo, Manguinhos...">
-				</div>
-				<div class="form-group col-md-4">
-						<label for="estado" class="col-form-label">Estado</label>
-						<select required class="form-control" id="estado" name="estado">
-								<option value="">Selecione o Estado</option>
-								<?php foreach ($estados as $n) { ?>
-										<option value="<?php echo $n->uf; ?>"  ><?php echo $n->nome_estado; ?></option>
-								<?php } ?>
-						</select>
-				</div>
-
+		<div class="form-group col-md-5 required">
+				<label for="Rua" class="col-form-label">Rua</label>
+				<input type="text" class="form-control" id="rua" name="rua" placeholder="Ex.: Av. José Silva, Rua São Cosme..." value="<?php echo $ger_logradouro; ?>">
+		</div>
+		<div class="form-group col-md-2 required">
+				<label for="numero" class="col-form-label">Número</label>
+				<input type="number" class="form-control" id="numero" name="numero" placeholder="00" value="<?php echo $ger_numero; ?>">
+		</div>
+		<div class="form-group col-md-3">
+				<label for="complemento" class="col-form-label">Complemento</label>
+				<input type="text" class="form-control" id="complemento" name="complemento" value="<?php echo $ger_complemento; ?>" placeholder="Ex.: Casa, Apartamento...">
+		</div>
+	</div>
+	<div class="form-row required">
 			<div class="form-group col-md-4">
-					<label for="cidade" class="col-form-label">Cidade</label>
-					<select required class="form-control" id="cidade" name="cidade">
-							<option value="">Selecione a Cidade</option>
+					<label for="bairro" class="col-form-label">Bairro</label>
+					<input type="text" class="form-control" id="bairro" name="bairro" placeholder="Ex.: São Gonçalo, Manguinhos..." value="<?php echo $ger_bairro; ?>">
+			</div>
+			<div class="form-group col-md-4">
+					<label for="estado" class="col-form-label">Estado</label>
+					<select class="form-control" id="estado" name="estado">
+							<option value="">Selecione o Estado</option>
+							<?php foreach ($estados as $n) { ?>
+									<option value="<?php echo $n->uf; ?>" <?php echo ($n->uf==$ger_uf_estado?'selected':''); ?>><?php echo $n->nome_estado; ?></option>
+							<?php } ?>
 					</select>
 			</div>
+
+		<div class="form-group col-md-4">
+			<label for="cidade" class="col-form-label">Cidade</label>
+			<select class="form-control" id="cidade" name="cidade">
+					<option value="">Selecione a Cidade</option>
+					<?php foreach ($cidades as $n) {?>
+                  		<option value="<?php echo $n->id; ?>" <?php echo ($n->id==$ger_id_cidade?'selected':''); ?>  ><?php echo $n->nome_cidade;?></option>
+                   	 <?php } ?>
+			</select>
+		</div>
 	</div>
 
-		<button class="btn btn-success btn-md btn-salvar" type="submit"> <?php echo (!isset($id)?'Cadastrar':'Atualizar'); ?> </button>
+	<button class="btn btn-success btn-md btn-salvar" type="submit"> <?php echo (!isset($id)?'Cadastrar':'Atualizar'); ?> </button>
 </form>
 
 <script>
+$("#outro_endereco").click( function(){
+   if( $(this).is(':checked') ){
+		//alert("checked");
+		$('.novo_endereco').removeAttr('disable');
+	 } else{
+		//alert("rapaz q blz");
+		$('.novo_endereco').attr('disable');
+	 }
+});
+
 $(document).ready(function () {
 		$('input[name=data_inicio]').datepicker({
 			format: "dd/mm/yyyy",
@@ -117,15 +130,6 @@ $(document).ready(function () {
 			language: "pt-BR",
 			orientation: "botton left"
 		});
-});
-
-$("#outro_endereco").click( function(){
-   if( $(this).is(':checked') ){
-		//alert("checked");
-		//$('.novo_endereco').removeAttr('readonly');
-	 } else{
-		//alert("rapaz q blz");
-	 }
 });
 
 $(function () {

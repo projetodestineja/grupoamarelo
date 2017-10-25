@@ -509,7 +509,7 @@ body.fixed-nav {
   	position: relative;
   	cursor: pointer;
   	font-style: inherit;
-  	text-transform: uppercase !important;
+  	text-transform: capitalize !important;
   }
   .btn-salvar:before{content:'\f0c7'; font-family: 'FontAwesome'; font-size:18px; left:13px; position:absolute}
   .breadcrumb {
