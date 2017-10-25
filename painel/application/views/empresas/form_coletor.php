@@ -7,6 +7,9 @@
     <li class="nav-item">
         <a class="nav-link" href="#atuacao_secundaria" role="tab" data-toggle="tab">Atuação Secundária</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#categorias_residuos" role="tab" data-toggle="tab">Categorias de resíduos coletados</a>
+    </li>
     <?php if(isset($id)){ ?>
      <li class="nav-item">
         <a class="nav-link" href="#licenca" role="tab" data-toggle="tab">Licença</a>
@@ -46,7 +49,7 @@
                             <label for="nresponsavel" class="col-form-label">Nome do Responsável</label>
                             <input required type="text" class="form-control" id="nresponsavel" name="nresponsavel" value="<?php echo $nome_responsavel; ?>" placeholder="Ex.: César Silva">
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-4" id="outra_area_option">
                             <label for="area_atuacao">Área de Atuação Principal</label>
                             <select class="form-control" id="area_atuacao" name="area_atuacao">
                                 <option value="0">Outra</option>
@@ -99,7 +102,7 @@
                             <input required type="number" class="form-control" id="numero" name="numero" value="<?php echo $numero; ?>" placeholder="00">
                         </div>
                         <div class="form-group col-md-3">
-                            <label for="complemento" class="col-form-label">Complemento</label>
+                          <label for="complemento" class="col-form-label">Complemento</label>
                             <input type="text" class="form-control" id="complemento" name="complemento" value="<?php echo $complemento; ?>" placeholder="Ex.: Casa, Apartamento...">
                         </div>
                     </div>
@@ -198,6 +201,25 @@
             <button class="btn btn-success btn-md btn-salvar" type="submit">Salvar</button>
         </div>
         
+        <div role="tabpanel" class="tab-pane fade" id="categorias_residuos">
+            
+            <div id="categorias" style="margin-left:20px;">
+                
+            <?php if ($categorias_residuos) {
+                foreach ($categorias_residuos as $cr) {
+                ?>
+                <div class="checkbox" style="margin:5px;" >
+                    <label><input type="checkbox" value="<?php echo $cr->id; ?>"  <?php if ($cr->faz==1) echo "checked"; ?> id="categoria" name="categoria[]"  > <?php echo $cr->id.' - '.$cr->categoria; ?></label>
+                </div>
+                <?php }
+            } ?>    
+                
+            </div>  
+            <div id="categorias" style="margin-left:20px;">
+                <button class="btn btn-success btn-md btn-salvar" type="submit">Salvar</button>
+            </div>        
+        </div>
+        
         <?php if(isset($id)){ ?>
         <div role="tabpanel" class="tab-pane fade" id="licenca">
             <div align="right" >
@@ -230,7 +252,40 @@
         $("#result_licenca").load("<?php echo site_url('empresa/licenca_list/') ?>" + id);
      }
 
+
+            function form_empresa(value) {
+
+                if (value == 'F') {
+                    $('.col-pjuridica').hide();
+                    $('.col-pfisica').show();
+                    document.getElementById("cnpj").required = false;
+                    document.getElementById("cpf").required = true;
+                } else {
+                    $('.col-pfisica').hide();
+                    $('.col-pjuridica').show();
+                    document.getElementById("cpf").required = false;
+                    document.getElementById("cnpj").required = true;
+                }
+            }
+            
+//redimensiona a div do select area_atuacao se nao precisar do campo "outra"
+     if ((document.getElementById('area_atuacao').value)!=0){
+         $("#divatividadeprincipal").removeClass("form-group col-md-4");
+         $("#divatividadeprincipal").addClass("form-group col-md-7");
+     }   
      
+     $("#area_atuacao").change(function () {
+        if (this.value == 0) {
+            $("#divatividadeprincipal").removeClass("form-group col-md-7");
+            $("#divatividadeprincipal").addClass("form-group col-md-4");
+            $("#outra_area_option").show();
+            
+        } else {
+            $("#divatividadeprincipal").removeClass("form-group col-md-4");
+            $("#divatividadeprincipal").addClass("form-group col-md-7");
+            $("#outra_area_option").hide();
+        }
+     });
 
 
 </script>

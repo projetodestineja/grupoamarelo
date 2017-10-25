@@ -145,5 +145,34 @@ class Empresa_model extends CI_Model {
     }
 
     
+    public function get_all_categorias_residuos($id_empresa) {
+        
+        return 
+        $this->db->query("select 
+                            id, categoria ,
+                            (select 1 from empresas_categorias_residuos ecr where ecr.id_categoria_residuo = cr.id and id_empresa = $id_empresa) as faz
+                          from 
+                            categorias_residuos cr
+                          order by cr.id")->result();
+    }
+    
+    public function update_categorias_residuos($id_empresa) {
+        //Limpando tabela
+        $this->db->where('id_empresa', (int) $id_empresa);
+        $this->db->delete('empresas_categorias_residuos');
+
+        foreach ($this->input->post('categoria') as $codigo) {
+            $data[] = array(
+                'id_empresa' => (int) $id_empresa,
+                'id_categoria_residuo' => $codigo
+            );
+        }
+
+        //Fazemos o insert pegando a array montada acima
+        $this->db->insert_batch('empresas_categorias_residuos', $data);
+    }
+    
+    
+    
     
 }
