@@ -58,7 +58,9 @@ if (isset($_COOKIE['senha'])) $senha = $_COOKIE['senha'];
                         echo "<div class=\"alert alert-danger\" style=\"width:100%;margin-top:5px;\">".$this->session->flashdata('erro')." </div>"; ?>
         </div>
         <div class="card-body">
-            <form method="POST" action="<?php echo site_url('login') ?>">
+
+
+            <form method="POST" id="form-login" action="<?php echo site_url('login') ?>">
 
             <div class="form-row">
             Tipo de login:&nbsp;
@@ -109,11 +111,30 @@ if (isset($_COOKIE['senha'])) $senha = $_COOKIE['senha'];
             </div>
                 
               <input type="submit" class="btn btn-success btn-block">
+
+              <div class="text-center">
+                <a class="d-block small mt-3" href="<?php echo site_url('') ?>">Efetue seu cadastro</a>
+                <a class="d-block small"  id="btn-rec-senha" href="javascript:void(0)" >Esqueceu a senha?</a>
+              </div>
           </form>
-          <div class="text-center">
-            <a class="d-block small mt-3" href="<?php echo site_url('') ?>">Efetue seu cadastro</a>
-            <a class="d-block small" href="#">Esqueceu a senha?</a>
-          </div>
+
+          <form method="post" id="form_rec_senha" action="<?php echo site_url('login/recuperar_senha');?>" style="display:none" >
+              
+              <div class="form-group" id="col_email">
+              <h3>Recuperar Senha</h3>
+              <label for="login">Digite seu E-mail</label>
+              <input type="email" name="email_rec_senha" class="form-control" id="email_rec_senha" aria-describedby="email" placeholder="nome@dominio.com">
+             </div>
+             <div class="form-group">
+             	<button type="submit" class="btn btn-warning btn-block  botao"  ><i class="fa fa-send" aria-hidden="true"></i> Enviar</button>
+             </div>
+             
+             <div class="form-group">
+             	<button type="button" class="btn btn-danger btn-block botao" id="btn-rec-senha-close" ><i class="fa fa-ban" aria-hidden="true"></i> Cancelar</button>
+             </div>
+            </form>
+
+          
         </div>
       </div>
     </div>
@@ -131,25 +152,61 @@ if (isset($_COOKIE['senha'])) $senha = $_COOKIE['senha'];
     <script src="<?php echo base_url('painel/assets/js/js.js') ?>"></script>
 
     <script type="text/javascript">
+
+      $('#btn-rec-senha,#btn-rec-senha-close').on("click", function() {
+		    $('#form_rec_senha,#form-login').slideToggle();
+	  	});
+
+      $('#form_rec_senha').submit(function(){
+		   
+
+       
+		  $('.botao').attr("disabled",true);
+		   
+          var email = $('input[name=email_rec_senha]').val();
+          var erro = '';
+
+          if(email==''){
+			  
+              alert('Digite seu e-mail!');
+              $('input[name=email_rec_senha]').focus();
+			  
+          }else{
+
+             $.ajax({
+              url: $(this).attr("action"),
+              dataType: "json",
+              type: "POST",
+              data: $(this).serialize(),
+              success: function(json){			  
+                  alert(json.resposta);
+                  return false;
+                }
+             });
+
+			    }
+
+		      $('.botao').attr("disabled",false);
+          
+          return false;
+      });
+
       $( "#tipo_email" ).click(function() {
         $( "#col_email" ).show();
-        $( "#col_cnpj" ).hide();
-        $( "#col_cpf" ).hide();
+        $( "#col_cnpj,#col_cpf" ).hide();
         document.getElementById('cnpj').value="";
         document.getElementById('cpf').value="";
       });
 
       $( "#tipo_cnpj" ).click(function() {
-        $( "#col_email" ).hide();
+        $( "#col_email,#col_cpf" ).hide();
         $( "#col_cnpj" ).show();
-        $( "#col_cpf" ).hide();
         document.getElementById('email').value="";
         document.getElementById('cpf').value="";
       });
 
       $( "#tipo_cpf" ).click(function() {
-        $( "#col_email" ).hide();
-        $( "#col_cnpj" ).hide();
+        $( "#col_email,#col_cnpj" ).hide();
         $( "#col_cpf" ).show();
         document.getElementById('cnpj').value="";
         document.getElementById('email').value="";
