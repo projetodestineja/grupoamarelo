@@ -58,32 +58,32 @@
 		<div class="form-row required">
 			<div class="form-group col-md-2">
 				<label for="cep" class="col-form-label">CEP</label>
-				<input readonly required type="text" class="form-control cep" id="cep" name="cep" value="<?php echo $cep; ?>" placeholder="000000-000" maxlength="8" onblur="pesquisacep(this.value);">
+				<input readonly required type="text" class="form-control cep" id="cep" name="cep" value="<?php echo $ger_cep; ?>" placeholder="000000-000" maxlength="8" onblur="pesquisacep(this.value);">
 			</div>
 			<div class="form-group col-md-5">
 				<label for="Rua" class="col-form-label">Rua</label>
-				<input readonly required type="text" class="form-control" id="rua" name="logradouro" value="<?php echo $logradouro; ?>" placeholder="Ex.: Av. José Silva">
+				<input readonly required type="text" class="form-control" id="rua" name="logradouro" value="<?php echo $ger_logradouro; ?>" placeholder="Ex.: Av. José Silva">
 			</div>
 			<div class="form-group col-md-2">
 				<label for="numero" class="col-form-label">Número</label>
-				<input readonly type="number" class="form-control" id="numero" name="numero" value="<?php echo $numero; ?>" placeholder="00">
+				<input readonly type="number" class="form-control" id="numero" name="numero" value="<?php echo $ger_numero; ?>" placeholder="00">
 			</div>
 			<div class="form-group col-md-3">
 				<label for="complemento" class="col-form-label">Complemento</label>
-				<input readonly required type="text" class="form-control" id="complemento" name="complemento" value="<?php echo $complemento; ?>" placeholder="Ex.: Casa, Apartamento...">
+				<input readonly required type="text" class="form-control" id="complemento" name="complemento" value="<?php echo $ger_complemento; ?>" placeholder="Ex.: Casa, Apartamento...">
 			</div>
 	</div>
 	<div class="form-row  required">
 			<div class="form-group col-md-4">
 					<label for="bairro" class="col-form-label">Bairro</label>
-					<input readonly required type="text" class="form-control" id="bairro" name="bairro" value="<?php echo $bairro; ?>" placeholder="Ex.: São Gonçalo">
+					<input readonly required type="text" class="form-control" id="bairro" name="bairro" value="<?php echo $ger_bairro; ?>" placeholder="Ex.: São Gonçalo">
 			</div>
 			<div class="form-group col-md-4">
 				<label for="estado" class="col-form-label">Estado</label>
 				<select readonly required class="form-control" id="estado" name="estado">
 					<option value="">Selecione o Estado</option>
 					<?php foreach ($estados as $n) { ?>
-							<option value="<?php echo $n->uf; ?>" <?php echo ($n->uf == $uf_estado ? 'selected' : ''); ?>   ><?php echo $n->nome_estado; ?></option>
+							<option value="<?php echo $n->uf; ?>" <?php echo ($n->uf == $ger_uf_estado ? 'selected' : ''); ?>   ><?php echo $n->nome_estado; ?></option>
 					<?php } ?>
 				</select>
 			</div>
@@ -92,7 +92,7 @@
 				<select readonly required class="form-control" id="cidade" name="cidade">
 					<option value="">Selecione o Estado Antes</option>
 					<?php foreach ($cidades as $n) { ?>
-							<option value="<?php echo $n->id; ?>" <?php echo ($n->id == $id_cidade ? 'selected' : ''); ?>  ><?php echo $n->nome_cidade; ?></option>
+							<option value="<?php echo $n->id; ?>" <?php echo ($n->id == $ger_id_cidade ? 'selected' : ''); ?>  ><?php echo $n->nome_cidade; ?></option>
 					<?php } ?>
 				</select>
 			</div>

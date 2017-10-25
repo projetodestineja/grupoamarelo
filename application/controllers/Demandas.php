@@ -119,17 +119,14 @@ class Demandas extends CI_Controller {
 			redirect(site_url('demandas'));
 		}
 		
-		$data['id'] = $row->id;
-		$data['cep'] = $row->cep;
-		$data['logradouro'] = $row->logradouro;
-		$data['numero'] = $row->numero;
-		$data['complemento'] = $row->complemento;
-		$data['bairro'] = $row->bairro;
-		$data['id_cidade'] = $row->id_cidade;
-		$data['uf_estado'] = $row->uf_estado;
-		$uf = ($this->input->post('estado') ? $this->input->post('estado') : $row->uf_estado);
-        $data['estados'] = $this->endereco_model->get_all_estados(); // Listamos todos estados normalmente
-        $data['cidades'] = $this->endereco_model->get_all_cidades($uf); //<-UF no EDIT pra listar apenas a cidades do estado selecionado
+		$data['ger_id_empresa'] = $row->id;
+		$data['ger_cep'] = $row->cep;
+		$data['ger_logradouro'] = $row->logradouro;
+		$data['ger_numero'] = $row->numero;
+		$data['ger_complemento'] = $row->complemento;
+		$data['ger_bairro'] = $row->bairro;
+		$data['ger_id_cidade'] = $row->id_cidade;
+		$data['ger_uf_estado'] = $row->uf_estado;
 		// dados da empresa geradora
 		
 		// validação dos campos
@@ -149,7 +146,7 @@ class Demandas extends CI_Controller {
 			$this->form_validation->set_rules('bairro', 'bairro', 'required');
 			$this->form_validation->set_rules('cidade', 'cidade', 'required');
 			$this->form_validation->set_rules('estado', 'estado', 'required');
-
+			
 			if($this->form_validation->run()==FALSE){
 				$this->session->set_flashdata('resposta_erro',validation_errors('<div class="error">* ', '</div>'));
 			}else{
@@ -157,9 +154,12 @@ class Demandas extends CI_Controller {
 				$this->session->set_flashdata('resposta_ok', 'Demanda <strong>'.$this->input->post('residuo').'</strong> cadastrada com sucesso.');
 				redirect(site_url('demandas'));
 			}
-
+			
 		}
 		// validação dos campos
+		$uf = ($this->input->post('estado') ? $this->input->post('estado') : $row->uf_estado);
+		$data['estados'] = $this->endereco_model->get_all_estados(); // Listamos todos estados normalmente
+		$data['cidades'] = $this->endereco_model->get_all_cidades($uf); //<-UF no EDIT pra listar apenas a cidades do estado selecionado
 		
 		$data['menu_mapa'] = array(
 			'Demandas' => $this->uri->segment(1),
