@@ -23,7 +23,7 @@ if (! function_exists('datagrid_js'))
 		$grid_js.= 'var table_id;';	
 		$grid_js.= 'var rows_selected = [];';
 		
-		$grid_js.= ' if(altura_navegador<700){ altura_navegador = 700; }';
+		//$grid_js.= ' if(altura_navegador<700){ altura_navegador = 700; }';
 		//$grid_js.= 'alert(altura_navegador);';
 		
 		$grid_js.= 'table = $("#'.$config['grid_id'].'").DataTable({ ';
@@ -53,7 +53,7 @@ if (! function_exists('datagrid_js'))
 		}
 		$grid_js.= '],';
 		$grid_js.= '"lengthMenu": [[16, 25, 50, 100, 200, -1], [16, 25, 50, 100, 200, "Tudo"]],';
-		$grid_js.= '"scrollY": (altura_navegador-340)+"px",';
+		//$grid_js.= '"scrollY": (altura_navegador-340)+"px",';
 		$grid_js.= '	"ajax": {';
 		$grid_js.= '	"url": "'.$config['load_ajax'].'",';
 		$grid_js.= '	"type": "POST"';
@@ -103,7 +103,7 @@ if (! function_exists('datagrid_js'))
         $grid_js.='   cont++;';
         $grid_js.='};';
         $grid_js.='});';
-				  
+		 		  
 		$grid_js.='if(confirme_delete!=""){';
 		$grid_js.='	if (confirm("Confirma a Remoção de "+cont+" Registro(s):\n"+confirme_delete) == true) {';
 		$grid_js.='	  $.ajax({';
