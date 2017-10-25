@@ -13,7 +13,7 @@
         
         <div class="form-group col-md-12 required">
             <label for="titulo" class="col-form-label">CPF ou CNPJ</label>
-            <input name="cpf_cnpj" class="form-control" value="" id="input-cpf-cnpj" >
+            <input name="cpf_cnpj" class="form-control " onkeypress="mascaraMutuario(this,cpfCnpj)" maxlength="18" onblur="clearTimeout()"  value="" id="input-cpf-cnpj" >
         </div>
         
         <div class="form-group col-md-12">
@@ -70,21 +70,14 @@
 			return false;
 		}
 	});
-}	
+}
+
+
 $(document).ready(function () {
-	
-	$('input[name=cpf_cnpj]').keydown(function() {
-		var el = $(this);
-		if (el.val().length > 13) {
-			el.unmask('000.000.000-00');
-			el.mask('99.999.999/0001-99')
-		} else {
-			el.mask('000.000.000-00');
-		}
-	});
-	
 	$('#modal_add_edit #title_modal').html('<?php echo $title; ?>');
-});		
+});	
+
+	
 </script> 
 
     
