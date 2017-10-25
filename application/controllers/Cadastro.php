@@ -24,6 +24,7 @@ class Cadastro extends CI_Controller {
 		
 		/****** Busca CNPJ Global **************/
 		$this->load->js('painel/assets/pluguins/buscacnpj.js');
+                $this->load->js('painel/assets/pluguins/buscacep.js');
     }
 
     public function index() {
