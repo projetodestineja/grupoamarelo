@@ -19,7 +19,7 @@ class Demanda_model extends CI_Model {
                             from demandas d
                                     join demandas_status ds on d.status = ds.id
                                     left join cidades c on c.id = d.col_id_cidade
-                            where col_uf_estado like '$uf'
+                            where ger_uf_estado like '$uf'
                             and removido is null   
                             and ds.descricao not like 'Aguardando %'
                             and ds.descricao not like 'Finalizado'
@@ -31,7 +31,7 @@ class Demanda_model extends CI_Model {
                             from demandas d
                                     join demandas_status ds on d.status = ds.id
                                     left join cidades c on c.id = d.col_id_cidade
-                            where col_id_cidade like '$id_cidade'
+                            where ger_id_cidade like '$id_cidade'
                             and removido is null   
                             and ds.descricao not like 'Aguardando %'
                             and ds.descricao not like 'Finalizado'
