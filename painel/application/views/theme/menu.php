@@ -23,7 +23,7 @@
     </li>-->
 
 	<li class="nav-item menu-v-demandas" data-toggle="tooltip" data-placement="right" title="Demandas">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="<?php echo site_url('demandas'); ?>" >
           <i class="fa fa-fw fa-list"></i> <span class="nav-link-text">Demandas</span>
         </a>
      </li>
@@ -33,11 +33,11 @@
           <i class="fa fa-fw fa-wrench"></i><span class="nav-link-text">Configurações</span>
         </a>
         <ul class="sidenav-second-level collapse" id="collapseConfiguracoes">
-          <li><a href="<?php echo site_url('demandas_status'); ?>">Status de Demandas</a></li>
-          <li><a href="<?php echo site_url('areas_atuacao'); ?>">Áreas de Atuação</a></li>
+          <li><a href="<?php echo site_url('demandas_status'); ?>" >Status de Demandas</a></li>
+          <li><a href="<?php echo site_url('areas_atuacao'); ?>" >Áreas de Atuação</a></li>
           <li><a href="#">Alertas</a></li>
-          <li><a href="<?php echo site_url('config'); ?>">Config SMTP/E-mail Alertas</a></li>
-          <li><a href="<?php echo site_url('cidades'); ?>">Cidades Cadastro</a></li>
+          <li><a href="<?php echo site_url('config'); ?>" >Config SMTP/E-mail Alertas</a></li>
+          <li><a href="<?php echo site_url('cidades'); ?>" >Cidades Cadastro</a></li>
         </ul>
       </li>
       
