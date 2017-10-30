@@ -45,7 +45,11 @@ class Demanda extends CI_Controller {
 				'<i class="fa fa-fw fa-plus"></i> Nova Demanda',
 				'class="btn btn-primary btn-sm not-focusable" data-toggle="tooltip" title="Clique aqui para cadastrar uma demanda"'
 			);
-
+			$dados['menu_opcao_direita'][] = anchor(
+				'demanda/modal_filtro',
+				'<i class="fa fa-fw fa-filter"></i> Filtro',
+				'class="btn btn-primary btn-sm not-focusable" rel="modal_add_edit" data-toggle="tooltip" title="Fazer Filtro"'
+			);
 			$dados['url_ajax'] = site_url('demanda/get_list');
 
         } else
@@ -95,6 +99,7 @@ class Demanda extends CI_Controller {
 				'<i class="fa fa-fw fa-map-marker"></i> do meu Estado',
 				'class="btn btn-primary btn-sm not-focusable" data-toggle="tooltip" title="Clique para listar as demandas do meu Estado"'
 			);
+			
         } 
             
       	$this->load->view('demanda/index',$dados);
@@ -289,6 +294,12 @@ class Demanda extends CI_Controller {
 		$this->load->view('demanda/form_cad_demanda',$data);
 	}
 	
+	public function modal_filtro(){
+		$this->output->unset_template();
+		$data = array();
+		$data['title'] = "Filtrar Região";
+		$this->load->view('demanda/filtro',$data);
+	}
 	
 	public function form_post($id_update=''){
 		

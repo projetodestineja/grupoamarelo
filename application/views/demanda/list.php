@@ -53,7 +53,10 @@ if($result){ ?>
         <?php } ?>
 
         <div class="row" > 
-          <div class="col-md-12" > 
+          <div class="col-md-12" >
+            <a class="btn btn-sm btn-warning"  href="#" >
+              <i class="fa fa-search-plus" aria-hidden="true"></i> Visualizar
+            </a> 
             <?php if ($this->session->userdata['empresa']['funcao']==1){ ?>
               <a class="btn btn-sm btn-primary" href="<?php echo site_url('demanda/edit/'.$n->id); ?>" >
                 <i class="fa fa-list" ></i> Atualizar
@@ -61,11 +64,8 @@ if($result){ ?>
               <a class="btn btn-sm btn-danger remover" title="Remover Demanda <?php echo $n->residuo; ?> ?" href="<?php echo site_url('demanda/delete/'.$n->id); ?>" >
                 <i class="fa fa-close" ></i> Remover
               </a>
-            <?php }else{ ?>
-              <a class="btn btn-sm btn-warning"  href="#" >
-              <i class="fa fa-search-plus" aria-hidden="true"></i> Visualizar
-              </a>
-            <?php } ?> 
+            <?php } ?>
+              
           </div> 
         </div>
    </div> 
