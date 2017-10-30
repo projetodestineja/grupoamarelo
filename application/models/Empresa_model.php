@@ -34,6 +34,11 @@ class Empresa_model extends CI_Model {
         return $data['result'] = $this->db->get('empresas')->result();
     }
 
+    public function get_row_empresa($id) {
+        $this->db->where('id', (int) $id);
+        return $this->db->get('empresas')->row();
+    }
+
     public function consultar_coletoraId($id) {
         $this->db->where('id', (int) $id);
         return $this->db->get('empresas')->row();
@@ -157,19 +162,21 @@ class Empresa_model extends CI_Model {
     }
     
     public function update_categorias_residuos($id_empresa) {
-        //Limpando tabela
-        $this->db->where('id_empresa', (int) $id_empresa);
-        $this->db->delete('empresas_categorias_residuos');
+        if($this->input->post('categoria')){
+            //Limpando tabela
+            $this->db->where('id_empresa', (int) $id_empresa);
+            $this->db->delete('empresas_categorias_residuos');
 
-        foreach ($this->input->post('categoria') as $codigo) {
-            $data[] = array(
-                'id_empresa' => (int) $id_empresa,
-                'id_categoria_residuo' => $codigo
-            );
+            foreach ($this->input->post('categoria') as $codigo) {
+                $data[] = array(
+                    'id_empresa' => (int) $id_empresa,
+                    'id_categoria_residuo' => $codigo
+                );
+            }
+
+            //Fazemos o insert pegando a array montada acima
+            $this->db->insert_batch('empresas_categorias_residuos', $data);
         }
-
-        //Fazemos o insert pegando a array montada acima
-        $this->db->insert_batch('empresas_categorias_residuos', $data);
     }
     
     

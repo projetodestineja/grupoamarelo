@@ -482,8 +482,7 @@ class Empresa extends CI_Controller {
             if ($id == false) {// Não tem ID, então faz insert
                 $this->empresa_model->empresa_insert($data, $post); // retorna o insert_id
 
-				
-				      $this->session->unset_userdata('cpf_cnpj');
+				$this->session->unset_userdata('cpf_cnpj');
 
                 $resposta = 'Empresa geradora cadastrada com sucesso.';
             } else {
@@ -641,6 +640,7 @@ class Empresa extends CI_Controller {
 
             $this->load->library('upload', $config);
 
+            
             // Tratamos se existe erro para o upload
             if (!$this->upload->do_upload('licenca')) {
                 $json['error'] = $json['error_licenca'] = $this->upload->display_errors('', '');

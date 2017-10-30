@@ -10,7 +10,7 @@ class Cidade_model extends CI_Model {
     
     public function getcidadebyid($id_cidade) {
        $this->db->where('id',$id_cidade);
-       return $this->db->get('cidades')->row()->nome_cidade;
+       return $this->db->get('cidades')->row();
     }
 
 }
