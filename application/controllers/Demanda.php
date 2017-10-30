@@ -260,7 +260,6 @@ class Demanda extends CI_Controller {
 		$data['ger_bairro'] = $row->ger_bairro;
 		$data['ger_id_cidade'] = $row->ger_id_cidade;
 		$data['ger_uf_estado'] = $row->ger_uf_estado;	
-		
 
 		// Buscamos medidas para montar o select
 		$data['medidas'] = $this->demanda_model->get_all_medidas(); 
@@ -308,11 +307,16 @@ class Demanda extends CI_Controller {
 			$json = $this->validar_form_demanda();
 			
 			// Não temos Erro / Vamos fazer upload da imagem
-			if(!$json && $_FILES['img']['tmp_name']) {
+			if(!$json && isset($_FILES['img']['tmp_name'])) {
 				// Config upload
 				$valid = array();
 
-				$upload_path = './uploads/empresa/'.$id_empresa.'/demanda';
+				$upload_path = './uploads/empresa/'.(int)$id_empresa.'/demanda';
+
+				//Verifica se a pasta da empresa existe
+				if(!is_dir('uploads/empresa/'.(int)$id_empresa)){
+					mkdir('uploads/empresa/'.(int)$id_empresa)
+				}
 
 				$config['upload_path'] = $upload_path;
 				$config['allowed_types'] = 'gif|jpg|png|bmp|jpeg';
@@ -366,7 +370,7 @@ class Demanda extends CI_Controller {
 				
 				if($id_update){
 					//Deletar Imagem atual da demanda
-					if($_FILES['img']['tmp_name']){
+					if(isset($_FILES['img']['tmp_name'])){
 						$this->demanda_model->delete_img($id_update);
 					}
 					$this->demanda_model->update($data, $nome_imagem_server, $id_update, $id_empresa);
