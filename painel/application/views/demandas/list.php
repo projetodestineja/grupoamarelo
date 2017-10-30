@@ -2,7 +2,8 @@
 <?php 
 if($result){ ?>
 <?php foreach($result as $n){
-	$img = (isset($n->img)?$n->img:"http://www.premiermax.com.br/wp-content/uploads/2015/12/Sem-Imagem.jpg"); 
+ $capa = '../uploads/empresa/'.$n->ger_id_empresa.'/demanda/mini/'.$n->img;
+ $img = (is_file( $capa)?$capa:base_url('assets/img/demanda_sem_img.jpg')); 
 ?>
 <div class="row" >
 
