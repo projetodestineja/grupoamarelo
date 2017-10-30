@@ -216,7 +216,7 @@ class Cadastro extends CI_Controller {
         } else {
 
             $this->empresa_model->empresa_update($id, $data, $post);
-
+            $this->empresa_model->atuacao((int) $id); //Atualizar o tabela atuacao
             $resposta = 'Empresa geradora atualizada com sucesso.';
 
             $retorno = true;

@@ -41,8 +41,8 @@
                             <input type="text" class="form-control" id="nfantasia" name="nfantasia" value="<?php echo $nome_fantasia; ?>" placeholder="Nome Fantasia">
                         </div>
                     </div>
-                    <div class="form-row  required">
-                        <div class="form-group col-md-5">
+                    <div class="form-row  ">
+                        <div class="form-group col-md-5 required">
                             <label for="nresponsavel" class="col-form-label">Nome do Responsável</label>
                             <input required type="text" class="form-control" id="nresponsavel" name="nresponsavel" value="<?php echo $nome_responsavel; ?>" placeholder="Ex.: César Silva">
                         </div>
@@ -61,7 +61,7 @@
                         </div>
                         <div style="display:none;" class="form-group col-md-3" id="outra_area_option">
                             <label for="digite_ramo" class="col-form-label">Digite Outra Área de Atuação </label>
-                            <input type="text" class="form-control" id="digite_area" name="digite_area" value="" placeholder="Especifique a área de atuação">
+                            <input type="text" class="form-control" id="digite_area" name="digite_area" value="<?php if (isset($row_atuacao_principal->outra_area_atuacao)) echo $row_atuacao_principal->outra_area_atuacao; ?>" placeholder="Especifique a área de atuação">
                         </div>
                     </div>
 
@@ -85,12 +85,12 @@
 
 
                     <h3 class="">Endereço</h3>
-                    <div class="form-row  required">
-                        <div class="form-group col-md-2">
+                    <div class="form-row  ">
+                        <div class="form-group col-md-2 required">
                             <label for="cep" class="col-form-label">CEP</label>
                             <input required type="text" class="form-control cep" id="cep" name="cep" value="<?php echo $cep; ?>" placeholder="000000-000" maxlength="8" onblur="pesquisacep(this.value);">
                         </div>
-                        <div class="form-group col-md-5">
+                        <div class="form-group col-md-5 required">
                             <label for="Rua" class="col-form-label">Rua</label>
                             <input required type="text" class="form-control" id="rua" name="logradouro" value="<?php echo $logradouro; ?>" placeholder="Ex.: Av. José Silva">
                         </div>
@@ -254,6 +254,8 @@
      if ((document.getElementById('area_atuacao').value)!=0){
          $("#divatividadeprincipal").removeClass("form-group col-md-4");
          $("#divatividadeprincipal").addClass("form-group col-md-7");
+     } else{
+         $("#outra_area_option").show();
      }   
      
      $("#area_atuacao").change(function () {

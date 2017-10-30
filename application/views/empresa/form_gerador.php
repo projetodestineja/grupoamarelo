@@ -11,14 +11,14 @@
     <?php } ?>
 </ul>
 
-
+<form id="form_cad_gerador" action="" method="POST">
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane  active" id="perfil">
 
         <div class="row">
             <div class="col-md-12">
 
-                <form id="form_cad_coletor" action="" method="POST">
+                
                    
 
                     <div class="form-row">
@@ -60,8 +60,8 @@
                     </div>
 
 
-                    <div class="form-row  required">
-                        <div class="form-group col-md-5">
+                    <div class="form-row  ">
+                        <div class="form-group col-md-5 required">
                             <label for="nresponsavel" class="col-form-label">Nome do Responsável</label>
                             <input required type="text" class="form-control" id="nresponsavel" name="nresponsavel" value="<?php echo $nome_responsavel; ?>" placeholder="Ex.: César Silva">
                         </div>
@@ -81,7 +81,7 @@
                         </div>
                         <div style="display:none;" class="form-group col-md-3" id="outra_area_option">
                             <label for="digite_ramo" class="col-form-label">Digite Outra Área de Atuação </label>
-                            <input type="text" class="form-control" id="digite_area" name="digite_area" value="" placeholder="Especifique a área de atuação">
+                            <input type="text" class="form-control" id="digite_area" name="digite_area" value="<?php if (isset($row_atuacao_principal->outra_area_atuacao)) echo $row_atuacao_principal->outra_area_atuacao; ?>" placeholder="Especifique a área de atuação">
                         </div>
                     </div>
 
@@ -105,12 +105,12 @@
 
 
                     <h3 class="">Endereço</h3>
-                    <div class="form-row  required">
-                        <div class="form-group col-md-2">
+                    <div class="form-row  ">
+                        <div class="form-group col-md-2 required">
                             <label for="cep" class="col-form-label">CEP</label>
                             <input type="text" class="form-control cep" id="cep" name="cep" value="<?php echo $cep; ?>" placeholder="000000-000" maxlength="8" onblur="pesquisacep(this.value);">
                         </div>
-                        <div class="form-group col-md-5">
+                        <div class="form-group col-md-5 required">
                             <label for="Rua" class="col-form-label">Rua</label>
                             <input required type="text" class="form-control" id="rua" name="logradouro" value="<?php echo $logradouro; ?>" placeholder="Ex.: Av. José Silva">
                         </div>
@@ -118,7 +118,7 @@
                             <label for="numero" class="col-form-label">Número</label>
                             <input required type="number" class="form-control" id="numero" name="numero" value="<?php echo $numero; ?>" placeholder="00">
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-3 ">
                             <label for="complemento" class="col-form-label">Complemento</label>
                             <input type="text" class="form-control" id="complemento" name="complemento" value="<?php echo $complemento; ?>" placeholder="Ex.: Casa, Apartamento...">
                         </div>
@@ -163,7 +163,7 @@
                     </div>
 
                     <button class="btn btn-success btn-md btn-salvar" type="submit">Salvar</button>
-                </form>
+                
             </div>
         </div>
 
@@ -172,33 +172,76 @@
     
     <?php if(strlen($cnpj)>14){ ?>
     <div role="tabpanel" class="tab-pane fade" id="atuacao_secundaria">
-        <?php  if ($result_atuacoes) {
-            foreach ($result_atuacoes as $n) {
+
+            <?php
+            if ($result_atuacoes) {
+                $atuacao = 0;
+                foreach ($result_atuacoes as $n) {
+                    ?>
+                        
+                       
+                           <div class="form-row">
+                             <div class="col-md-12"><label for="area_atuacao_secundaria<?php echo $atuacao; ?>" >Atividade Secundária </label></div>
+                           </div>
+                           
+                            <div class="form-row"   >
+                            
+                                <div class="form-group col-md-10" id="divsel<?php echo $atuacao; ?>" name="divsel<?php echo $atuacao; ?>" >
+                                   <select class="form-control col-md-10" id="area_atuacao_secundaria<?php echo $atuacao; ?>" name="area_atuacao_secundaria[]" >
+                                        <?php if ($areas_atuacoes) {
+                                            foreach ($areas_atuacoes as $at) {
+                                        ?>
+                                        <option <?php echo ($n->codigo_area_atuacao == $at->codigo ? "selected" : ''); ?> value="<?php echo $at->codigo; ?>"  ><?php echo $at->area_atuacao; ?></option>
+                                            <?php }
+                                        } ?>
+                                    </select>
+                                
+                        	</div>
+                        
+                        <div class="form-group col-md-2" id="divbt<?php echo $atuacao; ?>" name="divbt<?php echo $atuacao; ?>" >
+                            <button class="btn btn-danger" type="button" onclick="remove_atividade(document.getElementById('area_atuacao_secundaria<?php echo $atuacao; ?>').value,<?php echo $atuacao; ?>);" >
+                                Excluir
+                            </button>
+                        </div>
+                         </div>   
+                                 
+                       
+                    <?php
+                    $atuacao++;
+                }
+            } else {
                 ?>
-                <div class="form-row" id="divatividadesecundaria">
-                    <div class="form-group col-md-12">
-                        <label for="atuacao_secundaria" class="col-form-label">Área de Atuação Secundária </label>
-                        <input type="text" readonly class="form-control" id="atuacao_secundaria" name="<?php echo $n->codigo; ?>" value="<?php echo $n->area_atuacao; ?>"></input>
-                    </div>
-                </div>
-            <?php }
-        } else {
-        ?>
-            <h3>Nenhuma atuação secundaria cadastrada.</h3>
-        <?php } ?>
-    </div>
+                <h3>Nenhuma atuação secundaria cadastrada.</h3>
+            <?php } ?>
+
+            <div  id="divatividadesecundaria" ></div>
+
+            <input type="button" class="btn btn-secondary" value="Adicionar Atividade Secundária" onclick="add_atividade_secundaria();">
+            <br><br>
+            <button class="btn btn-success btn-md btn-salvar" type="submit">Salvar</button>
+        </div>
     <?php } ?>
     
-    
+   
 </div>
-
+</form> 
 <script>
-
-    
+        <?php if (isset($atuacao)) { ?>
+        var i = <?php echo (int) $atuacao; ?>;
+	<?php } else { ?>
+        var i = 0;
+	<?php } ?>
+         
+        <?php if (isset($atuacao)) { ?>
+        var atuacao = <?php echo (int) $atuacao; ?>;
+	<?php } ?>
+            
      //redimensiona a div do select area_atuacao se nao precisar do campo "outra"
      if ((document.getElementById('area_atuacao').value)!=0){
          $("#divatividadeprincipal").removeClass("form-group col-md-4");
          $("#divatividadeprincipal").addClass("form-group col-md-7");
+     } else{
+         $("#outra_area_option").show();
      }   
      
      $("#area_atuacao").change(function () {
