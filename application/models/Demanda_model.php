@@ -148,6 +148,7 @@ class Demanda_model extends CI_Model {
     public function delete_img($id_demanda){
 
         $demanda =  $this->get_row_demanda($id_demanda);
+        
         $dir_base = "./uploads/empresa/".$demanda->ger_id_empresa."/demanda/";
         
         if(is_file($dir_base.$demanda->img)){
