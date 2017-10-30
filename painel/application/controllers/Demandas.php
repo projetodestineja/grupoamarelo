@@ -43,6 +43,7 @@ class Demandas extends CI_Controller {
 			"first_link" => FALSE,
 			"last_link" => FALSE
 		);
+		
 		$this->pagination->initialize($config);
 		$data['pagination'] = $this->pagination->create_links();
 		$offset = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
