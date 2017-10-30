@@ -1,7 +1,7 @@
 
 <form class="form_ajax"  onSubmit="send_form(); return false" action="<?php echo $action; ?>" method="POST" enctype="multipart/form-data"  >
     <div class="row" > 
-          <div class="col-md-12" >
+        <div class="col-md-12" >
             <div class="erro_envio" ></div>
         </div> 
         <div class="form-group col-md-8 required">

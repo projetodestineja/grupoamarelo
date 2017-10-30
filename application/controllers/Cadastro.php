@@ -24,7 +24,7 @@ class Cadastro extends CI_Controller {
 		
 		/****** Busca CNPJ Global **************/
 		$this->load->js('painel/assets/pluguins/buscacnpj.js');
-                $this->load->js('painel/assets/pluguins/buscacep.js');
+        $this->load->js('painel/assets/pluguins/buscacep.js');
     }
 
     public function index() {
@@ -57,7 +57,6 @@ class Cadastro extends CI_Controller {
         $data['telefone1'] = $row->telefone1;
         $data['telefone2'] = $row->telefone2;
         $data['email'] = $row->email;
-
 
         //Endereço
         $data['cep'] = $row->cep;
@@ -95,7 +94,7 @@ class Cadastro extends CI_Controller {
         $data['areas_atuacoes'] = $this->empresa_model->get_all_area_atuacao();
 
         //Buscando categorias de residuos coletados
-        $data['categorias_residuos'] = $this->empresa_model->get_all_categorias_residuos($data['id']);
+        $data['categorias_residuos'] = $this->empresa_model->get_all_categorias_residuos($id);
         
         //Trabalho o select no form
         $uf = ($this->input->post('estado') ? $this->input->post('estado') : $row->uf_estado);
@@ -112,6 +111,7 @@ class Cadastro extends CI_Controller {
     }
 
     private function post_coletora($post, $id) { // somente PJ
+       
         $data = array(
             //dados empresa
             'razao_social' => $post['rsocial'], // Deixa em branco se for pessoa física
@@ -131,7 +131,6 @@ class Cadastro extends CI_Controller {
             'uf_estado' => $post['estado']
         );
 
-        // $this->form_validation->set_rules('cnpj', 'CNPJ', 'required');
         $this->form_validation->set_rules('rsocial', 'razão social', 'required');
         $this->form_validation->set_rules('nfantasia', 'nome fantasia', 'required');
 
@@ -154,12 +153,15 @@ class Cadastro extends CI_Controller {
 
             $resposta = validation_errors('<span class="error">* ', '</span>');
             $retorno = false;
+
         } else {
+            
             $this->empresa_model->empresa_update($id, $data, $post);
             $this->empresa_model->atuacao((int) $id); //Atualizar o tabela atuacao
             $this->empresa_model->update_categorias_residuos((int) $id);
             $resposta = 'Empresa coletora atualizada com sucesso.';
             $retorno = true;
+
         }
 
         return array('resposta' => $resposta, 'retorno' => $retorno, 'data' => $data);
@@ -199,7 +201,6 @@ class Cadastro extends CI_Controller {
         $this->form_validation->set_rules('cep', 'CEP', 'required');
         $this->form_validation->set_rules('logradouro', 'lagradouro', 'required');
         $this->form_validation->set_rules('numero', 'número do endereço', 'required');
-        $this->form_validation->set_rules('complemento', 'complemento do endereço', 'required');
         $this->form_validation->set_rules('bairro', 'bairro', 'required');
         $this->form_validation->set_rules('cidade', 'cidade', 'required');
         $this->form_validation->set_rules('estado', 'estado', 'required');
