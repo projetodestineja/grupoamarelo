@@ -315,7 +315,7 @@ class Demanda extends CI_Controller {
 
 				//Verifica se a pasta da empresa existe
 				if(!is_dir('uploads/empresa/'.(int)$id_empresa)){
-					mkdir('uploads/empresa/'.(int)$id_empresa)
+					mkdir('uploads/empresa/'.(int)$id_empresa);
 				}
 
 				$config['upload_path'] = $upload_path;
