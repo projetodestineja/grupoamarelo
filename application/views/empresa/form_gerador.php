@@ -11,14 +11,14 @@
     <?php } ?>
 </ul>
 
-
+<form id="form_cad_gerador" action="" method="POST">
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane  active" id="perfil">
 
         <div class="row">
             <div class="col-md-12">
 
-                <form id="form_cad_gerador" action="" method="POST">
+                
                    
 
                     <div class="form-row">
@@ -222,9 +222,9 @@
         </div>
     <?php } ?>
     
-</form>    
+   
 </div>
-
+</form> 
 <script>
         <?php if (isset($atuacao)) { ?>
         var i = <?php echo (int) $atuacao; ?>;

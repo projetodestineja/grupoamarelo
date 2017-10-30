@@ -41,8 +41,8 @@
                             <input type="text" class="form-control" id="nfantasia" name="nfantasia" value="<?php echo $nome_fantasia; ?>" placeholder="Nome Fantasia">
                         </div>
                     </div>
-                    <div class="form-row  required">
-                        <div class="form-group col-md-5">
+                    <div class="form-row  ">
+                        <div class="form-group col-md-5 required">
                             <label for="nresponsavel" class="col-form-label">Nome do Responsável</label>
                             <input required type="text" class="form-control" id="nresponsavel" name="nresponsavel" value="<?php echo $nome_responsavel; ?>" placeholder="Ex.: César Silva">
                         </div>
