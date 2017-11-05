@@ -6,9 +6,9 @@ class Painelempresa extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-
-		
 		$this->_init();
+                $this->load->model('empresa_model');
+                $this->load->library('session'); 
 	}
 
 	private function _init()
@@ -28,12 +28,23 @@ class Painelempresa extends CI_Controller {
 	public function index()
 	{
 		
-		$this->output->set_common_meta('Painel Administrativo','',''); //Title / Description / Tags
-		
-		//$this->session->set_flashdata('resposta_erro', 'Dados inválidos');
-		//$this->session->set_flashdata('resposta_ok', 'É sucesso...');
-		
-		//$data['texto'] = 'AAAAAAAAAA';
+                switch ($this->session->userdata['empresa']['funcao']){
+                    
+                    case 1:
+                        $this->output->set_common_meta('Painel Administrativo Geradora','',''); 
+                        $this->load->view('dashboard/bemvindo_geradora');
+                        $this->load->view('dashboard/faq_geradora');
+                        break;
+                    case 2:
+                        $this->output->set_common_meta('Painel Administrativo Coletora','',''); 
+                        $this->load->view('dashboard/painel_coletora');
+                        break;
+                    case 3:
+                        $this->output->set_common_meta('Painel Administrativo Geradora e Coletora','',''); 
+                        $this->load->view('dashboard/painel_coletora');
+                        break;
+                }
+                
 		$data = array();
 		//$this->load->view('painel',$data);
 		
