@@ -42,7 +42,8 @@ class Login extends CI_Controller {
                         'id'     => $verifica->row()->id,
                         'razao_social' => $verifica->row()->razao_social,
                         'uf'=> $verifica->row()->uf_estado,
-                        'id_cidade'=> $verifica->row()->id_cidade  
+                        'id_cidade'=> $verifica->row()->id_cidade,
+                        'uf_estado'=> $verifica->row()->uf_estado
                     );
                     $this->session->set_userdata('empresa',$empresa_info);
 

@@ -179,6 +179,16 @@ class Empresa_model extends CI_Model {
         }
     }
     
+    public function verificaliberacao($id_empresa){
+        $this->db->where('id', (int) $id_empresa);
+        return $this->db->get('empresas')->row()->ativo;
+    }
+    
+    function countcertificados($id_empresa){ 
+            $this->db->where('id_empresa',$id_empresa);
+            $this->db->where('validade >',  date('Y-m-d H:i:s'));
+            return $this->db->count_all_results('empresas_certificados');
+        }
     
     
     

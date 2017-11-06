@@ -8,7 +8,7 @@
                   <i class="fa fa-fw fa-comments"></i>
                 </div>
                 <div class="mr-5">
-                  <?php echo $demandas_cadastradas; ?> Demandas cadastradas
+                   <?php echo $demandas_meu_estado; ?> Demandas cadastradas no seu Estado
                 </div>
               </div>
               <a href="<?php echo site_url('demanda'); ?>" class="card-footer text-white clearfix small z-1">
@@ -26,7 +26,7 @@
                   <i class="fa fa-fw fa-list"></i>
                 </div>
                 <div class="mr-5">
-                  X Propostas recebidas
+                  X Propostas realizadas
                 </div>
               </div>
               <a href="#" class="card-footer text-white clearfix small z-1">
@@ -44,7 +44,7 @@
                   <i class="fa fa-fw fa-shopping-cart"></i>
                 </div>
                 <div class="mr-5">
-                  Y Negócios Fechados
+                  X Negócios Fechados
                 </div>
               </div>
               <a href="#" class="card-footer text-white clearfix small z-1">
@@ -62,10 +62,10 @@
                   <i class="fa fa-fw fa-support"></i>
                 </div>
                 <div class="mr-5">
-                  Z Resíduos descartados
+                  <?php echo $certificados_ativos; ?> Certificado(s) ativo(s)
                 </div>
               </div>
-              <a href="#" class="card-footer text-white clearfix small z-1">
+              <a href="<?php echo site_url('cadastro'); ?>" class="card-footer text-white clearfix small z-1">
                 <span class="float-left">Ver detalhes</span>
                 <span class="float-right">
                   <i class="fa fa-angle-right"></i>

@@ -247,4 +247,11 @@ class Demanda_model extends CI_Model {
             return $this->db->count_all_results('demandas');
         }
         
+        function countdemandasbyuf($uf){
+            $this->db->where('ger_uf_estado',$uf);
+            $status = array(3, 6);
+            $this->db->where_in('status', $status);
+            return $this->db->count_all_results('demandas');
+        }
+        
 }
