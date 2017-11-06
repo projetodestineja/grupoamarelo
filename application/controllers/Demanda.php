@@ -297,7 +297,26 @@ class Demanda extends CI_Controller {
 	public function modal_filtro(){
 		$this->output->unset_template();
 		$data = array();
-		$data['title'] = "Filtrar Região";
+		$data['title'] = "Filtrar Demandas";
+
+		// dados da empresa geradora
+		$id_empresa = (int) $this->session->userdata['empresa']['id'];
+		
+		$row = $this->empresa_model->consultar_coletoraId($id_empresa);
+		if (!$row) {
+			$this->session->set_flashdata('resposta_erro', 'Empresa não identificada.');
+			redirect(site_url('demanda'));
+		}
+		
+		$data['col_id_cidade'] = $row->id_cidade;
+		$data['col_uf_estado'] = $row->uf_estado;
+
+		// Listamos todos estados normalmente
+		$data['estados'] = $this->endereco_model->get_all_estados(); 
+		
+		$uf = ($this->input->post('estado') ? $this->input->post('estado') : $row->uf_estado);
+		$data['cidades'] = $this->endereco_model->get_all_cidades($uf); //<-UF no EDIT pra listar apenas a cidades do estado selecionado
+
 		$this->load->view('demanda/filtro',$data);
 	}
 	
