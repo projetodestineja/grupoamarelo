@@ -78,7 +78,7 @@
                     <div class="panel panel-default ">
                         <div class="panel-heading accordion-toggle collapsed question-toggle" data-toggle="collapse" data-parent="#faqAccordion" data-target="#question4">
                             <div class="panel-title">
-                                <a href="#" class="ing">Como saber se o cliente aceitou a propostade coleta?</a>
+                                <a href="#" class="ing">Como saber se o cliente aceitou a proposta de coleta?</a>
                             </div>
 
                         </div>
