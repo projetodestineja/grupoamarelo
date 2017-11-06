@@ -45,24 +45,19 @@ class Demanda extends CI_Controller {
 				'<i class="fa fa-fw fa-plus"></i> Nova Demanda',
 				'class="btn btn-primary btn-sm not-focusable" data-toggle="tooltip" title="Clique aqui para cadastrar uma demanda"'
 			);
-			$dados['menu_opcao_direita'][] = anchor(
-				'demanda/modal_filtro',
-				'<i class="fa fa-fw fa-filter"></i> Filtro',
-				'class="btn btn-primary btn-sm not-focusable" rel="modal_add_edit" data-toggle="tooltip" title="Fazer Filtro"'
-			);
 			$dados['url_ajax'] = site_url('demanda/get_list');
-
+			
         } else
         if ($this->session->userdata['empresa']['funcao']==2){
-
+			
 			$row = $this->empresa_model->get_row_empresa($this->session->userdata['empresa']['id']);
 			
             $nome_estado = $this->estado_model->busca_nomeestadobyuf($row->uf_estado);
             $data['local'] = $nome_estado;
-                  
-                  
+			
+			
             if ($this->input->get('cidade')){
-			   
+				
 				$this->load->model('cidade_model');
 				$cidade = $this->cidade_model->getcidadebyid($this->input->get('cidade'));
 				
@@ -71,11 +66,11 @@ class Demanda extends CI_Controller {
 				$this->output->set_common_meta('Demandas para Coleta em '.$cidade->nome_cidade.'/'.$cidade->uf,'',''); 
 				
             }else{
-
+				
 				$this->output->set_common_meta('Demandas para Coleta em '.$nome_estado,'',''); 
-
+				
 			}
-
+			
 			/*
 			* Montamos a url para o ajax
 			*/
@@ -88,7 +83,7 @@ class Demanda extends CI_Controller {
 			}
 			$dados['url_ajax'] = site_url($url_ajax);
 			
-
+			
             $dados['menu_opcao_direita'][] = anchor(
 				'demanda/?estado='.$row->uf_estado.'&cidade='.$row->id_cidade, 
 				'<i class="fa fa-fw fa-map-marker"></i> da Minha Cidade', 
@@ -99,9 +94,14 @@ class Demanda extends CI_Controller {
 				'<i class="fa fa-fw fa-map-marker"></i> do meu Estado',
 				'class="btn btn-primary btn-sm not-focusable" data-toggle="tooltip" title="Clique para listar as demandas do meu Estado"'
 			);
+			$dados['menu_opcao_direita'][] = anchor(
+				'demanda/modal_filtro',
+				'<i class="fa fa-fw fa-filter"></i> Filtro',
+				'class="btn btn-primary btn-sm not-focusable" rel="modal_add_edit" data-toggle="tooltip" title="Fazer Filtro"'
+			);
 			
         } 
-            
+		
       	$this->load->view('demanda/index',$dados);
 	}
 
