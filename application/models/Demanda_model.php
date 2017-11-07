@@ -117,7 +117,16 @@ class Demanda_model extends CI_Model {
     function get_row_demanda($id){
         $this->db->where('id',$id);
         return $this->db->get('demandas')->row();
-     } 
+    }
+    
+    function get_categorias_residuos(){
+        return $this->db->get('categorias_residuos')->result();
+    }
+
+    function get_demandas_status(){
+        $this->db->where('ativo','1');
+        return $this->db->get('demandas_status')->result();
+    }
 	
     function get_result($sort = 'id', $order = 'asc', $limit = null, $offset = null) {
 		$this->db->order_by($sort, $order);

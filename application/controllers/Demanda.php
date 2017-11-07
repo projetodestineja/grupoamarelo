@@ -74,17 +74,23 @@ class Demanda extends CI_Controller {
 			/*
 			* Montamos a url para o ajax
 			*/
-			$url_ajax = 'demanda/get_list';
-			if($this->input->get('estado')){
-				$url_ajax.='?estado='.$this->input->get('estado');
-			}
+			$url_ajax = 'demanda/get_list/?';
 			if($this->input->get('cidade')){
 				$url_ajax.='&cidade='.$this->input->get('cidade');
+			}
+			if($this->input->get('estado')){
+				$url_ajax.='&estado='.$this->input->get('estado');
+			}
+			if($this->input->get('status')){
+				$url_ajax.='&status='.$this->input->get('status');
+			}
+			if($this->input->get('categoria')){
+				$url_ajax.='&categoria='.$this->input->get('categoria');
 			}
 			$dados['url_ajax'] = site_url($url_ajax);
 			
 			
-            $dados['menu_opcao_direita'][] = anchor(
+            /*$dados['menu_opcao_direita'][] = anchor(
 				'demanda/?estado='.$row->uf_estado.'&cidade='.$row->id_cidade, 
 				'<i class="fa fa-fw fa-map-marker"></i> da Minha Cidade', 
 				'class="btn btn-primary btn-sm not-focusable" data-toggle="tooltip" title="Clique para listar as demandas da sua cidade"'
@@ -93,7 +99,7 @@ class Demanda extends CI_Controller {
 				'demanda/?estado='.$row->uf_estado,
 				'<i class="fa fa-fw fa-map-marker"></i> do meu Estado',
 				'class="btn btn-primary btn-sm not-focusable" data-toggle="tooltip" title="Clique para listar as demandas do meu Estado"'
-			);
+			);*/
 			$dados['menu_opcao_direita'][] = anchor(
 				'demanda/modal_filtro',
 				'<i class="fa fa-fw fa-filter"></i> Filtro',
@@ -120,14 +126,21 @@ class Demanda extends CI_Controller {
 			$where.= " d.ger_id_empresa = '".(int)$id_empresa."' and  ";
 		}else
 		if($this->session->userdata['empresa']['funcao']==2){ // 2 Coletora
-
 			if($this->input->get('cidade')){
 				$where.= " d.ger_id_cidade = '".(int)$this->input->get('cidade')."' and  ";
-				$prefix = '?estado='.$this->input->get('estado').'&cidade='.$this->input->get('cidade');
-			}else
+				$prefix = '&estado='.$this->input->get('estado').'&cidade='.$this->input->get('cidade');
+			}
+			if($this->input->get('status')){
+				$where.= " d.status = ".$this->input->get('status')." and  ";
+				$prefix = '&status='.$this->input->get('status');
+			}
 			if($this->input->get('estado')){
 				$where.= " d.ger_uf_estado = '".$this->input->get('estado')."' and  ";
-				$prefix = '/?estado='.$this->input->get('estado');
+				$prefix = '&estado='.$this->input->get('estado');
+			}
+			if($this->input->get('categoria')){
+				$where.= " d.id_cat_residuo = ".$this->input->get('categoria')." and  ";
+				$prefix = '&categoria='.$this->input->get('categoria');
 			}
 		}
 		
@@ -298,7 +311,7 @@ class Demanda extends CI_Controller {
 		$this->output->unset_template();
 		$data = array();
 		$data['title'] = "Filtrar Demandas";
-
+		
 		// dados da empresa geradora
 		$id_empresa = (int) $this->session->userdata['empresa']['id'];
 		
@@ -310,13 +323,19 @@ class Demanda extends CI_Controller {
 		
 		$data['col_id_cidade'] = $row->id_cidade;
 		$data['col_uf_estado'] = $row->uf_estado;
-
+		
 		// Listamos todos estados normalmente
 		$data['estados'] = $this->endereco_model->get_all_estados(); 
 		
 		$uf = ($this->input->post('estado') ? $this->input->post('estado') : $row->uf_estado);
 		$data['cidades'] = $this->endereco_model->get_all_cidades($uf); //<-UF no EDIT pra listar apenas a cidades do estado selecionado
+		
+		// Categorias de resíduos 
+		$data['categorias_residuos'] = $this->demanda_model->get_categorias_residuos();
 
+		// Status de demandas 
+		$data['demandas_status'] = $this->demanda_model->get_demandas_status();
+		
 		$this->load->view('demanda/filtro',$data);
 	}
 	
