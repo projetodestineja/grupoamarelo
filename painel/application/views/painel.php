@@ -7,11 +7,11 @@
                   <i class="fa fa-fw fa-comments"></i>
                 </div>
                 <div class="mr-5">
-                  26 Novas Mensagens!
+                  <?php echo $total_geradoras+$total_geradoras_coletoras; ?> Geradoras e <br> <?php echo $total_coletoras+$total_geradoras_coletoras; ?> Coletoras cadastradas
                 </div>
               </div>
-              <a href="#" class="card-footer text-white clearfix small z-1">
-                <span class="float-left">Mais Informações</span>
+              <a href="<?php echo site_url('empresa'); ?>" class="card-footer text-white clearfix small z-1">
+                <span class="float-left">Ver empresas</span>
                 <span class="float-right">
                   <i class="fa fa-angle-right"></i>
                 </span>
@@ -26,11 +26,11 @@
                   <i class="fa fa-fw fa-shopping-cart"></i>
                 </div>
                 <div class="mr-5">
-                  123 Novas Solicitações de Demanda!
+                  <?php echo $total_demandas; ?> Demandas cadastradas
                 </div>
               </div>
-              <a href="#" class="card-footer text-white clearfix small z-1">
-                <span class="float-left">Mais Informações</span>
+              <a href="<?php echo site_url('demandas'); ?>" class="card-footer text-white clearfix small z-1">
+                <span class="float-left">Ver demandas</span>
                 <span class="float-right">
                   <i class="fa fa-angle-right"></i>
                 </span>
@@ -44,11 +44,11 @@
                   <i class="fa fa-fw fa-list"></i>
                 </div>
                 <div class="mr-5">
-                  11 Aguardando Revisão!
+                  X Propostas recebidas
                 </div>
               </div>
               <a href="#" class="card-footer text-white clearfix small z-1">
-                <span class="float-left">Mais Informações</span>
+                <span class="float-left">Ver propostas</span>
                 <span class="float-right">
                   <i class="fa fa-angle-right"></i>
                 </span>
@@ -62,11 +62,11 @@
                   <i class="fa fa-fw fa-support"></i>
                 </div>
                 <div class="mr-5">
-                  13 Demandas bloqueadas para revisão
+                  <?php echo $demandas_aguardando; ?> Demandas aguardando liberação
                 </div>
               </div>
               <a href="#" class="card-footer text-white clearfix small z-1">
-                <span class="float-left">Mais Informações</span>
+                <span class="float-left"><?php echo $empresas_bloqueadas; ?> empresas bloqueadas  </span>
                 <span class="float-right">
                   <i class="fa fa-angle-right"></i>
                 </span>

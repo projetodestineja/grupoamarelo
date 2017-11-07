@@ -59,7 +59,7 @@ class Empresa_model extends CI_Model {
 			$this->db->where('id_funcao',(int)$id_funcao);	
 		}
         $this->db->where('removido',NULL);
-        $this->db->from($this->table);
+        $this->db->from('empresas');
         return $this->db->count_all_results();
     }
 	
@@ -253,4 +253,13 @@ class Empresa_model extends CI_Model {
         //Fazemos o insert pegando a array montada acima
         $this->db->insert_batch('empresas_categorias_residuos', $data);
     }
+    
+    
+    public function count_all_bloqueadas(){
+        $this->db->where('ativo',0);
+        $this->db->where('removido',NULL);
+        $this->db->from('empresas');
+        return $this->db->count_all_results();
+    }
+    
 }

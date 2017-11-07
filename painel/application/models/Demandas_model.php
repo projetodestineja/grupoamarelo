@@ -20,6 +20,16 @@ class Demandas_model extends CI_Model {
   	public function get_count(){
 	     return $this->db->count_all($this->table);
   	}
+        
+        public function count_all($status){
+        
+        if($status!=0)
+            $this->db->where('status',(int)$status);	
+            
+        $this->db->where('removido',NULL);
+        $this->db->from('demandas');
+        return $this->db->count_all_results();
+    }
 
     
 }
