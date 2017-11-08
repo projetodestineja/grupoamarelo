@@ -13,4 +13,9 @@ class Endereco_model extends CI_Model {
        return $this->db->get('cidades')->result();
     }
 	
+	public function get_row_cidade($id) {
+       $this->db->where('id',$id);
+       return $this->db->get('cidades')->row();
+    }
+	
 }
