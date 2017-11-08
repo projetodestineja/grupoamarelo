@@ -332,7 +332,11 @@ class Empresa extends CI_Controller {
 				'class="btn btn-warning btn-sm not-focusable" '
 			);
         }
-        $data['menu_opcao_direita'][] = anchor(site_url('empresa'), '<i class="fa fa-fw fa-undo"></i> Voltar', 'class="btn btn-info btn-sm not-focusable"');
+        $data['menu_opcao_direita'][] = anchor(
+			site_url('empresa'), 
+			'<i class="fa fa-fw fa-undo"></i> Voltar',
+			'class="btn btn-info btn-sm not-focusable"'
+		);
 
         $title = 'Atualizar Cadastro - ' . $row_funcao->funcao;
         $this->output->set_common_meta($title, '', ''); //Title / Description / Tags
@@ -344,8 +348,6 @@ class Empresa extends CI_Controller {
 
         $this->load->view('empresas/form_' . $row_funcao->controller, $data);
     }
-
-
 
 
 
