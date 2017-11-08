@@ -19,7 +19,7 @@ if($result){ ?>
           </div>
           <div class="col-md-4" >
             <i class="fa fa-cubes" aria-hidden="true"></i>
-            <b>QTD:</b> <?php echo "QTD: ".$n->qtd.' '.$n->medida; ?>
+            <b>QTD:</b> <?php echo $n->qtd.' '.$n->medida; ?>
           </div>
           <div class="col-md-4" >
             <i class="fa fa-cube" aria-hidden="true"></i>
