@@ -52,7 +52,8 @@ class Demanda_model extends CI_Model {
                 d.id, d.residuo, d.img, d.qtd, d.data_inicio, d.data_validade, d.obs, d.ger_id_empresa, d.ger_uf_estado,
                 ds.descricao as status, ds.cor,
                 c.nome_cidade,
-                um.nome as medida,
+				um.nome as medida,
+				um.abreviacao,
                 ac.nome as acondicionado
 
             from demandas as d
