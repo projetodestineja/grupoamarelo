@@ -228,14 +228,14 @@ class Empresa_model extends CI_Model {
     }
 
     public function get_all_categorias_residuos($id_empresa) {
-        
-        return 
-        $this->db->query("select 
-                            id, categoria ,
-                            (select 1 from empresas_categorias_residuos ecr where ecr.id_categoria_residuo = cr.id and id_empresa = $id_empresa) as faz
-                          from 
-                            categorias_residuos cr
-                          order by cr.id")->result();
+      $sql = "select 
+      id, categoria ,
+      (select 1 from empresas_categorias_residuos ecr where ecr.id_categoria_residuo = cr.id and id_empresa = $id_empresa) as faz
+    from 
+      categorias_residuos cr
+    order by cr.id";
+      
+     return   $this->db->query($sql)->result();
     }
     
     public function update_categorias_residuos($id_empresa) {
