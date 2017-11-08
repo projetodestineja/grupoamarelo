@@ -1,5 +1,5 @@
 <form action="demanda" method="get">
-    <h3>Região</h3>
+    <!--h3><i class="fa fa-map-marker" aria-hidden="true"></i> Região</h3-->
     <div class="form-row">
         <div class="form-group col-md-6">
             <label for="estado" class="col-form-label">Estado</label>
@@ -21,10 +21,10 @@
         </div>
     </div>
 
-    <h3>Tipo de Resíduo</h3>
+    <!--h3><i class="fa fa-cubes" aria-hidden="true"></i> Tipo de Resíduo</h3-->
     <div class="form-row">
         <div class="form-group col-md-12">
-            <label for="categoria" class="col-form-label">Selecione o Tipo de Resíduo</label>
+            <label for="categoria" class="col-form-label">Tipo de Resíduo</label>
             <select class="form-control" id="categoria" name="categoria">
                 <option value="">Selecione o Tipo de Resíduo</option>
                 <?php foreach ($categorias_residuos as $cr) {?>
@@ -34,10 +34,10 @@
         </div>
     </div>
 
-    <h3>Status</h3>
+    <!--h3><i class="fa fa-tags" aria-hidden="true"></i> Status</h3-->
     <div class="form-row">
         <div class="form-group col-md-12">
-            <label for="status" class="col-form-label">Selecione um Status de Demanda</label>
+            <label for="status" class="col-form-label">Status</label>
             <select class="form-control" id="status" name="status">
                 <option value="">Selecione um Status de Demanda</option>
                 <?php foreach ($demandas_status as $ds) {?>
@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    <button class="btn btn-success btn-md" type="submit" ><i class="fa fa-filter" aria-hidden="true"></i> Filtrar</button>
+    <button class="btn btn-success btn-md" type="submit" ><i class="fa fa-filter" aria-hidden="true"></i> Buscar</button>
 </form>
 
 <script>
@@ -98,5 +98,11 @@ function resetaCombo(el) {
     $(option).append('Selecione a Cidade');
     $("select[name='" + el + "']").append(option);
 }
-                            
+
+$('#categoria option').each(function () {
+    var minhaString = $(this).text();
+    if (minhaString.length > 85) {
+        $(this).text(minhaString.substring(0, 85) + '...');
+    }
+});
 </script>
