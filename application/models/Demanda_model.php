@@ -262,7 +262,16 @@ class Demanda_model extends CI_Model {
     function get_row_demanda($id){
         $this->db->where('id',$id);
         return $this->db->get('demandas')->row();
-     } 
+    }
+    
+    function get_categorias_residuos(){
+        return $this->db->get('categorias_residuos')->result();
+    }
+
+    function get_demandas_status(){
+        $this->db->where('ativo','1');
+        return $this->db->get('demandas_status')->result();
+    }
 	
     function get_result($sort = 'id', $order = 'asc', $limit = null, $offset = null) {
 		$this->db->order_by($sort, $order);
@@ -386,4 +395,16 @@ class Demanda_model extends CI_Model {
 	    
 		return array('img' => $img ,'erro' => $erro);
 	}
+        
+        function countdemandas($id_empresa){
+            $this->db->where('ger_id_empresa',$id_empresa);
+            return $this->db->count_all_results('demandas');
+        }
+        
+        function countdemandasbyuf($uf){
+            $this->db->where('ger_uf_estado',$uf);
+            $this->db->where_in('status', array(3,6));
+            return $this->db->count_all_results('demandas');
+        }
+        
 }

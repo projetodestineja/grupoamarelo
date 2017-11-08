@@ -165,13 +165,7 @@ header('Content-Type: text/html; charset=utf-8');
 
                 $('a[rel=modal_add_edit]').on('click', function (evt) {
                     evt.preventDefault();
-                    var modal = $('#modal_add_edit').modal({backdrop: 'static', keyboard: false});
-
-                    modal.find('#modal_add_edit .modal-body').load($(this).attr('href'), function (responseText, textStatus) {
-                        if (textStatus === 'success' || textStatus === 'notmodified') {
-                            modal.show();
-                        }
-                    });
+                    $('#modal_add_edit').modal({backdrop: 'static', keyboard: false}).modal('show').find('.modal-body').load($(this).attr('href'));
                     return false;
                 });
 

@@ -6,13 +6,25 @@
             <i class="fa fa-fw fa-dashboard"></i> <span class="nav-link-text">Painel</span>
         </a>
     </li>
-     
+
     <li class="nav-item menu-v-demanda" data-toggle="tooltip" data-placement="right" title="Demandas">
         <a class="nav-link" href="<?php echo site_url('demanda'); ?>">
-            <i class="fa fa-fw fa-list"></i> <span class="nav-link-text">Demandas</span>
+            <i class="fa fa-fw fa-wrench"></i> <span class="nav-link-text">Demandas</span>
         </a>
     </li>
     
+    <?php if($this->session->userdata['empresa']['funcao']>1){ ?>
+    <li class="nav-item menu-v-propostas" data-toggle="tooltip" data-placement="right" title="Propostas">
+        <a class="nav-link" href="<?php echo site_url('proposta'); ?>">
+            <i class="fa fa-fw fa-truck"></i> <span class="nav-link-text">Propostas</span>
+        </a>
+    </li>
+    <?php } ?>
+    <li class="nav-item menu-v-relatorios" data-toggle="tooltip" data-placement="right" title="Relatorios">
+        <a class="nav-link" href="<?php echo site_url('relatorios'); ?>">
+            <i class="fa fa-fw fa-list"></i> <span class="nav-link-text">Relatórios de Coleta</span>
+        </a>
+    </li>
     <!--
     <li class="nav-item menu-v-configuracoes" data-toggle="tooltip" data-placement="right" title="Configuracoes">
         <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseConfiguracoes" data-parent="#exampleAccordion">
