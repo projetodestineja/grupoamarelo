@@ -55,9 +55,9 @@
                                 <option value="0">Outra</option>
                                 <?php if ($areas_atuacoes) {
                                     foreach ($areas_atuacoes as $n) {
-										$selected = ((isset($row_atuacao_principal->codigo_area_atuacao) and $row_atuacao_principal->codigo_area_atuacao == $row['codigo) ? "selected" : '');
+										$selected = ((isset($row_atuacao_principal->codigo_area_atuacao) and $row_atuacao_principal->codigo_area_atuacao == $n->codigo) ? "selected" : '');
                                 ?>
-                                <option <?php echo $selected; ?> value="<?php echo $row['codigo; ?>"  ><?php echo $row['area_atuacao; ?></option>
+                                <option <?php echo $selected; ?> value="<?php echo $n->codigo; ?>"  ><?php echo $n->area_atuacao; ?></option>
 								<?php } 
 								} ?>
                             </select>
@@ -116,7 +116,7 @@
                             <select required class="form-control" id="estado" name="estado">
                                 <option value="">Selecione o Estado</option>
                                 <?php foreach ($estados as $n) { ?>
-                                    <option value="<?php echo $row['uf; ?>" <?php echo ($row['uf == $uf_estado ? 'selected' : ''); ?>   ><?php echo $row['nome_estado; ?></option>
+                                    <option value="<?php echo $n->uf; ?>" <?php echo ($n->uf == $uf_estado ? 'selected' : ''); ?>   ><?php echo $n->nome_estado; ?></option>
 								<?php } ?>
                             </select>
                         </div>
@@ -125,7 +125,7 @@
                             <select required class="form-control" id="cidade" name="cidade">
                                 <option value="">Selecione o Estado Antes</option>
                                 <?php foreach ($cidades as $n) { ?>
-                                    <option value="<?php echo $row['id; ?>" <?php echo ($row['id == $id_cidade ? 'selected' : ''); ?>  ><?php echo $row['nome_cidade; ?></option>
+                                    <option value="<?php echo $n->id; ?>" <?php echo ($n->id == $id_cidade ? 'selected' : ''); ?>  ><?php echo $n->nome_cidade; ?></option>
 								<?php } ?>
                             </select>
                         </div>    
@@ -172,7 +172,7 @@
                                         <?php if ($areas_atuacoes) {
                                             foreach ($areas_atuacoes as $at) {
                                         ?>
-                                        <option <?php echo ($row['codigo_area_atuacao == $at->codigo ? "selected" : ''); ?> value="<?php echo $at->codigo; ?>"  ><?php echo $at->area_atuacao; ?></option>
+                                        <option <?php echo ($n->codigo_area_atuacao == $at->codigo ? "selected" : ''); ?> value="<?php echo $at->codigo; ?>"  ><?php echo $at->area_atuacao; ?></option>
                                             <?php }
                                         } ?>
                                     </select>
