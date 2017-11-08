@@ -2,7 +2,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Demandas_status_model extends CI_Model {
-
+	
+	var $table = 'demandas_status';
+	
     private function _get_datatables_query(){
         $this->db->from($this->table);
         $i = 0;
@@ -56,12 +58,12 @@ class Demandas_status_model extends CI_Model {
     }
 
   	public function get_all(){
-		    return $this->db->get($this->table)->result();
+		return $this->db->get($this->table)->result();
   	}
 
   	public function get_row($id){
 	      $this->db->where('id',(int)$id);
-		    return $this->db->get($this->table)->row();
+		  return $this->db->get($this->table)->row();
   	}
 
     public function bloquear($id){

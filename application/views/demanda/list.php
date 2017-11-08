@@ -19,7 +19,7 @@ if($result){ ?>
           </div>
           <div class="col-md-4" >
             <i class="fa fa-cubes" aria-hidden="true"></i>
-            <b>QTD:</b> <?php echo "QTD: ".$n->qtd.' '.$n->medida; ?>
+            <b>QTD:</b> <?php echo $n->qtd.' '.$n->medida; ?>
           </div>
           <div class="col-md-4" >
             <i class="fa fa-cube" aria-hidden="true"></i>
@@ -53,10 +53,12 @@ if($result){ ?>
         <?php } ?>
 
         <div class="row" > 
-          <div class="col-md-12" >
-            <a class="btn btn-sm btn-warning"  href="#" >
-              <i class="fa fa-search-plus" aria-hidden="true"></i> Visualizar
-            </a> 
+
+          <div class="col-md-12" > 
+          	  <a class="btn btn-sm btn-warning"  href="<?php echo site_url('demanda/visualizar/'.$n->id); ?>" >
+              	<i class="fa fa-search-plus" aria-hidden="true"></i> Visualizar
+              </a>
+
             <?php if ($this->session->userdata['empresa']['funcao']==1){ ?>
               <a class="btn btn-sm btn-primary" href="<?php echo site_url('demanda/edit/'.$n->id); ?>" >
                 <i class="fa fa-list" ></i> Atualizar
@@ -64,8 +66,9 @@ if($result){ ?>
               <a class="btn btn-sm btn-danger remover" title="Remover Demanda <?php echo $n->residuo; ?> ?" href="<?php echo site_url('demanda/delete/'.$n->id); ?>" >
                 <i class="fa fa-close" ></i> Remover
               </a>
-            <?php } ?>
-              
+
+            <?php } ?> 
+
           </div> 
         </div>
    </div> 

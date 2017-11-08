@@ -6,7 +6,7 @@
             <i class="fa fa-fw fa-dashboard"></i> <span class="nav-link-text">Painel</span>
         </a>
     </li>
-        
+
     <li class="nav-item menu-v-demanda" data-toggle="tooltip" data-placement="right" title="Demandas">
         <a class="nav-link" href="<?php echo site_url('demanda'); ?>">
             <i class="fa fa-fw fa-wrench"></i> <span class="nav-link-text">Demandas</span>

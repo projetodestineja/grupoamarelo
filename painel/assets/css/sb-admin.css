@@ -534,3 +534,5 @@ body.fixed-nav {
 .form_ajax{ position:relative; z-index:0}
 .thumbnail img{ width:100%; height:auto; background-size:cover;}
 .demanda_list .row > div{ padding: 5px; }
+
+.card-block{ padding:15px 0;}

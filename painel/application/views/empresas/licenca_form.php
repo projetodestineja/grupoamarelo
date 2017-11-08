@@ -21,7 +21,7 @@
         <label for="status" class="col-form-label">Status</label><br>
         	<?php foreach($result_status as $n){?>
         <label>
-        	<input name="status" class="input-status" type="radio" value="<?php echo $n->id;?>" <?php echo ($status==$n->id?'checked':''); ?> > <?php echo $n->titulo; ?>
+        	<input name="status" class="input-status" type="radio" value="<?php echo $row['id;?>" <?php echo ($status==$row['id?'checked':''); ?> > <?php echo $row['titulo; ?>
         </label>
         <?php } ?>
         </div>

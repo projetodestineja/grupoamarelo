@@ -49,7 +49,7 @@
                 <select class="form-control" id="estado" name="estado">
                    <option value="">Selecione o Estado</option>
                    <?php foreach ($estados as $n) {?>
-                  	<option value="<?php echo $n->uf; ?>" <?php echo ($n->uf==$estado?'selected':''); ?>   ><?php echo $n->nome_estado;?></option>
+                  	<option value="<?php echo $row['uf; ?>" <?php echo ($row['uf==$estado?'selected':''); ?>   ><?php echo $row['nome_estado;?></option>
                    <?php } ?>
                 </select>
 			</div>
@@ -58,7 +58,7 @@
                    <select class="form-control" id="cidade" name="cidade">
                      <option value="">Selecione o Estado Antes</option>
                      <?php foreach ($cidades as $n) {?>
-                  		<option value="<?php echo $n->id; ?>" <?php echo ($n->id==$cidade?'selected':''); ?>  ><?php echo $n->nome_cidade;?></option>
+                  		<option value="<?php echo $row['id; ?>" <?php echo ($row['id==$cidade?'selected':''); ?>  ><?php echo $row['nome_cidade;?></option>
                    	 <?php } ?>
                 </select>
 			</div>

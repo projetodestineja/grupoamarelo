@@ -1,4 +1,3 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <form id="form_cad_demanda" class="form_ajax"  onSubmit="send_form(); return false" action="<?php echo $action; ?>" method="POST" enctype="multipart/form-data"  >
 	
     <div class="erro_envio" ></div>
@@ -16,6 +15,9 @@
 			<label for="residuo" class="col-form-label">Especifique o resíduo:</label>
 			<input type="text" class="form-control" id="input-residuo" value="<?php echo $residuo; ?>" name="residuo" placeholder="Ex.: Oléo de cozinha usado">
 		</div>
+        
+		
+
 		<div class="form-group col-md-4 required">
 			<label for="acondicionado" class="col-form-label">Como o resíduo está acondicionado?</label>
 			<select class="form-control" id="input-acondicionado" name="acondicionado" >
@@ -30,8 +32,9 @@
 			<label for="qtd" class="col-form-label">Quantidade:</label>
 			<input type="tel" class="form-control" id="input-qtd" value="<?php echo $qtd; ?>" name="qtd" placeholder="Ex.: 11,5">
        </div>
+       
 	   <div class="form-group col-md-2 required">
-        <label for="uni_medida" class="col-form-label">Unidade de Medida:</label>
+        <label for="uni_medida" class="col-form-label">Uni. de Medida:</label>
          <select class="form-control" name="uni_medida" id="input-uni-medida" >
             <option value="">Selecione</option>
             <?php foreach($medidas as $n){?>
@@ -39,6 +42,20 @@
             <?php } ?>
          </select>
 	  </div>
+
+
+	  <div class="form-group col-md-12 required">
+			<label for="acondicionado" class="col-form-label">Categoria Resíduo</label>
+			<select class="form-control" id="input-categoria-residuo" name="categoria_residuo" >
+            <option value="">Selecione</option>
+            <?php foreach($categorias_residuos as $n){?>
+                <option value="<?php echo $n->id; ?>" <?php echo ($n->id==$categoria_residuo?'selected':''); ?>  >
+					<?php echo $n->categoria;?>
+				</option>
+            <?php } ?>
+         </select>
+      </div>
+
     </div>
     
      
@@ -56,7 +73,7 @@
               <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 210px; max-height: 160px; border:1px #CCC solid"></div>
               
 			  <div >
-			  <span class="badge badge-info" >* Tamanho Máx.: 5MB</span>
+			  <span class="badge badge-info" >* Tamanho Máx: 10MB</span>
 			  </div>	
               <div style="padding:0">
 			    
@@ -301,7 +318,12 @@ function send_form(){
 			}
 			if (json['error_data_validade']) {
 				$(form_ind+' #input-data-validade').parent().parent().addClass('has-error');
-			}			
+			}
+
+			if (json['error_categoria_residuo']) {
+				$(form_ind+' #input-categoria-residuo').parent().addClass('has-error');
+				$(form_ind+' #input-categoria-residuo').focus();
+			}		
 			
 			if (json['error_uni_medida']) {
 				$(form_ind+' #input-uni-medida').parent().addClass('has-error');
