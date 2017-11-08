@@ -93,7 +93,7 @@
         <div class="card mb-3">
           <div class="card-header">
             <i class="fa fa-area-chart"></i>
-            Cadastros de Demandas <?php echo date('Y')."($limite_chart_demandas)"; ?>
+            Cadastros de Demandas <?php echo date('Y'); ?>
           </div>
           <div class="card-body">
             <canvas id="chart_demandas" width="100%" height="30"></canvas>
