@@ -47,7 +47,11 @@ class Cidades_model extends CI_Model {
         return $this->db->count_all_results();
     }
     
-    
+    function get_row_cidade($id){
+		$this->db->where('id',$id);
+        return $this->db->get('cidades')->row(); 
+    }
+	
     function deletar($id){
 		$this->db->where('id',$id);
         $this->db->update('cidades'); 
