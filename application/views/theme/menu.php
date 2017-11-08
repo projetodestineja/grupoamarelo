@@ -6,15 +6,7 @@
             <i class="fa fa-fw fa-dashboard"></i> <span class="nav-link-text">Painel</span>
         </a>
     </li>
-
-    <?php if ($this->session->userdata['empresa']['funcao']==1){ ?>
-    <li class="nav-item menu-v-demanda" data-toggle="tooltip" data-placement="right" title="Novo Chamado">
-        <a class="nav-link" href="<?php echo site_url('demanda/add'); ?>">
-            <i class="fa fa-fw fa-file-text-o"></i> <span class="nav-link-text">Novo Chamado</span>
-        </a>
-    </li>
-    <?php } ?>
-        
+     
     <li class="nav-item menu-v-demanda" data-toggle="tooltip" data-placement="right" title="Demandas">
         <a class="nav-link" href="<?php echo site_url('demanda'); ?>">
             <i class="fa fa-fw fa-list"></i> <span class="nav-link-text">Demandas</span>
