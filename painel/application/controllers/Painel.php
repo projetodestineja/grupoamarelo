@@ -35,7 +35,7 @@ class Painel extends CI_Controller {
                 $data['total_demandas'] = $this->demandas_model->count_all(0);
                 $data['demandas_aguardando'] = $this->demandas_model->count_all(1);
                 
-                //dados do grafico
+                //dados do grafico empresas
                 $ano = date('Y');
                 
                 $data['gjan'] = $this->empresa_model->conta_por_mes($ano,1,'1,3')->qtde;
@@ -66,8 +66,41 @@ class Painel extends CI_Controller {
                 $data['cdez'] = $this->empresa_model->conta_por_mes($ano,12,'2,3')->qtde;
                 $max_coletoras = max($data['cjan'], $data['cfev'], $data['cmar'], $data['cabr'], $data['cmai'],$data['cjun'],$data['cjul'],$data['cago'],$data['cset'],$data['cout'],$data['cnov'],$data['cdez']);
                 
+                $data['limite_chart_empresas'] = max($max_geradoras,$max_coletoras);
                 
-                $data['limite_chart'] = max($max_geradoras,$max_coletoras);
+                //dados do grafico demandas
+                $ano = date('Y');
+                
+                $data['djan'] = $this->demandas_model->conta_por_mes($ano,1)->qtde;
+                $data['dfev'] = $this->demandas_model->conta_por_mes($ano,2)->qtde;
+                $data['dmar'] = $this->demandas_model->conta_por_mes($ano,3)->qtde;
+                $data['dabr'] = $this->demandas_model->conta_por_mes($ano,4)->qtde;
+                $data['dmai'] = $this->demandas_model->conta_por_mes($ano,5)->qtde;
+                $data['djun'] = $this->demandas_model->conta_por_mes($ano,6)->qtde;
+                $data['djul'] = $this->demandas_model->conta_por_mes($ano,7)->qtde;
+                $data['dago'] = $this->demandas_model->conta_por_mes($ano,8)->qtde;
+                $data['dset'] = $this->demandas_model->conta_por_mes($ano,9)->qtde;
+                $data['dout'] = $this->demandas_model->conta_por_mes($ano,10)->qtde;
+                $data['dnov'] = $this->demandas_model->conta_por_mes($ano,11)->qtde;
+                $data['ddez'] = $this->demandas_model->conta_por_mes($ano,12)->qtde;
+                $max_demandas = max($data['djan'], $data['dfev'], $data['dmar'], $data['dabr'], $data['dmai'],$data['djun'],$data['djul'],$data['dago'],$data['dset'],$data['dout'],$data['dnov'],$data['ddez']);
+                
+                /*
+                $data['cjan'] = $this->empresa_model->conta_por_mes($ano,1,'2,3')->qtde;
+                $data['cfev'] = $this->empresa_model->conta_por_mes($ano,2,'2,3')->qtde;
+                $data['cmar'] = $this->empresa_model->conta_por_mes($ano,3,'2,3')->qtde;
+                $data['cabr'] = $this->empresa_model->conta_por_mes($ano,4,'2,3')->qtde;
+                $data['cmai'] = $this->empresa_model->conta_por_mes($ano,5,'2,3')->qtde;
+                $data['cjun'] = $this->empresa_model->conta_por_mes($ano,6,'2,3')->qtde;
+                $data['cjul'] = $this->empresa_model->conta_por_mes($ano,7,'2,3')->qtde;
+                $data['cago'] = $this->empresa_model->conta_por_mes($ano,8,'2,3')->qtde;
+                $data['cset'] = $this->empresa_model->conta_por_mes($ano,9,'2,3')->qtde;
+                $data['cout'] = $this->empresa_model->conta_por_mes($ano,10,'2,3')->qtde;
+                $data['cnov'] = $this->empresa_model->conta_por_mes($ano,11,'2,3')->qtde;
+                $data['cdez'] = $this->empresa_model->conta_por_mes($ano,12,'2,3')->qtde;
+                $max_propostas = max($data['cjan'], $data['cfev'], $data['cmar'], $data['cabr'], $data['cmai'],$data['cjun'],$data['cjul'],$data['cago'],$data['cset'],$data['cout'],$data['cnov'],$data['cdez']);
+                */
+                $data['limite_chart_demandas'] = $max_demandas;
                 
 		$this->load->view('painel',$data);
 		

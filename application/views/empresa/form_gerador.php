@@ -21,7 +21,7 @@
                 
                    
 
-                    <div class="form-row">
+                    <div class="form-row" hidden>
                         <div class="form-group col-md-12" >
                             <div class="form-check form-check-inline" id="radiopessoajuridica" id="radiopessoajuridica">
                                 <label class="form-check-label">
