@@ -311,7 +311,6 @@ class Empresa extends CI_Controller {
         //Buscando categorias de residuos coletados
         $data['categorias_residuos'] = $this->empresa_model->get_all_categorias_residuos($data['id']);
         
-        
 
         //Trabalho o select no form
         $uf = ($this->input->post('estado') ? $this->input->post('estado') : $row->uf_estado);
