@@ -169,6 +169,7 @@ class Demanda extends CI_Controller {
 		$data['img_capa'] = base_url('painel/assets/img/demanda_sem_img.jpg');
 		$data['responsavel'] = $row->nome_responsavel;
 		$data['residuo'] = '';
+		$data['categoria_residuo'] = '';
 		$data['acondicionado'] = '';
 		$data['qtd'] = '';
 		$data['uni_medida'] = '';
@@ -195,6 +196,9 @@ class Demanda extends CI_Controller {
 		
 		// Listamos todos estados normalmente
 		$data['estados'] = $this->endereco_model->get_all_estados(); 
+
+		// Listar categorias 
+		$data['categorias_residuos'] = $this->demanda_model->get_result_categorias_residuos();
 		
 		$uf = ($this->input->post('estado') ? $this->input->post('estado') : $row->uf_estado);
 		$data['cidades'] = $this->endereco_model->get_all_cidades($uf); //<-UF no EDIT pra listar apenas a cidades do estado selecionado
@@ -243,6 +247,7 @@ class Demanda extends CI_Controller {
 		}
 		$data['responsavel'] =  $row->responsavel;
 		$data['residuo'] =  $row->residuo;
+		$data['categoria_residuo'] = $row->categoria_residuo;
 		$data['acondicionado'] =  $row->acondicionado;
 		$data['qtd'] =  $row->qtd;
 		$data['uni_medida'] =  $row->uni_medida;
@@ -269,6 +274,9 @@ class Demanda extends CI_Controller {
 
 		// Listamos todos estados normalmente
 		$data['estados'] = $this->endereco_model->get_all_estados(); 
+
+		// Listar categorias 
+		$data['categorias_residuos'] = $this->demanda_model->get_result_categorias_residuos();
 		
 		$uf = ($this->input->post('estado') ? $this->input->post('estado') : $row->ger_uf_estado);
 		$data['cidades'] = $this->endereco_model->get_all_cidades($uf); //<-UF no EDIT pra listar apenas a cidades do estado selecionado
@@ -293,7 +301,7 @@ class Demanda extends CI_Controller {
 	public function form_post($id_update=''){
 		
 		$this->output->unset_template();
-		
+		$json = array();
 		if($this->input->post()){
 			
 			$id_empresa = (int) $this->session->userdata['empresa']['id'];
@@ -307,7 +315,7 @@ class Demanda extends CI_Controller {
 			$json = $this->validar_form_demanda();
 			
 			// Não temos Erro / Vamos fazer upload da imagem
-			if(!$json && isset($_FILES['img']['tmp_name'])) {
+			if(!$json and $_FILES['img']['tmp_name']) {
 				// Config upload
 				$valid = array();
 
@@ -348,6 +356,7 @@ class Demanda extends CI_Controller {
 					
 					'responsavel' => $this->input->post('responsavel'), 
 					'residuo' => $this->input->post('residuo'),
+					'categoria_residuo' => $this->input->post('categoria_residuo'),
 					'acondicionado' => $this->input->post('acondicionado'),
 					'qtd' => $this->input->post('qtd'),
 					'uni_medida' => $this->input->post('uni_medida'),
@@ -517,6 +526,10 @@ class Demanda extends CI_Controller {
 			$json['error'] = $json['error_data_inicio'] = 'A data de início não pode ser menor que a data de hoje: '.date('d/m/Y');
 		}
 		
+		if(!$this->input->post('categoria_residuo')) {
+			$json['error'] = $json['error_categoria_residuo'] = 'Selecione a categoria do resíduo';
+		 }
+
 		if(!$this->input->post('uni_medida')) {
            $json['error'] = $json['error_uni_medida'] = 'Selecione a undiade de medida';
 		}

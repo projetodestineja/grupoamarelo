@@ -218,8 +218,12 @@ class Demanda_model extends CI_Model {
 		return $data;
 	}
 	
+	function get_result_categorias_residuos(){
+		return $this->db->get('categorias_residuos')->result();
+	}
     
 	function get_all_medidas(){
+
 		$this->db->order_by('nome','asc');
        return $this->db->get('uni_medida')->result();
     }

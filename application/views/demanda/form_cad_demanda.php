@@ -16,6 +16,8 @@
 			<input type="text" class="form-control" id="input-residuo" value="<?php echo $residuo; ?>" name="residuo" placeholder="Ex.: Oléo de cozinha usado">
 		</div>
         
+		
+
 		<div class="form-group col-md-4 required">
 			<label for="acondicionado" class="col-form-label">Como o resíduo está acondicionado?</label>
 			<select class="form-control" id="input-acondicionado" name="acondicionado" >
@@ -40,6 +42,20 @@
             <?php } ?>
          </select>
 	  </div>
+
+
+	  <div class="form-group col-md-12 required">
+			<label for="acondicionado" class="col-form-label">Categoria Resíduo</label>
+			<select class="form-control" id="input-categoria-residuo" name="categoria_residuo" >
+            <option value="">Selecione</option>
+            <?php foreach($categorias_residuos as $n){?>
+                <option value="<?php echo $n->id; ?>" <?php echo ($n->id==$categoria_residuo?'selected':''); ?>  >
+					<?php echo $n->categoria;?>
+				</option>
+            <?php } ?>
+         </select>
+      </div>
+
     </div>
     
      
@@ -302,7 +318,12 @@ function send_form(){
 			}
 			if (json['error_data_validade']) {
 				$(form_ind+' #input-data-validade').parent().parent().addClass('has-error');
-			}			
+			}
+
+			if (json['error_categoria_residuo']) {
+				$(form_ind+' #input-categoria-residuo').parent().addClass('has-error');
+				$(form_ind+' #input-categoria-residuo').focus();
+			}		
 			
 			if (json['error_uni_medida']) {
 				$(form_ind+' #input-uni-medida').parent().addClass('has-error');
