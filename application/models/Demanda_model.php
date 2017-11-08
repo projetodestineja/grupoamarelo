@@ -241,4 +241,16 @@ class Demanda_model extends CI_Model {
 	    
 		return array('img' => $img ,'erro' => $erro);
 	}
+        
+        function countdemandas($id_empresa){
+            $this->db->where('ger_id_empresa',$id_empresa);
+            return $this->db->count_all_results('demandas');
+        }
+        
+        function countdemandasbyuf($uf){
+            $this->db->where('ger_uf_estado',$uf);
+            $this->db->where_in('status', array(3,6));
+            return $this->db->count_all_results('demandas');
+        }
+        
 }

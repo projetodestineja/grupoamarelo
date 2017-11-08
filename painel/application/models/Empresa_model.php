@@ -59,7 +59,7 @@ class Empresa_model extends CI_Model {
 			$this->db->where('id_funcao',(int)$id_funcao);	
 		}
         $this->db->where('removido',NULL);
-        $this->db->from($this->table);
+        $this->db->from('empresas');
         return $this->db->count_all_results();
     }
 	
@@ -252,5 +252,25 @@ class Empresa_model extends CI_Model {
 
         //Fazemos o insert pegando a array montada acima
         $this->db->insert_batch('empresas_categorias_residuos', $data);
+    }
+    
+    
+    public function count_all_bloqueadas(){
+        $this->db->where('ativo',0);
+        $this->db->where('removido',NULL);
+        $this->db->from('empresas');
+        return $this->db->count_all_results();
+    }
+    
+    public function conta_por_mes($ano,$mes,$funcao){
+        if (($ano>0) && ($mes>0)){
+        return 
+        $this->db->query("SELECT COUNT(id) as qtde
+                                FROM empresas  
+                                WHERE 
+                                    id_funcao in ($funcao)
+                                    and YEAR(data_cadastro) = $ano  
+                                    and MONTH(data_cadastro) = $mes")->row();
+        } else return 0;
     }
 }
