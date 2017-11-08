@@ -1,4 +1,4 @@
-    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>    
         <div class="row">
           <div class="col-xl-3 col-sm-6 mb-3">
             <div class="card text-white bg-primary o-hidden h-100">
@@ -79,333 +79,129 @@
         <div class="card mb-3">
           <div class="card-header">
             <i class="fa fa-area-chart"></i>
-            Novos Cadastros
+            Cadastros de Empresas <?php echo date('Y'); ?>
           </div>
           <div class="card-body">
-            <canvas id="myAreaChart" width="100%" height="30"></canvas>
+            <canvas id="grafico_geral" width="100%" height="30"></canvas>
           </div>
           <div class="card-footer small text-muted">
-           Última atualização 10/09/17 11:59h
+           Análise da base de dados Destine Já. <?php echo date('d/m/Y'); ?>
           </div>
         </div>
 
-        <div class="row">
+        
+        
+        
+        
+<script>
+Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+Chart.defaults.global.defaultFontColor = '#292b2c';
 
-          <div class="col-lg-8">
+var ctx = document.getElementById("grafico_geral");
+var myLineChart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+    datasets: [{
+      label: "Geradoras",
+      lineTension: 0.1,
+      backgroundColor: "rgba(2,117,216,0)",
+      borderColor: "rgba(2,117,0,1)",
+      pointRadius: 5,
+      pointBackgroundColor: "rgba(2,117,0,1)",
+      pointBorderColor: "rgba(255,255,255,0.8)",
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(2,117,0,1)",
+      pointHitRadius: 20,
+      pointBorderWidth: 2,
+      data: [<?php echo $gjan;?>, <?php echo $gfev;?>, <?php echo $gmar;?>, <?php echo $gabr;?>, <?php echo $gmai;?>, <?php echo $gjun;?>, <?php echo $gjul;?>, <?php echo $gago;?>, <?php echo $gset;?>, <?php echo $gout;?>, <?php echo $gnov;?>, <?php echo $gdez;?>],
+    },
+    {
+      label: "Coletoras",
+      lineTension: 0.1,
+      backgroundColor: "rgba(200,117,10,0)",
+      borderColor: "rgba(200,117,10,1)",
+      pointRadius: 5,
+      pointBackgroundColor: "rgba(200,117,10,1)",
+      pointBorderColor: "rgba(255,255,255,0.8)",
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(200,117,10,1)",
+      pointHitRadius: 20,
+      pointBorderWidth: 2,
+      data: [<?php echo $cjan;?>, <?php echo $cfev;?>, <?php echo $cmar;?>, <?php echo $cabr;?>, <?php echo $cmai;?>, <?php echo $cjun;?>, <?php echo $cjul;?>, <?php echo $cago;?>, <?php echo $cset;?>, <?php echo $cout;?>, <?php echo $cnov;?>, <?php echo $cdez;?>],
+    }
+    ],
+  },
+  
+  options: {
+    scales: {
+      xAxes: [{
+        time: {
+          unit: 'date'
+        },
+        gridLines: {
+          display: false
+        },
+        ticks: {
+          maxTicksLimit: 7
+        }
+      }],
+      yAxes: [{
+        ticks: {
+          min: 0,
+          max: <?php echo $limite_chart; ?>,
+          maxTicksLimit: 5
+        },
+        gridLines: {
+          color: "rgba(0, 0, 0, .125)",
+        }
+      }],
+    },
+    legend: {
+      display: true
+    }
+  }
+});
 
-            <!-- Example Bar Chart Card -->
-            <div class="card mb-3">
-              <div class="card-header">
-                <i class="fa fa-bar-chart"></i>
-                Painel Financeiro
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-sm-8 my-auto">
-                    <canvas id="myBarChart" width="100" height="50"></canvas>
-                  </div>
-                  <div class="col-sm-4 text-center my-auto">
-                    <div class="h4 mb-0 text-primary">R$ 20.000,00</div>
-                    <div class="small text-muted">Previsão</div>
-                    <hr>
-                    <div class="h4 mb-0 text-warning">R$ 50.000,00</div>
-                    <div class="small text-muted">Em Andamento</div>
-                    <hr>
-                    <div class="h4 mb-0 text-success">R$ 150.000,00</div>
-                    <div class="small text-muted">Concluido</div>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer small text-muted">
-                Última atualização 02/10/17 11:59h
-              </div>
-            </div>
 
-            <!-- Card Columns Example Social Feed -->
-            <div class="mb-0 mt-4">
-              <i class="fa fa-newspaper-o"></i>
-              Últimas Demandas</div>
-            <hr class="mt-2">
-            <div class="card-columns">
-
-              <!-- Example Social Card -->
-              <div class="card mb-3">
-                <a href="#">
-                  <img class="card-img-top img-fluid w-100" src="https://unsplash.it/700/450?image=610" alt="">
-                </a>
-                <div class="card-body">
-                  <h6 class="card-title mb-1">
-                    <a href="#">João da Silva LTDA</a>
-                  </h6>
-                  <p class="card-text small">Remover Poluição da Praia
-                  </p>
-                </div>
-                <hr class="my-0">
-                <!--<div class="card-body py-2 small">
-                  <a class="mr-3 d-inline-block" href="#">
-                    <i class="fa fa-fw fa-thumbs-up"></i>
-                    Like
-                  </a>
-                  <a class="mr-3 d-inline-block" href="#">
-                    <i class="fa fa-fw fa-comment"></i>
-                    Comment
-                  </a>
-                  <a class="d-inline-block" href="#">
-                    <i class="fa fa-fw fa-share"></i>
-                    Share
-                  </a>
-                </div>
-                <hr class="my-0">-->
-                <div class="card-body small bg-faded">
-                  <div class="media">
-                    <img class="d-flex mr-3" src="https://placehold.it/45x45" alt="">
-                    <div class="media-body">
-                      <h6 class="mt-0 mb-1">
-                        <a href="#">Destine Já</a>
-                      </h6>
-                      Não atendemos esse tipo de demanda.
-                      <ul class="list-inline mb-0">
-                        <li class="list-inline-item">
-                          <a href="#">Responder</a>
-                        </li>
-                      </ul>
-                      <div class="media mt-3">
-                        <a class="d-flex pr-3" href="#">
-                          <img src="https://placehold.it/45x45" alt="">
-                        </a>
-                        <div class="media-body">
-                          <h6 class="mt-0 mb-1">
-                            <a href="#">João da Silva LTDA</a>
-                          </h6>
-                          Onde consigo resolver isso?
-                          <ul class="list-inline mb-0">
-                            <li class="list-inline-item">
-                              <a href="#">Responder</a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-footer small text-muted">
-                  Publicado a 32 minutos
-                </div>
-              </div>
-
-              <!-- Example Social Card -->
-              <div class="card mb-3">
-                <a href="#">
-                  <img class="card-img-top img-fluid w-100" src="https://unsplash.it/700/450?image=180" alt="">
-                </a>
-                <div class="card-body">
-                  <h6 class="card-title mb-1">
-                    <a href="#">Empresa do Manuel</a>
-                  </h6>
-                  <p class="card-text small">Computadores quebrados...
-                  </p>
-                </div>
-                <hr class="my-0">
-                <div class="card-body py-2 small">
-                 
-                  <a class="mr-3 d-inline-block" href="#">
-                    <i class="fa fa-fw fa-comment"></i>
-                    Comentar
-                  </a>
-                  
-                </div>
-                <hr class="my-0">
-                <div class="card-body small bg-faded">
-                  <div class="media">
-                    <img class="d-flex mr-3" src="https://placehold.it/45x45" alt="">
-                    <div class="media-body">
-                      <h6 class="mt-0 mb-1">
-                        <a href="#">Destine Já</a>
-                      </h6>
-                      Remova o telefone visivel na foto
-                      <ul class="list-inline mb-0">
-                       
-                       
-                        <li class="list-inline-item">
-                          <a href="#">Responder</a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-footer small text-muted">
-                 Publicado a 50 minutos
-                </div>
-              </div>
-
-              <!-- Example Social Card -->
-              <div class="card mb-3">
-                <a href="#">
-                  <img class="card-img-top img-fluid w-100" src="https://unsplash.it/700/450?image=281" alt="">
-                </a>
-                <div class="card-body">
-                  <h6 class="card-title mb-1">
-                    <a href="#">Lorenge Construtora LTDA</a>
-                  </h6>
-                  <p class="card-text small">Recolher entulho!</p>
-                </div>
-                <hr class="my-0">
-                <div class="card-body py-2 small">
-                  <a class="mr-3 d-inline-block" href="#">
-                    <i class="fa fa-fw fa-comment"></i>
-                    Comentar
-                  </a>
-                </div>
-                <div class="card-footer small text-muted">
-                  Publicado em 1 de Agosto de 2017
-                </div>
-              </div>
-
-              <!-- Example Social Card -->
-              <div class="card mb-3">
-                <a href="#">
-                  <img class="card-img-top img-fluid w-100" src="https://unsplash.it/700/450?image=185" alt="">
-                </a>
-                <div class="card-body">
-                  <h6 class="card-title mb-1">
-                    <a href="#">João da Silva LTDA</a>
-                  </h6>
-                  <p class="card-text small">Capinar no deserto...
-                  </p>
-                </div>
-                <hr class="my-0">
-                <div class="card-body py-2 small">
-                  <a class="mr-3 d-inline-block" href="#">
-                    <i class="fa fa-fw fa-comment"></i>
-                    Comentar
-                  </a>
-                </div>
-                <hr class="my-0">
-                <div class="card-body small bg-faded">
-                  <div class="media">
-                    <img class="d-flex mr-3" src="https://placehold.it/45x45" alt="">
-                    <div class="media-body">
-                      <h6 class="mt-0 mb-1">
-                        <a href="#">Destine Já</a>
-                      </h6>
-                      Proibido fazer piadas
-                      <ul class="list-inline mb-0">
-                       
-                        <li class="list-inline-item">
-                          ·
-                        </li>
-                        <li class="list-inline-item">
-                          <a href="#">Responder</a>
-                        </li>
-                      </ul>
-                      <div class="media mt-3">
-                        <a class="d-flex pr-3" href="#">
-                          <img src="https://placehold.it/45x45" alt="">
-                        </a>
-                        <div class="media-body">
-                          <h6 class="mt-0 mb-1">
-                            <a href="#">João da Silva LTDA</a>
-                          </h6>
-                          kkkkkk
-                          <ul class="list-inline mb-0">
-                            <li class="list-inline-item">
-                              <a href="#">Responder</a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-footer small text-muted">
-                 Atualizado em 15/05/17 15:00h
-                </div>
-              </div>
-
-            </div>
-            <!-- /Card Columns -->
-
-          </div>
-
-          <div class="col-lg-4">
-          
-          
-            <!-- Example Pie Chart Card -->
-            <div class="card mb-3">
-              <div class="card-header">
-                <i class="fa fa-pie-chart"></i>
-                Demandas Recebidas
-              </div>
-              <div class="card-body">
-                <canvas id="myPieChart" width="100%" height="100"></canvas>
-              </div>
-              <div class="card-footer small text-muted">
-                Última atualização 08/09/17 11:59h
-              </div>
-            </div>
-            
-            
-            
-            <!-- Example Notifications Card -->
-            <div class="card mb-3">
-              <div class="card-header">
-                <i class="fa fa-bell-o"></i>
-                 Últimas Atividades
-              </div>
-              <div class="list-group list-group-flush small">
-                <a href="#" class="list-group-item list-group-item-action">
-                  <div class="media">
-                    <img class="d-flex mr-3 rounded-circle" src="https://placehold.it/45x45" alt="">
-                    <div class="media-body">
-                      <strong>João da Silva LTDA</strong>
-                      Fechou uma demanda com 
-                      <strong>João da Silva LTDA</strong>.
-                      <div class="text-muted smaller">15:43h</div>
-                    </div>
-                  </div>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action">
-                  <div class="media">
-                    <img class="d-flex mr-3 rounded-circle" src="https://placehold.it/45x45" alt="">
-                    <div class="media-body">
-                      <strong>Samantha King</strong>
-                      Enviou uma mensagem para destine já
-                      <div class="text-muted smaller">14:00h</div>
-                    </div>
-                  </div>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action">
-                  <div class="media">
-                    <img class="d-flex mr-3 rounded-circle" src="https://placehold.it/45x45" alt="">
-                    <div class="media-body">
-                      <strong>Lorenge Construtora LTDA</strong>
-                      Reve uma imagem bloqueada pelo administrador
-                      <strong>Beach</strong>.
-                      <div class="text-muted smaller">11:55h</div>
-                    </div>
-                  </div>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action">
-                  <div class="media">
-                    <img class="d-flex mr-3 rounded-circle" src="https://placehold.it/45x45" alt="">
-                    <div class="media-body">
-                      <i class="fa fa-code-fork"></i>
-                      <strong>Mônica Silva</strong>
-                     Efetuou login no painel
-                  
-                      <div class="text-muted smaller">10/09/17 15:00h</div>
-                    </div>
-                  </div>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action">
-                 Ver Mais Atividades
-                </a>
-              </div>
-              <div class="card-footer small text-muted">
-                Última atualização 18:00h
-              </div>
-            </div>
-          </div>
-        </div>
-
+new Chart(document.getElementById("line-chart"), {
+  type: 'line',
+  data: {
+    labels: [1500,1600,1700,1750,1800,1850,1900,1950,1999,2050],
+    datasets: [{ 
+        data: [86,114,106,106,107,111,133,221,783,2478],
+        label: "Africa",
+        borderColor: "#3e95cd",
+        fill: false
+      }, { 
+        data: [282,350,411,502,635,809,947,1402,3700,5267],
+        label: "Asia",
+        borderColor: "#8e5ea2",
+        fill: false
+      }, { 
+        data: [168,170,178,190,203,276,408,547,675,734],
+        label: "Europe",
+        borderColor: "#3cba9f",
+        fill: false
+      }, { 
+        data: [40,20,10,16,24,38,74,167,508,784],
+        label: "Latin America",
+        borderColor: "#e8c3b9",
+        fill: false
+      }, { 
+        data: [6,3,2,2,7,26,82,172,312,433],
+        label: "North America",
+        borderColor: "#c45850",
+        fill: false
+      }
+    ]
+  },
+  options: {
+    title: {
+      display: true,
+      text: 'World population per region (in millions)'
+    }
+  }
+});
+</script>        
        

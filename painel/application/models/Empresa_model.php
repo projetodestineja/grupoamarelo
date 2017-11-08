@@ -262,4 +262,15 @@ class Empresa_model extends CI_Model {
         return $this->db->count_all_results();
     }
     
+    public function conta_por_mes($ano,$mes,$funcao){
+        if (($ano>0) && ($mes>0)){
+        return 
+        $this->db->query("SELECT COUNT(id) as qtde
+                                FROM empresas  
+                                WHERE 
+                                    id_funcao in ($funcao)
+                                    and YEAR(data_cadastro) = $ano  
+                                    and MONTH(data_cadastro) = $mes")->row();
+        } else return 0;
+    }
 }
