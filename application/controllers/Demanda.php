@@ -55,7 +55,6 @@ class Demanda extends CI_Controller {
             $nome_estado = $this->estado_model->busca_nomeestadobyuf($row->uf_estado);
             $data['local'] = $nome_estado;
 			
-			
             if ($this->input->get('cidade')){
 				
 				$this->load->model('cidade_model');
@@ -65,9 +64,13 @@ class Demanda extends CI_Controller {
 				
 				$this->output->set_common_meta('Demandas para Coleta em '.$cidade->nome_cidade.'/'.$cidade->uf,'',''); 
 				
-            }else{
+            }else if ($this->input->get('estado')){
 				
-				$this->output->set_common_meta('Demandas para Coleta em '.$nome_estado,'',''); 
+				$this->output->set_common_meta('Demandas para Coleta em '.$this->input->get('estado'),'',''); 
+				
+			}else{
+				
+				$this->output->set_common_meta('Demandas para Coleta','',''); 
 				
 			}
 			
