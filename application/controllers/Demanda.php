@@ -315,14 +315,14 @@ class Demanda extends CI_Controller {
 
 				//Verifica se a pasta da empresa existe
 				if(!is_dir('uploads/empresa/'.(int)$id_empresa)){
-					mkdir('uploads/empresa/'.(int)$id_empresa)
+					mkdir('uploads/empresa/'.(int)$id_empresa);
 				}
 
 				$config['upload_path'] = $upload_path;
 				$config['allowed_types'] = 'gif|jpg|png|bmp|jpeg';
 				$config['file_name'] = date('YmdHi') . '_' . rand(1000, 9999); // Data Upload / ID empresa / Rand entre 1000 e 9999 
 				$config['max_filename_increment'] = 300;
-				$config['max_size'] = 5120; //(5*5120kb) = 5MB
+				$config['max_size'] = 10240; //(10*1024kb) = 10MB
 				$config['max_width'] = 5024;
 				$config['max_height'] = 5068;
 				
@@ -392,6 +392,34 @@ class Demanda extends CI_Controller {
 		}
 		
 		echo json_encode($json);
+	}
+	
+	
+	/*
+	*	Visualizar demanda
+	*/
+	public function visualizar($id_demanda){
+		
+		$data = array();
+		
+		$data['menu_opcao_direita'][] = '<a href="javascript:window.history.go(-1)" class="btn btn-info btn-sm not-focusable" >
+			<i class="fa fa-fw fa-undo"></i> Voltar
+		</a>';
+		
+		$title = 'Visualizar Demanda #'.$id_demanda;
+		
+		//Title / Description / Tags
+        $this->output->set_common_meta($title, '', ''); 
+		
+		$data['menu_mapa'] = array(
+			'Demandas' => $this->uri->segment(1),
+			'Visualizar' => ''
+		);
+		
+		
+		$data['row'] = $this->demanda_model->get_row_demanda_ver($id_demanda);	
+		
+		$this->load->view('demanda/ver',$data);
 	}
 
 
