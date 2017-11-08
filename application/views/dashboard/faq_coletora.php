@@ -16,7 +16,7 @@
 
 
 <div class="panel-group jumbotron" id="accordion" style="padding:15px;">
-    <div class="faqheader"> Perguntas frequentes - Geradora de Resíduos</div>
+    <div class="faqheader"> Perguntas frequentes - Coletora de Resíduos</div>
     <div class="panel-group" id="faqAccordion">
         <div class="panel panel-default ">
             <div class="panel panel-default ">
