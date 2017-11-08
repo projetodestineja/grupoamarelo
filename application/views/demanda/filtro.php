@@ -4,7 +4,7 @@
         <div class="form-group col-md-6">
             <label for="estado" class="col-form-label">Estado</label>
             <select class="form-control" id="estado" name="estado">
-                <option value="">Selecione o Estado</option>
+                <option value="">Todos</option>
                 <?php foreach ($estados as $n) { ?>
                     <option value="<?php echo $n->uf; ?>" <?php echo ($n->uf==$col_uf_estado?'selected':''); ?> ><?php echo $n->nome_estado; ?></option>
                 <?php } ?>
@@ -13,7 +13,7 @@
         <div class="form-group col-md-6">
             <label for="cidade" class="col-form-label">Cidade</label>
             <select class="form-control" id="cidade" name="cidade">
-                <option value="">Selecione a Cidade</option>
+                <option value="">Todas</option>
                 <?php foreach ($cidades as $n) {?>
                     <option value="<?php echo $n->id; ?>" <?php echo ($n->id==$col_id_cidade?'selected':''); ?>  ><?php echo $n->nome_cidade;?></option>
                 <?php } ?>
@@ -26,7 +26,7 @@
         <div class="form-group col-md-12">
             <label for="categoria" class="col-form-label">Tipo de Resíduo</label>
             <select class="form-control" id="categoria" name="categoria">
-                <option value="">Selecione o Tipo de Resíduo</option>
+                <option value="">Todos</option>
                 <?php foreach ($categorias_residuos as $cr) {?>
                     <option value="<?php echo $cr->id; ?>"><?php echo $cr->categoria;?></option>
                 <?php } ?>
@@ -39,7 +39,7 @@
         <div class="form-group col-md-12">
             <label for="status" class="col-form-label">Status</label>
             <select class="form-control" id="status" name="status">
-                <option value="">Selecione um Status de Demanda</option>
+                <option value="">Todos</option>
                 <?php foreach ($demandas_status as $ds) {?>
                     <option value="<?php echo $ds->id; ?>"><?php echo $ds->descricao;?></option>
                 <?php } ?>
@@ -95,7 +95,7 @@ function resetaCombo(el) {
     $("select[name='" + el + "']").empty();
     var option = document.createElement('option');
     $(option).attr({value: ''});
-    $(option).append('Selecione a Cidade');
+    $(option).append('Todas');
     $("select[name='" + el + "']").append(option);
 }
 
