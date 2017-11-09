@@ -191,19 +191,14 @@ class Demandas_model extends CI_Model {
 	public function get_result_status(){
 		$this->db->order_by('descricao','asc');
 	  return $this->db->get('demandas_status')->result();
-  }
-
-  public function get_count(){
-	  return $this->db->count_all($this->table);
-  }
-
-  	public function get_count(){
-	     return $this->db->count_all($this->table);
   	}
-        
-        public function count_all($status){
-        
-        if($status!=0)
+
+	public function get_count(){
+		return $this->db->count_all($this->table);
+	}
+
+	public function count_all($status){
+		if($status!=0)
             $this->db->where('status',(int)$status);	
             
         $this->db->where('removido',NULL);
