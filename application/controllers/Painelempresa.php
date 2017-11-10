@@ -50,6 +50,11 @@ class Painelempresa extends CI_Controller {
                         else {
                             $data['certificados_ativos'] = $this->empresa_model->countcertificados($this->session->userdata['empresa']['id']);
                             $data['demandas_meu_estado'] = $this->demanda_model->countdemandasbyuf($this->session->userdata['empresa']['uf_estado']);
+                            
+                            if ($data['certificados_ativos']>0){
+                               $data['licencas'] =  $this->empresa_model->listacertificados($this->session->userdata['empresa']['id']);
+                            }
+                            
                             $this->load->view('dashboard/adm_coletora',$data);
                         }
                         $this->load->view('dashboard/faq_coletora');

@@ -188,8 +188,21 @@ class Empresa_model extends CI_Model {
             $this->db->where('id_empresa',$id_empresa);
             $this->db->where('validade >',  date('Y-m-d H:i:s'));
             return $this->db->count_all_results('empresas_certificados');
-        }
+    }
     
+    function listacertificados($id_empresa){ 
+            return 
+            $this->db->query("select 
+                            ec.id as id, ec.titulo as titulo, cadastrado,validade, ecs.titulo as status, (SELECT DATEDIFF(validade, now())) as dias_faltando
+                          from 
+                            empresas_certificados ec
+                                join empresas_certificados_status ecs on ec.status = ecs.id
+                          where
+                            ec.removido is null
+                            and ec.validade > now()
+                            and ec.id_empresa = $id_empresa
+                          order by ec.id")->result();
+    }
     
     
 }

@@ -7,11 +7,11 @@
                   <i class="fa fa-fw fa-comments"></i>
                 </div>
                 <div class="mr-5">
-                  <?php echo $total_geradoras+$total_geradoras_coletoras; ?> Geradoras e <br> <?php echo $total_coletoras+$total_geradoras_coletoras; ?> Coletoras cadastradas
+                  <?php echo $total_geradoras+$total_geradoras_coletoras; ?> <a href="<?php echo site_url('empresa/index/1'); ?>"> Geradoras </a> e <br> <?php echo $total_coletoras+$total_geradoras_coletoras; ?> <a href="<?php echo site_url('empresa/index/2'); ?>">Coletoras </a> cadastradas 
                 </div>
               </div>
               <a href="<?php echo site_url('empresa'); ?>" class="card-footer text-white clearfix small z-1">
-                <span class="float-left">Ver empresas</span>
+                <span class="float-left">Ver todas as empresas</span>
                 <span class="float-right">
                   <i class="fa fa-angle-right"></i>
                 </span>
@@ -62,11 +62,11 @@
                   <i class="fa fa-fw fa-support"></i>
                 </div>
                 <div class="mr-5">
-                  <?php echo $demandas_aguardando; ?> Demandas aguardando liberação
+                  <?php echo $empresas_bloqueadas; ?> Empresas bloqueadas
                 </div>
               </div>
               <a href="#" class="card-footer text-white clearfix small z-1">
-                <span class="float-left"><?php echo $empresas_bloqueadas; ?> empresas bloqueadas  </span>
+                <span class="float-left"> Ver empresas bloqueadas </span>
                 <span class="float-right">
                   <i class="fa fa-angle-right"></i>
                 </span>
