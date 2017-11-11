@@ -369,7 +369,7 @@ class Demanda extends CI_Controller {
 			$erro = false;
 			
 			// validação dos campos
-			$json = $this->validar_form_demanda();
+			$json = $this->validar_form_demanda($id_update);
 			
 			// Não temos Erro / Vamos fazer upload da imagem
 			if(!$json and $_FILES['img']['tmp_name']) {
@@ -516,7 +516,7 @@ class Demanda extends CI_Controller {
 	}
 	
 	
-	private function validar_form_demanda(){
+	private function validar_form_demanda($id_update=''){
 		
 		$json = array();
 		$this->load->library(array('util'));
@@ -581,7 +581,7 @@ class Demanda extends CI_Controller {
 		if($this->util->ValidaData($this->input->post('data_inicio'))==false){
 			$json['error'] = $json['error_data_inicio'] = 'Data início inválida';
 		}else
-		if(date('Y-m-d', strtotime(str_replace("/","-",$this->input->post('data_inicio'))) ) < date('Y-m-d') ){
+		if(date('Y-m-d', strtotime(str_replace("/","-",$this->input->post('data_inicio'))) ) < date('Y-m-d') && empty($id_update) ){
 			$json['error'] = $json['error_data_inicio'] = 'A data de início não pode ser menor que a data de hoje: '.date('d/m/Y');
 		}
 				
