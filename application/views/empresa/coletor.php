@@ -33,11 +33,11 @@ header('Content-Type: text/html; charset=utf-8');
                     <form id="form_cad_coletor" action="<?php echo site_url('empresa/cadastrar'); ?>" method="POST">
                         <h3 class="">Dados</h3>
                         <div class="form-row">
-                            <div class="form-group col-md-4" id="col_cnpj">
+                            <div class="form-group col-md-4 required" id="col_cnpj">
                                 <label for="cnpj" class="col-form-label">CNPJ</label>
                                 <input required type="text" class="form-control cnpj" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" value="<?php echo (isset($cnpj) ? $cnpj : ''); ?>" onChange="valida_cnpj(form_cad_coletor.cnpj);" onblur="pesquisacnpj(this.value);">
                             </div>
-                            <div class="form-group col-md-4" id="col_rsocial">
+                            <div class="form-group col-md-4 required" id="col_rsocial">
                                 <label required for="rsocial" class="col-form-label">Razão Social</label>
                                 <input type="text" class="form-control" id="rsocial" name="rsocial" placeholder="Razão Social">
                             </div>
@@ -47,7 +47,7 @@ header('Content-Type: text/html; charset=utf-8');
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-4 required">
                                 <label for="nresponsavel" class="col-form-label">Nome do Responsável</label>
                                 <input required type="text" class="form-control" id="nresponsavel" name="nresponsavel" placeholder="Ex.: César Silva, Amauri Jr...">
                             </div>
@@ -75,7 +75,7 @@ header('Content-Type: text/html; charset=utf-8');
 
                             <h3 class="">Contato</h3>
                             <div class="form-row">
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-4 required">
                                     <label for="tel1" class="col-form-label">Telefone 1</label>
                                     <input required type="text" class="form-control phone" id="tel1" name="tel1" placeholder="(21) 6564-0205, (27) 98500-6321...">
                                 </div>
@@ -83,24 +83,24 @@ header('Content-Type: text/html; charset=utf-8');
                                     <label for="tel2" class="col-form-label">Telefone 2</label>
                                     <input type="text" class="form-control phone" id="tel2" name="tel2" placeholder="(21) 6564-0205, (27) 98500-6321...">
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-4 required">
                                     <label for="email" class="col-form-label">E-mail</label>
                                     <input required type="email" class="form-control" id="email" name="email" placeholder="nome@dominio.com">
                                 </div>
                             </div>
                             <h3 class="">Endereço</h3>
                             <div class="form-row">
-                                <div class="form-group col-md-2">
+                                <div class="form-group col-md-2 required">
                                     <label for="cep" class="col-form-label">CEP</label>
-                                    <input type="text" class="form-control cep" id="cep" name="cep" placeholder="000000-000" maxlength="8" onblur="pesquisacep(this.value);">
+                                    <input required type="text" class="form-control cep" id="cep" name="cep" placeholder="000000-000" maxlength="8" onblur="pesquisacep(this.value);">
                                 </div>
-                                <div class="form-group col-md-5">
+                                <div class="form-group col-md-5 required">
                                     <label for="Rua" class="col-form-label">Rua</label>
                                     <input required type="text" class="form-control" id="rua" name="rua" placeholder="Ex.: Av. José Silva, Rua São Cosme...">
                                 </div>
-                                <div class="form-group col-md-2">
+                                <div class="form-group col-md-2 required">
                                     <label for="numero" class="col-form-label">Número</label>
-                                    <input  type="number" class="form-control" id="numero" name="numero" placeholder="00">
+                                    <input required type="number" class="form-control" id="numero" name="numero" placeholder="00">
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="complemento" class="col-form-label">Complemento</label>
@@ -108,11 +108,11 @@ header('Content-Type: text/html; charset=utf-8');
                                 </div>
                             </div>
                             <div class="form-row">
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-4 required">
                                     <label for="bairro" class="col-form-label">Bairro</label>
-                                    <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Ex.: São Gonçalo, Manguinhos...">
+                                    <input required type="text" class="form-control" id="bairro" name="bairro" placeholder="Ex.: São Gonçalo, Manguinhos...">
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-4 required">
                                     <label for="estado" class="col-form-label">Estado</label>
                                     <select required class="form-control" id="estado" name="estado">
                                         <option value="">Selecione o Estado</option>
@@ -122,7 +122,7 @@ header('Content-Type: text/html; charset=utf-8');
                                     </select>
                                 </div>
 
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-4 required">
                                     <label for="cidade" class="col-form-label">Cidade</label>
                                     <select required class="form-control" id="cidade" name="cidade">
                                         <option value="">Selecione a Cidade</option>
@@ -131,11 +131,11 @@ header('Content-Type: text/html; charset=utf-8');
                             </div>
                             <h3 class="">Acesso</h3>
                             <div class="form-row">
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-6 required">
                                     <label for="senha1" class="col-form-label">Digite sua Senha</label>
                                     <input required type="password" class="form-control" id="senha1" name="senha1" placeholder="Digite sua Senha">
                                 </div>
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-6 required">
                                     <label for="senha2" class="col-form-label">Confirme sua Senha</label>
                                     <input required type="password" class="form-control" id="senha2" name="senha2" onchange="valida_senha();" placeholder="Confirme sua Senha">
                                 </div>
