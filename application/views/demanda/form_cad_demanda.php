@@ -8,16 +8,13 @@
       <div class="card-block">
       <div class="col-md-12" >
       
-      
        	<div class="form-row">
         
 		<div class="form-group col-md-4 required">
 			<label for="residuo" class="col-form-label">Especifique o resíduo:</label>
 			<input type="text" class="form-control" id="input-residuo" value="<?php echo $residuo; ?>" name="residuo" placeholder="Ex.: Oléo de cozinha usado">
 		</div>
-        
-		
-
+      
 		<div class="form-group col-md-4 required">
 			<label for="acondicionado" class="col-form-label">Como o resíduo está acondicionado?</label>
 			<select class="form-control" id="input-acondicionado" name="acondicionado" >
@@ -25,7 +22,7 @@
             <?php foreach($acondicionamentos as $n){?>
                 <option value="<?php echo $n->id; ?>" <?php echo ($n->id==$acondicionado?'selected':''); ?>  ><?php echo $n->abreviacao;?> - <?php echo $n->nome;?></option>
             <?php } ?>
-         </select>
+		 </select>
     	</div>
     
        <div class="form-group col-md-2 required">
@@ -34,20 +31,20 @@
        </div>
        
 	   <div class="form-group col-md-2 required">
-        <label for="uni_medida" class="col-form-label">Uni. de Medida:</label>
+        <label for="uni_medida" class="col-form-label">Uni. de medida:</label>
          <select class="form-control" name="uni_medida" id="input-uni-medida" >
             <option value="">Selecione</option>
             <?php foreach($medidas as $n){?>
                 <option value="<?php echo $n->id; ?>" <?php echo ($n->id==$uni_medida?'selected':''); ?>  ><?php echo $n->abreviacao;?> - <?php echo $n->nome;?></option>
             <?php } ?>
-         </select>
+		 </select>
 	  </div>
 
 
-	  <div class="form-group col-md-12 required">
-			<label for="acondicionado" class="col-form-label">Categoria Resíduo</label>
+	  <div class="form-group col-md-12">
+			<label for="acondicionado" class="col-form-label">Categoria resíduo:</label>
 			<select class="form-control" id="input-categoria-residuo" name="categoria_residuo" >
-            <option value="">Selecione</option>
+            <option value="0">Indefinido</option>
             <?php foreach($categorias_residuos as $n){?>
                 <option value="<?php echo $n->id; ?>" <?php echo ($n->id==$categoria_residuo?'selected':''); ?>  >
 					<?php echo $n->categoria;?>
@@ -66,11 +63,11 @@
 			<label for="data_inicio" class="col-form-label">Imagem Capa do Anúncio</label><br>	
 		    <div class="fileinput fileinput-new" data-provides="fileinput">
             
-              <div class="fileinput-new thumbnail" style="width: 210px; height: 160px; border:1px #CCC solid">
-                <img src="<?php echo $img_capa; ?>" alt="...">
-              </div>
-              
-              <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 210px; max-height: 160px; border:1px #CCC solid"></div>
+				<div class="fileinput-new thumbnail" style="width: 210px; height: 160px; border:1px #CCC solid">
+					<img src="<?php echo $img_capa; ?>" alt="..." class="img-fluid" >
+				</div>
+				
+				<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 210px; max-height: 160px; border:1px #CCC solid"></div>
               
 			  <div >
 			  <span class="badge badge-info" >* Tamanho Máx: 10MB</span>
@@ -86,9 +83,11 @@
 					</span>
                     <input type="file" class="form-control" id="img" name="img">
                 </span>
+
                 <a href="#" class="btn btn-sm btn-danger fileinput-exists" data-dismiss="fileinput">
 					<i class="fa fa-close" aria-hidden="true"></i> Remover
 				</a>
+
               </div>
               
             </div>
@@ -96,7 +95,7 @@
         <div class="col-md-9">
         	<div class="row">
             <div class="form-group col-md-6 required" >
-			<label for="data_inicio" class="col-form-label">Data Início</label>
+			<label for="data_inicio" class="col-form-label">Data início</label>
             <div class="input-group" >
 			<input name="data_inicio" class="form-control date" value="<?php echo $data_inicio;?>" placeholder="dd/mm/aaaa" id="input-data-inicio" >
             <label class="input-group-addon btn" for="testdate">
@@ -105,7 +104,7 @@
            </div>    
 		</div>
 		<div class="form-group col-md-6  required" style="padding-left:0" >
-			<label for="data_validade" class="col-form-label">Data de Expiração</label>
+			<label for="data_validade" class="col-form-label">Data de expiração</label>
             <div class="input-group" >
 			<input name="data_validade" class="form-control date" value="<?php echo $data_validade;?>" placeholder="dd/mm/aaaa" id="input-data-validade"  >
             <label class="input-group-addon btn" for="testdate">
@@ -113,7 +112,7 @@
             </label>  
             </div> 
         </div>
-        <div class="form-group col-md-12 required">
+        <div class="form-group col-md-12">
             <label for="obs" class="col-form-label">Observações:</label>
              <textarea class="form-control" id="input-obs"  name="obs" rows="5" placeholder="Utilize este campo para observações tais como: dificuldade para entrada de veículos grandes, disponibilidade de horário, etc."><?php echo $obs; ?></textarea>
               </div>
@@ -158,7 +157,7 @@
 
     
     <div class="card">
-      <h5 class="card-header"><i class="fa fa-truck" ></i> Local de Coleta</h5>
+      <h5 class="card-header"><i class="fa fa-truck" ></i> Local da Coleta</h5>
       <div class="card-block">
       <div class="col-md-12" >
       	
@@ -301,11 +300,6 @@ function send_form(){
 				$(form_ind+' #input-responsavel').focus();
 			}
 			
-			if (json['error_obs']) {
-				$(form_ind+' #input-obs').parent().addClass('has-error');
-				$(form_ind+' #input-obs').focus();
-			}
-			
 			if (json['error_data_inicio']) {
 				$(form_ind+' #input-data-inicio').focus();
 			}else
@@ -320,11 +314,6 @@ function send_form(){
 				$(form_ind+' #input-data-validade').parent().parent().addClass('has-error');
 			}
 
-			if (json['error_categoria_residuo']) {
-				$(form_ind+' #input-categoria-residuo').parent().addClass('has-error');
-				$(form_ind+' #input-categoria-residuo').focus();
-			}		
-			
 			if (json['error_uni_medida']) {
 				$(form_ind+' #input-uni-medida').parent().addClass('has-error');
 				$(form_ind+' #input-uni-medida').focus();
