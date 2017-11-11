@@ -132,7 +132,7 @@ class Cadastro extends CI_Controller {
         );
 
         $this->form_validation->set_rules('rsocial', 'razão social', 'required');
-        $this->form_validation->set_rules('nfantasia', 'nome fantasia', 'required');
+        //$this->form_validation->set_rules('nfantasia', 'nome fantasia', 'required');
 
         $this->form_validation->set_rules('nresponsavel', 'nome completo do responsável', 'required');
         $this->form_validation->set_rules('telefone1', 'telefone', 'required');
@@ -192,7 +192,7 @@ class Cadastro extends CI_Controller {
         } else {
             // $this->form_validation->set_rules('cnpj', 'CNPJ', 'required');
             $this->form_validation->set_rules('rsocial', 'razão social', 'required');
-            $this->form_validation->set_rules('nfantasia', 'nome fantasia', 'required');
+            //$this->form_validation->set_rules('nfantasia', 'nome fantasia', 'required');
         }
         $this->form_validation->set_rules('nresponsavel', 'nome completo do responsável', 'required');
         $this->form_validation->set_rules('telefone1', 'telefone', 'required');

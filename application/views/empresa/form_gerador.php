@@ -40,16 +40,16 @@
 
 
 
-                    <div class="form-row  required">
-                        <div class="form-group col-md-2 col-pjuridica " id="divcnpj" id="divcnpj">
+                    <div class="form-row">
+                        <div class="form-group col-md-2 col-pjuridica required" id="divcnpj" id="divcnpj">
                             <label for="cnpj" class="col-form-label">CNPJ</label>
-                            <input type="text" class="form-control cnpj" id="cnpj" name="cnpj" value="<?php echo $cnpj; ?>" disabled  >
+                            <input required type="text" class="form-control cnpj" id="cnpj" name="cnpj" value="<?php echo $cnpj; ?>" disabled  >
                         </div>
-                        <div class="form-group col-md-2  col-pfisica" id="divcpf" id="divcpf">
+                        <div class="form-group col-md-2 required col-pfisica" id="divcpf" id="divcpf">
                             <label for="cpf" class="col-form-label">CPF</label>
-                            <input type="text" class="form-control cpf" id="cpf" name="cpf" value="<?php echo $cnpj; ?>" placeholder="000.000.000-00"  disabled >
+                            <input required type="text" class="form-control cpf" id="cpf" name="cpf" value="<?php echo $cnpj; ?>" placeholder="000.000.000-00"  disabled >
                         </div>
-                        <div class="form-group col-md-5 col-pjuridica" >
+                        <div class="form-group col-md-5 col-pjuridica required" >
                             <label required for="rsocial" class="col-form-label">Razão Social</label>
                             <input type="text" class="form-control" id="rsocial" name="rsocial" value="<?php echo $razao_social; ?>" placeholder="Razão Social">
                         </div>

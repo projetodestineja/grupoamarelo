@@ -27,14 +27,14 @@
                 <div class="col-md-12">
 
                             
-                    <div class="form-row  required">
-                        <div class="form-group col-md-4 " >
+                    <div class="form-row">
+                        <div class="form-group col-md-4 required" >
                             <label for="cnpj" class="col-form-label">CNPJ</label>
-                            <input type="text" class="form-control cnpj" id="cnpj" name="cnpj" value="<?php echo $cnpj; ?>"  disabled  >
+                            <input required type="text" class="form-control cnpj" id="cnpj" name="cnpj" value="<?php echo $cnpj; ?>"  disabled  >
                         </div>
-                        <div class="form-group col-md-4" >
-                            <label required for="rsocial" class="col-form-label">Razão Social</label>
-                            <input type="text" class="form-control" id="rsocial" name="rsocial" value="<?php echo $razao_social; ?>" placeholder="Razão Social">
+                        <div class="form-group col-md-4 required" >
+                            <label for="rsocial" class="col-form-label">Razão Social</label>
+                            <input required type="text" class="form-control" id="rsocial" name="rsocial" value="<?php echo $razao_social; ?>" placeholder="Razão Social">
                         </div>
                         <div class="form-group col-md-4" >
                             <label for="nfantasia" class="col-form-label">Nome Fantasia</label>
