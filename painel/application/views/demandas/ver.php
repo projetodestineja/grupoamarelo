@@ -27,19 +27,19 @@
         	<div class="col-md-10">
          <div class="resposta_json" ></div>
         	<div class="form-row">
-                <div class="form-group col-md-3">
+                <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3">
                     <label><span class="fa fa-chevron-right"></span> Resíduo</label><br>
                     <?php echo $row['residuo']; ?>
                 </div>
-                <div class="form-group col-md-3" >
+                <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3" >
                     <label><span class="fa fa-calendar"></span> Data Início / Expiração</label><br>
                     <?php echo $row['data_inicio'];?> / <?php echo $row['data_validade'];?>
             	</div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3">
                     <label><i class="fa fa-cube" aria-hidden="true"></i> Acondicionamento</label><br>
                     <?php echo $row['acondicionado']; ?>
                 </div>
-                <div class="form-group col-md-2">
+                <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3">
                     <label><i class="fa fa-cubes" aria-hidden="true"></i> QTD:</label><br>
                     <?php echo $row['qtd']; ?> <?php echo $row['uni_medida_nome']; ?>
                 </div>
@@ -58,24 +58,29 @@
                 
             	<div class="form-group col-md-6" >
                     <form id="form_update_status" class="form_ajax"  onSubmit="send_form(); return false" action="<?php echo site_url('demandas/post_update_status'); ?>" method="POST"  >
-                        <?php foreach($result_status as $n){?>
-                        <label style="color:<?php echo $n->cor; ?>" >
-                            <input name="status" <?php echo ($row['status']==$n->id?'checked':''); ?> type="radio" value="<?php echo $n->id; ?>" />
-                            <?php echo $n->descricao; ?>
-                        </label>    
-                        <?php } ?>
-                        <input name="id_demanda" type="hidden" value="<?php echo $row['id']; ?>" />
-                       <button class="btn btn-primary btn-md btn-block btn-salvar-post"  ><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> Atualizar</button>
+                        <div class="row" >
+                        <div class="form-group col-md-6" >
+                            <select name="status" class="form-control" >
+                                <?php foreach($result_status as $n){?>
+                                <Option value="<?php echo $n->id; ?>" <?php echo ($row['status']==$n->id?'selected':''); ?> ><?php echo $n->descricao; ?></Option>
+                                <?php } ?>
+                            </select>
+                            <input name="id_demanda" type="hidden" value="<?php echo $row['id']; ?>" />
+                        </div>
+                        <div class="form-group col-md-6" >  
+                            <button class="btn btn-primary btn-md btn-block btn-salvar-post"  ><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> Atualizar</button>
+                        </div>
+                        </div>     
                    </form>    
                </div>
                
-               <div class="form-group col-md-3" >
+               <div class="form-group col-6 col-md-3" >
                  <span class="fa fa-calendar"></span>
                  <label>Cadastrado</label><br>
                  <?php echo $row['cadastrada'];?>h
                </div>
                 
-               <div class="form-group col-md-3" >
+               <div class="form-group col-6 col-md-3" >
                  <span class="fa fa-calendar"></span>
                  <label>Atualizado</label> <br>
                  <span class="date_update_demanda" ><?php echo $row['atualizada'];?></span>h
