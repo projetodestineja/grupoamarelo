@@ -188,9 +188,13 @@ class Demandas_model extends CI_Model {
 		return $this->db->query($sql)->result();	
 	}
 
+	function get_categorias_residuos(){
+        return $this->db->get('categorias_residuos')->result();
+    }
+
 	public function get_result_status(){
 		$this->db->order_by('descricao','asc');
-	  return $this->db->get('demandas_status')->result();
+	  	return $this->db->get('demandas_status')->result();
   	}
 
 	public function get_count(){
@@ -217,6 +221,6 @@ class Demandas_model extends CI_Model {
                                     and YEAR(cadastrada) = $ano  
                                     and MONTH(cadastrada) = $mes")->row();
         } else return 0;
-    }
+	}
     
 }

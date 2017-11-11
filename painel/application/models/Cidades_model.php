@@ -51,6 +51,11 @@ class Cidades_model extends CI_Model {
 		$this->db->where('id',$id);
         return $this->db->get('cidades')->row(); 
     }
+
+    public function getcidades($uf) {
+        $this->db->where('uf',$uf);
+        return $this->db->get('cidades')->result();
+    }
 	
     function deletar($id){
 		$this->db->where('id',$id);

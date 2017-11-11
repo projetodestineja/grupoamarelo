@@ -701,6 +701,28 @@ class Empresa extends CI_Controller {
         $this->output->set_header($this->config->item('ajax_header'));
         $this->output->set_output($error);
     }
+
+    function getcidades($id_uf) {
+        $this->output->unset_template();
+        $cidade = $this->input->get('cidade');
+        $retorno = array();
+        $this->load->model('cidades_model');
+
+        $cidades = $this->cidades_model->getcidades($id_uf);
+        foreach ($cidades as $row) {
+
+            $cidade = strtoupper($cidade);
+            $cidade2 = strtoupper($row->nome_cidade);
+
+            $selected = ($cidade == $cidade2 ? 'selected' : '');
+
+            $retorno[] = array('nome_cidade' => $row->nome_cidade, 'id' => $row->id, 'selected' => $selected);
+        }
+
+        echo json_encode($retorno);
+
+        return;
+    }
 	
 
 }

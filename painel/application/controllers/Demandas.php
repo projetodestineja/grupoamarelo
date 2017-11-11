@@ -7,6 +7,7 @@ class Demandas extends CI_Controller {
     parent::__construct();
     $this->login_model->restrito();
 		$this->load->model('demandas_model');
+		$this->load->model('endereco_model');
 		$this->load->library(array('pagination'));
 		$this->_init();
 	}
@@ -23,7 +24,50 @@ class Demandas extends CI_Controller {
         $this->output->set_common_meta($title, '', ''); //Title / Description / Tags
         $data['menu_mapa'] = array(
             $title => 'demandas'
-        );
+		);
+
+		$data['menu_opcao_direita'][] = anchor(
+			'demandas/modal_filtro',
+			'<i class="fa fa-fw fa-filter"></i> Filtro',
+			'class="btn btn-primary btn-sm not-focusable" rel="modal_add_edit" data-toggle="tooltip" title="Fazer Filtro"'
+		);
+
+		if ($this->input->get('cidade')){
+			
+			$this->load->model('cidades_model');
+			$cidade = $this->cidades_model->get_row_cidade($this->input->get('cidade'));
+			
+			//$dados['demandas'] = $this->demanda_model->lista_demandasbycidade($this->session->userdata['empresa']['id_cidade']);
+			
+			$this->output->set_common_meta('Demandas para Coleta em '.$cidade->nome_cidade.'/'.$cidade->uf,'',''); 
+			
+		}else if ($this->input->get('estado')){
+			
+			$this->output->set_common_meta('Demandas para Coleta em '.$this->input->get('estado'),'',''); 
+			
+		}else{
+			
+			$this->output->set_common_meta('Demandas para Coleta','',''); 
+			
+		}
+		
+		/*
+		* Montamos a url para o ajax
+		*/
+		$url_ajax = 'demandas/get_list/?';
+		if($this->input->get('cidade')){
+			$url_ajax.='&cidade='.$this->input->get('cidade');
+		}
+		if($this->input->get('estado')){
+			$url_ajax.='&estado='.$this->input->get('estado');
+		}
+		if($this->input->get('status')){
+			$url_ajax.='&status='.$this->input->get('status');
+		}
+		if($this->input->get('categoria')){
+			$url_ajax.='&categoria='.$this->input->get('categoria');
+		}
+		$data['url_ajax'] = site_url($url_ajax);
 
 		$this->load->view('demandas/index',$data);
 	}
@@ -40,7 +84,24 @@ class Demandas extends CI_Controller {
 		$result = array();
 		$where = '';
 		$prefix = '';
-		
+
+		if($this->input->get('cidade')){
+			$where.= " d.ger_id_cidade = '".(int)$this->input->get('cidade')."' and  ";
+			$prefix = '&estado='.$this->input->get('estado').'&cidade='.$this->input->get('cidade');
+		}
+		if($this->input->get('status')){
+			$where.= " d.status = ".$this->input->get('status')." and  ";
+			$prefix = '&status='.$this->input->get('status');
+		}
+		if($this->input->get('estado')){
+			$where.= " d.ger_uf_estado = '".$this->input->get('estado')."' and  ";
+			$prefix = '&estado='.$this->input->get('estado');
+		}
+		if($this->input->get('categoria')){
+			$where.= " d.id_cat_residuo = ".$this->input->get('categoria')." and  ";
+			$prefix = '&categoria='.$this->input->get('categoria');
+		}
+
 		$config = array(
 			"base_url" => base_url('demandas/get_list/'),
 			"reuse_query_string" => true,
@@ -193,6 +254,26 @@ class Demandas extends CI_Controller {
 		$error = "Selected countries (id's: ".$this->input->post('ids_bloquear').") blocked with success";
 		$this->output->set_header($this->config->item('ajax_header'));
 		$this->output->set_output($error);
+	}
+
+	public function modal_filtro(){
+		$this->output->unset_template();
+		$data = array();
+		$data['title'] = "Filtrar Demandas";
+		
+		// Listamos todos estados normalmente
+		$data['estados'] = $this->endereco_model->get_all_estados(); 
+		
+		/*$uf = ($this->input->post('estado') ? $this->input->post('estado') : $row->uf_estado);
+		$data['cidades'] = $this->endereco_model->get_all_cidades($uf); //<-UF no EDIT pra listar apenas a cidades do estado selecionado*/
+		
+		// Categorias de resíduos 
+		$data['categorias_residuos'] = $this->demandas_model->get_categorias_residuos();
+
+		// Status de demandas 
+		$data['demandas_status'] = $this->demandas_model->get_result_status();
+		
+		$this->load->view('demandas/filtro',$data);
 	}
 
 }
