@@ -151,7 +151,11 @@ class Demanda_model extends CI_Model {
 		$row = $this->db->query($sql)->row();
 		
 		$this->load->model('endereco_model');
-		$ger_nome_cidade = $this->endereco_model->get_row_cidade($row->ger_id_cidade)->nome_cidade;
+		if($row->ger_id_cidade!=NULL){
+			$ger_nome_cidade = $this->endereco_model->get_row_cidade($row->ger_id_cidade)->nome_cidade;
+		}else{
+			$ger_nome_cidade = '';
+		}
 		if($row->col_id_cidade!=NULL){
 			$col_nome_cidade = $this->endereco_model->get_row_cidade($row->col_id_cidade)->nome_cidade;
 		}else{
@@ -162,7 +166,14 @@ class Demanda_model extends CI_Model {
 		$capa = 'uploads/empresa/'.$row->ger_id_empresa.'/demanda/mini/'.$row->img;
 
 		$img = (is_file( $capa)?base_url($capa):base_url('painel/assets/img/demanda_sem_img.jpg')); 
-
+		
+		// Empresa Coletora com FUNCAO = 2 (não pode visualizar tudo)
+		if($this->session->userdata['empresa']['funcao']==2){ 
+			$info_completa = false;	
+		}else{
+			$info_completa = true;	
+		}
+	
 		$data = array(
 			/* Dados Demanda ********************/
 			'id' => $id,
@@ -173,6 +184,8 @@ class Demanda_model extends CI_Model {
 			'data_inicio' => date('d/m/Y', strtotime($row->data_inicio)),
 			'data_validade' => date('d/m/Y', strtotime($row->data_validade)),
 			
+			'info_completa' => $info_completa,
+
 			'status' => $row->status,
 			'status_nome' => $row->status_nome,
 			'cor' => $row->cor,
@@ -224,14 +237,15 @@ class Demanda_model extends CI_Model {
 	}
     
 	function get_all_medidas(){
-
+		$this->db->order_by('ordem','asc');
 		$this->db->order_by('nome','asc');
-       return $this->db->get('uni_medida')->result();
+	    return $this->db->get('uni_medida')->result();
     }
 	
 	function get_all_acondicionamentos(){
+		$this->db->order_by('ordem','asc');
 		$this->db->order_by('nome','asc');
-       return $this->db->get('acondicionado')->result();
+        return $this->db->get('acondicionado')->result();
     }
 	
     function insert($data,$img){
@@ -244,6 +258,11 @@ class Demanda_model extends CI_Model {
 	   
 	   // Adiciona 1º status no hitórico
 	   $this->db->set('status',1);
+	   $this->db->set('id_demanda',(int)$id_demanda);
+	   $this->db->insert('demandas_status_historico');
+
+	   // Adiciona 2º status no hitórico
+	   $this->db->set('status',2);
 	   $this->db->set('id_demanda',(int)$id_demanda);
 	   $this->db->insert('demandas_status_historico');
 		

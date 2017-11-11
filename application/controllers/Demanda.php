@@ -164,12 +164,16 @@ class Demanda extends CI_Controller {
 		
 		$this->load->view('demanda/list',$data);
 	}
-        
-    
+	
+	
+	/*
+	*	Página Adicionar Demanda
+	*/
 	public function add(){
 		
 		//Title / Description / Tags
-		$this->output->set_common_meta('Cadastrar Demanda','',''); 
+		$data['title'] = 'Cadastrar Demanda';
+		$this->output->set_common_meta($data['title'],'',''); 
 		
 		// dados da empresa geradora
 		$id_empresa = (int) $this->session->userdata['empresa']['id'];
@@ -184,7 +188,7 @@ class Demanda extends CI_Controller {
 		$data['atualizada'] = '';
 		$data['removida'] = '';
 		
-		$data['data_inicio'] = '';
+		$data['data_inicio'] = date('d/m/Y');
 		$data['data_validade'] = '';
 		$data['status'] = '';
 		$data['img_capa'] = base_url('painel/assets/img/demanda_sem_img.jpg');
@@ -244,7 +248,8 @@ class Demanda extends CI_Controller {
 	public function edit($id){
 		
 		//Title / Description / Tags
-		$this->output->set_common_meta('Cadastrar Demanda','',''); 
+		$data['title'] = 'Atualizar Demanda #'.$id;
+		$this->output->set_common_meta($data['title'],'',''); 
 		
 		$id_empresa = (int) $this->session->userdata['empresa']['id'];
 		
@@ -463,23 +468,29 @@ class Demanda extends CI_Controller {
 		
 		$data = array();
 		
-		$data['menu_opcao_direita'][] = '<a href="javascript:window.history.go(-1)" class="btn btn-info btn-sm not-focusable" >
+		$data['menu_opcao_direita'][] = '
+		<a href="javascript:window.history.go(-1)" class="btn btn-info btn-sm not-focusable" >
 			<i class="fa fa-fw fa-undo"></i> Voltar
 		</a>';
 		
-		$title = 'Visualizar Demanda #'.$id_demanda;
+		$data['title'] = 'Demanda #'.$id_demanda;
 		
 		//Title / Description / Tags
-        $this->output->set_common_meta($title, '', ''); 
+        $this->output->set_common_meta($data['title'], '', ''); 
 		
 		$data['menu_mapa'] = array(
 			'Demandas' => $this->uri->segment(1),
 			'Visualizar' => ''
 		);
-		
+
+		if($this->session->userdata['empresa']['funcao']==2){ 
+			$data['tab_proposta'] = 'Enviar Proposta';
+		}else{
+			$data['tab_proposta'] = 'Propostas Recebidas';
+		}
 		
 		$data['row'] = $this->demanda_model->get_row_demanda_ver($id_demanda);	
-		
+	
 		$this->load->view('demanda/ver',$data);
 	}
 
@@ -554,10 +565,6 @@ class Demanda extends CI_Controller {
 			$json['error'] = $json['error_responsavel'] = 'Digite o nome completo do responsável pela demanda';	
 		}
 		
-		if(!$this->input->post('obs')) {
-           $json['error'] = $json['error_obs'] = 'Digite uma informação complementar';
-		}
-		
 		if(!$this->input->post('data_validade') or strlen(preg_replace("/[^0-9]/", "",$this->input->post('data_validade')))<8) {
            $json['error'] = $json['error_data_validade'] = 'Digite a data de validade';
 		}else
@@ -577,12 +584,8 @@ class Demanda extends CI_Controller {
 		if(date('Y-m-d', strtotime(str_replace("/","-",$this->input->post('data_inicio'))) ) < date('Y-m-d') ){
 			$json['error'] = $json['error_data_inicio'] = 'A data de início não pode ser menor que a data de hoje: '.date('d/m/Y');
 		}
-		
-		if(!$this->input->post('categoria_residuo')) {
-			$json['error'] = $json['error_categoria_residuo'] = 'Selecione a categoria do resíduo';
-		 }
-
-		if(!$this->input->post('uni_medida')) {
+				
+		if($this->input->post('uni_medida')=='') {
            $json['error'] = $json['error_uni_medida'] = 'Selecione a undiade de medida';
 		}
 		
@@ -590,8 +593,8 @@ class Demanda extends CI_Controller {
            $json['error'] = $json['error_qtd'] = 'Digite a quantidade';
 		}
 		
-		if(!$this->input->post('acondicionado')) {
-           $json['error'] = $json['error_acondicionado'] = 'Selecione opção de como o resíduo está condidionado';
+		if($this->input->post('acondicionado')=='') {
+           $json['error'] = $json['error_acondicionado'] = 'Selecione opção de como o resíduo está acondidionado';
 		}
 		
 		if(!$this->input->post('residuo')) {
