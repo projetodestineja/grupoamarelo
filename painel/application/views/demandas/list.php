@@ -6,8 +6,11 @@ if($result){ ?>
 ?>
 <div class="row" >
 
-     <div class="col-12 col-sm-4 col-md-2 col-lg-3 col-xl-1" >
+     <div class="col-12 col-sm-4 col-md-2 col-lg-3 col-xl-1 text-center" >
        <img src="<?php echo $img; ?>" class="img-thumbnail"  >
+       <div class="text-center" >
+        Nº <?php echo $n->id; ?>
+       </div>
      </div>
      
      <div class="col-12 col-sm-8 col-md-10  col-lg-9 col-xl-10 demanda_list" >
@@ -74,7 +77,7 @@ if($result){ ?>
   <div class="card">
     <div class="card-block">
       <div class="col-md-12" ><br>
-        <h5>Nehuma Demanda Cadastrada</h5>
+        <h5>Nenhuma Demanda Cadastrada</h5>
         <br>
       </div>
     </div>  
