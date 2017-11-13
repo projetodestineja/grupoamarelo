@@ -113,36 +113,19 @@ Chart.defaults.global.defaultFontColor = '#292b2c';
 
 var ctx = document.getElementById("chart_empresas");
 var myLineChart = new Chart(ctx, {
-  type: 'line',
+  type: 'bar',
   data: {
     labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
-    datasets: [{
+    datasets: [
+    {
       label: "Geradoras",
-      lineTension: 0.1,
-      backgroundColor: "rgba(65,105,225,0)",
-      borderColor: "rgba(65,105,225,1)",
-      pointRadius: 5,
-      pointBackgroundColor: "rgba(65,105,225,1)",
-      pointBorderColor: "rgba(255,255,255,0.8)",
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: "rgba(65,105,225,1)",
-      pointHitRadius: 20,
-      pointBorderWidth: 2,
       data: [<?php echo $gjan;?>, <?php echo $gfev;?>, <?php echo $gmar;?>, <?php echo $gabr;?>, <?php echo $gmai;?>, <?php echo $gjun;?>, <?php echo $gjul;?>, <?php echo $gago;?>, <?php echo $gset;?>, <?php echo $gout;?>, <?php echo $gnov;?>, <?php echo $gdez;?>],
+      backgroundColor: "rgba(65,105,225,1)"
     },
     {
       label: "Coletoras",
-      lineTension: 0.1,
-      backgroundColor: "rgba(218,165,32,0)",
-      borderColor: "rgba(218,165,32,1)",
-      pointRadius: 5,
-      pointBackgroundColor: "rgba(218,165,32,1)",
-      pointBorderColor: "rgba(255,255,255,0.8)",
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: "rgba(218,165,32,1)",
-      pointHitRadius: 20,
-      pointBorderWidth: 2,
       data: [<?php echo $cjan;?>, <?php echo $cfev;?>, <?php echo $cmar;?>, <?php echo $cabr;?>, <?php echo $cmai;?>, <?php echo $cjun;?>, <?php echo $cjul;?>, <?php echo $cago;?>, <?php echo $cset;?>, <?php echo $cout;?>, <?php echo $cnov;?>, <?php echo $cdez;?>],
+      backgroundColor: "rgba(255,140,0,1)"
     }
     ],
   },
@@ -181,36 +164,18 @@ var myLineChart = new Chart(ctx, {
 
 var ctx = document.getElementById("chart_demandas");
 var myLineChart = new Chart(ctx, {
-  type: 'line',
+  type: 'bar',
   data: {
     labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
     datasets: [{
       label: "Demandas",
-      lineTension: 0.1,
-      backgroundColor: "rgba(34,139,34,0)",
-      borderColor: "rgba(34,139,34,1)",
-      pointRadius: 5,
-      pointBackgroundColor: "rgba(34,139,34,1)",
-      pointBorderColor: "rgba(255,255,255,0.8)",
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: "rgba(34,139,34,1)",
-      pointHitRadius: 20,
-      pointBorderWidth: 2,
       data: [<?php echo $djan;?>, <?php echo $dfev;?>, <?php echo $dmar;?>, <?php echo $dabr;?>, <?php echo $dmai;?>, <?php echo $djun;?>, <?php echo $djul;?>, <?php echo $dago;?>, <?php echo $dset;?>, <?php echo $dout;?>, <?php echo $dnov;?>, <?php echo $ddez;?>],
+      backgroundColor: "rgba(34,139,34,1)",
     },
     {
       label: "Propostas",
-      lineTension: 0.1,
-      backgroundColor: "rgba(255,69,0,0)",
-      borderColor: "rgba(255,69,0,1)",
-      pointRadius: 5,
-      pointBackgroundColor: "rgba(255,69,0,1)",
-      pointBorderColor: "rgba(255,255,255,0.8)",
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: "rgba(255,69,0,1)",
-      pointHitRadius: 20,
-      pointBorderWidth: 2,
       data: [<?php echo 0;?>, <?php echo 0;?>, <?php echo 0;?>, <?php echo 0;?>, <?php echo 0;?>, <?php echo 0;?>, <?php echo 0;?>, <?php echo 0;?>, <?php echo 0;?>, <?php echo 0;?>, <?php echo 0;?>, <?php echo 0;?>],
+       backgroundColor: "rgba(200,0,0,1)",
     }
     ],
   },
