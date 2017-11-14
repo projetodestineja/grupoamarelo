@@ -492,6 +492,12 @@ class Demanda extends CI_Controller {
 		$data['row'] = $this->demanda_model->get_row_demanda_ver($id_demanda);	
 	
 		$this->load->view('demanda/ver',$data);
+                
+                if($this->session->userdata['empresa']['funcao']==2){ 
+			$this->load->view('proposta/proposta',$data);
+		}else{
+			$this->load->view('proposta/lista_propostas',$data);
+		}
 	}
 
 

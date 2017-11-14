@@ -198,10 +198,5 @@
   </div>
     
     
-    <div role="tabpanel" class="tab-pane" id="propostas">
-    	<div id="list_propostas" >#</div>
-    </div>
-    
-    
-</div>
+
 
