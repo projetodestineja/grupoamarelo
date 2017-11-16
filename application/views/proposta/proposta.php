@@ -1,11 +1,13 @@
 <div role="tabpanel" class="tab-pane" id="propostas">
-
+    
+    <?php  if (!empty($msg_proposta)) echo "<div class=\"alert alert-success\">".$msg_proposta."</div>"; ?>
+    
     <div class="card">
     <h5 class="card-header"><i class="fa fa-list" ></i> Cadastro de Proposta</h5>
     <div class="card-block">
         <div style="padding:15px;">
         
-        <form id="form_proposta" name="form_proposta" method="POST" >
+        <form id="form_proposta" name="form_proposta" method="POST" action="">
             <div>
                 <div class="form-check form-check-inline col-md-4">    
                     <input checked class="form-check-input" type="radio" name="cobranca" id="cobrancasim" name="cobrancasim" value="1"  onchange="atualiza_total();"><b> Cobrar para coletar o resíduo</b></input>
@@ -37,7 +39,7 @@
             <div class="row">
                 <div class="form-group col-md-3 required" id="col_prazo">
                     <label for="prazo" class="col-form-label">Prazo para Coleta (dias)</label>
-                    <input required type="number" class="form-control" id="condicoes" name="condicoes"  min="0" max="180"  >
+                    <input required type="number" class="form-control" id="prazo" name="prazo"  min="0" max="180"  >
                 </div>
                 <div class="form-group col-md-4 required" id="col_validade">
                     <label for="validade" class="col-form-label">Validade da Proposta (dias)</label>
@@ -91,5 +93,4 @@
     }
     
 
-    
 </script>    

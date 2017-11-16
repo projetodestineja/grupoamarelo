@@ -9,7 +9,7 @@ class Demanda extends CI_Controller {
 		// ACESSO RESTRITO
 		$this->login_model->restrito();
 
-        $this->load->model(array('empresa_model', 'demanda_model', 'endereco_model','estado_model'));
+        $this->load->model(array('empresa_model', 'demanda_model', 'endereco_model','estado_model','proposta_model'));
 		$this->load->library(array('form_validation','util','upload','pagination'));
 		$this->_init();
 	}
@@ -476,7 +476,7 @@ class Demanda extends CI_Controller {
 		$data['title'] = 'Demanda #'.$id_demanda;
 		
 		//Title / Description / Tags
-        $this->output->set_common_meta($data['title'], '', ''); 
+                $this->output->set_common_meta($data['title'], '', ''); 
 		
 		$data['menu_mapa'] = array(
 			'Demandas' => $this->uri->segment(1),
@@ -494,6 +494,30 @@ class Demanda extends CI_Controller {
 		$this->load->view('demanda/ver',$data);
                 
                 if($this->session->userdata['empresa']['funcao']==2){ 
+                    
+                    if ($this->input->post('cobranca')){
+                        
+                        $dados['cobranca'] = $this->input->post('cobranca');
+                        $dados['id_empresa_coletora'] = $this->session->userdata['empresa']['id'];
+                        $dados['id_demanda'] = $id_demanda;
+                        $dados['valor'] = $this->input->post('valor_coleta');
+                        $dados['frete'] = $this->input->post('valor_frete');
+                        $dados['total'] = $this->input->post('valor_total');
+                        $dados['condicoes_pagamento'] = $this->input->post('condicoes');
+                        $dados['prazo_coleta'] = $this->input->post('prazo');
+                        
+                        $dados['observacoes'] = $this->input->post('obs');
+                        
+                        $this->form_validation->set_rules('cobranca', 'cobranca', 'required');
+                        
+                        if ($this->form_validation->run() == TRUE){
+                            $data['msg_proposta'] = "Proposta cadastrada com sucesso.";
+                            $this->proposta_model->salvar($dados);
+                            
+                        } else $data['msg_proposta'] = "Erro ao cadastrar proposta";
+                        
+                    }
+                    
 			$this->load->view('proposta/proposta',$data);
 		}else{
 			$this->load->view('proposta/lista_propostas',$data);
