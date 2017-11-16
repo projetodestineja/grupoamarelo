@@ -4,7 +4,8 @@
     <h5 class="card-header"><i class="fa fa-list" ></i> Cadastro de Proposta</h5>
     <div class="card-block">
         <div style="padding:15px;">
-        <form id="form_proposta" name="form_proposta" action="" method="POST">
+        
+        <form id="form_proposta" name="form_proposta" method="POST" >
             <div>
                 <div class="form-check form-check-inline col-md-4">    
                     <input checked class="form-check-input" type="radio" name="cobranca" id="cobrancasim" name="cobrancasim" value="1"  onchange="atualiza_total();"><b> Cobrar para coletar o resíduo</b></input>
@@ -46,7 +47,7 @@
             <div class="row">
                 <div class="form-group col-md-12 " id="col_condicoes">
                     <label for="obs" class="col-form-label">Observações</label>
-                    <input required type="text" class="form-control" id="obs" name="obs"  >
+                    <input type="text" class="form-control" id="obs" name="obs"  >
                 </div>
             </div>
             
@@ -64,8 +65,6 @@
 </div><!-- NÃO APAGAR ESTE FECHAMENTO DE DIV. ELA FECHA A DIV DE DEMANDA -->
 <script src="<?php echo site_url('painel/assets/pluguins/jquery.mask.js') ?>"></script>
 <script>
-    
-    
     
     function atualiza_total(){
         
@@ -91,9 +90,6 @@
         document.getElementById("valor_total").value = parseFloat(total).toFixed(2).replace('.',',');
     }
     
-    
-    
 
-      
     
 </script>    
