@@ -9,7 +9,7 @@ class Demanda extends CI_Controller {
 		// ACESSO RESTRITO
 		$this->login_model->restrito();
 
-        $this->load->model(array('empresa_model', 'demanda_model', 'endereco_model','estado_model'));
+        $this->load->model(array('empresa_model', 'demanda_model', 'endereco_model','estado_model','proposta_model'));
 		$this->load->library(array('form_validation','util','upload','pagination'));
 		$this->_init();
 	}
@@ -493,9 +493,10 @@ class Demanda extends CI_Controller {
 	
 		$this->load->view('demanda/ver',$data);
                 
-                if($this->session->userdata['empresa']['funcao']==2){ 
+		if($this->session->userdata['empresa']['funcao']==2){ 
 			$this->load->view('proposta/proposta',$data);
 		}else{
+			$data['propostas'] = $this->proposta_model->get_proposta($id_demanda);
 			$this->load->view('proposta/lista_propostas',$data);
 		}
 	}
