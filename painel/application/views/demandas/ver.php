@@ -226,12 +226,15 @@
     	<div id="list_hitorico_status" >#</div>
     </div>
     
-    <div role="tabpanel" class="tab-pane" id="mensagens">#</div>
+    <div role="tabpanel" class="tab-pane" id="mensagens">
+        <div id="list_hitorico_mensagens" >#</div>
+    </div>
     
 </div>
 <script>
 
 $("#list_hitorico_status").load("<?php echo site_url('demandas/status_demanda_historico/'.$row['id']); ?>");
+$("#list_hitorico_mensagens").load("<?php echo site_url('mensagens/mensagens_demanda/'.$row['id']); ?>");
 
 function send_form(){
 	
