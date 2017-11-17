@@ -54,7 +54,7 @@
             
             <div >
                 <button class="btn btn-success" <?php if (isset($validade_proposta)) echo "disabled"; ?> type="submit">Salvar</button> 
-                <button class="btn btn-danger" type="submit" value="cancelar_proposta" id="btcancelar" name="btcancelar">Cancelar Proposta</button>
+                <button class="btn btn-danger" <?php if (isset($aceita) && ($aceita=='Sim')) echo "disabled"; ?> type="submit" value="cancelar_proposta" id="btcancelar" name="btcancelar">Cancelar Proposta</button>
             </div>
             
         </form>
