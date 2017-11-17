@@ -42,7 +42,7 @@
                 </div>
                 <div class="form-group col-md-4 required" id="col_validade">
                     <label for="validade" class="col-form-label">Validade da Proposta </label>
-                    <input required type="text" class="form-control date" id="validade" name="validade" value="<?php if (isset($validade_proposta)) echo $validade_proposta;?>" <?php if (isset($validade_proposta)) echo "readonly";?>>
+                    <input required type="text" class="form-control date" id="validade" name="validade" value="<?php if (isset($validade_proposta)) echo date('d/m/Y', strtotime($validade_proposta));?>" <?php if (isset($validade_proposta)) echo "readonly";?>>
                 </div>
             </div>
             <div class="row">
@@ -54,7 +54,7 @@
             
             <div >
                 <button class="btn btn-success" <?php if (isset($validade_proposta)) echo "disabled"; ?> type="submit">Salvar</button> 
-                <button class="btn btn-danger" type="button">Cancelar Proposta</button>
+                <button class="btn btn-danger" type="submit" value="cancelar_proposta" id="btcancelar" name="btcancelar">Cancelar Proposta</button>
             </div>
             
         </form>

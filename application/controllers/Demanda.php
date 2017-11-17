@@ -498,6 +498,11 @@ class Demanda extends CI_Controller {
 		$this->load->view('demanda/ver',$data);
                 
                 if($this->session->userdata['empresa']['funcao']==2){ 
+                
+                if ($this->input->post('btcancelar')){
+                     $this->proposta_model->delete($id_demanda,$this->session->userdata['empresa']['id']);
+                      $this->session->set_flashdata('msg_proposta', "Proposta cancelada com sucesso.");
+                } else{    
                     
                     if ($this->input->post('validade')){
                         
@@ -522,7 +527,7 @@ class Demanda extends CI_Controller {
                             $this->session->set_flashdata('msg_proposta', "Proposta cadastrada com sucesso.");
                             
                         } else $this->session->set_flashdata('msg_proposta', "Erro ao cadastrar proposta.");
-                        
+                    }        
                     }
                         $data2 = $this->proposta_model->getrow($id_demanda);
 			$this->load->view('proposta/proposta',$data2);
