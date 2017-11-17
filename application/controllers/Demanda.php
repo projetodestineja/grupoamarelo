@@ -467,7 +467,11 @@ class Demanda extends CI_Controller {
 	public function visualizar($id_demanda){
 		
 		$data = array();
-		
+                if ($this->input->post('validade'))
+                    $data['tab_ativa'] = 'proposta'; 
+                else
+                    $data['tab_ativa'] = 'demanda';
+                
 		$data['menu_opcao_direita'][] = '
 		<a href="javascript:window.history.go(-1)" class="btn btn-info btn-sm not-focusable" >
 			<i class="fa fa-fw fa-undo"></i> Voltar
@@ -495,7 +499,7 @@ class Demanda extends CI_Controller {
                 
                 if($this->session->userdata['empresa']['funcao']==2){ 
                     
-                    if ($this->input->post('cobranca')){
+                    if ($this->input->post('validade')){
                         
                         $dados['cobranca'] = $this->input->post('cobranca');
                         $dados['id_empresa_coletora'] = $this->session->userdata['empresa']['id'];
@@ -505,20 +509,23 @@ class Demanda extends CI_Controller {
                         $dados['total'] = $this->input->post('valor_total');
                         $dados['condicoes_pagamento'] = $this->input->post('condicoes');
                         $dados['prazo_coleta'] = $this->input->post('prazo');
-                        
+                        $validade = str_replace("/", "-", $this->input->post('validade'));
+                        $validade =  date('Y-m-d', strtotime($validade));
+                        $dados['validade_proposta'] = $validade;
                         $dados['observacoes'] = $this->input->post('obs');
+                        $dados['aceita'] = 'Não';
                         
                         $this->form_validation->set_rules('cobranca', 'cobranca', 'required');
                         
                         if ($this->form_validation->run() == TRUE){
-                            $data['msg_proposta'] = "Proposta cadastrada com sucesso.";
                             $this->proposta_model->salvar($dados);
+                            $this->session->set_flashdata('msg_proposta', "Proposta cadastrada com sucesso.");
                             
-                        } else $data['msg_proposta'] = "Erro ao cadastrar proposta";
+                        } else $this->session->set_flashdata('msg_proposta', "Erro ao cadastrar proposta.");
                         
                     }
-                    
-			$this->load->view('proposta/proposta',$data);
+                        $data2 = $this->proposta_model->getrow($id_demanda);
+			$this->load->view('proposta/proposta',$data2);
 		}else{
 			$this->load->view('proposta/lista_propostas',$data);
 		}

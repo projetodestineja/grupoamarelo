@@ -1,14 +1,14 @@
 <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item">
-        <a class="nav-link active" href="#demanda" role="tab" data-toggle="tab">Demanda</a>
+        <a class="nav-link <?php if ($tab_ativa=='demanda') echo "active"; ?>" href="#demanda" role="tab" data-toggle="tab">Demanda</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#propostas" role="tab" data-toggle="tab"><?php echo $tab_proposta; ?></a>
+        <a class="nav-link <?php if ($tab_ativa=='proposta') echo "active"; ?>" href="#propostas" role="tab" data-toggle="tab"><?php echo $tab_proposta; ?></a>
     </li>
 </ul>
 
 <div class="tab-content">
-  <div role="tabpanel" class="tab-pane  active" id="demanda">
+  <div role="tabpanel" class="tab-pane  <?php if ($tab_ativa=='demanda') echo "active"; ?>" id="demanda">
 
 	<div class="card">
       <h5 class="card-header"><i class="fa fa-list" ></i> Informações</h5>
