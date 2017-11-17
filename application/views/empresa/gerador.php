@@ -68,9 +68,9 @@ header('Content-Type: text/html; charset=utf-8');
                                 <label for="cpf" class="col-form-label">CPF</label>
                                 <input type="text" class="form-control cpf" id="cpf" name="cpf" placeholder="000.000.000-00" onChange="valida_cpf(form_cad_gerador.cpf);">
                             </div>
-                            <div class="form-group col-md-4" id="col_rsocial">
+                            <div class="form-group col-md-4 required" id="col_rsocial">
                                 <label for="rsocial" class="col-form-label">Razão Social</label>
-                                <input type="text" class="form-control" id="rsocial" name="rsocial" placeholder="Razão Social">
+                                <input required type="text" class="form-control" id="rsocial" name="rsocial" placeholder="Razão Social">
                             </div>
                             <div class="form-group col-md-4" id="col_nfantasia">
                                 <label for="nfantasia" class="col-form-label">Nome Fantasia</label>
@@ -78,7 +78,7 @@ header('Content-Type: text/html; charset=utf-8');
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-4 required">
                                 <label for="nresponsavel" class="col-form-label required">Nome do Responsável</label>
                                 <input required type="text" class="form-control" id="nresponsavel" name="nresponsavel" placeholder="Ex.: César Silva, Amauri Jr...">
                             </div>
@@ -121,17 +121,17 @@ header('Content-Type: text/html; charset=utf-8');
                         </div>
                         <h3 class="">Endereço</h3>
                         <div class="form-row">
-                            <div class="form-group col-md-2">
+                            <div class="form-group col-md-2 required">
                                 <label for="cep" class="col-form-label">CEP</label>
-                                <input type="text" class="form-control cep" id="cep" name="cep" placeholder="000000-000" maxlength="8" onblur="pesquisacep(this.value);">
+                                <input required type="text" class="form-control cep" id="cep" name="cep" placeholder="000000-000" maxlength="8" onblur="pesquisacep(this.value);">
                             </div>
-                            <div class="form-group col-md-5">
+                            <div class="form-group col-md-5 required">
                                 <label for="Rua" class="col-form-label">Rua</label>
                                 <input required type="text" class="form-control" id="rua" name="rua" placeholder="Ex.: Av. José Silva, Rua São Cosme...">
                             </div>
-                            <div class="form-group col-md-2">
+                            <div class="form-group col-md-2 required">
                                 <label for="numero" class="col-form-label">Número</label>
-                                <input type="number" class="form-control" id="numero" name="numero" placeholder="00">
+                                <input required type="number" class="form-control" id="numero" name="numero" placeholder="00">
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="complemento" class="col-form-label">Complemento</label>
@@ -301,10 +301,10 @@ header('Content-Type: text/html; charset=utf-8');
         }
 
         $('#area_atuacao option').each(function() {
-	var minhaString = $(this).text();
-	if(minhaString.length > 90){
-		$(this).text(minhaString.substring(0,90) + ' ...');
-	}
+			var minhaString = $(this).text();
+			if(minhaString.length > 90){
+				$(this).text(minhaString.substring(0,90) + ' ...');
+			}
         });
         
         $("#corpo_form").hide();

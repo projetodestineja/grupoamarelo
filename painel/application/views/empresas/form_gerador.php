@@ -17,42 +17,37 @@
             <div class="col-md-12">
 
                 <form id="form_cad_coletor" action="" method="POST">
-                    <?php if ($id_funcao) { ?>
+                    
+					
+					<?php if ($id_funcao) { ?>
                         <input name="id_funcao" type="hidden" value="<?php echo $id_funcao; ?>" >
                     <?php } ?>
-                    <div class="form-row">
-                        <div class="form-group col-md-12" >
-                            <div class="form-check form-check-inline">
-                                <label class="form-check-label">
-                                    <input <?php echo (($tipo_cadastro == 'J' or ! isset($tipo_cadastro)) ? 'checked' : '') ?> class="form-check-input" type="radio" name="tipo_cadastro" id="pjuridica" value="J"> Pessoa Jurídica</input>
-                                </label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <label class="form-check-label">
-                                    <input <?php echo ($tipo_cadastro == 'F' ? 'checked' : '') ?>  class="form-check-input" type="radio" name="tipo_cadastro" id="pfisica"  value="F"> Pessoa Física</input>
-                                </label>
-                            </div>
-                        </div>   
-                    </div>
-
+                    
+                    <input name="tipo_cadastro" type="hidden" value="<?php echo (strlen($cnpj)<=14?'F':'J'); ?>" >
+                    
 
                     <div class="form-row  required">
+                        
                         <div class="form-group col-md-4 col-pjuridica " >
                             <label for="cnpj" class="col-form-label">CNPJ</label>
-                            <input type="text" class="form-control cnpj" id="cnpj" name="cnpj" value="<?php echo $cnpj; ?>"  >
+                            <input type="text" class="form-control cnpj" id="cnpj" readonly name="cnpj" value="<?php echo $cnpj; ?>"  >
                         </div>
+                        
                         <div class="form-group col-md-4  col-pfisica" >
                             <label for="cpf" class="col-form-label">CPF</label>
-                            <input type="text" class="form-control cpf" id="cpf" name="cpf" value="<?php echo $cpf; ?>" placeholder="000.000.000-00" onChange="valida_cpf(form_cad_gerador.cpf);">
+                            <input type="text" class="form-control cpf" id="cpf" readonly name="cpf" value="<?php echo $cnpj; ?>" placeholder="000.000.000-00" onChange="valida_cpf(form_cad_gerador.cpf);">
                         </div>
+                        
                         <div class="form-group col-md-4 col-pjuridica" >
                             <label required for="rsocial" class="col-form-label">Razão Social</label>
                             <input type="text" class="form-control" id="rsocial" name="rsocial" value="<?php echo $razao_social; ?>" placeholder="Razão Social">
                         </div>
+                        
                         <div class="form-group col-md-4  col-pjuridica" >
                             <label for="nfantasia" class="col-form-label">Nome Fantasia</label>
                             <input type="text" class="form-control" id="nfantasia" name="nfantasia" value="<?php echo $nome_fantasia; ?>" placeholder="Nome Fantasia">
                         </div>
+                        
                     </div>
 
 
@@ -100,16 +95,16 @@
 
 
                     <h3 class="">Endereço</h3>
-                    <div class="form-row  required">
-                        <div class="form-group col-md-2">
+                    <div class="form-row">
+                        <div class="form-group col-md-2  required">
                             <label for="cep" class="col-form-label">CEP</label>
-                            <input type="text" class="form-control cep" id="cep" name="cep" value="<?php echo $cep; ?>" placeholder="000000-000" maxlength="8" onblur="pesquisacep(this.value);">
+                            <input type="text" class="form-control cep"  required id="cep" name="cep" value="<?php echo $cep; ?>" placeholder="000000-000" maxlength="8" onblur="pesquisacep(this.value);">
                         </div>
-                        <div class="form-group col-md-5">
+                        <div class="form-group col-md-5  required">
                             <label for="Rua" class="col-form-label">Rua</label>
                             <input required type="text" class="form-control" id="rua" name="logradouro" value="<?php echo $logradouro; ?>" placeholder="Ex.: Av. José Silva">
                         </div>
-                        <div class="form-group col-md-2">
+                        <div class="form-group col-md-2  required">
                             <label for="numero" class="col-form-label">Número</label>
                             <input required type="number" class="form-control" id="numero" name="numero" value="<?php echo $numero; ?>" placeholder="00">
                         </div>
@@ -182,3 +177,25 @@
     </div>
 </div>
 
+<script>
+	<?php if(strlen($cnpj)<=14){?>
+		form_empresa('F');
+	<?php }else{ ?>
+		form_empresa('J');
+	<?php } ?>	
+	
+	function form_empresa(value) {
+
+       if (value == 'F') {
+           $('.col-pjuridica').hide();
+           $('.col-pfisica').show();
+           document.getElementById("cnpj").required = false;
+           document.getElementById("cpf").required = true;
+       } else {
+           $('.col-pfisica').hide();
+           $('.col-pjuridica').show();
+           document.getElementById("cpf").required = false;
+           document.getElementById("cnpj").required = true;
+       }
+    }
+</script>

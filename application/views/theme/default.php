@@ -1,3 +1,8 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+header('Content-Type: text/html; charset=utf-8');
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -44,56 +49,68 @@
             </div>
         </nav>
 
+      <div class="content-wrapper">
 
+      <div class="container-fluid">
+		<?php if(isset($menu_mapa)){ ?>
+        <!-- Breadcrumbs -->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="<?php echo site_url(); ?>">Painel</a>
+          </li>
+          <?php
 
+            foreach($menu_mapa as $key => $item) {
+              if(empty($item)){
+                echo '<li class="breadcrumb-item active" >'.$key.'</li>';
+              }else{
+                echo '<li class="breadcrumb-item" ><a href="'.site_url($item).'" >'.$key.'</a></li>';
+              }
+            }
 
+          ?>
+        </ol>
+        <?php } ?>
 
-        <div class="content-wrapper">
-
-            <div class="container-fluid">
-
-                <?php if (isset($menu_mapa)) { ?>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href="<?php echo site_url(); ?>">Painel</a>
-                        </li>
-                        <?php
-                        foreach ($menu_mapa as $key => $item) {
-                            if (empty($item)) {
-                                echo '<li class="breadcrumb-item active" >' . $key . '</li>';
-                            } else {
-                                echo '<li class="breadcrumb-item" ><a href="' . site_url($item) . '" >' . $key . '</a></li>';
-                            }
-                        }
-                        ?>
-                    </ol>
-                <?php } ?>
-
-                <h1><?php echo $title; ?></h1>
-
-                <?php if ($this->session->flashdata('resposta_erro') or isset($resposta_erro)) { ?>
-                    <div class="alert alert-danger" >
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        <?php echo ($this->session->flashdata('resposta_erro') ? $this->session->flashdata('resposta_erro') : ''); ?>
-                        <?php echo ($resposta_erro ? $resposta_erro : ''); ?>
-                    </div>
-                <?php }
-                if ($this->session->flashdata('resposta_ok')) {
-                    ?>
-                    <div class="alert alert-success " >
-                        <i class="fa fa-check-circle-o" aria-hidden="true"></i>
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        <?php echo $this->session->flashdata('resposta_ok'); ?>
-                    </div>
-                <?php } ?>
-
-                <div class="conteudo">
-                    <?php echo $output; ?>
-                </div>
-
+        <div class="row" >
+            <div class="col-md-8">
+                <h1 style="font-size:27px;"><?php echo $title; ?></h1>
+            </div>
+            <div class="col-md-4 text-right">
+            <span id="colvis"></span>
+            <?php
+				if(isset($menu_opcao_direita)){
+					foreach($menu_opcao_direita as $menu_r){
+						echo ' '.$menu_r;
+					}
+				}
+			?>
             </div>
         </div>
+
+        <?php
+        if($this->session->flashdata('resposta_erro') or isset($resposta_erro)){ ?>
+            <div class="alert alert-danger" >
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <?php echo ($this->session->flashdata('resposta_erro')?$this->session->flashdata('resposta_erro'):''); ?>
+                <?php echo (isset($resposta_erro)?$resposta_erro:''); ?>
+            </div>
+        <?php }
+        if($this->session->flashdata('resposta_ok')){ ?>
+            <div class="alert alert-success " >
+                <i class="fa fa-check-circle-o" aria-hidden="true"></i>
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <?php echo $this->session->flashdata('resposta_ok'); ?>
+            </div>
+        <?php } ?>
+
+        <div class="conteudo">
+            <?php echo $output;?>
+        </div>
+
+     </div>
+    </div>
 
 
 
@@ -135,6 +152,10 @@
 
         <!-- Custom scripts for this template -->
         <script src="<?php echo base_url('painel/assets/js/sb-admin.js'); ?>"></script>
+        
+         <script src="<?php echo site_url('painel/assets/pluguins/jquery.mask.js') ?>" ></script>
+        <script src="<?php echo base_url('painel/assets/js/js.js'); ?>"></script>
+        
 
         <script>
             $(document).ready(function () {
@@ -144,17 +165,18 @@
 
                 $('a[rel=modal_add_edit]').on('click', function (evt) {
                     evt.preventDefault();
-                    var modal = $('#modal_add_edit').modal({backdrop: 'static', keyboard: false});
-
-                    modal.find('#modal_add_edit .modal-body').load($(this).attr('href'), function (responseText, textStatus) {
-                        if (textStatus === 'success' || textStatus === 'notmodified') {
-                            modal.show();
-                        }
-                    });
+                    $('#modal_add_edit').modal({backdrop: 'static', keyboard: false}).modal('show').find('.modal-body').load($(this).attr('href'));
                     return false;
                 });
 
             });
         </script>
+
+        <?php
+        //Carregamento javascript datatables JS
+        if (isset($datagrid_js)) {
+            echo $datagrid_js;
+        }
+        ?>
     </body>
 </html>

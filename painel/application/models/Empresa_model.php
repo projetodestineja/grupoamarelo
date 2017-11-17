@@ -3,7 +3,67 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Empresa_model extends CI_Model {
-
+	
+	private function _get_datatables_query($id_funcao){
+        $this->db->from($this->table);
+        $i = 0;
+        foreach ($this->column_search as $item){ // loop column 
+            if($_POST['search']['value']){  // if datatable send POST for search
+                if($i===0){ // first loop
+                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like($item, $_POST['search']['value']);
+                }else{
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+                if(count($this->column_search) - 1 == $i) //last loop
+                    $this->db->group_end(); //close bracket
+            }
+            $i++;
+        }
+		if($id_funcao!=0){
+			$this->db->where('id_funcao',(int)$id_funcao);	
+		}
+        if(isset($_POST['order'])){  // here order processing
+            $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        }else if(isset($this->order)){
+            $order = $this->order;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+    
+ 
+    function get_datatables($id_funcao){
+        $this->_get_datatables_query($id_funcao);
+        if($_POST['length'] != -1)
+        $this->db->limit($_POST['length'], $_POST['start']);
+		if($id_funcao!=0){
+			$this->db->where('id_funcao',(int)$id_funcao);	
+		}
+        $this->db->where('removido',NULL);
+        $query = $this->db->get();
+        return $query->result();
+    }
+ 
+    function count_filtered($id_funcao){
+        $this->_get_datatables_query($id_funcao);
+		if($id_funcao!=0){
+			$this->db->where('id_funcao',(int)$id_funcao);	
+		}
+        $this->db->where('removido',NULL);
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+ 
+    public function count_all($id_funcao){
+		if($id_funcao!=0){
+			$this->db->where('id_funcao',(int)$id_funcao);	
+		}
+        $this->db->where('removido',NULL);
+        $this->db->from('empresas');
+        return $this->db->count_all_results();
+    }
+	
+	
     public function get_result_all($funcoes_empresa) {
         if ($funcoes_empresa) {
             $this->db->where('id_funcao', (int) $funcoes_empresa);
@@ -78,11 +138,14 @@ class Empresa_model extends CI_Model {
         $this->db->delete('empresas_areas_atuacao');
 
         //Montamos a primeira array com a atividade principal
+		
+		$digite_area = ($this->input->post('area_atuacao')==0?$this->input->post('digite_area'):NULL);
+		
         $data[] = array(
             'principal' => 1,
             'id_empresa' => (int) $id_empresa,
             'codigo_area_atuacao' => $this->input->post('area_atuacao'),
-            'outra_area_atuacao' => $this->input->post('digite_area')
+            'outra_area_atuacao' => $digite_area
         );
 
         //Montamos as demais arrays com as secundarias
@@ -144,5 +207,70 @@ class Empresa_model extends CI_Model {
         $this->db->order_by('id', 'asc');
         return $this->db->get('empresas_certificados_status')->result();
     }
+	
+	public function funcoes_empresas_row($funcao) {
+        $this->db->where('funcao',$funcao);
+        return $this->db->get('funcoes_empresas')->row();
+    }
+	
+	public function valid_doc_empresas($cpf_cnpj) {
+        $this->db->where('removido is NULL');
+		$this->db->where('cpf',$cpf_cnpj);
+		$this->db->or_where('cnpj',$cpf_cnpj);
+		 $this->db->where('removido is NULL');
+        return $this->db->get('empresas')->num_rows();
+    }
+	
+	public function deletar($id){
+		$this->db->where('id',$id);
+        $this->db->set('removido',date('Y-m-d H:i:s'));
+		$this->db->update('empresas'); 
+    }
 
+    public function get_all_categorias_residuos($id_empresa) {
+      $sql = "select 
+      id, categoria ,
+      (select 1 from empresas_categorias_residuos ecr where ecr.id_categoria_residuo = cr.id and id_empresa = $id_empresa) as faz
+    from 
+      categorias_residuos cr
+    order by cr.id";
+      
+     return   $this->db->query($sql)->result();
+    }
+    
+    public function update_categorias_residuos($id_empresa) {
+        //Limpando tabela
+        $this->db->where('id_empresa', (int) $id_empresa);
+        $this->db->delete('empresas_categorias_residuos');
+
+        foreach ($this->input->post('categoria') as $codigo) {
+            $data[] = array(
+                'id_empresa' => (int) $id_empresa,
+                'id_categoria_residuo' => $codigo
+            );
+        }
+
+        //Fazemos o insert pegando a array montada acima
+        $this->db->insert_batch('empresas_categorias_residuos', $data);
+    }
+    
+    
+    public function count_all_bloqueadas(){
+        $this->db->where('ativo',0);
+        $this->db->where('removido',NULL);
+        $this->db->from('empresas');
+        return $this->db->count_all_results();
+    }
+    
+    public function conta_por_mes($ano,$mes,$funcao){
+        if (($ano>0) && ($mes>0)){
+        return 
+        $this->db->query("SELECT COUNT(id) as qtde
+                                FROM empresas  
+                                WHERE 
+                                    id_funcao in ($funcao)
+                                    and YEAR(data_cadastro) = $ano  
+                                    and MONTH(data_cadastro) = $mes")->row();
+        } else return 0;
+    }
 }
