@@ -92,17 +92,6 @@ class Demanda extends CI_Controller {
 			}
 			$dados['url_ajax'] = site_url($url_ajax);
 			
-			
-            /*$dados['menu_opcao_direita'][] = anchor(
-				'demanda/?estado='.$row->uf_estado.'&cidade='.$row->id_cidade, 
-				'<i class="fa fa-fw fa-map-marker"></i> da Minha Cidade', 
-				'class="btn btn-primary btn-sm not-focusable" data-toggle="tooltip" title="Clique para listar as demandas da sua cidade"'
-			);
-            $dados['menu_opcao_direita'][] = anchor(
-				'demanda/?estado='.$row->uf_estado,
-				'<i class="fa fa-fw fa-map-marker"></i> do meu Estado',
-				'class="btn btn-primary btn-sm not-focusable" data-toggle="tooltip" title="Clique para listar as demandas do meu Estado"'
-			);*/
 			$dados['menu_opcao_direita'][] = anchor(
 				'demanda/modal_filtro',
 				'<i class="fa fa-fw fa-filter"></i> Filtro',
