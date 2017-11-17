@@ -17,7 +17,7 @@
       <i class="fa fa-trash" ></i>
     </a>
     </div>
-    <small><?php echo $n->razao_social; ?><br><?php echo $n->nome_responsavel; ?></small>
+    <small><?php echo character_limiter($n->razao_social,30); ?><br><?php echo $n->nome_responsavel; ?></small>
   </div>
 <?php } ?> 
 </div>
