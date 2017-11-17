@@ -3,7 +3,15 @@
 
         <?php foreach($propostas as $pr){?>
         <div class="card" style="margin-bottom:30px;">
-            <h5 class="card-header"><i class="fa fa-chevron-right"></i>Proposta #<?php echo $pr->id; ?></h5>
+            <div class="card-header">
+                <i class="fa fa-chevron-right"></i>Proposta #<?php echo $pr->id; ?>
+                <span style="float:right;"><a class="btn btn-sm btn-success" data-toggle="tooltip" title="Aceitar a Proposta" href="#" >
+                    <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                </a>
+                <a class="btn btn-sm btn-danger" data-toggle="tooltip" title="Recusar a Proposta" href="#" >
+                    <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+                </a></span>
+            </div>
             <div class="card-block">
 
                 <div class="col-md-12">
@@ -51,12 +59,7 @@
                             <br><?php echo $pr->observacoes; ?>
                         </div>
                         <div class="form-group col-2">
-                            <a class="btn btn-lg btn-success" data-toggle="tooltip" title="Aceitar a Proposta" href="#" >
-                                <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-                            </a>
-                            <a class="btn btn-lg btn-danger" data-toggle="tooltip" title="Recusar a Proposta" href="#" >
-                                <i class="fa fa-thumbs-down" aria-hidden="true"></i>
-                            </a>
+                           
                         </div>
                     </div>
                     
