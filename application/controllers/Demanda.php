@@ -501,7 +501,7 @@ class Demanda extends CI_Controller {
                 
                 if ($this->input->post('btcancelar')){
                      $this->proposta_model->delete($id_demanda,$this->session->userdata['empresa']['id']);
-                      $this->session->set_flashdata('msg_proposta', "Proposta cancelada com sucesso.");
+                     $this->session->set_flashdata('msg_proposta', "Proposta cancelada com sucesso.");
                 } else{    
                     
                     if ($this->input->post('validade')){
@@ -530,6 +530,7 @@ class Demanda extends CI_Controller {
                     }        
                     }
                         $data2 = $this->proposta_model->getrow($id_demanda);
+                        if ($data2->aceita=='Sim') $this->session->set_flashdata('msg_proposta', "<b>Parabéns!</b> Esta proposta foi aceita.");
 			$this->load->view('proposta/proposta',$data2);
 		}else{
 			$this->load->view('proposta/lista_propostas',$data);
