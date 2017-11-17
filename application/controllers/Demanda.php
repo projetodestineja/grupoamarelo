@@ -9,7 +9,7 @@ class Demanda extends CI_Controller {
 		// ACESSO RESTRITO
 		$this->login_model->restrito();
 
-        $this->load->model(array('empresa_model', 'demanda_model', 'endereco_model','estado_model'));
+        $this->load->model(array('empresa_model', 'demanda_model', 'endereco_model','estado_model','proposta_model'));
 		$this->load->library(array('form_validation','util','upload','pagination'));
 		$this->_init();
 	}
@@ -467,7 +467,11 @@ class Demanda extends CI_Controller {
 	public function visualizar($id_demanda){
 		
 		$data = array();
-		
+                if ($this->input->post('validade'))
+                    $data['tab_ativa'] = 'proposta'; 
+                else
+                    $data['tab_ativa'] = 'demanda';
+                
 		$data['menu_opcao_direita'][] = '
 		<a href="javascript:window.history.go(-1)" class="btn btn-info btn-sm not-focusable" >
 			<i class="fa fa-fw fa-undo"></i> Voltar
@@ -476,7 +480,7 @@ class Demanda extends CI_Controller {
 		$data['title'] = 'Demanda #'.$id_demanda;
 		
 		//Title / Description / Tags
-        $this->output->set_common_meta($data['title'], '', ''); 
+                $this->output->set_common_meta($data['title'], '', ''); 
 		
 		$data['menu_mapa'] = array(
 			'Demandas' => $this->uri->segment(1),
@@ -494,7 +498,39 @@ class Demanda extends CI_Controller {
 		$this->load->view('demanda/ver',$data);
                 
                 if($this->session->userdata['empresa']['funcao']==2){ 
-			$this->load->view('proposta/proposta',$data);
+                
+                if ($this->input->post('btcancelar')){
+                     $this->proposta_model->delete($id_demanda,$this->session->userdata['empresa']['id']);
+                      $this->session->set_flashdata('msg_proposta', "Proposta cancelada com sucesso.");
+                } else{    
+                    
+                    if ($this->input->post('validade')){
+                        
+                        $dados['cobranca'] = $this->input->post('cobranca');
+                        $dados['id_empresa_coletora'] = $this->session->userdata['empresa']['id'];
+                        $dados['id_demanda'] = $id_demanda;
+                        $dados['valor'] = $this->input->post('valor_coleta');
+                        $dados['frete'] = $this->input->post('valor_frete');
+                        $dados['total'] = $this->input->post('valor_total');
+                        $dados['condicoes_pagamento'] = $this->input->post('condicoes');
+                        $dados['prazo_coleta'] = $this->input->post('prazo');
+                        $validade = str_replace("/", "-", $this->input->post('validade'));
+                        $validade =  date('Y-m-d', strtotime($validade));
+                        $dados['validade_proposta'] = $validade;
+                        $dados['observacoes'] = $this->input->post('obs');
+                        $dados['aceita'] = 'Não';
+                        
+                        $this->form_validation->set_rules('cobranca', 'cobranca', 'required');
+                        
+                        if ($this->form_validation->run() == TRUE){
+                            $this->proposta_model->salvar($dados);
+                            $this->session->set_flashdata('msg_proposta', "Proposta cadastrada com sucesso.");
+                            
+                        } else $this->session->set_flashdata('msg_proposta', "Erro ao cadastrar proposta.");
+                    }        
+                    }
+                        $data2 = $this->proposta_model->getrow($id_demanda);
+			$this->load->view('proposta/proposta',$data2);
 		}else{
 			$this->load->view('proposta/lista_propostas',$data);
 		}
