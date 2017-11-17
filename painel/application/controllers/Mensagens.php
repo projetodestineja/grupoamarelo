@@ -7,6 +7,7 @@ class Mensagens extends CI_Controller {
     parent::__construct();
     $this->login_model->restrito();
 		$this->load->model('mensagens_model');
+		$this->load->helper('text');
 		$this->_init();
 	}
 
