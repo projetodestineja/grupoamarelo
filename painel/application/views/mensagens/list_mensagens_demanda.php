@@ -8,16 +8,21 @@
     </div>
     <p class="mb-1"><?php echo $n->msg; ?></p>
     
-    
-    <div class="text-right" >
+    <div class="row">
+    <div class="col-md-6" >
+     <?php echo character_limiter($n->razao_social,30); ?><br><?php echo $n->nome_responsavel; ?> 
+    </div>
+    <div class="col-md-6 text-right" >
     <a href="<?php echo site_url('mensagens/mensagem_demanda/'.$n->id_demanda.'/'.$n->id_empresa.'/'.$n->id); ?>" rel="modal_add_edit" class="btn btn-sm btn-warning" >
       <i class="fa fa-pencil-square-o" ></i>
     </a>
     <a href="javascript:void(0)" rel="<?php echo $n->id; ?>" title="<?php echo $n->assunto; ?>" class="btn btn-sm btn-danger btn-remover" >
       <i class="fa fa-trash" ></i>
-    </a>
+    </a><br>
+     Informado por e-mail: <?php echo ($n->alert_email==true?'SIM':'NÂO'); ?>
     </div>
-    <small><?php echo character_limiter($n->razao_social,30); ?><br><?php echo $n->nome_responsavel; ?></small>
+    
+    </div>
   </div>
 <?php } ?> 
 </div>

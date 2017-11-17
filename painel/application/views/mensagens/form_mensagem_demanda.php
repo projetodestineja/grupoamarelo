@@ -1,26 +1,24 @@
 <form class="form_ajax_msg"  onSubmit="send_form_mensagem(); return false" action="<?php echo $action; ?>" method="POST"  >
     <div class="row" > 
-        
         <div class="col-md-12" >
             <div class="erro_envio" ></div>
         </div> 
-        
         <div class="form-group col-md-12 required">
             <label for="titulo" class="col-form-label">Assunto</label>
-            <input name="assunto" type="text" value=""  id="input-assunto" class="form-control" />
+            <input name="assunto" type="text" value="<?php echo $assunto; ?>"  id="input-assunto" class="form-control" />
         </div>
-        
         <div class="form-group col-md-12 required">
             <label for="msg" class="col-form-label">Mensagem</label>
-            <textarea name="msg" cols="" rows="5" class="form-control" id="input-msg" ></textarea>
+            <textarea name="msg" cols="" rows="5" class="form-control" id="input-msg" ><?php echo $msg; ?></textarea>
         </div>
-        
+        <div class="form-group col-md-12 required">
+        	<input name="alert_email" type="checkbox" value="1" checked /> Também notificar por e-mail
+        </div>
         <div class="form-group col-md-12">
 		    <button class="btn btn-success btn-md btn-salvar" type="botton" >Enviar Mensagem</button>
         </div>
-        
     </div> 
-    <div class="loading_form" ></div>
+    <div class="loading_form" style="display:block" ></div>
 </form>
 
 <script>
@@ -51,7 +49,7 @@
 			}
 	
 			if (json['close_modal']) {
-				alert('Mensagens enviada com sucesso.');
+				alert(json['resposta']);
 				$('#modal_add_edit').modal('hide')
 			}
 
@@ -84,9 +82,9 @@
 
 $(document).ready(function () {
 	$('#modal_add_edit #title_modal').html('<?php echo $title; ?>');
+	$('.loading_form').hide();
 });	
-
-	
+		
 </script> 
 
     

@@ -15,7 +15,6 @@ class Mensagens extends CI_Controller {
 		$this->output->set_template('default');
 	}
 
-	
 
 	/*
 	*	Chamada modal demanda
@@ -27,7 +26,21 @@ class Mensagens extends CI_Controller {
 		$data = array();
 		
 		$data['title'] = ($id_mensagem == NULL ? 'Cadastrar Mensagem' : 'Atualizar Mensagem').': Demanda #'.$id_demanda;
-
+		
+		if($id_mensagem!=NULL){
+			$row = $this->mensagens_model->get_row_mensagem($id_mensagem);
+		}
+		if(isset($row)){
+			$data['assunto'] = $row->assunto;
+		}else{
+			$data['assunto'] = '';
+		}
+		if(isset($row)){
+			$data['msg'] = $row->msg;
+		}else{
+			$data['msg'] = '';
+		}
+		
 		$data['action'] = site_url('mensagens/mensagem_demanda_post/'.$id_demanda.'/'.$id_empresa.'/'.$id_mensagem);
 		
 		$this->load->view('mensagens/form_mensagem_demanda',$data);	
@@ -60,24 +73,28 @@ class Mensagens extends CI_Controller {
 		}
 		
 		if (!$json) { 
-
-			$data = array(
-				'assunto' 	 => $this->input->post('assunto'),
-				'msg' 		 => $this->input->post('msg'),
-				'id_empresa' => (int)$id_empresa,
-				'id_demanda' => (int)$id_demanda,
-				'grupo' 	 => 'demanda',
-				'atualizada' => date('Y-m-d H:i:s')
-			);
-			$this->mensagens_model->insert_mensagem($data);
+		
+			if($this->input->post('alert_email')){
+				$alert_email = true;
+			}else{
+				$alert_email = false;
+			}
 			
-			//$this->mensagens_model->mensagem_insert($this->input->post);
+			if(is_numeric($id_mensagem)){
+				$this->mensagens_model->update_mensagem($this->input->post(),  $id_demanda, $id_empresa, $id_mensagem, $alert_email);
+				$json['resposta'] = 'Mensagem atualizada com sucesso.';
+			}else{
+				$this->mensagens_model->insert_mensagem($this->input->post(), $id_demanda, $id_empresa, $alert_email);
+				$json['resposta'] = 'Mensagem enviada com sucesso.';
+			}
+			
 			$json['close_modal'] = true;
 			$json['load'] = site_url('mensagens/mensagens_demanda/'.(int)$id_demanda);
 	    }
 
         echo json_encode($json);	
 	}
+
 
 	/*
 	*	Listar Mensagens demanda id X
@@ -91,6 +108,7 @@ class Mensagens extends CI_Controller {
 		
 		$this->load->view('mensagens/list_mensagens_demanda',$data);	
 	}
+
 
 	/*
 	*	Remover mensagem
