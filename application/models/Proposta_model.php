@@ -13,6 +13,12 @@ class Proposta_model extends CI_Model {
         return $this->db->get('propostas')->row();
     }
 
+    public function consultar_proposta_aceita($id_demanda) {
+        $this->db->where('id_demanda', $id_demanda);
+        $this->db->where('aceita', 'Sim');
+        return $this->db->get('propostas')->result();
+    }
+
     public function aceitar_proposta($data) {
         $this->db->where('id', $data->id);
         return $this->db->update('propostas',$data);

@@ -38,12 +38,9 @@
     </div>
 
     <div class="form-row">
-        <div class="form-group col-10">
-            <label><i class="fa fa-comments-o"></i> Observações</label>
+        <div class="form-group col-12">
+            <label><i class="fa fa-asterisk"></i> Observações</label>
             <br><?php echo $proposta->observacoes; ?>
-        </div>
-        <div class="form-group col-2">
-            
         </div>
     </div>
 

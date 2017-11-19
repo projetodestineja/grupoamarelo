@@ -7,17 +7,17 @@
                 <i class="fa fa-chevron-right"></i>Proposta recebida em <?php echo date('d/m/Y H:i', strtotime(str_replace("/","-",$pr->cadastrada))); ?>
                 
                 <span style="float:right;">
-                
-                <a class="btn btn-sm btn-success" rel="modal_add_edit" data-target="" data-toggle="tooltip" title="Aceitar a Proposta" href="<?php echo site_url('proposta/visualizar?id='.$pr->id); ?>" >
-                    <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                <a class="btn btn-sm btn-success <?php echo strtotime($pr->validade_proposta) < strtotime($hoje) || $pr->aceita == 'Sim' ? 'disabled' : '' ; ?>" rel="modal_add_edit" data-target="" data-toggle="tooltip" title="Aceitar a Proposta" href="<?php echo site_url('proposta/visualizar?id='.$pr->id); ?>">
+                    <i class="fa fa-thumbs-up" aria-hidden="true"></i> Aceitar
                 </a>
-                <a class="btn btn-sm btn-danger" data-toggle="tooltip" title="Recusar a Proposta" href="#" >
+                <!--a class="btn btn-sm btn-danger" data-toggle="tooltip" title="Recusar a Proposta" href="#" >
                     <i class="fa fa-thumbs-down" aria-hidden="true"></i>
-                </a>
+                </a-->
                 
                 </span>
 
             </div>
+            
             <div class="card-block">
 
                 <div class="col-md-12">
@@ -60,12 +60,9 @@
                     </div>
 
                     <div class="form-row">
-                        <div class="form-group col-10">
-                            <label><i class="fa fa-comments-o"></i> Observações</label>
+                        <div class="form-group col-12">
+                            <label><i class="fa fa-asterisk"></i> Observações</label>
                             <br><?php echo $pr->observacoes; ?>
-                        </div>
-                        <div class="form-group col-2">
-                           
                         </div>
                     </div>
                     

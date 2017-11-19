@@ -28,8 +28,8 @@ class Demanda extends CI_Controller {
         $this->load->js('painel/assets/pluguins/buscacep.js');
            
         
-         $this->output->set_template('default');
-       
+		$this->output->set_template('default');
+		 
 	}
         
 	public function index(){
@@ -456,6 +456,7 @@ class Demanda extends CI_Controller {
 	public function visualizar($id_demanda){
 		
 		$data = array();
+		$data['hoje'] = date("Y-m-d");
 		
 		$data['menu_opcao_direita'][] = '
 		<a href="javascript:window.history.go(-1)" class="btn btn-info btn-sm not-focusable" >
@@ -485,8 +486,17 @@ class Demanda extends CI_Controller {
 		if($this->session->userdata['empresa']['funcao']==2){ 
 			$this->load->view('proposta/proposta',$data);
 		}else{
-			$data['propostas'] = $this->proposta_model->get_proposta($id_demanda);
-			$this->load->view('proposta/lista_propostas',$data);
+			//verifica se demanda já tem proposta aceita
+			$proposta_aceita = $this->proposta_model->consultar_proposta_aceita($id_demanda);
+			if (!$proposta_aceita) {
+				//listar as propostas recebidas se ainda nenhuma foi aceita
+				$data['propostas'] = $this->proposta_model->get_proposta($id_demanda);
+				$this->load->view('proposta/lista_propostas',$data);
+			} else{
+				//listar somente a proposta aceita
+				$data['propostas'] = $proposta_aceita;
+				$this->load->view('proposta/lista_propostas',$data);
+			}
 		}
 	}
 
