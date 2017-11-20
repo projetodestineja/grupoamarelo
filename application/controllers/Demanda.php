@@ -244,7 +244,7 @@ class Demanda extends CI_Controller {
 		
 		$row = $this->demanda_model->get_row_demanda($id);
 
-		if($id_empresa!=$row->ger_id_empresa){
+		if($id_empresa!=$row->ger_id_empresa || $row->status!=6){
 			$this->session->set_flashdata('resposta_erro', 'Acesso negado para atualizar demanda.');
 			redirect(site_url('demanda'));
 		}
@@ -300,12 +300,11 @@ class Demanda extends CI_Controller {
 			'Demandas' => $this->uri->segment(1),
 			'Cadastrar' => ''
 		);
-
-		$data['menu_opcao_direita'][] = anchor(
-			'demanda', 
-			'<i class="fa fa-fw fa-undo"></i> Voltar', 
-			'class="btn btn-info btn-sm not-focusable"'
-		);
+			  
+		$data['menu_opcao_direita'][] = '
+		<a href="javascript:window.history.go(-1)" class="btn btn-info btn-sm not-focusable" >
+			<i class="fa fa-fw fa-undo"></i> Voltar
+		</a>';
 
 		$data['action'] = site_url('demanda/form_post/'.$id);
 
@@ -456,7 +455,10 @@ class Demanda extends CI_Controller {
 	public function visualizar($id_demanda){
 		
 		$data = array();
-    
+
+		
+		$row = $this->demanda_model->get_row_demanda_ver($id_demanda);
+		
 		$data['hoje'] = date("Y-m-d");
     
     if ($this->input->post('validade'))
@@ -469,10 +471,23 @@ class Demanda extends CI_Controller {
 			<i class="fa fa-fw fa-undo"></i> Voltar
 		</a>';
 		
+		if($row['status']==6){
+			$data['menu_opcao_direita'][] = '
+			<a href="'.site_url('demanda/edit/'.$row['id']).'" class="btn btn-warning btn-sm not-focusable" >
+				<i class="fa fa-fw fa-pencil-square-o"></i> Atualizar
+			</a>';
+		}
+		$data['menu_opcao_direita'][] = '
+		<a href="javascript:vid(0)" title="Remover Demanda '.$row['residuo'].' ? " rel="'.site_url('demanda/delete/'.$row['id']).'" class="btn btn-sm btn-danger remover" >
+			<i class="fa fa-close" ></i> Remover 
+		</a>';
+		
+		
 		$data['title'] = 'Demanda #'.$id_demanda;
 		
 		//Title / Description / Tags
-                $this->output->set_common_meta($data['title'], '', ''); 
+    $this->output->set_common_meta($data['title'], '', ''); 
+		
 		
 		$data['menu_mapa'] = array(
 			'Demandas' => $this->uri->segment(1),
@@ -485,7 +500,7 @@ class Demanda extends CI_Controller {
 			$data['tab_proposta'] = 'Propostas Recebidas';
 		}
 		
-		$data['row'] = $this->demanda_model->get_row_demanda_ver($id_demanda);	
+		$data['row'] = $row;	
 	
 		$this->load->view('demanda/ver',$data);
  

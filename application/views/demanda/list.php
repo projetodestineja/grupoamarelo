@@ -7,7 +7,9 @@ if($result){ ?>
 <div class="row" >
 
      <div class="col-12 col-sm-4 col-md-2 col-lg-3 col-xl-1 text-center" >
-       <img src="<?php echo $img; ?>" class="img-thumbnail mx-auto "  >
+       <a  href="<?php echo site_url('demanda/visualizar/'.$n->id); ?>" >
+       		<img src="<?php echo $img; ?>" class="img-thumbnail mx-auto "  >
+       </a>
        <div class="text-center" >
         Nº <?php echo $n->id; ?>
        </div>
@@ -63,14 +65,10 @@ if($result){ ?>
               	<i class="fa fa-search-plus" aria-hidden="true"></i> Visualizar
               </a>
 
-            <?php if ($this->session->userdata['empresa']['funcao']==1){ ?>
+            <?php if ($this->session->userdata['empresa']['funcao']==1 && $n->status==6){ ?>
               <a class="btn btn-sm btn-primary" href="<?php echo site_url('demanda/edit/'.$n->id); ?>" >
                 <i class="fa fa-list" ></i> Atualizar
               </a>
-              <a class="btn btn-sm btn-danger remover" title="Remover Demanda <?php echo $n->residuo; ?> ?" href="<?php echo site_url('demanda/delete/'.$n->id); ?>" >
-                <i class="fa fa-close" ></i> Remover
-              </a>
-
             <?php } ?> 
 
           </div> 

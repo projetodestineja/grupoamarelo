@@ -139,4 +139,32 @@ $(document).ready(function () {
     $('.cpf').mask('000.000.000-00', {reverse: true});
     $('.cnpj').mask('00.000.000/0000-00', {reverse: true});
     $('.money').mask('000.000.000.000.000,00', {reverse: true});
+	
+	$('a#messagesDropdown').on('click', function () {
+       load_mensages();
+	});
+				
 });
+
+
+function load_mensages(){
+	
+	var html = '';
+					
+	$.getJSON('mensagens/novas_mensagens', function (data) {
+		var rows = data.length;
+		if(rows>0){
+			$('#info_msg_top').show();
+			$('.cont_msg').html(rows);
+			for (var i = 0; i < rows; i++) {
+				html+='<div class="dropdown-divider"></div>';
+				html+='<a class="dropdown-item" href="'+data[i].href+'" >';
+				html+='	<strong>'+data[i].assunto+'</strong>';
+				html+='	<span class="small float-right text-muted">11:21h</span>';
+				html+='	<div class="dropdown-message small">'+data[i].msg+'</div>';
+				html+='</a>';
+			}
+		}
+		$('#msg_top_load').html(html);
+	});
+}

@@ -197,6 +197,14 @@
     <?php } ?>
   </div>
     
-    
+<script>
+$(document).ready(function () {
+  $(".remover" ).click(function() {
+	if (confirm($(this).attr('title')) == true) {
+       location.href= $(this).attr('rel');
+    }
+  });
+});  
+</script>      
 
 

@@ -5,7 +5,7 @@ class Demandas_model extends CI_Model {
 	
 	var $table = "demandas";
 	
-  public function get_result_demandas($where, $num_rows=false, $sort = 'd.cadastrada', $order = 'asc', $limit = null, $offset = null) {
+  	public function get_result_demandas($where, $num_rows=false, $sort = 'd.cadastrada', $order = 'asc', $limit = null, $offset = null) {
 		
 		 if($num_rows==true){
 				 $filtro = "";
@@ -168,6 +168,11 @@ class Demandas_model extends CI_Model {
 		return $data;
 	}
 	
+	function get_row_demanda($id_demanda){
+		$this->db->where('id',$id_demanda);
+		return $this->db->get('demandas')->row();
+	}
+
 	public function updade_status($status, $id_demanda){
 		$this->db->set('status',(int)$status);
 		$this->db->set('atualizada',date('Y-m-d H:i:s'));

@@ -12,14 +12,7 @@
   function list_demandas() {
      $("#list_demandas").load("<?php echo $url_ajax; ?>");
   }
-
-  $('#list_demandas').delegate('.remover', 'click', function(e) {
-    e.preventDefault();
-    if (confirm($(this).attr('title')) == true) {
-       location.href= $(this).attr('href');
-    }
-  });	
-   
+  
   $('#list_demandas').delegate('.pagination a', 'click', function(e) {
       e.preventDefault();
       $("#list_demandas").html(loading);
