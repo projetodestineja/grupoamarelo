@@ -174,7 +174,7 @@ var myLineChart = new Chart(ctx, {
     },
     {
       label: "Propostas",
-      data: [<?php echo 0;?>, <?php echo 0;?>, <?php echo 0;?>, <?php echo 0;?>, <?php echo 0;?>, <?php echo 0;?>, <?php echo 0;?>, <?php echo 0;?>, <?php echo 0;?>, <?php echo 0;?>, <?php echo 0;?>, <?php echo 0;?>],
+      data: [<?php echo $pjan;?>, <?php echo $pfev;?>, <?php echo $pmar;?>, <?php echo $pabr;?>, <?php echo $pmai;?>, <?php echo $pjun;?>, <?php echo $pjul;?>, <?php echo $pago;?>, <?php echo $pset;?>, <?php echo $pout;?>, <?php echo $pnov;?>, <?php echo $pdez;?>],
        backgroundColor: "rgba(200,0,0,1)",
     }
     ],
