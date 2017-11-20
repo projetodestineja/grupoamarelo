@@ -11,6 +11,7 @@ header('Content-Type: text/html; charset=utf-8');
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <base href="<?php echo base_url(); ?>" >
         <title><?php echo $title; ?></title>
         <?php
         if (!empty($meta)) {
@@ -168,8 +169,10 @@ header('Content-Type: text/html; charset=utf-8');
                     $('#modal_add_edit').modal({backdrop: 'static', keyboard: false}).modal('show').find('.modal-body').load($(this).attr('href'));
                     return false;
                 });
-
-            });
+				
+				 load_mensages();
+				 
+			});
         </script>
 
         <?php
