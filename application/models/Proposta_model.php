@@ -23,5 +23,20 @@ class Proposta_model extends CI_Model {
         $this->db->where('id', $data->id);
         return $this->db->update('propostas',$data);
     }
+    
+    public function salvar($dados){
+        $this->db->insert('propostas',$dados);
+    }
+    
+    public function getrow($id_demanda){
+       $this->db->where('id_demanda',$id_demanda);
+       return $this->db->get('propostas')->row(); 
+    }
+    
+    public function delete($id_demanda,$id_coletora){
+       $this->db->where('id_demanda',$id_demanda);
+       $this->db->where('id_empresa_coletora',$id_coletora);
+       $this->db->delete('propostas');
+    }
 
 }
