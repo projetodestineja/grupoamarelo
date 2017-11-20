@@ -28,8 +28,8 @@ class Demanda extends CI_Controller {
         $this->load->js('painel/assets/pluguins/buscacep.js');
            
         
-         $this->output->set_template('default');
-       
+		$this->output->set_template('default');
+		 
 	}
         
 	public function index(){
@@ -92,17 +92,6 @@ class Demanda extends CI_Controller {
 			}
 			$dados['url_ajax'] = site_url($url_ajax);
 			
-			
-            /*$dados['menu_opcao_direita'][] = anchor(
-				'demanda/?estado='.$row->uf_estado.'&cidade='.$row->id_cidade, 
-				'<i class="fa fa-fw fa-map-marker"></i> da Minha Cidade', 
-				'class="btn btn-primary btn-sm not-focusable" data-toggle="tooltip" title="Clique para listar as demandas da sua cidade"'
-			);
-            $dados['menu_opcao_direita'][] = anchor(
-				'demanda/?estado='.$row->uf_estado,
-				'<i class="fa fa-fw fa-map-marker"></i> do meu Estado',
-				'class="btn btn-primary btn-sm not-focusable" data-toggle="tooltip" title="Clique para listar as demandas do meu Estado"'
-			);*/
 			$dados['menu_opcao_direita'][] = anchor(
 				'demanda/modal_filtro',
 				'<i class="fa fa-fw fa-filter"></i> Filtro',
@@ -467,11 +456,14 @@ class Demanda extends CI_Controller {
 	public function visualizar($id_demanda){
 		
 		$data = array();
-                if ($this->input->post('validade'))
-                    $data['tab_ativa'] = 'proposta'; 
-                else
-                    $data['tab_ativa'] = 'demanda';
-                
+    
+		$data['hoje'] = date("Y-m-d");
+    
+    if ($this->input->post('validade'))
+        $data['tab_ativa'] = 'proposta'; 
+    else
+        $data['tab_ativa'] = 'demanda';
+    
 		$data['menu_opcao_direita'][] = '
 		<a href="javascript:window.history.go(-1)" class="btn btn-info btn-sm not-focusable" >
 			<i class="fa fa-fw fa-undo"></i> Voltar
@@ -496,9 +488,9 @@ class Demanda extends CI_Controller {
 		$data['row'] = $this->demanda_model->get_row_demanda_ver($id_demanda);	
 	
 		$this->load->view('demanda/ver',$data);
-                
+ 
                 if($this->session->userdata['empresa']['funcao']==2){ 
-                
+                    $this->load->view('proposta/proposta',$data);
                 if ($this->input->post('btcancelar')){
                      $this->proposta_model->delete($id_demanda,$this->session->userdata['empresa']['id']);
                      $this->session->set_flashdata('msg_proposta', "Proposta cancelada com sucesso.");
@@ -532,8 +524,19 @@ class Demanda extends CI_Controller {
                         $data2 = $this->proposta_model->getrow($id_demanda);
                         if (isset($data2->aceita) &&($data2->aceita=='Sim')) $this->session->set_flashdata('msg_proposta', "<b>Parabéns!</b> Esta proposta foi aceita.");
 			$this->load->view('proposta/proposta',$data2);
+                  
 		}else{
-			$this->load->view('proposta/lista_propostas',$data);
+			//verifica se demanda já tem proposta aceita
+			$proposta_aceita = $this->proposta_model->consultar_proposta_aceita($id_demanda);
+			if (!$proposta_aceita) {
+				//listar as propostas recebidas se ainda nenhuma foi aceita
+				$data['propostas'] = $this->proposta_model->get_proposta($id_demanda);
+				$this->load->view('proposta/lista_propostas',$data);
+			} else{
+				//listar somente a proposta aceita
+				$data['propostas'] = $proposta_aceita;
+				$this->load->view('proposta/lista_propostas',$data);
+			}
 		}
 	}
 
