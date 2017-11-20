@@ -3,6 +3,15 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Empresa extends CI_Controller {
+	
+	var $table = 'empresas';
+	//Campos da tabela para ordernar coluna
+    var $column_order = array('id', 'cpf', 'cnpj', 'telefone1', 'telefone2'); 
+	//campos da tabela para fazer pesquisa no banco
+    var $column_search = array('id','cpf', 'cnpj', 'razao_social', 'nome_fantasia', 'nome_responsavel', 'email', 'telefone1', 'telefone2'); 
+	// Ordem padrão do datagrid
+    var $order = array('id' => 'desc'); 
+
 
     function __construct() {
         parent::__construct();
@@ -15,11 +24,13 @@ class Empresa extends CI_Controller {
     }
 
     private function _init() {
+		
         $this->output->set_template('default');
 		
 		/****** Data Tables **************/
         $this->load->js('assets/pluguins/datatables/datatables.min.js');
         $this->load->js('assets/pluguins/datatables/dataTables.bootstrap4.js');
+        $this->load->js('assets/pluguins/datatables/script.js');
 		
 		/****** Pluguin Calendário Input **************/
 		$this->load->css('assets/pluguins/datepicker/css/bootstrap-datepicker.min.css');
@@ -30,18 +41,32 @@ class Empresa extends CI_Controller {
 		$this->load->js('assets/pluguins/buscacnpj.js');
 		
     }
+	
+	
+    public function index($id_funcao=0) {
+		
+		 $this->load->helper('datatables');
 
-    public function index() {
-
-        $data['menu_opcao_direita'][] = anchor('empresa/index/1', '<i class="fa fa-fw fa-trash"></i> Listar Somente Geradora', 'class="btn btn-warning btn-sm not-focusable"  data-toggle="tooltip" title="Listar Somente Geradora"');
-        $data['menu_opcao_direita'][] = anchor('empresa/index/2', '<i class="fa fa-fw fa-truck"></i> Listar Somente Coletora', 'class="btn btn-info btn-sm not-focusable"  data-toggle="tooltip" title="Listar Somente Coletora"');
-
-        $data['menu_opcao_direita'][] = anchor('empresa/add/2', '<i class="fa fa-fw fa-plus-circle"></i> Nova Coletora', 'class="btn btn-primary btn-sm not-focusable"  data-toggle="tooltip" title="Clique aqui para realizar um novo cadastro"');
-        $data['menu_opcao_direita'][] = anchor('empresa/add/1', '<i class="fa fa-fw fa-plus-circle"></i> Nova Geradora', 'class="btn btn-primary btn-sm not-focusable"  data-toggle="tooltip" title="Clique aqui para realizar um novo cadastro"');
+        $data['menu_opcao_direita'][] = anchor(
+			site_url('empresa/index/1'), 
+			'<i class="fa fa-fw fa-trash"></i> Geradora', 
+			'class="btn btn-warning btn-sm not-focusable filtrar_empresa"  data-toggle="tooltip" title="Listar Geradora"'
+		);
+        $data['menu_opcao_direita'][] = anchor(
+			site_url('empresa/index/2'), 
+			'<i class="fa fa-fw fa-truck"></i> Coletora', 
+			'class="btn btn-info btn-sm not-focusable filtrar_empresa"  data-toggle="tooltip" title="Listar Coletora"'
+		);
+        $data['menu_opcao_direita'][] = anchor(
+			'empresa/add_empresa_modal', '<i class="fa fa-fw fa-plus-circle"></i> Nova Empresa', 
+			' rel="modal_add_edit" class="btn btn-primary btn-sm not-focusable"  data-toggle="tooltip" title="Clique aqui para realizar um novo cadastro"'
+		);
+		
         $data['menu_opcao_direita'][] = anchor('#', '<i class="fa fa-fw fa-trash"></i> Remover', 'class="btn btn-danger btn-sm not-focusable" id="deletar_row_table"');
 
 
-        if ($this->uri->segment(3)) { // Existe o filtro
+		// Existe o filtro
+        if ($this->uri->segment(3)) { 
             $funcoes_empresa = $this->uri->segment(3); // Pega a 3º posicao na URL amigavel	
             $row_funcao = $this->empresa_model->get_funcao_row($funcoes_empresa);
             $title = 'Empresa ' . $row_funcao->funcao;
@@ -59,28 +84,100 @@ class Empresa extends CI_Controller {
 
         $this->output->set_common_meta($title, '', ''); //Title / Description / Tags
         $data['menu_mapa'] = $array_navegacao;
+		
+		//Nome Coluna / Width Coluna em PX 
+        $table_th = array(
+            array('col_name' => '<input name="select_all" value="1" id="example-select-all" type="checkbox" />', 'col_width' => 18, 'col_order' => false),
+            array('col_name' => 'CPF / CNPJ', 'col_width' => NULL, 'col_order' => true),
+            array('col_name' => 'Razão Social / Nome Fantasia / Responsável', 'col_width' => NULL, 'col_order' => true),
+            array('col_name' => 'Contatos', 'col_width' => NULL, 'col_order' => true),
+            array('col_name' => '--', 'col_width' => 18, 'col_order' => false)
+        );
+		
+        $datagrid = array(
+            'grid_id' => 'table', // ID tabela html carregamento
+            'load_ajax' => site_url("empresa/ajax_list/".$id_funcao), // URL carregamento ajax Json
+            'delete_ajax' => site_url("empresa/deletar"), // URL deletar registro
+            'columns' => $table_th
+        );
 
-        $data['result'] = $this->empresa_model->get_result_all($funcoes_empresa); //Passe o tipo se quiser 1 ou 2
+        $data['table_th'] = $table_th;
+        $data['datagrid_js'] = datagrid_js($datagrid);
 
-        $this->load->view('empresas/listar', $data);
+        $this->load->view('theme/listar', $data);
+    }
+	
+	public function ajax_list($id_funcao) {
+
+        $this->output->unset_template();
+
+        $list = $this->empresa_model->get_datatables($id_funcao);
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $dados) {
+            $no++;
+            $row = array();
+			
+			$empresa=(!empty($dados->razao_social)?$dados->razao_social.'<br>':'');
+            $empresa.= (!empty($dados->nome_fantasia)?$dados->nome_fantasia.'<br>':'');
+            $empresa.=(!empty($dados->nome_responsavel)?$dados->nome_responsavel.'<br>':''); 
+          	
+			$documento = (!empty($dados->cnpj)?$dados->cnpj:$dados->cpf);
+            
+			$row[] = '<input type="checkbox" value="' . $dados->id . '" rel="' . $dados->nome_responsavel . '" >';
+		    $row[] = $documento.'<br>'.($dados->id_funcao=='1'?'Geradora':'Coletora');
+            $row[] = $empresa;
+            $row[] = $dados->telefone1.'<br>'.$dados->telefone2;
+            $row[] = '<a href="' . site_url('empresa/edit/' . $dados->id) . '" class="btn btn-sm btn-warning" ><i class="fa fa-fw fa-pencil-square-o"></i></a>';
+
+            $data[] = $row;
+        }
+
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->empresa_model->count_all($id_funcao),
+            "recordsFiltered" => $this->empresa_model->count_filtered($id_funcao),
+            "data" => $data,
+        );
+
+        echo json_encode($output);
     }
 
-    public function add($id_funcao) {
+
+    public function add($funcao=false) {
+		
+		$id_funcao = false;
+		
+		if($funcao==false){
+			 $data['resposta_erro'] = 'Não foi identificado o tipo de cadastro';
+			  redirect(site_url('empresa'));
+		}else{
+			$id_funcao = $this->empresa_model->funcoes_empresas_row($funcao)->id;
+		}
+		
+		if(!$this->session->userdata('cpf_cnpj')){
+			$data['resposta_erro'] = 'Não foi identificado o CPF ou CNPJ de quem está sendo cadastrado';
+			redirect(site_url('empresa'));
+		}
 
         // Verifica se existe o POST se existir, faz a validação e sobrescreve as varivaveis passadas para o VALUE no form
         if ($this->input->post()) {
+			
             if ($this->input->post('tipo_cadastro')) {
                 $resposta = $this->post_geradora($this->input->post(), false, $id_funcao); // POST / ID EDIT / FUNCAO
             } else {
                 $resposta = $this->post_coletora($this->input->post(), false, $id_funcao); // POST / ID EDIT / FUNCAO
             }
+			
             $data = $resposta['data']; // recupera o data da chamada do método acima
-            if ($resposta['retorno'] == true) {
+            
+			if ($resposta['retorno'] == true) {
                 $this->session->set_flashdata('resposta_ok', $resposta['resposta']);
                 redirect(site_url('empresa'));
             } else {
                 $data['resposta_erro'] = $resposta['resposta'];
             }
+			
         } else {
 
             //Config
@@ -106,13 +203,24 @@ class Empresa extends CI_Controller {
             $data['bairro'] = $this->input->post('bairro');
             $data['id_cidade'] = $this->input->post('cidade');
             $data['uf_estado'] = $this->input->post('estado');
+			
+			$data['outra_area_atuacao'] = $this->input->post('digite_area');
         }
-
+		
+		if($this->session->userdata('cpf_cnpj')){
+			$data['cnpj'] = $this->session->userdata('cpf_cnpj');
+		}
+		
+		
         //Buscamos a área de atuação para exibição
         $data['row_atuacao_principal'] = $this->empresa_model->consultar_area_Id(false);
-        $data['result_atuacoes'] = $this->empresa_model->consultar_area_secundaria_Id(false);
+        $data['result_atuacoes'] = false;
         $data['areas_atuacoes'] = $this->empresa_model->get_all_area_atuacao();
 
+        //Buscando categorias de residuos coletados
+        $data['categorias_residuos'] = $this->empresa_model->get_all_categorias_residuos(0);
+        
+        
         //Trabalho o select no form
         $uf = ($this->input->post('estado') ? $this->input->post('estado') : '');
         $data['estados'] = $this->endereco_model->get_all_estados(); // Listamos todos estados normalmente
@@ -133,6 +241,8 @@ class Empresa extends CI_Controller {
         $this->load->view('empresas/form_' . $row_funcao->controller, $data);
     }
 
+
+
     public function edit($id) {
 
         $row = $this->empresa_model->consultar_coletoraId($id);
@@ -149,8 +259,8 @@ class Empresa extends CI_Controller {
         $row_funcao = $this->empresa_model->get_funcao_row($row->id_funcao);
 
         //Dados empresa
-        $data['cnpj'] = $row->cnpj;
-        $data['cpf'] = $row->cpf;
+        $data['cnpj'] = (!empty($row->cnpj)?$row->cnpj:$row->cpf);
+        
         $data['razao_social'] = $row->razao_social;
         $data['nome_fantasia'] = $row->nome_fantasia;
         $data['nome_responsavel'] = $row->nome_responsavel;
@@ -159,8 +269,7 @@ class Empresa extends CI_Controller {
         $data['telefone1'] = $row->telefone1;
         $data['telefone2'] = $row->telefone2;
         $data['email'] = $row->email;
-        ;
-
+       
         //Endereço
         $data['cep'] = $row->cep;
         $data['logradouro'] = $row->logradouro;
@@ -194,17 +303,39 @@ class Empresa extends CI_Controller {
         $data['result_atuacoes'] = $this->empresa_model->consultar_area_secundaria_Id($id);
         $data['areas_atuacoes'] = $this->empresa_model->get_all_area_atuacao();
 
+        if($data['row_atuacao_principal']){
+          $data['outra_area_atuacao'] = $data['row_atuacao_principal']->outra_area_atuacao;
+        }
+
+
+        //Buscando categorias de residuos coletados
+        $data['categorias_residuos'] = $this->empresa_model->get_all_categorias_residuos($data['id']);
+        
+
         //Trabalho o select no form
         $uf = ($this->input->post('estado') ? $this->input->post('estado') : $row->uf_estado);
         $data['estados'] = $this->endereco_model->get_all_estados(); // Listamos todos estados normalmente
         $data['cidades'] = $this->endereco_model->get_all_cidades($uf); //<-UF no EDIT pra listar apenas a cidades do estado selecionado
-        //Trabalhamos os botões superior a direita
+        
+		//Trabalhamos os botões superior a direita
         if ($row->ativo == 0) {
-            $data['menu_opcao_direita'][] = anchor(site_url('empresa/desbloquear/' . $id . '/1'), '<i class="fa fa-fw fa-unlock"></i> Desbloquear Cadastro', 'class="btn btn-info btn-sm not-focusable" ');
+            $data['menu_opcao_direita'][] = anchor(
+				site_url('empresa/desbloquear/' . $id . '/1'), 
+				'<i class="fa fa-fw fa-unlock"></i> Desbloquear Cadastro', 
+				'class="btn btn-info btn-sm not-focusable" '
+			);
         } else {
-            $data['menu_opcao_direita'][] = anchor(site_url('empresa/desbloquear/' . $id . '/0'), '<i class="fa fa-fw fa-lock"></i> Bloquear Cadastro', 'class="btn btn-warning btn-sm not-focusable" ');
+            $data['menu_opcao_direita'][] = anchor(
+				site_url('empresa/desbloquear/' . $id . '/0'), 
+				'<i class="fa fa-fw fa-lock"></i> Bloquear Cadastro', 
+				'class="btn btn-warning btn-sm not-focusable" '
+			);
         }
-        $data['menu_opcao_direita'][] = anchor(site_url('empresa'), '<i class="fa fa-fw fa-undo"></i> Voltar', 'class="btn btn-info btn-sm not-focusable"');
+        $data['menu_opcao_direita'][] = anchor(
+			site_url('empresa'), 
+			'<i class="fa fa-fw fa-undo"></i> Voltar',
+			'class="btn btn-info btn-sm not-focusable"'
+		);
 
         $title = 'Atualizar Cadastro - ' . $row_funcao->funcao;
         $this->output->set_common_meta($title, '', ''); //Title / Description / Tags
@@ -216,6 +347,8 @@ class Empresa extends CI_Controller {
 
         $this->load->view('empresas/form_' . $row_funcao->controller, $data);
     }
+
+
 
     private function post_coletora($post, $id) { // somente PJ
         $data = array(
@@ -253,7 +386,7 @@ class Empresa extends CI_Controller {
         $this->form_validation->set_rules('cep', 'CEP', 'required');
         $this->form_validation->set_rules('logradouro', 'lagradouro', 'required');
         $this->form_validation->set_rules('numero', 'número do endereço', 'required');
-        $this->form_validation->set_rules('complemento', 'complemento do endereço', 'required');
+        
         $this->form_validation->set_rules('bairro', 'bairro', 'required');
         $this->form_validation->set_rules('cidade', 'cidade', 'required');
         $this->form_validation->set_rules('estado', 'estado', 'required');
@@ -266,20 +399,23 @@ class Empresa extends CI_Controller {
 
             $resposta = validation_errors('<div class="error">* ', '</div>');
             $retorno = false;
+			
         } else {
 
             if ($id == false) {// Não tem ID, então faz insert
                 $id = $this->empresa_model->empresa_insert($data, $post); // retorna o insert_id
-
+                $this->empresa_model->update_categorias_residuos((int) $id);
                 $this->empresa_model->atuacao($id); //Atualizar o tabela atuacao
-
+				
+				$this->session->unset_userdata('cpf_cnpj');
+				
                 $resposta = 'Empresa coletora cadastrada com sucesso.';
             } else {
                 
 				$this->empresa_model->empresa_update($id, $data, $post);
 
                 $this->empresa_model->atuacao((int) $id); //Atualizar o tabela atuacao
-
+                $this->empresa_model->update_categorias_residuos((int) $id);
                 $resposta = 'Empresa coletora atualizada com sucesso.';
             }
             $retorno = true;
@@ -336,14 +472,18 @@ class Empresa extends CI_Controller {
             $this->form_validation->set_rules('senha', 'senha', 'required');
             $this->form_validation->set_rules('senha2', 'senha', 'required|matches[senha]', array('required' => 'Confirme a %s.'));
         }
+		
         if ($this->form_validation->run() == FALSE) {
 
             $resposta = validation_errors('<div class="error">* ', '</div>');
             $retorno = false;
+			
         } else {
 
             if ($id == false) {// Não tem ID, então faz insert
                 $this->empresa_model->empresa_insert($data, $post); // retorna o insert_id
+
+				$this->session->unset_userdata('cpf_cnpj');
 
                 $resposta = 'Empresa geradora cadastrada com sucesso.';
             } else {
@@ -416,6 +556,57 @@ class Empresa extends CI_Controller {
         }
     }
 
+	
+	public function add_empresa_modal(){
+	 	$this->output->unset_template();
+		
+		$data = array();
+		$data['title'] = 'Cadastrar Nova Empresa';
+		
+		$this->load->view('empresas/add_modal',$data);
+	}
+
+	
+	public function post_valid_cpf_cnpj() {
+        $this->output->unset_template();
+
+        $json = array();
+
+        if(!$this->input->post('cpf_cnpj')){
+            $json['error'] = $json['error_cpf_cnpj'] = 'Digite o CPF ou CNPJ da empresa';
+        }else
+		if($this->input->post('tipo')=='geradora' && $this->util->ValidaCpf($this->input->post('cpf_cnpj')) == false && strlen($this->input->post('cpf_cnpj'))<14){
+            // Validamos Geradora com CPF DOC com menos de 14 digitos
+			$json['error'] = $json['error_cpf_cnpj'] = 'CPF inválido para geradar';
+        }else
+		if($this->input->post('tipo')=='geradora' && $this->util->ValidaCnpj($this->input->post('cpf_cnpj')) == false && strlen($this->input->post('cpf_cnpj'))>14){
+            // Validamos Geradora com CPF DOC com mais de 14 Digitos
+			$json['error'] = $json['error_cpf_cnpj'] = 'CNPJ inválido para empresa geradora';
+        }else
+		if($this->input->post('tipo')=='coletora' && $this->util->ValidaCnpj($this->input->post('cpf_cnpj')) == false){
+			// Somente CNPJ para Coletora
+			$json['error'] = $json['error_cpf_cnpj'] = 'CNPJ inválido para empresa coletora';	
+		}else
+		if($this->empresa_model->valid_doc_empresas($this->input->post('cpf_cnpj'))!=0){
+			// Somente CNPJ para Coletora
+			$json['error'] = $json['error_cpf_cnpj'] = 'Documento já está cadastrado em nosso sistema';	
+		}
+
+		if (!$json) { 
+		
+        	$tipo_cadastro = $this->input->post('tipo');
+			$cpf_cnpj = $this->input->post('cpf_cnpj');
+			
+			$this->session->set_userdata('cpf_cnpj',$cpf_cnpj);
+			
+		 	$json['redirect'] = site_url('empresa/add/'.$tipo_cadastro);
+	    }
+
+        echo json_encode($json);
+	}
+	
+	
+
     public function licenca_upload($id_empresa = 0, $id_licenca = 0) {
         $this->output->unset_template();
 
@@ -450,6 +641,7 @@ class Empresa extends CI_Controller {
 
             $this->load->library('upload', $config);
 
+            
             // Tratamos se existe erro para o upload
             if (!$this->upload->do_upload('licenca')) {
                 $json['error'] = $json['error_licenca'] = $this->upload->display_errors('', '');
@@ -474,10 +666,11 @@ class Empresa extends CI_Controller {
         }
 
         if (!$json) { // Não existe erro, então faz o insert ou update
-            $data = array(
+            
+			$data = array(
                 'titulo' => $this->input->post('titulo'),
                 'validade' => date('Y-m-d', strtotime(str_replace('/', '-', $this->input->post('validade')))),
-                'status' => $this->input->post('status'),
+                'status' => (int)$this->input->post('status'),
                 'atualizado' => date('Y-m-d H:i:s')
             );
 
@@ -495,5 +688,41 @@ class Empresa extends CI_Controller {
 
         echo json_encode($json);
     }
+	
+	 function deletar() {
+        $this->output->unset_template();
+        $array_itens = explode(",", $this->input->post('ids_delete'));
+        foreach ($array_itens as $index => $id) {
+            if (is_numeric($id) && $id >= 1) {
+                $this->empresa_model->deletar($id); /* model deletar noticia */
+            }
+        }
+        $error = "Selected countries (id's: " . $this->input->post('ids_delete') . ") deleted with success";
+        $this->output->set_header($this->config->item('ajax_header'));
+        $this->output->set_output($error);
+    }
+
+    function getcidades($id_uf) {
+        $this->output->unset_template();
+        $cidade = $this->input->get('cidade');
+        $retorno = array();
+        $this->load->model('cidades_model');
+
+        $cidades = $this->cidades_model->getcidades($id_uf);
+        foreach ($cidades as $row) {
+
+            $cidade = strtoupper($cidade);
+            $cidade2 = strtoupper($row->nome_cidade);
+
+            $selected = ($cidade == $cidade2 ? 'selected' : '');
+
+            $retorno[] = array('nome_cidade' => $row->nome_cidade, 'id' => $row->id, 'selected' => $selected);
+        }
+
+        echo json_encode($retorno);
+
+        return;
+    }
+	
 
 }

@@ -92,8 +92,9 @@ class Empresa extends CI_Controller {
                     $dados3["codigo_area_atuacao"] = $key;
                     $dados3["principal"] = 2;
                     $dados3["outra_area_atuacao"] = NULL;
-                    if ($dados3["codigo_area_atuacao"] > 0)
+                    if ($dados3["codigo_area_atuacao"] > 0){
                         $this->empresa_model->gravar_area_atuacao($dados3);
+                    }    
                 }
             }
 

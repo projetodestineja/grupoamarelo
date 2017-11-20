@@ -7,6 +7,9 @@
     <li class="nav-item">
         <a class="nav-link" href="#atuacao_secundaria" role="tab" data-toggle="tab">Atuação Secundária</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#categorias_residuos" role="tab" data-toggle="tab">Categorias de resíduos coletados</a>
+    </li>
     <?php if(isset($id)){ ?>
      <li class="nav-item">
         <a class="nav-link" href="#licenca" role="tab" data-toggle="tab">Licença</a>
@@ -24,26 +27,26 @@
                 <div class="col-md-12">
 
                             
-                    <div class="form-row  required">
-                        <div class="form-group col-md-4 " >
+                    <div class="form-row">
+                        <div class="form-group col-md-4 required" >
                             <label for="cnpj" class="col-form-label">CNPJ</label>
-                            <input type="text" class="form-control cnpj" id="cnpj" name="cnpj" value="<?php echo $cnpj; ?>"  disabled  >
+                            <input required type="text" class="form-control cnpj" id="cnpj" name="cnpj" value="<?php echo $cnpj; ?>"  disabled  >
                         </div>
-                        <div class="form-group col-md-4" >
-                            <label required for="rsocial" class="col-form-label">Razão Social</label>
-                            <input type="text" class="form-control" id="rsocial" name="rsocial" value="<?php echo $razao_social; ?>" placeholder="Razão Social">
+                        <div class="form-group col-md-4 required" >
+                            <label for="rsocial" class="col-form-label">Razão Social</label>
+                            <input required type="text" class="form-control" id="rsocial" name="rsocial" value="<?php echo $razao_social; ?>" placeholder="Razão Social">
                         </div>
                         <div class="form-group col-md-4" >
                             <label for="nfantasia" class="col-form-label">Nome Fantasia</label>
                             <input type="text" class="form-control" id="nfantasia" name="nfantasia" value="<?php echo $nome_fantasia; ?>" placeholder="Nome Fantasia">
                         </div>
                     </div>
-                    <div class="form-row  required">
-                        <div class="form-group col-md-5">
+                    <div class="form-row  ">
+                        <div class="form-group col-md-5 required">
                             <label for="nresponsavel" class="col-form-label">Nome do Responsável</label>
                             <input required type="text" class="form-control" id="nresponsavel" name="nresponsavel" value="<?php echo $nome_responsavel; ?>" placeholder="Ex.: César Silva">
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-4" id="divatividadeprincipal" name="divatividadeprincipal">
                             <label for="area_atuacao">Área de Atuação Principal</label>
                             <select class="form-control" id="area_atuacao" name="area_atuacao">
                                 <option value="0">Outra</option>
@@ -58,7 +61,7 @@
                         </div>
                         <div style="display:none;" class="form-group col-md-3" id="outra_area_option">
                             <label for="digite_ramo" class="col-form-label">Digite Outra Área de Atuação </label>
-                            <input type="text" class="form-control" id="digite_area" name="digite_area" value="" placeholder="Especifique a área de atuação">
+                            <input type="text" class="form-control" id="digite_area" name="digite_area" value="<?php if (isset($row_atuacao_principal->outra_area_atuacao)) echo $row_atuacao_principal->outra_area_atuacao; ?>" placeholder="Especifique a área de atuação">
                         </div>
                     </div>
 
@@ -82,12 +85,12 @@
 
 
                     <h3 class="">Endereço</h3>
-                    <div class="form-row  required">
-                        <div class="form-group col-md-2">
+                    <div class="form-row  ">
+                        <div class="form-group col-md-2 required">
                             <label for="cep" class="col-form-label">CEP</label>
                             <input required type="text" class="form-control cep" id="cep" name="cep" value="<?php echo $cep; ?>" placeholder="000000-000" maxlength="8" onblur="pesquisacep(this.value);">
                         </div>
-                        <div class="form-group col-md-5">
+                        <div class="form-group col-md-5 required">
                             <label for="Rua" class="col-form-label">Rua</label>
                             <input required type="text" class="form-control" id="rua" name="logradouro" value="<?php echo $logradouro; ?>" placeholder="Ex.: Av. José Silva">
                         </div>
@@ -97,7 +100,7 @@
                         </div>
                         <div class="form-group col-md-3">
                             <label for="complemento" class="col-form-label">Complemento</label>
-                            <input required type="text" class="form-control" id="complemento" name="complemento" value="<?php echo $complemento; ?>" placeholder="Ex.: Casa, Apartamento...">
+                            <input type="text" class="form-control" id="complemento" name="complemento" value="<?php echo $complemento; ?>" placeholder="Ex.: Casa, Apartamento...">
                         </div>
                     </div>
                     <div class="form-row  required">
@@ -196,6 +199,25 @@
             <button class="btn btn-success btn-md btn-salvar" type="submit">Salvar</button>
         </div>
         
+        <div role="tabpanel" class="tab-pane fade" id="categorias_residuos">
+            
+            <div id="categorias" style="margin-left:20px;">
+                
+            <?php if ($categorias_residuos) {
+                foreach ($categorias_residuos as $cr) {
+                ?>
+                <div class="checkbox" style="margin:5px;" >
+                    <label><input type="checkbox" value="<?php echo $cr->id; ?>"  <?php if ($cr->faz==1) echo "checked"; ?> id="categoria" name="categoria[]"  > <?php echo $cr->id.' - '.$cr->categoria; ?></label>
+                </div>
+                <?php }
+            } ?>    
+                
+            </div>  
+            <div id="categorias" style="margin-left:20px;">
+                <button class="btn btn-success btn-md btn-salvar" type="submit">Salvar</button>
+            </div>        
+        </div>
+        
         <?php if(isset($id)){ ?>
         <div role="tabpanel" class="tab-pane fade" id="licenca">
             <div align="right" >
@@ -209,13 +231,6 @@
     </div>
 </form>
 
-<style>
-    .has-error .form-control{ border:red solid 1px;}
-	.has-error{color:#F00}
-    
-    .loading_form{ display:none; background:  url('<?php echo base_url('painel/assets/img/ajax-loader.gif');?>') no-repeat center center rgba(255,255,255,0.8);  position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px; z-index: 9999;  }
-</style>   
-
 <script>
 	<?php if (isset($atuacao)) { ?>
         var i = <?php echo (int) $atuacao; ?>;
@@ -228,12 +243,77 @@
      <?php } ?>
 
      function licenca_list(id) {
-        $("#result_licenca").load("<?php echo site_url('cadastro/licenca_list/') ?>" + id, function () {
-            /*alert( "carregouuuuu...." );*/
-         });
+        $("#result_licenca").load("<?php echo site_url('cadastro/licenca_list/') ?>" + id);
      }
 
 	<?php if (isset($atuacao)) { ?>
         var atuacao = <?php echo (int) $atuacao; ?>;
 	<?php } ?>
+     
+     //redimensiona a div do select area_atuacao se nao precisar do campo "outra"
+     if ((document.getElementById('area_atuacao').value)!=0){
+         $("#divatividadeprincipal").removeClass("form-group col-md-4");
+         $("#divatividadeprincipal").addClass("form-group col-md-7");
+     } else{
+         $("#outra_area_option").show();
+     }   
+     
+     $("#area_atuacao").change(function () {
+        if (this.value == 0) {
+            $("#divatividadeprincipal").removeClass("form-group col-md-7");
+            $("#divatividadeprincipal").addClass("form-group col-md-4");
+            $("#outra_area_option").show();
+            
+        } else {
+            $("#divatividadeprincipal").removeClass("form-group col-md-4");
+            $("#divatividadeprincipal").addClass("form-group col-md-7");
+            $("#outra_area_option").hide();
+        }
+     });
+     
+     
+     
+     
+     
+     
+     
+     //atualizando lista de cidades a cada mudança no select estados
+    $("select[name=estado]").change(function(){
+        var estado = $(this).val();
+        resetaCombo('cidade');
+        load_cidades(estado,null);
+    });
+    
+    function load_cidades(estado,cidade=NUll){
+        //alert(cidade);
+                $.getJSON( '<?php echo site_url(); ?>' + 'empresa/getcidades/' + estado+'?cidade='+cidade, function (data){
+
+                    var option = new Array();
+
+                    $.each(data, function(i, obj){
+
+                        option[i] = document.createElement('option');
+                        $( option[i] ).attr( {value : obj.id} );
+                        if(obj.selected!=''){
+                            $( option[i] ).attr( {selected : obj.selected} );
+                        }
+                        $( option[i] ).append( obj.nome_cidade );
+
+                        $("select[name='cidade']").append( option[i] );
+
+                    });
+
+                });
+
+        }
+
+        function resetaCombo( el ) {
+           $("select[name='"+el+"']").empty();
+           var option = document.createElement('option');
+           $( option ).attr( {value : ''} );
+           $( option ).append( 'Selecione a Cidade' );
+           $("select[name='"+el+"']").append( option );
+        }
+     
+     
 </script>

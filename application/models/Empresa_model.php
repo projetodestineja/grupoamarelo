@@ -34,6 +34,11 @@ class Empresa_model extends CI_Model {
         return $data['result'] = $this->db->get('empresas')->result();
     }
 
+    public function get_row_empresa($id) {
+        $this->db->where('id', (int) $id);
+        return $this->db->get('empresas')->row();
+    }
+
     public function consultar_coletoraId($id) {
         $this->db->where('id', (int) $id);
         return $this->db->get('empresas')->row();
@@ -144,6 +149,60 @@ class Empresa_model extends CI_Model {
         return $this->db->get('empresas_certificados_status')->result();
     }
 
+    
+    public function get_all_categorias_residuos($id_empresa) {
+        
+        return 
+        $this->db->query("select 
+                            id, categoria ,
+                            (select 1 from empresas_categorias_residuos ecr where ecr.id_categoria_residuo = cr.id and id_empresa = $id_empresa) as faz
+                          from 
+                            categorias_residuos cr
+                          order by cr.id")->result();
+    }
+    
+    public function update_categorias_residuos($id_empresa) {
+        if($this->input->post('categoria')){
+            //Limpando tabela
+            $this->db->where('id_empresa', (int) $id_empresa);
+            $this->db->delete('empresas_categorias_residuos');
+
+            foreach ($this->input->post('categoria') as $codigo) {
+                $data[] = array(
+                    'id_empresa' => (int) $id_empresa,
+                    'id_categoria_residuo' => $codigo
+                );
+            }
+
+            //Fazemos o insert pegando a array montada acima
+            $this->db->insert_batch('empresas_categorias_residuos', $data);
+        }
+    }
+    
+    public function verificaliberacao($id_empresa){
+        $this->db->where('id', (int) $id_empresa);
+        return $this->db->get('empresas')->row()->ativo;
+    }
+    
+    function countcertificados($id_empresa){ 
+            $this->db->where('id_empresa',$id_empresa);
+            $this->db->where('validade >',  date('Y-m-d H:i:s'));
+            return $this->db->count_all_results('empresas_certificados');
+    }
+    
+    function listacertificados($id_empresa){ 
+            return 
+            $this->db->query("select 
+                            ec.id as id, ec.titulo as titulo, cadastrado,validade, ecs.titulo as status, (SELECT DATEDIFF(validade, now())) as dias_faltando
+                          from 
+                            empresas_certificados ec
+                                join empresas_certificados_status ecs on ec.status = ecs.id
+                          where
+                            ec.removido is null
+                            and ec.validade > now()
+                            and ec.id_empresa = $id_empresa
+                          order by ec.id")->result();
+    }
     
     
 }

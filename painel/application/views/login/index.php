@@ -23,7 +23,8 @@
           </center>
         </div>
         <div class="card-body">
-            <form class="form-login" action="<?php echo site_url('login/validar_login_post'); ?>" method="post" >
+        
+            <form class="form-login" id="form-login" action="<?php echo site_url('login/validar_login_post'); ?>" method="post" >
 
             <div class="form-group" id="col_email">
               <label for="login">E-mail</label>
@@ -44,11 +45,30 @@
               </div>
             </div>
             -->
-            <button type="submit" class="btn btn-success btn-block" ><i class="fa fa-lock" aria-hidden="true"></i> Entrar</button>
-          </form>
-          <div class="text-center">
-            <a class="d-block small" href="#">Esqueceu a senha?</a>
-          </div>
+            <button type="submit" class="btn btn-success btn-block  botao" ><i class="fa fa-lock" aria-hidden="true"></i> Entrar</button>
+            <div class="text-center" style="margin-top:5px;">
+            	<a class="d-block small" id="btn-rec-senha" href="javascript:void(0)">Esqueceu a senha?</a>
+            </div>
+           </form>
+          
+          	
+            <form method="post" id="form_rec_senha" action="<?php echo site_url('login/recuperar_senha');?>" style="display:none" >
+              
+              <div class="form-group" id="col_email">
+              <h3>Recuperar Senha</h3>
+              <label for="login">Digite seu E-mail</label>
+              <input type="email" name="email" class="form-control" id="email" aria-describedby="email" placeholder="nome@dominio.com">
+             </div>
+             <div class="form-group">
+             	<button type="submit" class="btn btn-warning btn-block  botao"  ><i class="fa fa-send" aria-hidden="true"></i> Enviar</button>
+             </div>
+             
+             <div class="form-group">
+             	<button type="button" class="btn btn-danger btn-block botao" id="btn-rec-senha-close" ><i class="fa fa-ban" aria-hidden="true"></i> Cancelar</button>
+             </div>
+            </form>
+            
+         
         </div>
       </div>
     </div>
@@ -60,10 +80,18 @@
 
     <script>
     $(document).ready(function(){
+		
+      $('#btn-rec-senha,#btn-rec-senha-close').on("click", function() {
+        $('#form_rec_senha,#form-login').slideToggle();
+      });
+
       /* carrega o focus no campo login no load da pagina */
       $('input[name=login]').focus();
 
-      $('.form-login').submit(function(){
+      $('#form-login').submit(function(){
+		  
+		  $('#form-login .botao').attr("disabled",true);
+		  
           var login = $('input[name=login]').val();
           var senha = $('input[name=senha]').val();
           var erro = '';
@@ -82,6 +110,7 @@
               type: "POST",
               data: $(this).serialize(),
               success: function(json){
+				   
                    if(json.erro!=""){
                      alert(json.erro);
                    }else{
@@ -91,8 +120,40 @@
                 }
              });
           }
+		  $('#form-login .botao').attr("disabled",false);
           return false;
        });
+	   
+	   
+	   $('#form_rec_senha').submit(function(){
+		   
+		  $('.botao').attr("disabled",true);
+		   
+          var email = $('input[name=email]').val();
+          var erro = '';
+
+          if(email==''){
+			  
+              alert('Digite seu e-mail!');
+              $('input[name=email]').focus();
+			  
+          }else{
+             $.ajax({
+              url: $(this).attr("action"),
+              dataType: "json",
+              type: "POST",
+              data: $(this).serialize(),
+              success: function(json){
+				  
+                  alert(json.resposta);
+                  return false;
+                }
+             });
+			    }
+		      $('.botao').attr("disabled",false);
+          return false;
+       });
+	   
     });
     </script>
 
