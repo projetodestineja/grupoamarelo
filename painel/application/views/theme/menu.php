@@ -35,12 +35,17 @@
         <ul class="sidenav-second-level collapse" id="collapseConfiguracoes">
           <li><a href="<?php echo site_url('demandas_status'); ?>" >Status de Demandas</a></li>
           <li><a href="<?php echo site_url('areas_atuacao'); ?>" >Áreas de Atuação</a></li>
-          <li><a href="#">Alertas</a></li>
           <li><a href="<?php echo site_url('config'); ?>" >Config SMTP/E-mail Alertas</a></li>
           <li><a href="<?php echo site_url('cidades'); ?>" >Cidades Cadastro</a></li>
         </ul>
       </li>
       
+      <li class="nav-item menu-v-mensagens" data-toggle="tooltip" data-placement="right" title="Mensagens">
+        <a class="nav-link" href="<?php echo site_url('mensagens'); ?>">
+            <i class="fa fa-fw fa-commenting"></i> <span class="nav-link-text">Mensagens</span>
+        </a>
+      </li>
+    
       <li class="nav-item menu-v-usuarios" data-toggle="tooltip" data-placement="right" title="Usuários">
         <a class="nav-link" href="<?php echo site_url('usuarios'); ?>" >
           <i class="fa fa-fw fa-user"></i><span class="nav-link-text">Usuários</span>
