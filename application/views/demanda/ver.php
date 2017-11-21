@@ -1,3 +1,5 @@
+<?php  if ($this->session->flashdata('msg_proposta')) echo "<div class=\"alert alert-success\">".$this->session->flashdata('msg_proposta')."</div>"; ?>
+    
 <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item">
         <a class="nav-link <?php if ($tab_ativa=='demanda') echo "active"; ?>" href="#demanda" role="tab" data-toggle="tab">Demanda</a>
