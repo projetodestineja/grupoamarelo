@@ -43,7 +43,8 @@ class Proposta extends CI_Controller {
 
         $this->demanda_model->set_status($data);
         
-        //redirect('demanda');
+        $this->session->set_flashdata('msg_proposta', "Proposta aceita com sucesso.");
+        redirect('demanda/visualizar/'.$data->id_demanda);
 	}
 
 }
