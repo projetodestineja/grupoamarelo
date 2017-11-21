@@ -8,7 +8,8 @@
                 
                 <span style="float:right;">
                 <a class="btn btn-sm btn-success <?php echo strtotime($pr->validade_proposta) < strtotime($hoje) || $pr->aceita == 'Sim' ? 'disabled' : '' ; ?>" rel="modal_add_edit" data-target="" data-toggle="tooltip" title="Aceitar a Proposta" href="<?php echo site_url('proposta/visualizar?id='.$pr->id); ?>">
-                    <i class="fa fa-thumbs-up" aria-hidden="true"></i> Aceitar
+                    <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                    <?php echo $pr->aceita == 'Sim' ? 'Proposta Aceita' : 'Aceitar' ; ?>
                 </a>
                 <!--a class="btn btn-sm btn-danger" data-toggle="tooltip" title="Recusar a Proposta" href="#" >
                     <i class="fa fa-thumbs-down" aria-hidden="true"></i>
