@@ -13,6 +13,12 @@
         </a>
     </li>
     
+    <li class="nav-item menu-v-mensagens" data-toggle="tooltip" data-placement="right" title="Mensagens">
+        <a class="nav-link" href="<?php echo site_url('mensagens'); ?>">
+            <i class="fa fa-fw fa-commenting"></i> <span class="nav-link-text">Mensagens</span>
+        </a>
+    </li>
+    
     
     <!--
     <li class="nav-item menu-v-configuracoes" data-toggle="tooltip" data-placement="right" title="Configuracoes">
@@ -51,34 +57,39 @@
 
 
 <ul class="navbar-nav ml-auto">
-    <!--
-  <li class="nav-item dropdown">
+ 
+  <li class="nav-item dropdown" id="info_msg_top" style="display:none" >
+   
     <a class="nav-link dropdown-toggle mr-lg-2" href="#" id="messagesDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       <i class="fa fa-fw fa-envelope"></i>
       <span class="d-lg-none">Mensagens
-        <span class="badge badge-pill badge-primary">12 Mensagens</span>
+        <span class="badge badge-pill badge-primary "><span class="cont_msg">12</span> Mensagens</span>
       </span>
       <span class="new-indicator text-primary d-none d-lg-block">
         <i class="fa fa-fw fa-circle"></i>
-        <span class="number">12</span>
+        <span class="number cont_msg">12</span>
       </span>
     </a>
     <div class="dropdown-menu" aria-labelledby="messagesDropdown">
-      <h6 class="dropdown-header">Novas Mensagens:</h6>
-    <?php for ($msg = 0; $msg <= 4; $msg++) { ?>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">
-            <strong>Fulano <?php echo $msg ?></strong>
-            <span class="small float-right text-muted">11:21h</span>
-            <div class="dropdown-message small">Eu sou uma mensagem de teste!</div>
-          </a>
-    <?php } ?>
-      <div class="dropdown-divider"></div>
-      <a class="dropdown-item small" href="#">
-        Ver Todas Mensagens
-      </a>
-    </div>
+        <h6 class="dropdown-header">Novas Mensagens:</h6>
+        <div id="msg_top_load"></div>
+		<?php /* for ($msg = 0; $msg <= 4; $msg++) { ?>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">
+                <strong>Fulano <?php echo $msg ?></strong>
+                <span class="small float-right text-muted">11:21h</span>
+                <div class="dropdown-message small">Eu sou uma mensagem de teste!</div>
+              </a>
+        <?php } */?>
+        
+        <div class="dropdown-divider"></div>
+         <a class="dropdown-item small" href="<?php echo site_url('mensagens');?>" >
+        	Ver Todas Mensagens
+      	 </a>
+    	</div>
   </li>
+  
+  <!--
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle mr-lg-2" href="#" id="alertsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       <i class="fa fa-fw fa-bell"></i>
@@ -107,17 +118,14 @@
       </a>
     </div>
   </li>
-  
-
-  
-    <a class="nav-link dropdown-toggle mr-lg-2" href="" >
+  -->
       
-    -->
+  
 
 
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle mr-lg-2" href="#" id="alertsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-fw fa-user"></i> <?php echo $this->session->userdata['empresa']['razao_social']; ?>
+            <i class="fa fa-fw fa-user"></i> <?php echo character_limiter($this->session->userdata['empresa']['razao_social'],30); ?>
         </a>
         <div class="dropdown-menu" aria-labelledby="alertsDropdown" style="background-color: #f3e97a;">
             <a class="dropdown-item" href="<?php echo site_url('cadastro'); ?>">

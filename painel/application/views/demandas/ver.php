@@ -223,15 +223,18 @@
     
     
     <div role="tabpanel" class="tab-pane" id="historico_status">
-    	<div id="list_hitorico_status" >#</div>
+    	<div id="list_hitorico_status" ><img src="<?php echo base_url('assets/img/ajax-loader.gif') ?>" ></div>
     </div>
     
-    <div role="tabpanel" class="tab-pane" id="mensagens">#</div>
+    <div role="tabpanel" class="tab-pane" id="mensagens">
+        <div id="list_hitorico_mensagens" ><img src="<?php echo base_url('assets/img/ajax-loader.gif') ?>" ></div>
+    </div>
     
 </div>
 <script>
 
 $("#list_hitorico_status").load("<?php echo site_url('demandas/status_demanda_historico/'.$row['id']); ?>");
+$("#list_hitorico_mensagens").load("<?php echo site_url('mensagens/mensagens_demanda/'.$row['id']); ?>");
 
 function send_form(){
 	

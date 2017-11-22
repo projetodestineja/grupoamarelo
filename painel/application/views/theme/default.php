@@ -93,7 +93,7 @@
 
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 			<?php echo ($this->session->flashdata('resposta_erro')?$this->session->flashdata('resposta_erro'):''); ?>
-            <?php echo ($resposta_erro?$resposta_erro:''); ?>
+            <?php echo (isset($resposta_erro)?$resposta_erro:''); ?>
         </div>
 	<?php }
         if($this->session->flashdata('resposta_ok')){ ?>

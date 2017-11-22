@@ -128,8 +128,14 @@ class Demandas extends CI_Controller {
 		
 		$data = array();
 		
+		$data['row'] = $this->demandas_model->get_row_demanda_ver($id_demanda);	
+		$this->load->model('demandas_status_model');
+		$data['result_status'] = $this->demandas_status_model->get_all();
+	
+		$data['status_result'] = $this->demandas_model->get_result_status();
+
 		$data['menu_opcao_direita'][] = anchor(
-			'demandas/mensagem_demanda/'.$id_demanda, '<i class="fa fa-fw fa-plus-circle"></i> Enviar Mensagem', 
+			'mensagens/mensagem_demanda/'.$id_demanda.'/'.$data['row']['ger_id_empresa'], '<i class="fa fa-fw fa-plus-circle"></i> Enviar Mensagem', 
 			' rel="modal_add_edit" class="btn btn-primary btn-sm not-focusable"  data-toggle="tooltip" '
 		);
 		
@@ -143,11 +149,6 @@ class Demandas extends CI_Controller {
 			'Visualizar' => ''
 		);
 		
-		$this->load->model('demandas_status_model');
-		$data['result_status'] = $this->demandas_status_model->get_all();
-		
-		$data['row'] = $this->demandas_model->get_row_demanda_ver($id_demanda);	
-		$data['status_result'] = $this->demandas_model->get_result_status();
 		$this->load->view('demandas/ver',$data);
 	}
 	
