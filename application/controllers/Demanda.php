@@ -505,7 +505,7 @@ class Demanda extends CI_Controller {
 		$this->load->view('demanda/ver',$data);
  
                 if($this->session->userdata['empresa']['funcao']==2){ 
-                    $this->load->view('proposta/proposta',$data);
+                    //$this->load->view('proposta/proposta',$data);
                 if ($this->input->post('btcancelar')){
                      $this->proposta_model->delete($id_demanda,$this->session->userdata['empresa']['id']);
                      $this->session->set_flashdata('msg_proposta', "Proposta cancelada com sucesso.");
