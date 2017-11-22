@@ -12,6 +12,11 @@ class Proposta_model extends CI_Model {
                                     YEAR(cadastrada) = $ano  
                                     and MONTH(cadastrada) = $mes")->row();
         } else return 0;
+    }
+    
+    public function get_propostas($id_demanda){
+        $this->db->where('id_demanda', $id_demanda);
+        return $this->db->get('propostas')->result();
 	}
     
 }
