@@ -1,7 +1,5 @@
 <div role="tabpanel" class="tab-pane <?php if ($tab_ativa=='proposta') echo "active"; ?>" id="propostas" name="propostas">
     
-    <?php  if ($this->session->flashdata('msg_proposta')) echo "<div class=\"alert alert-success\">".$this->session->flashdata('msg_proposta')."</div>"; ?>
-    
     <div class="card">
     <h5 class="card-header"><i class="fa fa-list" ></i> Cadastro de Proposta</h5>
     <div class="card-block">

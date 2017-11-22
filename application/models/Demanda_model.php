@@ -416,15 +416,30 @@ class Demanda_model extends CI_Model {
 		return array('img' => $img ,'erro' => $erro);
 	}
         
-        function countdemandas($id_empresa){
-            $this->db->where('ger_id_empresa',$id_empresa);
-            return $this->db->count_all_results('demandas');
-        }
-        
-        function countdemandasbyuf($uf){
-            $this->db->where('ger_uf_estado',$uf);
-            $this->db->where_in('status', array(3,6));
-            return $this->db->count_all_results('demandas');
-        }
+	function countdemandas($id_empresa){
+		$this->db->where('ger_id_empresa',$id_empresa);
+		return $this->db->count_all_results('demandas');
+	}
+	
+	function countdemandasbyuf($uf){
+		$this->db->where('ger_uf_estado',$uf);
+		$this->db->where_in('status', array(3,6));
+		return $this->db->count_all_results('demandas');
+	}
+
+	function set_status($data){
+		$this->db->where('id',$data->id_demanda);
+		$this->db->set('atualizada',date('Y-m-d H:i:s'));
+		$this->db->set('status',5);
+		$this->db->update('demandas');
+		$this->set_historico(5,$data->id_demanda);
+	}
+
+	function set_historico($status,$id_demanda){
+		$this->db->set('status',$status);
+		$this->db->set('id_demanda',$id_demanda);
+		$this->db->set('datahora',date('Y-m-d H:i:s'));
+		$this->db->insert('demandas_status_historico');
+	}
         
 }

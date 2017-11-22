@@ -47,7 +47,7 @@
     <a class="btn btn-sm btn-success" href="<?php echo site_url('proposta/aceitar?id='.$proposta->id);?>">
         <i class="fa fa-thumbs-up" aria-hidden="true"></i> Aceitar
     </a>
-    <a class="btn btn-sm btn-info" data-dismiss="modal">
+    <a class="btn btn-sm btn-danger" data-dismiss="modal">
         <i class="fa fa-thumbs-down" aria-hidden="true"></i> Agora não
     </a>
     
