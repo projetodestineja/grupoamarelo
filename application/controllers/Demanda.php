@@ -453,14 +453,22 @@ class Demanda extends CI_Controller {
 	*	Visualizar demanda
 	*/
 	public function visualizar($id_demanda){
-		
 		$data = array();
-
+		$data['title'] = 'Demanda #'.$id_demanda;
 		
-		$row = $this->demanda_model->get_row_demanda_ver($id_demanda);
+		//Title / Description / Tags
+		$this->output->set_common_meta($data['title'], '', ''); 
+		
+		$data['menu_mapa'] = array(
+			'Demandas' => $this->uri->segment(1),
+			'Visualizar' => ''
+		);
 		
 		$data['hoje'] = date("Y-m-d");
-    
+		
+		$row = $this->demanda_model->get_row_demanda_ver($id_demanda);
+		$data['row'] = $row;
+		
 		if ($this->input->post('validade'))
 			$data['tab_ativa'] = 'proposta'; 
 		else
@@ -477,35 +485,15 @@ class Demanda extends CI_Controller {
 				<i class="fa fa-fw fa-pencil-square-o"></i> Atualizar
 			</a>';
 		}
+
 		$data['menu_opcao_direita'][] = '
 		<a href="javascript:vid(0)" title="Remover Demanda '.$row['residuo'].' ? " rel="'.site_url('demanda/delete/'.$row['id']).'" class="btn btn-sm btn-danger remover" >
 			<i class="fa fa-close" ></i> Remover 
 		</a>';
 		
-		
-		$data['title'] = 'Demanda #'.$id_demanda;
-		
-		//Title / Description / Tags
-    	$this->output->set_common_meta($data['title'], '', ''); 
-		
-		
-		$data['menu_mapa'] = array(
-			'Demandas' => $this->uri->segment(1),
-			'Visualizar' => ''
-		);
-
 		if($this->session->userdata['empresa']['funcao']==2){ 
+			//$this->load->view('proposta/proposta',$data);
 			$data['tab_proposta'] = 'Enviar Proposta';
-		}else{
-			$data['tab_proposta'] = 'Propostas Recebidas';
-		}
-		
-		$data['row'] = $row;	
-	
-		$this->load->view('demanda/ver',$data);
- 
-		if($this->session->userdata['empresa']['funcao']==2){ 
-				$this->load->view('proposta/proposta',$data);
 			if ($this->input->post('btcancelar')){
 					$this->proposta_model->delete($id_demanda,$this->session->userdata['empresa']['id']);
 					$this->session->set_flashdata('msg_proposta', "Proposta cancelada com sucesso.");
@@ -536,8 +524,9 @@ class Demanda extends CI_Controller {
 					} else $this->session->set_flashdata('msg_proposta', "Erro ao cadastrar proposta.");
 				}
 			}
-			$data2 = $this->proposta_model->getrow($id_demanda);
+			$data2 = $this->proposta_model->getrow($id_demanda,$this->session->userdata['empresa']['id']);
 			if (isset($data2->aceita) && ($data2->aceita=='Sim')) $this->session->set_flashdata('msg_proposta', "<b>Parabéns!</b> Esta proposta foi aceita.");
+			$this->load->view('demanda/ver',$data);
 			$this->load->view('proposta/proposta',$data2);
                   
 		}else{
@@ -546,10 +535,14 @@ class Demanda extends CI_Controller {
 			if (!$proposta_aceita) {
 				//listar as propostas recebidas se ainda nenhuma foi aceita
 				$data['propostas'] = $this->proposta_model->get_proposta($id_demanda);
+				$data['tab_proposta'] = 'Propostas Recebidas';
+				$this->load->view('demanda/ver',$data);
 				$this->load->view('proposta/lista_propostas',$data);
 			} else{
 				//listar somente a proposta aceita
 				$data['propostas'] = $proposta_aceita;
+				$data['tab_proposta'] = 'Proposta Aceita';
+				$this->load->view('demanda/ver',$data);
 				$this->load->view('proposta/lista_propostas',$data);
 			}
 		}
