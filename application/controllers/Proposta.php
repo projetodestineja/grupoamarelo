@@ -9,7 +9,7 @@ class Proposta extends CI_Controller {
         // ACESSO RESTRITO
 		$this->login_model->restrito();
         
-        $this->load->model(array('proposta_model'));
+        $this->load->model(array('proposta_model','demanda_model'));
         $this->load->library(array());
         $this->_init();
     }
@@ -40,8 +40,11 @@ class Proposta extends CI_Controller {
 
         $data->aceita = "Sim";
         $this->proposta_model->aceitar_proposta($data);
+
+        $this->demanda_model->set_status($data);
         
-        redirect('demanda');
+        $this->session->set_flashdata('msg_proposta', "Proposta aceita com sucesso.");
+        redirect('demanda/visualizar/'.$data->id_demanda);
 	}
 
 }
