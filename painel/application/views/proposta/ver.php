@@ -51,7 +51,8 @@
                         <label><i class="fa fa-calendar"></i> Prazo para Coleta</label>
                         <br><?php echo $pr->prazo_coleta; ?>
                     </div>
-                    <div class="form-group col-4">
+                    <div class="form-group col-4" 
+                    <?php echo strtotime($pr->validade_proposta) < strtotime($hoje) ? "style='color:#FF0000;'" : "" ; ?>>
                         <label><i class="fa fa-table"></i> Validade da Proposta</label>
                         <br><?php echo date('d/m/Y', strtotime(str_replace("/","-",$pr->validade_proposta))); ?>
                     </div>
