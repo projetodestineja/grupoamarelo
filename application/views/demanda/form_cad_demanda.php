@@ -125,7 +125,9 @@
 
 	<br />
 
-
+	<div class="alert alert-info" role="alert">
+		<i class="fa fa-asterisk"></i> Altere os campos abaixo caso os dados de contato e/ou endereço sejam diferentes do cadastro.
+	</div>
 
 	<div class="card">
       <h5 class="card-header"><i class="fa fa-comment" ></i> Contato para Demanda</h5>
