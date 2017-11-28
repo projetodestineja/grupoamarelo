@@ -72,12 +72,14 @@
         var total = 0;
         
         if (parseFloat(document.getElementById("valor_coleta").value.replace(",","."))>0){
-            valor_coleta = parseFloat(document.getElementById("valor_coleta").value.replace(",","."));
-            document.getElementById("valor_coleta").value = valor_coleta.toFixed(2).replace('.',',');
+            valor_coleta = parseFloat(document.getElementById("valor_coleta").value.replace(".","").replace(",","."));
+            if (document.getElementById("valor_coleta").value.length<3)
+                document.getElementById("valor_coleta").value = valor_coleta.toFixed(2).replace('.',',');
         }
         if (parseFloat(document.getElementById("valor_frete").value.replace(",","."))>0){
-            valor_frete = parseFloat(document.getElementById("valor_frete").value.replace(",","."));
-            document.getElementById("valor_frete").value = valor_frete.toFixed(2).replace('.',',');
+            valor_frete = parseFloat(document.getElementById("valor_frete").value.replace(".","").replace(",","."));
+            if (document.getElementById("valor_frete").value.length<3)
+                document.getElementById("valor_frete").value = valor_frete.toFixed(2).replace('.',',');
         } 
 
         if (document.getElementById("cobrancasim").checked){
@@ -91,6 +93,8 @@
     
 
     $(document).ready(function () {
+        
+            $('.money').mask('000.000.000.000.000,00', {reverse: true});
 
             $(".fileinput").fileinput();
 
