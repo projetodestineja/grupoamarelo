@@ -442,4 +442,9 @@ class Demanda_model extends CI_Model {
 		$this->db->insert('demandas_status_historico');
 	}
         
+        function get_abrev_unidade_medida($cod_unidade){
+             $this->db->where('id',$cod_unidade);
+             return $this->db->get('uni_medida')->row()->abreviacao; 
+        }
+        
 }
