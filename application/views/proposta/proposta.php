@@ -15,7 +15,7 @@
             <br>
             <div class="row">
                 <div class="form-group col-md-6 required" id="col_coleta">
-                    <label for="valor_coleta" class="col-form-label">Valor por unidade de medida <?php if (isset($uni_medida)) echo "(R$ por $uni_medida)";?></label>
+                    <label for="valor_coleta" class="col-form-label">Valor por unidade de medida <?php if (isset($uni_medida)) echo "(R$ / $uni_medida)";?></label>
                     <input required type="text"  class="form-control money" id="valor_coleta" name="valor_coleta" placeholder="00,00" onblur="atualiza_total();" value="<?php if (isset($valor)) echo number_format($valor, 2, ',', '.');?>" <?php if (isset($validade_proposta)) echo "readonly";?>>
                 </div>
                 <div class="form-group col-md-3 " id="col_qtde" >
@@ -26,11 +26,11 @@
             <div class="row">    
                 <div class="form-group col-md-4 required" id="col_frete">
                     <label for="valor_frete" class="col-form-label">Valor por Viagem de Frete (R$)</label>
-                    <input required type="text" class="form-control money" id="valor_frete" name="valor_frete" placeholder="00,00" onblur="atualiza_total();" value="<?php if (isset($frete_viagem)) echo number_format($frete_viagem, 2, ',', '.'); ?>" <?php if (isset($validade_proposta)) echo "readonly";?>>
+                    <input required type="text" class="form-control money" id="valor_frete" name="valor_frete" placeholder="00,00" onblur="atualiza_total();" value="<?php if (isset($frete)) echo number_format($frete, 2, ',', '.'); ?>" <?php if (isset($validade_proposta)) echo "readonly";?>>
                 </div>
                  <div class="form-group col-md-3 required" id="col_frete2">
                     <label for="qtde_viagens" class="col-form-label">Quantidade de Viagens</label>
-                    <input required type="number" class="form-control " id="qtde_viagens" name="qtde_viagens" onblur="atualiza_total();" value="<?php if (isset($frete)) echo number_format($frete, 2, ',', '.'); else echo "1"; ?>" <?php if (isset($validade_proposta)) echo "readonly";?>>
+                    <input required type="number" class="form-control " id="qtde_viagens" name="qtde_viagens" onblur="atualiza_total();" value="<?php if (isset($qtd_viagens)) echo $qtd_viagens; else echo "1"; ?>" <?php if (isset($validade_proposta)) echo "readonly";?>>
                 </div>
 
             </div>   

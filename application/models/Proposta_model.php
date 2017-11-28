@@ -31,7 +31,7 @@ class Proposta_model extends CI_Model {
     public function getrow($id_demanda,$id_coletora){
        $this->db->where('id_demanda',$id_demanda);
        $this->db->where('id_empresa_coletora',$id_coletora);
-       return $this->db->get('propostas')->row(); 
+       return $this->db->get('propostas')->row_array(); 
     }
     
     public function delete($id_demanda,$id_coletora){
