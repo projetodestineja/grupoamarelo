@@ -485,11 +485,6 @@ class Demanda extends CI_Controller {
 				<i class="fa fa-fw fa-pencil-square-o"></i> Atualizar
 			</a>';
 		}
-
-		$data['menu_opcao_direita'][] = '
-		<a href="javascript:vid(0)" title="Remover Demanda '.$row['residuo'].' ? " rel="'.site_url('demanda/delete/'.$row['id']).'" class="btn btn-sm btn-danger remover" >
-			<i class="fa fa-close" ></i> Remover 
-		</a>';
 		
 		if($this->session->userdata['empresa']['funcao']==2){ 
 			//$this->load->view('proposta/proposta',$data);
@@ -533,6 +528,11 @@ class Demanda extends CI_Controller {
 			//verifica se demanda já tem proposta aceita
 			$proposta_aceita = $this->proposta_model->consultar_proposta_aceita($id_demanda);
 			if (!$proposta_aceita) {
+				//exibir botão remover demanda somente se não houver proposta aceita
+				$data['menu_opcao_direita'][] = '
+				<a href="javascript:vid(0)" title="Remover Demanda '.$row['residuo'].' ? " rel="'.site_url('demanda/delete/'.$row['id']).'" class="btn btn-sm btn-danger remover" >
+					<i class="fa fa-close" ></i> Remover 
+				</a>';
 				//listar as propostas recebidas se ainda nenhuma foi aceita
 				$data['propostas'] = $this->proposta_model->get_proposta($id_demanda);
 				$data['tab_proposta'] = 'Propostas Recebidas';
