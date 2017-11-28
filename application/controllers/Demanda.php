@@ -432,7 +432,9 @@ class Demanda extends CI_Controller {
 					 *		Aqui podemos fazer o envio de email Demanda Atualizada 		 *
 					* ********************************************************************/
 					$this->session->set_flashdata('resposta_ok','Demanda <strong>'.$this->input->post('residuo').'</strong> atualizada com sucesso.');	
-				}else{	
+				}else{
+					//setando status 'publicada' ao cadastrar demanda
+					$data['status'] = 2;
 					$id_demanda = $this->demanda_model->insert($data,$nome_imagem_server);
 					/********************************************************************
 					 *		Aqui podemos fazer o envio de email	Demanda Cadastrada		*
