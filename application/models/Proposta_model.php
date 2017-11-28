@@ -31,13 +31,15 @@ class Proposta_model extends CI_Model {
     public function getrow($id_demanda,$id_coletora){
        $this->db->where('id_demanda',$id_demanda);
        $this->db->where('id_empresa_coletora',$id_coletora);
+       $this->db->where('removido', null, true);
        return $this->db->get('propostas')->row_array(); 
     }
     
-    public function delete($id_demanda,$id_coletora){
-       $this->db->where('id_demanda',$id_demanda);
-       $this->db->where('id_empresa_coletora',$id_coletora);
-       $this->db->delete('propostas');
+    public function delete($id_proposta,$motivo_remocao){
+       $this->db->set('removido', date('Y-m-d H:i:s') );
+       $this->db->set('motivo_remocao', $motivo_remocao );
+       $this->db->where('id',$id_proposta);
+       return $this->db->update('propostas');
     }
 
 }

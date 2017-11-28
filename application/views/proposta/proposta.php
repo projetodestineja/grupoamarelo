@@ -1,11 +1,12 @@
 <div role="tabpanel" class="tab-pane <?php if ($tab_ativa=='proposta') echo "active"; ?>" id="propostas" name="propostas">
     
     <div class="card">
-    <h5 class="card-header"><i class="fa fa-list" ></i> Cadastro de Proposta</h5>
+    <h5 class="card-header"><i class="fa fa-list" ></i> Cadastro de Proposta <?php if (isset($id)) echo "#".$id; ?></h5>
     <div class="card-block">
         <div style="padding:15px;">
         
         <form id="form_proposta" name="form_proposta" method="POST" action="">
+            <input type="text" id="id_proposta" name="id_proposta" value="<?php if (isset($id)) echo $id; ?>" hidden>   
             <div>
                 <div class="form-check form-check-inline col-md-4">    
                     <div <?php if ((isset($cobranca)) && $cobranca == 0 )echo "hidden"; ?> >    <input required class="form-check-input" type="radio" name="cobranca" id="cobrancasim"  value="1"  onchange="atualiza_total();" <?php if ((isset($cobranca)) && $cobranca == 1 )echo "checked"; ?>><b> Cobrar para coletar o resíduo</b></input></div>
@@ -68,12 +69,23 @@
                     <input type="text" class="form-control" id="obs" name="obs" value="<?php if (isset($observacoes)) echo $observacoes;?>" <?php if (isset($validade_proposta)) echo "readonly";?>>
                 </div>
             </div>
-            
-            <div >
+            <div class="row ">
+            <div class="form-group col-md-3">
                 <button class="btn btn-success" <?php if (isset($validade_proposta)) echo "disabled"; ?> type="submit">Salvar</button> 
-                <button class="btn btn-danger" <?php if ((isset($aceita) && ($aceita=='Sim')) || (!isset($validade_proposta)) ) echo "disabled"; ?> type="submit" value="cancelar_proposta" id="btcancelar" name="btcancelar">Cancelar Proposta</button>
+                <button class="btn btn-danger" <?php if ((isset($aceita) && ($aceita=='Sim')) || (!isset($validade_proposta)) ) echo "disabled"; ?> type="button"  id="btmostramotivo" name="btmostramotivo" onclick="mostra_motivo();">Cancelar Proposta</button>
             </div>
-            
+            </div>
+            <div class="row ">    
+            <div class="form-group col-md-3 " id="div1motivo" name="div1motivo" style="color:red;" >
+               <label for="motivo_cancelamento" class="col-form-label">Motivo do cancelamento:</label>
+            </div>
+            <div class="form-group col-md-7  " id="div2motivo" >
+                <input type="text" class="form-control" id="motivo_cancelamento" name="motivo_cancelamento" maxlength="250" >
+            </div>
+            <div class="form-group col-md-2" id="div3motivo" >
+                <button class="btn btn-danger" <?php if ((isset($aceita) && ($aceita=='Sim')) || (!isset($validade_proposta)) ) echo "disabled"; ?> type="submit" value="cancelar_proposta" id="btcancelar" name="btcancelar">Confirmar</button>
+            </div>
+            </div>
         </form>
     </div>
     </div>
@@ -114,8 +126,16 @@
         document.getElementById("valor_total").value = parseFloat(total).toFixed(2).replace('.',',');
     }
     
+    function mostra_motivo(){
+        $("#div1motivo").show();
+        $("#div2motivo").show();
+        $("#div3motivo").show();
+    }
 
     $(document).ready(function () {
+            $("#div1motivo").hide();
+            $("#div2motivo").hide();
+            $("#div3motivo").hide();
         
             $('.money').mask('000.000.000.000.000,00', {reverse: true});
 
