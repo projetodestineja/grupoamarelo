@@ -71,7 +71,7 @@
         <?php } ?>
         <div class="row" >
             <div class="col-md-4">
-                <h1 style="font-size:27px;"><?php echo $title; ?></h1>
+                <h1 style="font-size:27px; margin:15px 0 30px 0;"><?php echo $title; ?></h1>
 
             </div>
             <div class="col-md-8 text-right">
