@@ -90,8 +90,17 @@ class Demanda extends CI_Controller {
 			if($this->input->get('categoria')){
 				$url_ajax.='&categoria='.$this->input->get('categoria');
 			}
+			if($this->input->get('propostas')){
+				$url_ajax.='&propostas='.$this->input->get('propostas');
+			}
 			$dados['url_ajax'] = site_url($url_ajax);
 			
+			$dados['menu_opcao_direita'][] = anchor(
+				'demanda?propostas=1',
+				'<i class="fa fa-fw fa-handshake-o"></i> Propostas Enviadas',
+				'class="btn btn-info btn-sm not-focusable" data-toggle="tooltip" title="Listar as demandas que enviei proposta"'
+			);
+
 			$dados['menu_opcao_direita'][] = anchor(
 				'demanda/modal_filtro',
 				'<i class="fa fa-fw fa-filter"></i> Filtro',
@@ -134,7 +143,20 @@ class Demanda extends CI_Controller {
 				$where.= " d.id_cat_residuo = ".$this->input->get('categoria')." and  ";
 				$prefix = '&categoria='.$this->input->get('categoria');
 			}
-			$where.= " d.status = 2 and ";
+			//caso o gerador queira listar somente demandas que ele enviou proposta
+			if($this->input->get('propostas')){
+				/*$where.= " d.id_cat_residuo = ".$this->input->get('categoria')." and  ";*/
+				$where.= " d.status = 1 and ";
+				/*
+				QUERY
+				join propostas as prp on
+                (d.id = prp.id_demanda) and
+				(prp.id_empresa_coletora = 77)
+				*/
+				$prefix = '&propostas='.$this->input->get('propostas');
+			} else{
+				$where.= " d.status = 2 and ";
+			}
 		}
 		
 		$config = array(
