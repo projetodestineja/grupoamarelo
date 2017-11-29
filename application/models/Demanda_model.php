@@ -291,6 +291,12 @@ class Demanda_model extends CI_Model {
     function get_demandas_status(){
         $this->db->where('ativo','1');
         return $this->db->get('demandas_status')->result();
+	}
+	
+	function get_demandas_status_coletoras(){
+		$this->db->where('ativo','1');
+        $this->db->where('id','2');
+        return $this->db->get('demandas_status')->result();
     }
 	
     function get_result($sort = 'id', $order = 'asc', $limit = null, $offset = null) {

@@ -338,7 +338,11 @@ class Demanda extends CI_Controller {
 		$data['categorias_residuos'] = $this->demanda_model->get_categorias_residuos();
 
 		// Status de demandas 
-		$data['demandas_status'] = $this->demanda_model->get_demandas_status();
+		if($this->session->userdata['empresa']['funcao']==1){ // 1 Geradora
+			$data['demandas_status'] = $this->demanda_model->get_demandas_status();
+		}else if($this->session->userdata['empresa']['funcao']==2){ // 2 Coletora
+			$data['demandas_status'] = $this->demanda_model->get_demandas_status_coletoras();
+		}
 		
 		$this->load->view('demanda/filtro',$data);
 	}
