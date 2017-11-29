@@ -122,10 +122,10 @@ class Demanda extends CI_Controller {
 				$where.= " d.ger_id_cidade = '".(int)$this->input->get('cidade')."' and  ";
 				$prefix = '&estado='.$this->input->get('estado').'&cidade='.$this->input->get('cidade');
 			}
-			if($this->input->get('status')){
+			/*if($this->input->get('status')){
 				$where.= " d.status = ".$this->input->get('status')." and  ";
 				$prefix = '&status='.$this->input->get('status');
-			}
+			}*/
 			if($this->input->get('estado')){
 				$where.= " d.ger_uf_estado = '".$this->input->get('estado')."' and  ";
 				$prefix = '&estado='.$this->input->get('estado');
@@ -134,6 +134,7 @@ class Demanda extends CI_Controller {
 				$where.= " d.id_cat_residuo = ".$this->input->get('categoria')." and  ";
 				$prefix = '&categoria='.$this->input->get('categoria');
 			}
+			$where.= " d.status = 2 and ";
 		}
 		
 		$config = array(
