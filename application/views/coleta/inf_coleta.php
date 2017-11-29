@@ -5,6 +5,7 @@
             <div style="padding:15px;">
             <form action="" method="POST">    
                 <input hidden type="text" class="form-control" id="id_demanda" name="id_demanda" value="<?php if (isset($id_demanda)) echo $id_demanda;?>" >
+                <input hidden type="text" class="form-control" id="id_empresa_coletora" name="id_empresa_coletora" value="<?php if (isset($id_empresa_coletora)) echo $id_empresa_coletora;?>" >
                 <div class="form-row">
                     <div class="form-group col-md-2 required">
                         <label for="cep" class="col-form-label">CEP</label>
@@ -33,7 +34,7 @@
                         <select required class="form-control" id="estado" name="estado" <?php if (isset($obs)) echo "disabled";?>>
                             <option value="">Selecione o Estado</option>
                             <?php foreach ($estados as $n) { ?>
-                                <option value="<?php echo $n->uf; ?>" <?php if ($n->uf==$uf_estado) echo "selected"; ?> <?php if (isset($id_demanda)) echo "readonly";?> ><?php echo $n->nome_estado; ?> </option>
+                                <option value="<?php echo $n->uf; ?>" <?php if ((isset($uf_estado))&&($n->uf==$uf_estado)) echo "selected"; ?> <?php if (isset($id_demanda)) echo "readonly";?> ><?php echo $n->nome_estado; ?> </option>
                             <?php } ?>
                         </select>
                     </div>
@@ -48,7 +49,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-12 ">
                         <label for="obs" class="col-form-label">Observação</label>
-                        <input type="text" class="form-control" id="obs" name="obs" <?php if (isset($obs)) echo "readonly";?>>
+                        <input type="text" class="form-control" id="obs" name="obs" <?php if (isset($obs)) echo "readonly";?> value="<?php if (isset($obs)) echo $obs;?>">
                     </div>
                 </div>
                 <div class="form-row">
