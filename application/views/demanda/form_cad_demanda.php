@@ -15,14 +15,20 @@
 			<input type="text" class="form-control" id="input-residuo" value="<?php echo $residuo; ?>" name="residuo" placeholder="Ex.: Oléo de cozinha usado">
 		</div>
       
-		<div class="form-group col-md-4 required">
-			<label for="acondicionado" class="col-form-label">Como o resíduo está acondicionado?</label>
+		<div class="form-group col-md-4 required" id="box-acondicionado" >
+			<label for="acondicionado" class="col-form-label">Como está acondicionado?</label>
 			<select class="form-control" id="input-acondicionado" name="acondicionado" >
-            <option value="">Selecione</option>
-            <?php foreach($acondicionamentos as $n){?>
-                <option value="<?php echo $n->id; ?>" <?php echo ($n->id==$acondicionado?'selected':''); ?>  ><?php echo $n->abreviacao;?> - <?php echo $n->nome;?></option>
-            <?php } ?>
-		 </select>
+                <option value="" >Selecione</option>
+                <?php foreach($acondicionamentos as $n){?>
+                	<option value="<?php echo $n->id; ?>" <?php echo ($n->id==$acondicionado?'selected':''); ?>  ><?php echo $n->abreviacao;?> - <?php echo $n->nome;?></option>
+                <?php } ?>
+                <option value="0" <?php echo ($acondicionado=='0'?'selected':''); ?> >Outro</option>
+		 	</select>
+    	</div>
+        
+        <div class="form-group col-md-2 required" style="display:<?php echo ($acondicionado=='0'?'block':'none'); ?>" id="box-acondicionado-outro" >
+			<label for="acondicionado-outro" class="col-form-label">Como está acondicionado?</label>
+			<input type="text" class="form-control" id="input-acondicionado-outro" value="<?php echo $acondicionado; ?>" name="acondicionado_outro" placeholder="Informe o acondicionamento">
     	</div>
     
        <div class="form-group col-md-2 required">
@@ -328,6 +334,11 @@ function send_form(){
 				$(form_ind+' #input-acondicionado').parent().addClass('has-error');
 				$(form_ind+' #input-acondicionado').focus();
 			}
+			
+			if (json['error_acondicionado_outro']) {
+				$(form_ind+' #input-acondicionado-outro').parent().addClass('has-error');
+				$(form_ind+' #input-acondicionado-outro').focus();
+			}
 				
 			if (json['error_residuo']) {
 				$(form_ind+' #input-residuo').parent().addClass('has-error');
@@ -393,6 +404,17 @@ $(document).ready(function () {
 		$('input[name=data_inicio]').datepicker('setEndDate', endDate);
 	}).on('clearDate', function (selected) {
 		$('input[name=data_inicio]').datepicker('setEndDate', null);
+	});
+	
+	$("select[name=acondicionado]").change(function () {
+		var id_acondicionado = $(this).val();
+		if(id_acondicionado==0){
+			$('#box-acondicionado-outro').show();
+			$('#box-acondicionado').removeClass('col-md-4').addClass('col-md-2');
+		}else{
+			$('#box-acondicionado-outro').hide();	
+			$('#box-acondicionado').removeClass('col-md-2').addClass('col-md-4');
+		}
 	});
 	
 	/* Select Estado pra carregar Cidades */

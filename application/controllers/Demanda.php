@@ -185,6 +185,7 @@ class Demanda extends CI_Controller {
 		$data['residuo'] = '';
 		$data['categoria_residuo'] = '';
 		$data['acondicionado'] = '';
+		$data['acondicionado_outro'] = '';
 		$data['qtd'] = '';
 		$data['uni_medida'] = '';
 		$data['obs'] = '';
