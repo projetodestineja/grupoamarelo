@@ -24,11 +24,11 @@ if($result){ ?>
           </div>
           <div class="col-md-4" >
             <i class="fa fa-cubes" aria-hidden="true"></i>
-            <b>QTD:</b> <?php echo $n->qtd.' '.$n->abreviacao; ?>
+            <b>QTD:</b> <?php echo $n->qtd.' '.(!empty($n->medida)?$n->medida:$n->uni_medida_outro); ?>
           </div>
           <div class="col-md-4" >
             <i class="fa fa-cube" aria-hidden="true"></i>
-            <b>Acondicionado:</b> <?php echo $n->acondicionado; ?>
+            <b>Acondicionado:</b> <?php echo (!empty($n->acondicionado)?$n->acondicionado:$n->acondicionado_outro); ?>
           </div> 
         </div>
         
