@@ -188,6 +188,7 @@ class Demanda extends CI_Controller {
 		$data['acondicionado_outro'] = '';
 		$data['qtd'] = '';
 		$data['uni_medida'] = '';
+		$data['uni_medida_outro'] = '';
 		$data['obs'] = '';
 		
 		/* Dados Empresa Geradora ********************/
@@ -265,8 +266,10 @@ class Demanda extends CI_Controller {
 		$data['residuo'] =  $row->residuo;
 		$data['categoria_residuo'] = $row->categoria_residuo;
 		$data['acondicionado'] =  $row->acondicionado;
+		$data['acondicionado_outro'] =  $row->acondicionado_outro;
 		$data['qtd'] =  $row->qtd;
 		$data['uni_medida'] =  $row->uni_medida;
+		$data['uni_medida_outro'] =  $row->uni_medida_outro;
 		$data['obs'] = $row->obs;
 		
 		/* Dados Empresa Geradora ********************/
@@ -394,6 +397,9 @@ class Demanda extends CI_Controller {
 				$data_inicio = ($this->input->post('data_inicio')?date('Y-m-d', strtotime(str_replace("/","-",$this->input->post('data_inicio')))):'');
 				$data_validade = ($this->input->post('data_validade')?date('Y-m-d', strtotime(str_replace("/","-",$this->input->post('data_validade')))):'');
 				
+				$acondicionado_outro = ($this->input->post('acondicionado')==0?$this->input->post('acondicionado_outro'):NULL);
+				$uni_medida_outro = ($this->input->post('uni_medida')==0?$this->input->post('uni_medida_outro'):NULL);
+				
 				$data = array(
 					//informações do resíduo
 					'atualizada' => date('Y-m-d H:i:s'),
@@ -404,8 +410,10 @@ class Demanda extends CI_Controller {
 					'residuo' => $this->input->post('residuo'),
 					'categoria_residuo' => $this->input->post('categoria_residuo'),
 					'acondicionado' => $this->input->post('acondicionado'),
+					'acondicionado_outro' => $acondicionado_outro,
 					'qtd' => $this->input->post('qtd'),
 					'uni_medida' => $this->input->post('uni_medida'),
+					'uni_medida_outro' => $uni_medida_outro,
 					'obs' => $this->input->post('obs'),
 					
 					// Dados da empresa Geradora (solicitou demanda)
@@ -639,19 +647,25 @@ class Demanda extends CI_Controller {
 		if(date('Y-m-d', strtotime(str_replace("/","-",$this->input->post('data_inicio'))) ) < date('Y-m-d') && empty($id_update) ){
 			$json['error'] = $json['error_data_inicio'] = 'A data de início não pode ser menor que a data de hoje: '.date('d/m/Y');
 		}
-				
+		
+		if($this->input->post('acondicionado')=='') {
+           $json['error'] = $json['error_acondicionado'] = 'Selecione opção de como o resíduo está acondidionado';
+		}else
+		if($this->input->post('acondicionado')==0 && $this->input->post('acondicionado_outro')=='') {
+           $json['error'] = $json['error_acondicionado_outro'] = 'Digite como o resíduo está acondidionado';
+		}
+		
 		if($this->input->post('uni_medida')=='') {
            $json['error'] = $json['error_uni_medida'] = 'Selecione a undiade de medida';
+		}else
+		if($this->input->post('uni_medida')==0 && $this->input->post('uni_medida_outro')=='') {
+           $json['error'] = $json['error_uni_medida_outro'] = 'Digite a unidade de medida';
 		}
 		
 		if(!$this->input->post('qtd')) {
            $json['error'] = $json['error_qtd'] = 'Digite a quantidade';
 		}
-		
-		if($this->input->post('acondicionado')=='') {
-           $json['error'] = $json['error_acondicionado'] = 'Selecione opção de como o resíduo está acondidionado';
-		}
-		
+				
 		if(!$this->input->post('residuo')) {
            $json['error'] = $json['error_residuo'] = 'Especifique o resíduo';
 		}
