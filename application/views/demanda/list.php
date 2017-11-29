@@ -4,7 +4,7 @@ if($result){ ?>
   $capa = 'uploads/empresa/'.$n->ger_id_empresa.'/demanda/mini/'.$n->img;
   $img = (is_file( $capa)?base_url($capa):base_url('painel/assets/img/demanda_sem_img.jpg')); 
 ?>
-<div class="row" style="border-left:5px solid <?php echo $n->cor; ?>;">
+<div class="row">
 
      <div class="col-12 col-sm-4 col-md-2 col-lg-3 col-xl-1 text-center" >
        <a  href="<?php echo site_url('demanda/visualizar/'.$n->id); ?>" >
