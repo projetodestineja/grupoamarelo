@@ -444,5 +444,23 @@ class Demanda_model extends CI_Model {
 		$this->db->set('datahora',date('Y-m-d H:i:s'));
 		$this->db->insert('demandas_status_historico');
 	}
+	
+	public  function get_result_status_historico($id_demanda=false){
+		
+		$sql = 'SELECT 
+			dsh.datahora,ds.descricao FROM demandas_status_historico as dsh 
+			INNER JOIN demandas_status as ds 
+			INNER JOIN demandas as dem 
+					ON 
+				(dsh.status=ds.id) 
+					and 
+				(dsh.id_demanda=dem.id) 
+					and
+				dem.ger_id_empresa='.(int) $this->session->userdata['empresa']['id'].'	
+					and
+				dsh.id_demanda = '.(int)$id_demanda.' 
+				 order by dsh.datahora desc';
+		return $this->db->query($sql)->result();	
+	}
         
 }

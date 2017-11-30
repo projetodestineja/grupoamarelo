@@ -7,9 +7,29 @@
     <li class="nav-item">
         <a class="nav-link <?php if ($tab_ativa=='proposta') echo "active"; ?>" href="#propostas" role="tab" data-toggle="tab"><?php echo $tab_proposta; ?></a>
     </li>
+    
+	<?php if($this->session->userdata['empresa']['funcao']==1){ // Geradora?>
+    <li class="nav-item">
+        <a class="nav-link" href="#mensagens" role="tab" data-toggle="tab">Mensagens</a>
+    </li>
+     <li class="nav-item">
+        <a class="nav-link" href="#historico" role="tab" data-toggle="tab">Histórico</a>
+    </li>
+    <?php } ?>
 </ul>
 
 <div class="tab-content">
+
+  <?php if($this->session->userdata['empresa']['funcao']==1){ // Geradora?>
+  <div role="tabpanel" class="tab-pane" id="mensagens">	
+	<div id="list_hitorico_mensagens"></div>
+  </div>
+  
+  <div role="tabpanel" class="tab-pane" id="historico">	
+	<div id="list_hitorico_status"></div>
+  </div>
+  <?php } ?>
+  	
   <div role="tabpanel" class="tab-pane  <?php if ($tab_ativa=='demanda') echo "active"; ?>" id="demanda">
 
 	<div class="card">
@@ -202,6 +222,10 @@
   </div>
     
 <script>
+<?php if($this->session->userdata['empresa']['funcao']==1){ // Geradora?>
+$("#list_hitorico_status").load("<?php echo site_url('demanda/status_demanda_historico/'.$row['id']); ?>");
+$("#list_hitorico_mensagens").load("<?php echo site_url('mensagens/mensagens_demanda/'.$row['id']); ?>");
+<?php } ?>
 $(document).ready(function () {
   $(".remover" ).click(function() {
 	if (confirm($(this).attr('title')) == true) {
