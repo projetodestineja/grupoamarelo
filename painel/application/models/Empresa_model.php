@@ -273,4 +273,48 @@ class Empresa_model extends CI_Model {
                                     and MONTH(data_cadastro) = $mes")->row();
         } else return 0;
     }
+	
+	
+	public function get_relatorio_empresas($post){
+		
+		$where = '';
+		
+		if(!empty($post['data_inicio']) || !empty($post['data_final'])){
+			
+			$data_inicio = date('Y-m-d',strtotime(str_replace('/','-',$post['data_inicio'])));
+			$data_final = date('Y-m-d',strtotime(str_replace('/','-',$post['data_final'])));
+			
+			$where = ' data_cadastro BETWEEN date("'.$data_inicio.' 00:00:00") AND date("'.$data_final.' 23:59:59") and  ';	
+		}
+		
+		$sql = "SELECT 
+			id, 
+			ativo, 
+			tipo_cadastro,
+			id_funcao, 
+			(select funcao from funcoes_empresas where id = id_funcao) as perfil, 
+			cnpj, 
+			cpf, 
+			razao_social, 
+			nome_fantasia, 
+			nome_responsavel, 
+			telefone1, 
+			telefone2, 
+			email, 
+			cep, 
+			logradouro, 
+			numero, 
+			complemento, 
+			bairro, 
+			id_cidade,
+			(select nome_cidade from cidades where id = id_cidade) as cidade,  
+			uf_estado, 
+			senha, 
+			data_cadastro, 
+			removido
+		 FROM empresas WHERE ".$where." removido is null ";
+				 
+        return $this->db->query($sql)->result_array();
+    }
+	
 }
