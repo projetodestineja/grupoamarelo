@@ -487,6 +487,7 @@ class Demanda extends CI_Controller {
             // salva local de destinação final se o post for do btsalvalocal
             if ($this->input->post('btsalvarlocal')) {
                 $data4['id_demanda'] = $this->input->post('id_demanda');
+                $data4['id_empresa_coletora'] = $this->input->post('id_empresa_coletora');
                 $data4['cep'] = $this->input->post('cep');
                 $data4['rua'] = $this->input->post('rua');
                 $data4['numero'] = $this->input->post('numero');
@@ -539,7 +540,7 @@ class Demanda extends CI_Controller {
             $data2['qtd'] = $data['row']['qtd']; // pega quantidade cadastrada na demanda para usar no formulário proposta
             $data2['uni_medida'] = $this->demanda_model->get_abrev_unidade_medida($data['row']['uni_medida']); // pega unidade de medida do banco para usar no formulário proposta
             if (isset($data2['aceita']) && ($data2['aceita'] == 'Sim'))
-                $this->session->set_flashdata('msg_proposta', "<b>Parabéns!</b> Esta proposta foi aceita.");
+                $this->session->set_flashdata('msg_proposta', "<b>Parabéns!</b> A proposta foi aceita.");
             $this->load->view('demanda/ver', $data);
             $this->load->view('proposta/proposta', $data2);
         }else {
@@ -567,8 +568,9 @@ class Demanda extends CI_Controller {
         $data3['estados'] = $this->estado_model->lista_estados();
         $data3['id_demanda'] = $id_demanda;
 
-       
-        $this->load->view('coleta/inf_coleta', $data3);
+        
+        if ((isset($data2['aceita']) && ($data2['aceita'] == 'Sim')) || (isset($proposta_aceita)) )
+            $this->load->view('coleta/inf_coleta', $data3);
     }
 
     public function delete($id) {

@@ -237,13 +237,13 @@ class Demanda_model extends CI_Model {
 	}
     
 	function get_all_medidas(){
-		$this->db->order_by('ordem','asc');
+		//$this->db->order_by('ordem','asc');
 		$this->db->order_by('nome','asc');
 	    return $this->db->get('uni_medida')->result();
     }
 	
 	function get_all_acondicionamentos(){
-		$this->db->order_by('ordem','asc');
+		//$this->db->order_by('ordem','asc');
 		$this->db->order_by('nome','asc');
         return $this->db->get('acondicionado')->result();
     }

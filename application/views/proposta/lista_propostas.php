@@ -1,6 +1,8 @@
     <div role="tabpanel" class="tab-pane" id="propostas">
     	<div id="list_propostas" >
 
+        <?PHP if (!empty($propostas)) { ?>    
+            
         <?php foreach($propostas as $pr){?>
         <div class="card" style="margin-bottom:30px;">
             <div class="card-header">
@@ -72,8 +74,11 @@
             </div>
         </div>
         <?php } ?>
+        <?PHP } else echo "Não existem propostas cadastradas pelos coletores de resíduos." ?>      
         </div>
+        
+        
+        
     </div>
     
     
-</div><!-- NÃO APAGAR ESTE FECHAMENTO DE DIV. ELA FECHA A DIV DE DEMANDA -->
