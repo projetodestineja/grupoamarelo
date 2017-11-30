@@ -77,7 +77,7 @@
         <?PHP } else echo "Não existem propostas cadastradas pelos coletores de resíduos." ?>      
         </div>
         
-        
+        <a href="<?php echo site_url('relatorio/lista_propostas/'.$pr->id_demanda) ?>" target="_blank" ><button class="btn btn-info"  type="button"  >Imprimir Propostas Recebidas</button></a>
         
     </div>
     

@@ -1,5 +1,5 @@
 <?php
-
+header('Content-Type: text/html; charset=utf-8');
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Demanda extends CI_Controller {
@@ -539,8 +539,10 @@ class Demanda extends CI_Controller {
             $data2 = $this->proposta_model->getrow($id_demanda, $this->session->userdata['empresa']['id']);
             $data2['qtd'] = $data['row']['qtd']; // pega quantidade cadastrada na demanda para usar no formulário proposta
             $data2['uni_medida'] = $this->demanda_model->get_abrev_unidade_medida($data['row']['uni_medida']); // pega unidade de medida do banco para usar no formulário proposta
-            if (isset($data2['aceita']) && ($data2['aceita'] == 'Sim'))
+            if (isset($data2['aceita']) && ($data2['aceita'] == 'Sim')){
+                $data['tab_proposta'] = 'Proposta Aceita';
                 $this->session->set_flashdata('msg_proposta', "<b>Parabéns!</b> A proposta foi aceita.");
+            }    
             $this->load->view('demanda/ver', $data);
             $this->load->view('proposta/proposta', $data2);
         }else {
