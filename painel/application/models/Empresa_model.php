@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Empresa_model extends CI_Model {
 	
-	private function _get_datatables_query($id_funcao){
+	private function _get_datatables_query($id_funcao,$get){
         $this->db->from($this->table);
         $i = 0;
         foreach ($this->column_search as $item){ // loop column 
@@ -23,6 +23,9 @@ class Empresa_model extends CI_Model {
 		if($id_funcao!=0){
 			$this->db->where('id_funcao',(int)$id_funcao);	
 		}
+		if(isset($get['ativo'])){
+			$this->db->where('ativo',(int)$get['ativo']);	
+		}
         if(isset($_POST['order'])){  // here order processing
             $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
         }else if(isset($this->order)){
@@ -32,31 +35,40 @@ class Empresa_model extends CI_Model {
     }
     
  
-    function get_datatables($id_funcao){
-        $this->_get_datatables_query($id_funcao);
+    function get_datatables($id_funcao,$get=''){
+        $this->_get_datatables_query($id_funcao,$get);
         if($_POST['length'] != -1)
         $this->db->limit($_POST['length'], $_POST['start']);
 		if($id_funcao!=0){
 			$this->db->where('id_funcao',(int)$id_funcao);	
+		}
+		if(isset($get['ativo'])){
+			$this->db->where('ativo',(int)$get['ativo']);	
 		}
         $this->db->where('removido',NULL);
         $query = $this->db->get();
         return $query->result();
     }
  
-    function count_filtered($id_funcao){
-        $this->_get_datatables_query($id_funcao);
+    function count_filtered($id_funcao,$get){
+        $this->_get_datatables_query($id_funcao,$get);
 		if($id_funcao!=0){
 			$this->db->where('id_funcao',(int)$id_funcao);	
+		}
+		if(isset($get['ativo'])){
+			$this->db->where('ativo',(int)$get['ativo']);	
 		}
         $this->db->where('removido',NULL);
         $query = $this->db->get();
         return $query->num_rows();
     }
  
-    public function count_all($id_funcao){
+    public function count_all($id_funcao,$get){
 		if($id_funcao!=0){
 			$this->db->where('id_funcao',(int)$id_funcao);	
+		}
+		if(isset($get['ativo'])){
+			$this->db->where('ativo',(int)$get['ativo']);	
 		}
         $this->db->where('removido',NULL);
         $this->db->from('empresas');
@@ -72,7 +84,7 @@ class Empresa_model extends CI_Model {
     }
 
     public function get_funcao_row($id) {
-        $this->db->where('id', (int) $id);
+        $this->db->where('id', $id);
         return $this->db->get('funcoes_empresas')->row();
     }
 
