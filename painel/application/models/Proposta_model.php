@@ -14,4 +14,16 @@ class Proposta_model extends CI_Model {
         } else return 0;
 	}
     
+    function countpropostas(){
+        
+        $sql =  "
+                   select distinct p.id
+                   from demandas d
+                        join propostas p on p.id_demanda = d.id
+                    where 	
+                        p.removido is null
+            ";
+        //echo $sql;
+        return $this->db->query($sql)->num_rows();
+    }
 }
