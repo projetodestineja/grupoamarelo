@@ -42,5 +42,32 @@ class Proposta_model extends CI_Model {
        $this->db->where('id',$id_proposta);
        return $this->db->update('propostas');
     }
+    
+    function countpropostas($id_geradora){
+        
+        $sql =  "
+                   select distinct p.id
+                   from demandas d
+                        join propostas p on p.id_demanda = d.id
+                    where d.ger_id_empresa = $id_geradora	
+                          and p.removido is null
+            ";
+        //echo $sql;
+        return $this->db->query($sql)->num_rows();
+    }
+    
+    function countpropostasaceitas($id_geradora){
+        
+        $sql =  "
+                   select distinct p.id
+                   from demandas d
+                        join propostas p on p.id_demanda = d.id
+                    where d.ger_id_empresa = $id_geradora	
+                          and p.removido is null
+                          and p.aceita like 'Sim'
+            ";
+        //echo $sql;
+        return $this->db->query($sql)->num_rows();
+    }
 
 }

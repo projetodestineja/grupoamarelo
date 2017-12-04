@@ -7,8 +7,7 @@ class Painelempresa extends CI_Controller {
 	{
 		parent::__construct();
 		$this->_init();
-                $this->load->model('empresa_model');
-                $this->load->model('demanda_model');
+                $this->load->model(array('empresa_model','demanda_model','proposta_model'));
                 $this->load->library('session'); 
 	}
 
@@ -34,6 +33,8 @@ class Painelempresa extends CI_Controller {
                     case 1:
                         $this->output->set_common_meta('Painel Administrativo Geradora','',''); 
                         $data['demandas_cadastradas'] = $this->demanda_model->countdemandas($this->session->userdata['empresa']['id']);
+                        $data['propostas_recebidas'] = $this->proposta_model->countpropostas($this->session->userdata['empresa']['id']);
+                        $data['propostas_aceitas'] = $this->proposta_model->countpropostasaceitas($this->session->userdata['empresa']['id']);
                         if ($data['demandas_cadastradas']==0)
                             $this->load->view('dashboard/bemvindo_geradora');
                         else{
