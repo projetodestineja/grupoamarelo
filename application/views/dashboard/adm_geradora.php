@@ -19,7 +19,7 @@
               </a>
             </div>
           </div>
-    <div class="col-xl-3 col-sm-6 mb-3" style="background-color: orange;">
+    <div class="col-xl-3 col-sm-6 mb-3" >
             <div class="card text-white bg-warning o-hidden h-100" style="background-color: orange;">
               <div class="card-body" style="background-color: orange;">
                 <div class="card-body-icon" style="background-color: orange;">
