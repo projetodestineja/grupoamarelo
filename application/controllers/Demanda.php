@@ -68,7 +68,11 @@ class Demanda extends CI_Controller {
 				
 				$this->output->set_common_meta('Demandas para Coleta em '.$this->input->get('estado'),'',''); 
 				
-			}else{
+			}else if ($this->input->get('propostas')){
+				
+				$this->output->set_common_meta('Demandas que Enviei Proposta','','');
+
+			} else {
 				
 				$this->output->set_common_meta('Demandas para Coleta','',''); 
 				
@@ -92,6 +96,8 @@ class Demanda extends CI_Controller {
 			}
 			if($this->input->get('propostas')){
 				$url_ajax.='&propostas='.$this->input->get('propostas');
+			}if($this->input->get('propostas_aceitas')){
+				$url_ajax.='&propostas_aceitas='.$this->input->get('propostas_aceitas');
 			}
 			$dados['url_ajax'] = site_url($url_ajax);
 			
@@ -99,6 +105,18 @@ class Demanda extends CI_Controller {
 				'demanda?propostas=1',
 				'<i class="fa fa-fw fa-handshake-o"></i> Propostas Enviadas',
 				'class="btn btn-info btn-sm not-focusable" data-toggle="tooltip" title="Listar as demandas que enviei proposta"'
+			);
+
+			$dados['menu_opcao_direita'][] = anchor(
+				'demanda?propostas_aceitas=1',
+				'<i class="fa fa-fw fa-thumbs-o-up"></i> Propostas Aceitas',
+				'class="btn btn-info btn-sm not-focusable" data-toggle="tooltip" title="Listar as demandas que minha proposta foi aceita"'
+			);
+
+			$dados['menu_opcao_direita'][] = anchor(
+				'demanda/',
+				'<i class="fa fa-fw fa-globe"></i> Todas',
+				'class="btn btn-primary btn-sm not-focusable" data-toggle="tooltip" title="Todas as Demandas"'
 			);
 
 			$dados['menu_opcao_direita'][] = anchor(
@@ -122,6 +140,7 @@ class Demanda extends CI_Controller {
 		$where = '';
 		$prefix = '';
 		$id_empresa = $this->session->userdata['empresa']['id'];
+		$list_propostas = '';
 
 		if($this->session->userdata['empresa']['funcao']==1){ // 1 Geradora
 			$where.= " d.ger_id_empresa = '".(int)$id_empresa."' and  ";
@@ -145,16 +164,13 @@ class Demanda extends CI_Controller {
 			}
 			//caso o gerador queira listar somente demandas que ele enviou proposta
 			if($this->input->get('propostas')){
-				/*$where.= " d.id_cat_residuo = ".$this->input->get('categoria')." and  ";*/
-				$where.= " d.status = 1 and ";
-				/*
-				QUERY
-				join propostas as prp on
-                (d.id = prp.id_demanda) and
-				(prp.id_empresa_coletora = 77)
-				*/
+				$list_propostas = " join propostas as prp on (d.id = prp.id_demanda) and (prp.id_empresa_coletora = ".$id_empresa.") ";
+				$where.= " d.status = 2 and  ";
 				$prefix = '&propostas='.$this->input->get('propostas');
-			} else{
+			} else if($this->input->get('propostas_aceitas')){
+				$list_propostas = " join propostas as prp on (d.id = prp.id_demanda) and (prp.id_empresa_coletora = ".$id_empresa.") and (prp.aceita = 'Sim') ";
+				$prefix = '&propostas_aceitas='.$this->input->get('propostas_aceitas');
+			}else{
 				$where.= " d.status = 2 and ";
 			}
 		}
@@ -164,7 +180,7 @@ class Demanda extends CI_Controller {
 			"reuse_query_string" => true,
 			"per_page" => 5, //Quantiade de registros litados
 			"uri_segment" => 3, //URI a ser pegado para identificar a página a ser visualizada
-			"total_rows" => $this->demanda_model->get_result_demandas_empresa_id($id_empresa,$where,true)->num_rows(),
+			"total_rows" => $this->demanda_model->get_result_demandas_empresa_id($id_empresa,$where,true,$list_propostas)->num_rows(),
 			"first_link" => TRUE,
 			"last_link" => TRUE
 		);
@@ -172,7 +188,7 @@ class Demanda extends CI_Controller {
 		$this->pagination->initialize($config);
 		$data['pagination'] = $this->pagination->create_links();
 		$offset = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-		$data['result'] = $this->demanda_model->get_result_demandas_empresa_id($id_empresa,$where,false,'d.cadastrada','desc',$config['per_page'],$offset)->result();
+		$data['result'] = $this->demanda_model->get_result_demandas_empresa_id($id_empresa,$where,false,$list_propostas,'d.cadastrada','desc',$config['per_page'],$offset)->result();
 		
 		$this->load->view('demanda/list',$data);
 	}
