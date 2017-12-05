@@ -3,22 +3,22 @@
     <div class="form-row">
         <div class="form-group col-3">
             <label><i class="fa fa-money"></i> O Coletor Deseja</label>
-            <br><?php echo $proposta->cobranca == 0 ? "pagar pelo resíduo" : "cobrar pelo resíduo"; ?>
+            <br><?php echo $proposta->cobranca == 0 ? "Pagar pelo resíduo" : "Cobrar pela coleta"; ?>
         </div>
 
         <div class="form-group col-3">
             <label><i class="fa fa-th"></i> Valor Resíduo</label>
-            <br><?php echo "R$ ".$proposta->valor; ?>
+            <br><?php echo "R$ ".number_format($proposta->valor, 2, ',', '.'); ?>
         </div>
 
         <div class="form-group col-3">
             <label><i class="fa fa-truck"></i> Valor Frete</label>
-            <br><?php echo "R$ ".$proposta->frete; ?>
+            <br><?php echo "R$ ".number_format(($proposta->frete * $proposta->qtde_viagens), 2, ',', '.'); ?>
         </div>
 
         <div class="form-group col-3">
-            <label><i class="fa fa-usd"></i> Total</label>
-            <br><?php echo "R$ ".$proposta->total; ?>
+            <label><i class="fa fa-usd"></i> Total Aproximado</label>
+            <br><?php echo "R$ ".number_format($proposta->total, 2, ',', '.'); ?>
         </div>
     </div>
 
@@ -29,7 +29,7 @@
         </div>
         <div class="form-group col-4">
             <label><i class="fa fa-calendar"></i> Prazo para Coleta</label>
-            <br><?php echo $proposta->prazo_coleta; ?>
+            <br><?php echo $proposta->prazo_coleta." dias úteis"; ?>
         </div>
         <div class="form-group col-4">
             <label><i class="fa fa-table"></i> Validade da Proposta</label>
