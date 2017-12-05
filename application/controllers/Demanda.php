@@ -72,7 +72,11 @@ class Demanda extends CI_Controller {
 				
 				$this->output->set_common_meta('Demandas que Enviei Proposta','','');
 
-			} else {
+			} else if ($this->input->get('propostas_aceitas')){
+
+				$this->output->set_common_meta('Demandas com Proposta Aceita','','');
+
+			} else{
 				
 				$this->output->set_common_meta('Demandas para Coleta','',''); 
 				
