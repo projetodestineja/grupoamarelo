@@ -1,4 +1,5 @@
-    <div role="tabpanel" class="tab-pane" id="propostas">
+<!-- teste -->
+<div role="tabpanel" class="tab-pane" id="propostas">
     	<div id="list_propostas" >
 
         <?PHP if (!empty($propostas)) { ?>    
