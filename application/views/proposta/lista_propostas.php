@@ -1,3 +1,4 @@
+
 <div role="tabpanel" class="tab-pane" id="propostas">
     	<div id="list_propostas" >
 
@@ -56,7 +57,7 @@
                             <label><i class="fa fa-calendar"></i> Prazo para Coleta</label>
                             <br><?php echo $pr->prazo_coleta; ?> dias úteis 
                         </div>
-                        <?php echo strtotime($pr->validade_proposta) < strtotime($hoje) ? "style='color:#FF0000;'" : "" ; ?>>
+                        <div class="form-group col-4">
                             <label><i class="fa fa-table"></i> Validade da Proposta</label>
                             <br><?php echo date('d/m/Y', strtotime(str_replace("/","-",$pr->validade_proposta))); ?>
                         </div>
@@ -80,3 +81,5 @@
             <a href="<?php  echo site_url('relatorio/lista_propostas/'.$pr->id_demanda); ?>" target="_blank" ><button class="btn btn-info"  type="button"  >Imprimir Propostas Recebidas</button></a>
         <?php } ?>
     </div>
+    
+    
