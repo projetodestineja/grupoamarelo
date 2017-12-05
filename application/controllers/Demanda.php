@@ -115,14 +115,14 @@ class Demanda extends CI_Controller {
 
 			$dados['menu_opcao_direita'][] = anchor(
 				'demanda/',
-				'<i class="fa fa-fw fa-globe"></i> Todas',
-				'class="btn btn-primary btn-sm not-focusable" data-toggle="tooltip" title="Todas as Demandas"'
+				'<i class="fa fa-fw fa-list"></i>',
+				'class="btn btn-primary btn-sm not-focusable" data-toggle="tooltip" title="Listar todas as demandas"'
 			);
 
 			$dados['menu_opcao_direita'][] = anchor(
 				'demanda/modal_filtro',
-				'<i class="fa fa-fw fa-filter"></i> Filtro',
-				'class="btn btn-primary btn-sm not-focusable" rel="modal_add_edit" data-toggle="tooltip" title="Fazer Filtro"'
+				'<i class="fa fa-fw fa-filter"></i>',
+				'class="btn btn-primary btn-sm not-focusable" rel="modal_add_edit" data-toggle="tooltip" title="Filtrar as demandas"'
 			);
 			
         } 
