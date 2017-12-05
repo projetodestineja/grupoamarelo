@@ -245,13 +245,13 @@ class Demanda_model extends CI_Model {
 	}
     
 	function get_all_medidas(){
-		$this->db->order_by('ordem','asc');
+		//$this->db->order_by('ordem','asc');
 		$this->db->order_by('nome','asc');
 	    return $this->db->get('uni_medida')->result();
     }
 	
 	function get_all_acondicionamentos(){
-		$this->db->order_by('ordem','asc');
+		//$this->db->order_by('ordem','asc');
 		$this->db->order_by('nome','asc');
         return $this->db->get('acondicionado')->result();
     }
@@ -455,5 +455,10 @@ class Demanda_model extends CI_Model {
 		$this->db->set('datahora',date('Y-m-d H:i:s'));
 		$this->db->insert('demandas_status_historico');
 	}
+        
+        function get_abrev_unidade_medida($cod_unidade){
+             $this->db->where('id',$cod_unidade);
+             return $this->db->get('uni_medida')->row()->abreviacao; 
+        }
         
 }

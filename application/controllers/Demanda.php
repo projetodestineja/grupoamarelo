@@ -9,7 +9,7 @@ class Demanda extends CI_Controller {
 		// ACESSO RESTRITO
 		$this->login_model->restrito();
 
-        $this->load->model(array('empresa_model', 'demanda_model', 'endereco_model','estado_model','proposta_model'));
+        $this->load->model(array('empresa_model', 'demanda_model', 'endereco_model','estado_model','proposta_model','destinacao_model','cidade_model'));
 		$this->load->library(array('form_validation','util','upload','pagination'));
 		$this->_init();
 	}
@@ -498,104 +498,152 @@ class Demanda extends CI_Controller {
 	}
 	
 	
-	/*
-	*	Visualizar demanda
-	*/
-	public function visualizar($id_demanda){
-		$data = array();
-		$data['title'] = 'Demanda #'.$id_demanda;
-		
-		//Title / Description / Tags
-		$this->output->set_common_meta($data['title'], '', ''); 
-		
-		$data['menu_mapa'] = array(
-			'Demandas' => $this->uri->segment(1),
-			'Visualizar' => ''
-		);
-		
-		$data['hoje'] = date("Y-m-d");
-		
-		$row = $this->demanda_model->get_row_demanda_ver($id_demanda);
-		$data['row'] = $row;
-		
-		if ($this->input->post('validade'))
-			$data['tab_ativa'] = 'proposta'; 
-		else
-			$data['tab_ativa'] = 'demanda';
-		
-			$data['menu_opcao_direita'][] = '
+	    /*
+     * 	Visualizar demanda
+     */
+
+    public function visualizar($id_demanda) {
+
+        $data = array();
+        $data['title'] = 'Demanda #' . $id_demanda;
+
+        //Title / Description / Tags
+        $this->output->set_common_meta($data['title'], '', '');
+
+        $data['menu_mapa'] = array(
+            'Demandas' => $this->uri->segment(1),
+            'Visualizar' => ''
+        );
+
+        $data['hoje'] = date("Y-m-d");
+
+        $row = $this->demanda_model->get_row_demanda_ver($id_demanda);
+        $data['row'] = $row;
+
+        if ($this->input->post('validade'))
+            $data['tab_ativa'] = 'proposta';
+        else
+            $data['tab_ativa'] = 'demanda';
+
+        $data['menu_opcao_direita'][] = '
 			<a href="javascript:window.history.go(-1)" class="btn btn-info btn-sm not-focusable" >
 				<i class="fa fa-fw fa-undo"></i> Voltar
 			</a>';
-		
-		if($row['status']==6){
-			$data['menu_opcao_direita'][] = '
-			<a href="'.site_url('demanda/edit/'.$row['id']).'" class="btn btn-warning btn-sm not-focusable" >
-				<i class="fa fa-fw fa-pencil-square-o"></i> Atualizar
-			</a>';
-		}
-		
-		if($this->session->userdata['empresa']['funcao']==2){ 
-			//$this->load->view('proposta/proposta',$data);
-			$data['tab_proposta'] = 'Enviar Proposta';
-			if ($this->input->post('btcancelar')){
-					$this->proposta_model->delete($id_demanda,$this->session->userdata['empresa']['id']);
-					$this->session->set_flashdata('msg_proposta', "Proposta cancelada com sucesso.");
-			} else{    
-				
-				if ($this->input->post('validade')){
-					
-					$dados['cobranca'] = $this->input->post('cobranca');
-					$dados['id_empresa_coletora'] = $this->session->userdata['empresa']['id'];
-					$dados['id_demanda'] = $id_demanda;
-					$dados['valor'] = $this->input->post('valor_coleta');
-					$dados['frete'] = $this->input->post('valor_frete');
-					$dados['total'] = $this->input->post('valor_total');
-					$dados['condicoes_pagamento'] = $this->input->post('condicoes');
-					$dados['prazo_coleta'] = $this->input->post('prazo');
-					$validade = str_replace("/", "-", $this->input->post('validade'));
-					$validade =  date('Y-m-d', strtotime($validade));
-					$dados['validade_proposta'] = $validade;
-					$dados['observacoes'] = $this->input->post('obs');
-					$dados['aceita'] = 'Não';
-					
-					$this->form_validation->set_rules('cobranca', 'cobranca', 'required');
-					
-					if ($this->form_validation->run() == TRUE){
-						$this->proposta_model->salvar($dados);
-						$this->session->set_flashdata('msg_proposta', "Proposta cadastrada com sucesso.");
-						
-					} else $this->session->set_flashdata('msg_proposta', "Erro ao cadastrar proposta.");
-				}
-			}
-			$data2 = $this->proposta_model->getrow($id_demanda,$this->session->userdata['empresa']['id']);
-			if (isset($data2->aceita) && ($data2->aceita=='Sim')) $this->session->set_flashdata('msg_proposta', "<b>Parabéns!</b> Esta proposta foi aceita.");
-			$this->load->view('demanda/ver',$data);
-			$this->load->view('proposta/proposta',$data2);
-                  
-		}else{
-			//verifica se demanda já tem proposta aceita
-			$proposta_aceita = $this->proposta_model->consultar_proposta_aceita($id_demanda);
-			if (!$proposta_aceita) {
-				//exibir botão remover demanda somente se não houver proposta aceita
-				$data['menu_opcao_direita'][] = '
-				<a href="javascript:vid(0)" title="Remover Demanda '.$row['residuo'].' ? " rel="'.site_url('demanda/delete/'.$row['id']).'" class="btn btn-sm btn-danger remover" >
-					<i class="fa fa-close" ></i> Remover 
-				</a>';
-				//listar as propostas recebidas se ainda nenhuma foi aceita
-				$data['propostas'] = $this->proposta_model->get_proposta($id_demanda);
-				$data['tab_proposta'] = 'Propostas Recebidas';
-				$this->load->view('demanda/ver',$data);
-				$this->load->view('proposta/lista_propostas',$data);
-			} else{
-				//listar somente a proposta aceita
-				$data['propostas'] = $proposta_aceita;
-				$data['tab_proposta'] = 'Proposta Aceita';
-				$this->load->view('demanda/ver',$data);
-				$this->load->view('proposta/lista_propostas',$data);
-			}
-		}
-	}
+
+        // mostra os botoes de controle de demanda somente se for geradora
+        if ($this->session->userdata['empresa']['funcao'] == 1) {
+
+            if ($row['status'] == 6) {
+                $data['menu_opcao_direita'][] = '
+                            <a href="' . site_url('demanda/edit/' . $row['id']) . '" class="btn btn-warning btn-sm not-focusable" >
+                                    <i class="fa fa-fw fa-pencil-square-o"></i> Atualizar
+                            </a>';
+            }
+
+
+            $data['menu_opcao_direita'][] = '
+                    <a href="javascript:vid(0)" title="Remover Demanda ' . $row['residuo'] . ' ? " rel="' . site_url('demanda/delete/' . $row['id']) . '" class="btn btn-sm btn-danger remover" >
+                            <i class="fa fa-close" ></i> Remover 
+                    </a>';
+        }
+
+        if ($this->session->userdata['empresa']['funcao'] == 2) {
+
+            $data['tab_proposta'] = 'Enviar Proposta';
+
+            // salva local de destinação final se o post for do btsalvalocal
+            if ($this->input->post('btsalvarlocal')) {
+                $data4['id_demanda'] = $this->input->post('id_demanda');
+                $data4['id_empresa_coletora'] = $this->input->post('id_empresa_coletora');
+                $data4['cep'] = $this->input->post('cep');
+                $data4['rua'] = $this->input->post('rua');
+                $data4['numero'] = $this->input->post('numero');
+                $data4['complemento'] = $this->input->post('complemento');
+                $data4['bairro'] = $this->input->post('bairro');
+                $data4['uf_estado'] = $this->input->post('estado');
+                $data4['id_cidade'] = $this->input->post('cidade');
+                $data4['obs'] = $this->input->post('obs');
+
+                $this->destinacao_model->gravar($data4);
+            }
+
+            // se estiver cancelando uma proposta
+            if ($this->input->post('btcancelar')) {
+                $id_proposta = $this->input->post('id_proposta');
+                $motivo_remocao = $this->input->post('motivo_cancelamento');
+                $this->proposta_model->delete($id_proposta, $motivo_remocao);
+                $this->session->set_flashdata('msg_proposta', "Proposta cancelada com sucesso.");
+            } else {
+                // caso o formulário de proposta esteja setado no post
+                if ($this->input->post('validade')) {
+
+                    $dados['cobranca'] = $this->input->post('cobranca');
+                    $dados['id_empresa_coletora'] = $this->session->userdata['empresa']['id'];
+                    $dados['id_demanda'] = $id_demanda;
+                    $dados['valor'] = str_replace('.','',$this->input->post('valor_coleta'));
+                    $dados['valor'] = floatval(str_replace(',','.',$dados['valor']));
+                    $dados['frete'] = str_replace('.','',$this->input->post('valor_frete'));
+                    $dados['frete'] = floatval(str_replace(',','.',$dados['frete']));
+                    $dados['qtde_viagens'] = $this->input->post('qtde_viagens');
+                    $dados['total'] = str_replace('.','',$this->input->post('valor_total'));
+                    $dados['total'] = floatval(str_replace(',','.',$dados['total']));
+                    $dados['condicoes_pagamento'] = $this->input->post('condicoes');
+                    $dados['prazo_coleta'] = $this->input->post('prazo');
+                    $validade = str_replace("/", "-", $this->input->post('validade'));
+                    $validade = date('Y-m-d', strtotime($validade));
+                    $dados['validade_proposta'] = $validade;
+                    $dados['observacoes'] = $this->input->post('obs');
+                    $dados['aceita'] = 'Não';
+
+                    $this->form_validation->set_rules('cobranca', 'cobranca', 'required');
+
+                    if ($this->form_validation->run() == TRUE) {
+                        $this->proposta_model->salvar($dados);
+                        $this->session->set_flashdata('msg_proposta', "Proposta cadastrada com sucesso.");
+                    } else
+                        $this->session->set_flashdata('msg_proposta', "Erro ao cadastrar proposta.");
+                }
+            }
+
+
+            $data2 = $this->proposta_model->getrow($id_demanda, $this->session->userdata['empresa']['id']);
+            $data2['qtd'] = $data['row']['qtd']; // pega quantidade cadastrada na demanda para usar no formulário proposta
+            $data2['uni_medida'] = $this->demanda_model->get_abrev_unidade_medida($data['row']['uni_medida']); // pega unidade de medida do banco para usar no formulário proposta
+            if (isset($data2['aceita']) && ($data2['aceita'] == 'Sim')){
+                $data['tab_proposta'] = 'Proposta Aceita';
+                $this->session->set_flashdata('msg_proposta', "<b>Parabéns!</b> A proposta foi aceita.");
+            }    
+            $this->load->view('demanda/ver', $data);
+            $this->load->view('proposta/proposta', $data2);
+        }else {
+            //verifica se demanda já tem proposta aceita
+            $proposta_aceita = $this->proposta_model->consultar_proposta_aceita($id_demanda);
+            if (!$proposta_aceita) {
+                //listar as propostas recebidas se ainda nenhuma foi aceita
+                $data['propostas'] = $this->proposta_model->get_proposta($id_demanda);
+                $data['tab_proposta'] = 'Propostas Recebidas';
+                $this->load->view('demanda/ver', $data);
+                $this->load->view('proposta/lista_propostas', $data);
+            } else {
+                //listar somente a proposta aceita
+                $data['propostas'] = $proposta_aceita;
+                $data['tab_proposta'] = 'Proposta Aceita';
+                $this->load->view('demanda/ver', $data);
+                $this->load->view('proposta/lista_propostas', $data);
+            }
+        }
+
+
+        $data3 = $this->destinacao_model->getrow($id_demanda);
+        if ($data3['id_cidade'])
+            $data3['nome_cidade'] = $this->cidade_model->getnomecidadebyid($data3['id_cidade']);
+        $data3['estados'] = $this->estado_model->lista_estados();
+        $data3['id_demanda'] = $id_demanda;
+
+        
+        if ((isset($data2['aceita']) && ($data2['aceita'] == 'Sim')) || (isset($proposta_aceita)) )
+            $this->load->view('coleta/inf_coleta', $data3);
+    }
 
 
 	public function delete($id){
@@ -711,3 +759,4 @@ class Demanda extends CI_Controller {
 	
 
 }
+?>

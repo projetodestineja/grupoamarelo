@@ -44,6 +44,7 @@ class Mensagens extends CI_Controller {
             'grid_id' => 'table', // ID tabela html carregamento
             'load_ajax' => site_url("mensagens/ajax_list"), // URL carregamento ajax Json
             'delete_ajax' => site_url("mensagens/deletar"), // URL deletar registro
+			'dir_traducao' => 'painel',
             'columns' => $table_th
         );
 
