@@ -36,113 +36,165 @@ class Demanda extends CI_Controller {
     public function index() {
 
         // Geradora
-        if ($this->session->userdata['empresa']['funcao'] == 1) {
-
-            $dados['demandas'] = $this->demanda_model->lista_demandasbyid($this->session->userdata['empresa']['id']);
-
-            $this->output->set_common_meta('Demandas da Geradora de Resíduos', '', '');
-            $dados['menu_opcao_direita'][] = anchor(
-                    'demanda/add', '<i class="fa fa-fw fa-plus"></i> Nova Demanda', 'class="btn btn-primary btn-sm not-focusable" data-toggle="tooltip" title="Clique aqui para cadastrar uma demanda"'
-            );
-            $dados['url_ajax'] = site_url('demanda/get_list');
-        } else
-        if ($this->session->userdata['empresa']['funcao'] == 2) {
-
-            $row = $this->empresa_model->get_row_empresa($this->session->userdata['empresa']['id']);
-
-            $nome_estado = $this->estado_model->busca_nomeestadobyuf($row->uf_estado);
-            $data['local'] = $nome_estado;
-
-            if ($this->input->get('cidade')) {
-
-                $this->load->model('cidade_model');
-                $cidade = $this->cidade_model->getcidadebyid($this->input->get('cidade'));
-
-                //$dados['demandas'] = $this->demanda_model->lista_demandasbycidade($this->session->userdata['empresa']['id_cidade']);
-
-                $this->output->set_common_meta('Demandas para Coleta em ' . $cidade->nome_cidade . '/' . $cidade->uf, '', '');
-            } else if ($this->input->get('estado')) {
-
-                $this->output->set_common_meta('Demandas para Coleta em ' . $this->input->get('estado'), '', '');
-            } else {
-
-                $this->output->set_common_meta('Demandas para Coleta', '', '');
-            }
-
-            /*
-             * Montamos a url para o ajax
-             */
-            $url_ajax = 'demanda/get_list/?';
-            if ($this->input->get('cidade')) {
-                $url_ajax .= '&cidade=' . $this->input->get('cidade');
-            }
-            if ($this->input->get('estado')) {
-                $url_ajax .= '&estado=' . $this->input->get('estado');
-            }
-            if ($this->input->get('status')) {
-                $url_ajax .= '&status=' . $this->input->get('status');
-            }
-            if ($this->input->get('categoria')) {
-                $url_ajax .= '&categoria=' . $this->input->get('categoria');
-            }
-            $dados['url_ajax'] = site_url($url_ajax);
-
-            $dados['menu_opcao_direita'][] = anchor(
-                    'demanda/modal_filtro', '<i class="fa fa-fw fa-filter"></i> Filtro', 'class="btn btn-primary btn-sm not-focusable" rel="modal_add_edit" data-toggle="tooltip" title="Fazer Filtro"'
-            );
-        }
-
-        $this->load->view('demanda/index', $dados);
+        if ($this->session->userdata['empresa']['funcao']==1){ 
+			
+			 $dados['demandas'] = $this->demanda_model->lista_demandasbyid($this->session->userdata['empresa']['id']);
+			 
+			 $this->output->set_common_meta('Demandas da Geradora de Resíduos','',''); 
+			 $dados['menu_opcao_direita'][] = anchor(
+				 'demanda/add',
+				 '<i class="fa fa-fw fa-plus"></i> Nova Demanda',
+				 'class="btn btn-primary btn-sm not-focusable" data-toggle="tooltip" title="Clique aqui para cadastrar uma demanda"'
+			 );
+			 $dados['url_ajax'] = site_url('demanda/get_list');
+			 
+		 } else
+		 if ($this->session->userdata['empresa']['funcao']==2){
+			 
+			 $row = $this->empresa_model->get_row_empresa($this->session->userdata['empresa']['id']);
+			 
+			 $nome_estado = $this->estado_model->busca_nomeestadobyuf($row->uf_estado);
+			 $data['local'] = $nome_estado;
+			 
+			 if ($this->input->get('cidade')){
+				 
+				 $this->load->model('cidade_model');
+				 $cidade = $this->cidade_model->getcidadebyid($this->input->get('cidade'));
+				 
+				 //$dados['demandas'] = $this->demanda_model->lista_demandasbycidade($this->session->userdata['empresa']['id_cidade']);
+				 
+				 $this->output->set_common_meta('Demandas para Coleta em '.$cidade->nome_cidade.'/'.$cidade->uf,'',''); 
+				 
+			 }else if ($this->input->get('estado')){
+				 
+				 $this->output->set_common_meta('Demandas para Coleta em '.$this->input->get('estado'),'',''); 
+				 
+			 }else if ($this->input->get('propostas')){
+				 
+				 $this->output->set_common_meta('Demandas que Enviei Proposta','','');
+ 
+			 } else if ($this->input->get('propostas_aceitas')){
+ 
+				 $this->output->set_common_meta('Demandas com Proposta Aceita','','');
+ 
+			 } else{
+				 
+				 $this->output->set_common_meta('Demandas para Coleta','',''); 
+				 
+			 }
+			 
+			 /*
+			 * Montamos a url para o ajax
+			 */
+			 $url_ajax = 'demanda/get_list/?';
+			 if($this->input->get('cidade')){
+				 $url_ajax.='&cidade='.$this->input->get('cidade');
+			 }
+			 if($this->input->get('estado')){
+				 $url_ajax.='&estado='.$this->input->get('estado');
+			 }
+			 if($this->input->get('status')){
+				 $url_ajax.='&status='.$this->input->get('status');
+			 }
+			 if($this->input->get('categoria')){
+				 $url_ajax.='&categoria='.$this->input->get('categoria');
+			 }
+			 if($this->input->get('propostas')){
+				 $url_ajax.='&propostas='.$this->input->get('propostas');
+			 }if($this->input->get('propostas_aceitas')){
+				 $url_ajax.='&propostas_aceitas='.$this->input->get('propostas_aceitas');
+			 }
+			 $dados['url_ajax'] = site_url($url_ajax);
+			 
+			 $dados['menu_opcao_direita'][] = anchor(
+				 'demanda?propostas=1',
+				 '<i class="fa fa-fw fa-handshake-o"></i> Propostas Enviadas',
+				 'class="btn btn-info btn-sm not-focusable" data-toggle="tooltip" title="Listar as demandas que enviei proposta"'
+			 );
+ 
+			 $dados['menu_opcao_direita'][] = anchor(
+				 'demanda?propostas_aceitas=1',
+				 '<i class="fa fa-fw fa-thumbs-o-up"></i> Propostas Aceitas',
+				 'class="btn btn-info btn-sm not-focusable" data-toggle="tooltip" title="Listar as demandas que minha proposta foi aceita"'
+			 );
+ 
+			 $dados['menu_opcao_direita'][] = anchor(
+				 'demanda/',
+				 '<i class="fa fa-fw fa-list"></i>',
+				 'class="btn btn-primary btn-sm not-focusable" data-toggle="tooltip" title="Listar todas as demandas"'
+			 );
+ 
+			 $dados['menu_opcao_direita'][] = anchor(
+				 'demanda/modal_filtro',
+				 '<i class="fa fa-fw fa-filter"></i>',
+				 'class="btn btn-primary btn-sm not-focusable" rel="modal_add_edit" data-toggle="tooltip" title="Filtrar as demandas"'
+			 );
+			 
+		 } 
+		 
+		   $this->load->view('demanda/index',$dados);
     }
 
     public function get_list() {
 
         $this->output->unset_template();
-
-        $data = array();
-        $result = array();
-        $where = '';
-        $prefix = '';
-        $id_empresa = $this->session->userdata['empresa']['id'];
-
-        if ($this->session->userdata['empresa']['funcao'] == 1) { // 1 Geradora
-            $where .= " d.ger_id_empresa = '" . (int) $id_empresa . "' and  ";
-        } else
-        if ($this->session->userdata['empresa']['funcao'] == 2) { // 2 Coletora
-            if ($this->input->get('cidade')) {
-                $where .= " d.ger_id_cidade = '" . (int) $this->input->get('cidade') . "' and  ";
-                $prefix = '&estado=' . $this->input->get('estado') . '&cidade=' . $this->input->get('cidade');
-            }
-            if ($this->input->get('status')) {
-                $where .= " d.status = " . $this->input->get('status') . " and  ";
-                $prefix = '&status=' . $this->input->get('status');
-            }
-            if ($this->input->get('estado')) {
-                $where .= " d.ger_uf_estado = '" . $this->input->get('estado') . "' and  ";
-                $prefix = '&estado=' . $this->input->get('estado');
-            }
-            if ($this->input->get('categoria')) {
-                $where .= " d.id_cat_residuo = " . $this->input->get('categoria') . " and  ";
-                $prefix = '&categoria=' . $this->input->get('categoria');
-            }
-        }
-
-        $config = array(
-            "base_url" => base_url('demanda/get_list/'),
-            "reuse_query_string" => true,
-            "per_page" => 5, //Quantiade de registros litados
-            "uri_segment" => 3, //URI a ser pegado para identificar a página a ser visualizada
-            "total_rows" => $this->demanda_model->get_result_demandas_empresa_id($id_empresa, $where, true)->num_rows(),
-            "first_link" => TRUE,
-            "last_link" => TRUE
-        );
-
-        $this->pagination->initialize($config);
-        $data['pagination'] = $this->pagination->create_links();
-        $offset = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-        $data['result'] = $this->demanda_model->get_result_demandas_empresa_id($id_empresa, $where, false, 'd.cadastrada', 'desc', $config['per_page'], $offset)->result();
-
-        $this->load->view('demanda/list', $data);
+		
+				$data = array();
+				$result = array();
+				$where = '';
+				$prefix = '';
+				$id_empresa = $this->session->userdata['empresa']['id'];
+				$list_propostas = '';
+		
+				if($this->session->userdata['empresa']['funcao']==1){ // 1 Geradora
+					$where.= " d.ger_id_empresa = '".(int)$id_empresa."' and  ";
+				}else
+				if($this->session->userdata['empresa']['funcao']==2){ // 2 Coletora
+					if($this->input->get('cidade')){
+						$where.= " d.ger_id_cidade = '".(int)$this->input->get('cidade')."' and  ";
+						$prefix = '&estado='.$this->input->get('estado').'&cidade='.$this->input->get('cidade');
+					}
+					/*if($this->input->get('status')){
+						$where.= " d.status = ".$this->input->get('status')." and  ";
+						$prefix = '&status='.$this->input->get('status');
+					}*/
+					if($this->input->get('estado')){
+						$where.= " d.ger_uf_estado = '".$this->input->get('estado')."' and  ";
+						$prefix = '&estado='.$this->input->get('estado');
+					}
+					if($this->input->get('categoria')){
+						$where.= " d.id_cat_residuo = ".$this->input->get('categoria')." and  ";
+						$prefix = '&categoria='.$this->input->get('categoria');
+					}
+					//caso o gerador queira listar somente demandas que ele enviou proposta
+					if($this->input->get('propostas')){
+						$list_propostas = " join propostas as prp on (d.id = prp.id_demanda) and (prp.id_empresa_coletora = ".$id_empresa.") ";
+						$where.= " d.status = 2 and  ";
+						$prefix = '&propostas='.$this->input->get('propostas');
+					} else if($this->input->get('propostas_aceitas')){
+						$list_propostas = " join propostas as prp on (d.id = prp.id_demanda) and (prp.id_empresa_coletora = ".$id_empresa.") and (prp.aceita = 'Sim') ";
+						$prefix = '&propostas_aceitas='.$this->input->get('propostas_aceitas');
+					}else{
+						$where.= " d.status = 2 and ";
+					}
+				}
+				
+				$config = array(
+					"base_url" => base_url('demanda/get_list/'),
+					"reuse_query_string" => true,
+					"per_page" => 5, //Quantiade de registros litados
+					"uri_segment" => 3, //URI a ser pegado para identificar a página a ser visualizada
+					"total_rows" => $this->demanda_model->get_result_demandas_empresa_id($id_empresa,$where,true,$list_propostas)->num_rows(),
+					"first_link" => TRUE,
+					"last_link" => TRUE
+				);
+		
+				$this->pagination->initialize($config);
+				$data['pagination'] = $this->pagination->create_links();
+				$offset = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+				$data['result'] = $this->demanda_model->get_result_demandas_empresa_id($id_empresa,$where,false,$list_propostas,'d.cadastrada','desc',$config['per_page'],$offset)->result();
+				
+				$this->load->view('demanda/list',$data);
     }
 
     /*
