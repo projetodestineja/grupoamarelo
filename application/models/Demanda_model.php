@@ -39,13 +39,19 @@ class Demanda_model extends CI_Model {
     /*
     * Listamos demandas demandas da empresa
     */
-    public function get_result_demandas_empresa_id($ger_id_empresa, $where, $num_rows=false, $sort = 'd.cadastrada', $order = 'asc', $limit = null, $offset = null) {
+    public function get_result_demandas_empresa_id($ger_id_empresa, $where, $num_rows=false, $list_propostas, $sort = 'd.cadastrada', $order = 'asc', $limit = null, $offset = null) {
        
         if($num_rows==true){
             $filtro = "";
-        }else{
+        } else{
             $filtro = "order by ".$sort." ".$order." limit ".$limit." offset ".$offset."";
-        } 
+		}
+		
+		if($list_propostas){
+			$filtro2 = " group by d.id ";
+		} else{
+			$filtro2 = "";
+		}
         
         $sql =  "
             select 
@@ -57,6 +63,7 @@ class Demanda_model extends CI_Model {
                 ac.nome as acondicionado
 
             from demandas as d
+			".$list_propostas."
             inner join demandas_status as ds on (d.status = ds.id)
             inner join cidades as c 
             inner join uni_medida as um 
@@ -66,12 +73,13 @@ class Demanda_model extends CI_Model {
                 (ac.id = d.acondicionado)
             and 
                 (um.id = d.uni_medida)
-            and 
+			and 
                 ".$where."
             
-                removido is null 
-            ".$filtro."
-        ";
+				d.removido is null
+			".$filtro2."
+			".$filtro."
+		";
         return $this->db->query($sql);
    }
    
@@ -290,6 +298,12 @@ class Demanda_model extends CI_Model {
 
     function get_demandas_status(){
         $this->db->where('ativo','1');
+        return $this->db->get('demandas_status')->result();
+	}
+	
+	function get_demandas_status_coletoras(){
+		$this->db->where('ativo','1');
+        $this->db->where('id','2');
         return $this->db->get('demandas_status')->result();
     }
 	

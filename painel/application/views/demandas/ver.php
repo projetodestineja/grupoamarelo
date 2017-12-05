@@ -3,6 +3,9 @@
         <a class="nav-link active" href="#demanda" role="tab" data-toggle="tab">Demanda</a>
     </li>
     <li class="nav-item">
+        <a class="nav-link" href="#propostas_recebidas" role="tab" data-toggle="tab">Propostas Recebidas</a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="#historico_status" role="tab" data-toggle="tab">Histórico Status</a>
     </li>
     <li class="nav-item">
@@ -221,6 +224,9 @@
     	<div class="loading_form" ></div>
 	</div>
     
+    <div role="tabpanel" class="tab-pane" id="propostas_recebidas">
+    	<div id="list_propostas_recebidas" ><img src="<?php echo base_url('assets/img/ajax-loader.gif') ?>" ></div>
+    </div>
     
     <div role="tabpanel" class="tab-pane" id="historico_status">
     	<div id="list_hitorico_status" ><img src="<?php echo base_url('assets/img/ajax-loader.gif') ?>" ></div>
@@ -233,6 +239,7 @@
 </div>
 <script>
 
+$("#list_propostas_recebidas").load("<?php echo site_url('proposta/listar_propostas/'.$row['id']); ?>");
 $("#list_hitorico_status").load("<?php echo site_url('demandas/status_demanda_historico/'.$row['id']); ?>");
 $("#list_hitorico_mensagens").load("<?php echo site_url('mensagens/mensagens_demanda/'.$row['id']); ?>");
 
