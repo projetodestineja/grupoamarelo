@@ -32,18 +32,18 @@
                         </div>
 
                         <div class="form-group col-3">
-                            <label><i class="fa fa-th"></i> Valor Resíduo</label>
-                            <br><?php echo "R$ ".$pr->valor; ?>
+                            <label><i class="fa fa-th"></i> Valor unitário resíduo</label>
+                            <br><?php echo "R$ ".number_format($pr->valor, 2, ',', '.'); ?>
                         </div>
 
                         <div class="form-group col-3">
                             <label><i class="fa fa-truck"></i> Valor Frete</label>
-                            <br><?php echo "R$ ".$pr->frete; ?>
+                            <br><?php echo "R$ ".number_format($pr->frete * $pr->qtde_viagens, 2, ',', '.'); ?>
                         </div>
 
                         <div class="form-group col-3">
-                            <label><i class="fa fa-usd"></i> Total</label>
-                            <br><?php echo "R$ ".$pr->total; ?>
+                            <label><i class="fa fa-usd"></i> Total Aproximado</label>
+                            <br><?php echo "R$ ".number_format($pr->total, 2, ',', '.'); ?>
                         </div>
                     </div>
 
@@ -54,7 +54,7 @@
                         </div>
                         <div class="form-group col-4">
                             <label><i class="fa fa-calendar"></i> Prazo para Coleta</label>
-                            <br><?php echo $pr->prazo_coleta; ?>
+                            <br><?php echo $pr->prazo_coleta; ?> dias úteis 
                         </div>
                         <div class="form-group col-4">
                             <label><i class="fa fa-table"></i> Validade da Proposta</label>
