@@ -513,10 +513,13 @@ class Demanda extends CI_Controller {
                     $dados['cobranca'] = $this->input->post('cobranca');
                     $dados['id_empresa_coletora'] = $this->session->userdata['empresa']['id'];
                     $dados['id_demanda'] = $id_demanda;
-                    $dados['valor'] = $this->input->post('valor_coleta');
-                    $dados['frete'] = $this->input->post('valor_frete');
+                    $dados['valor'] = str_replace('.','',$this->input->post('valor_coleta'));
+                    $dados['valor'] = floatval(str_replace(',','.',$dados['valor']));
+                    $dados['frete'] = str_replace('.','',$this->input->post('valor_frete'));
+                    $dados['frete'] = floatval(str_replace(',','.',$dados['frete']));
                     $dados['qtde_viagens'] = $this->input->post('qtde_viagens');
-                    $dados['total'] = $this->input->post('valor_total');
+                    $dados['total'] = str_replace('.','',$this->input->post('valor_total'));
+                    $dados['total'] = floatval(str_replace(',','.',$dados['total']));
                     $dados['condicoes_pagamento'] = $this->input->post('condicoes');
                     $dados['prazo_coleta'] = $this->input->post('prazo');
                     $validade = str_replace("/", "-", $this->input->post('validade'));
