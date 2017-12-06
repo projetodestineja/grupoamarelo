@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Empresa_model extends CI_Model {
 	
-	private function _get_datatables_query($id_funcao,$get){
+	private function _get_datatables_query($id_funcao,$get=''){
         $this->db->from($this->table);
         $i = 0;
         foreach ($this->column_search as $item){ // loop column 
@@ -50,7 +50,7 @@ class Empresa_model extends CI_Model {
         return $query->result();
     }
  
-    function count_filtered($id_funcao,$get){
+    function count_filtered($id_funcao,$get=''){
         $this->_get_datatables_query($id_funcao,$get);
 		if($id_funcao!=0){
 			$this->db->where('id_funcao',(int)$id_funcao);	
@@ -63,7 +63,7 @@ class Empresa_model extends CI_Model {
         return $query->num_rows();
     }
  
-    public function count_all($id_funcao,$get){
+    public function count_all($id_funcao,$get=''){
 		if($id_funcao!=0){
 			$this->db->where('id_funcao',(int)$id_funcao);	
 		}
