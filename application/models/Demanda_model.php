@@ -327,13 +327,14 @@ class Demanda_model extends CI_Model {
 	     return $this->db->count_all($this->table);
     }
 
-    public function delete($id, $id_empresa){
+    public function delete($id, $id_empresa, $motivo=false){
              
         //$this->delete_img($id); * Não deletar imagem, essa demanda pode ser consultada depois
 
         $this->db->where('ger_id_empresa',(int)$id_empresa);
         $this->db->where('id',(int)$id);
-        $this->db->set('removido',date('Y-m-d H:i:s'));
+		$this->db->set('removido',date('Y-m-d H:i:s'));
+		$this->db->set('motivo_cancel',$motivo);
         $this->db->update('demandas');
     }
       
