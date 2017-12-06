@@ -29,7 +29,7 @@
                   <?php echo $propostas_recebidas; ?> Propostas recebidas
                 </div>
               </div>
-              <a href="#" class="card-footer text-white clearfix small z-1" style="background-color: orange;">
+              <a href="<?php echo site_url('demanda'); ?>" class="card-footer text-white clearfix small z-1" style="background-color: orange;">
                 <span class="float-left">Ver Propostas</span>
                 <span class="float-right">
                   <i class="fa fa-angle-right"></i>
@@ -47,7 +47,7 @@
                   <?php echo $propostas_aceitas; ?> Negócios Fechados
                 </div>
               </div>
-              <a href="#" class="card-footer text-white clearfix small z-1">
+              <a href="<?php echo site_url('demanda'); ?>" class="card-footer text-white clearfix small z-1">
                 <span class="float-left">Ver relatórios de coleta</span>
                 <span class="float-right">
                   <i class="fa fa-angle-right"></i>

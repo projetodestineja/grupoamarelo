@@ -48,12 +48,12 @@ header('Content-Type: text/html; charset=utf-8');
                         <div class="form-row">
                             <div class="form-check form-check-inline">
                                 <label class="form-check-label">
-                                    <input checked class="form-check-input" type="radio" name="tipo_cadastro" id="pjuridica" name="pjuridica" value="J"> Pessoa Jurídica</input>
+                                    <input checked class="form-check-input" type="radio" name="tipo_cadastro" id="pjuridica" name="pjuridica" value="J" onclick="habilita_rsocial()" > Pessoa Jurídica</input>
                                 </label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <label class="form-check-label">
-                                    <input class="form-check-input" type="radio" name="tipo_cadastro" id="pfisica" name="pfisica" value="F"> Pessoa Física</input>
+                                    <input class="form-check-input" type="radio" name="tipo_cadastro" id="pfisica" name="pfisica" value="F" onclick="desabilita_rsocial()"> Pessoa Física</input>
                                 </label>
                             </div>
 
@@ -308,6 +308,14 @@ header('Content-Type: text/html; charset=utf-8');
         });
         
         $("#corpo_form").hide();
+        
+        function desabilita_rsocial(){
+            document.getElementById("rsocial").disabled = true;
+        }
+        
+        function habilita_rsocial(){
+            document.getElementById("rsocial").disabled = false;
+        }
         
 	</script>
 
