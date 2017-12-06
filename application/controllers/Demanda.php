@@ -537,13 +537,19 @@ class Demanda extends CI_Controller {
                             <a href="' . site_url('demanda/edit/' . $row['id']) . '" class="btn btn-warning btn-sm not-focusable" >
                                     <i class="fa fa-fw fa-pencil-square-o"></i> Atualizar
                             </a>';
-            }
+			}
 
+			
+			
+			$data['menu_opcao_direita'][] = '
+			<a rel="modal_add_edit" data-target="" data-toggle="tooltip" title="Remover Demanda" class="btn btn-sm btn-danger" href="'.site_url('demanda/delete/'.$row['id']).'">
+					<i class="fa fa-close" ></i> Remover 
+			</a>';
 
-            $data['menu_opcao_direita'][] = '
-                    <a href="javascript:vid(0)" title="Remover Demanda ' . $row['residuo'] . ' ? " rel="' . site_url('demanda/delete/' . $row['id']) . '" class="btn btn-sm btn-danger remover" >
-                            <i class="fa fa-close" ></i> Remover 
-                    </a>';
+            /*$data['menu_opcao_direita'][] = '
+				<a href="javascript:vid(0)" title="Remover Demanda ' . $row['residuo'] . ' ? " rel="' . site_url('demanda/delete/' . $row['id']) . '" class="btn btn-sm btn-danger remover" >
+						<i class="fa fa-close" ></i> Remover 
+				</a>';*/
         }
 
         if ($this->session->userdata['empresa']['funcao'] == 2) {
@@ -656,11 +662,26 @@ class Demanda extends CI_Controller {
             redirect(site_url('demanda'));
         } else {
 
-            $this->demanda_model->delete($id, $id_empresa);
+			$data = array();
+			$data['title'] = "Deseja remover a demanda?";
+			$data['id'] = $id;
 
-            $this->session->set_flashdata('resposta_erro', 'Demanda removida com sucesso.');
-            redirect(site_url('demanda'));
+			$this->load->view('demanda/cancelar',$data);
         }
+	}
+	
+	public function delete_motivo() {
+        $this->output->unset_template();
+		
+		$motivo = $this->input->post('motivo_cancela');
+		$id = $this->input->post('id');
+        $id_empresa = $this->session->userdata['empresa']['id'];
+        $row = $this->demanda_model->get_row_demanda($id);
+			
+		$this->demanda_model->delete($id, $id_empresa, $motivo);
+
+		$this->session->set_flashdata('resposta_erro', 'Demanda removida com sucesso.');
+		redirect(site_url('demanda'));
     }
 
     private function validar_form_demanda($id_update=''){
