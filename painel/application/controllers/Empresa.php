@@ -48,6 +48,11 @@ class Empresa extends CI_Controller {
 		 $this->load->helper('datatables');
 
         $data['menu_opcao_direita'][] = anchor(
+			site_url('empresa/index/?ativo=0'), 
+			'<i class="fa fa-fw fa-lock"></i> Bloqueadas', 
+			'class="btn btn-info btn-sm not-focusable filtrar_empresa"  data-toggle="tooltip" title="Empresas Bloqueadas"'
+		);
+		$data['menu_opcao_direita'][] = anchor(
 			site_url('empresa/index/1'), 
 			'<i class="fa fa-fw fa-trash"></i> Geradora', 
 			'class="btn btn-warning btn-sm not-focusable filtrar_empresa"  data-toggle="tooltip" title="Listar Geradora"'
@@ -65,7 +70,20 @@ class Empresa extends CI_Controller {
         $data['menu_opcao_direita'][] = anchor('#', '<i class="fa fa-fw fa-trash"></i> Remover', 'class="btn btn-danger btn-sm not-focusable" id="deletar_row_table"');
 
 
+		$funcoes_empresa = false;
+		
 		// Existe o filtro
+		if ($this->input->get()) {
+			
+			$title = 'Empresa ';
+			if($this->input->get('ativo')!=''){
+				$array_navegacao = array(
+					'Empresas' => 'empresa',
+					'Desabilitados' => ''
+				);
+				$url_ajax = site_url("empresa/ajax_list/?ativo=".$this->input->get('ativo'));
+			}
+		}else
         if ($this->uri->segment(3)) { 
             $funcoes_empresa = $this->uri->segment(3); // Pega a 3º posicao na URL amigavel	
             $row_funcao = $this->empresa_model->get_funcao_row($funcoes_empresa);
@@ -74,12 +92,14 @@ class Empresa extends CI_Controller {
                 'Empresas' => 'empresa',
                 $title => ''
             );
+			$url_ajax = site_url("empresa/ajax_list/".$id_funcao);
         } else {
-            $funcoes_empresa = false;
+            
             $array_navegacao = array(
                 'Empresas' => ''
             );
             $title = 'Empresas ';
+			$url_ajax = site_url("empresa/ajax_list/");
         }
 
         $this->output->set_common_meta($title, '', ''); //Title / Description / Tags
@@ -96,7 +116,7 @@ class Empresa extends CI_Controller {
 		
         $datagrid = array(
             'grid_id' => 'table', // ID tabela html carregamento
-            'load_ajax' => site_url("empresa/ajax_list/".$id_funcao), // URL carregamento ajax Json
+            'load_ajax' => $url_ajax, // URL carregamento ajax Json
             'delete_ajax' => site_url("empresa/deletar"), // URL deletar registro
             'columns' => $table_th
         );
@@ -107,11 +127,11 @@ class Empresa extends CI_Controller {
         $this->load->view('theme/listar', $data);
     }
 	
-	public function ajax_list($id_funcao) {
+	public function ajax_list($id_funcao='') {
 
         $this->output->unset_template();
 
-        $list = $this->empresa_model->get_datatables($id_funcao);
+        $list = $this->empresa_model->get_datatables($id_funcao,$this->input->get());
         $data = array();
         $no = $_POST['start'];
         foreach ($list as $dados) {
@@ -125,7 +145,7 @@ class Empresa extends CI_Controller {
 			$documento = (!empty($dados->cnpj)?$dados->cnpj:$dados->cpf);
             
 			$row[] = '<input type="checkbox" value="' . $dados->id . '" rel="' . $dados->nome_responsavel . '" >';
-		    $row[] = $documento.'<br>'.($dados->id_funcao=='1'?'Geradora':'Coletora');
+		    $row[] = $documento.'<br>'.($dados->id_funcao=='1'?'Geradora':'Coletora').'<br>'.($dados->ativo=='1'?'Habilitada':'Bloqueada');
             $row[] = $empresa;
             $row[] = $dados->telefone1.'<br>'.$dados->telefone2;
             $row[] = '<a href="' . site_url('empresa/edit/' . $dados->id) . '" class="btn btn-sm btn-warning" ><i class="fa fa-fw fa-pencil-square-o"></i></a>';
@@ -135,8 +155,8 @@ class Empresa extends CI_Controller {
 
         $output = array(
             "draw" => $_POST['draw'],
-            "recordsTotal" => $this->empresa_model->count_all($id_funcao),
-            "recordsFiltered" => $this->empresa_model->count_filtered($id_funcao),
+            "recordsTotal" => $this->empresa_model->count_all($id_funcao,$this->input->get()),
+            "recordsFiltered" => $this->empresa_model->count_filtered($id_funcao,$this->input->get()),
             "data" => $data,
         );
 
@@ -724,5 +744,4 @@ class Empresa extends CI_Controller {
         return;
     }
 	
-
 }

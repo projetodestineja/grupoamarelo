@@ -15,7 +15,8 @@
         if(!empty($canonical)){
             echo '<link rel="canonical" href="'.$canonical.'" />';
         }
-        ?>
+        ?>       
+        <link rel="icon" href="<?php echo site_url('assets/img/favicon.ico')?>" />
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
         <!-- Bootstrap core CSS -->
         <link href="<?php echo base_url('assets/pluguins/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">

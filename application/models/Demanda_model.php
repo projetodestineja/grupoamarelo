@@ -55,26 +55,19 @@ class Demanda_model extends CI_Model {
         
         $sql =  "
             select 
-                d.id, d.residuo, d.img, d.qtd, d.data_inicio, d.data_validade, d.obs, d.ger_id_empresa, d.ger_uf_estado,
+                d.id, d.residuo, d.img, d.qtd, d.data_inicio, d.data_validade, d.obs, d.ger_id_empresa, d.ger_uf_estado, d.acondicionado_outro, d.uni_medida_outro,
                 ds.descricao as status, ds.cor,
                 c.nome_cidade,
-				um.nome as medida,
-				um.abreviacao,
-                ac.nome as acondicionado
-
+				(select abreviacao from uni_medida  where id = d.uni_medida) as medida ,
+				(select abreviacao  from acondicionado where id = d.acondicionado) as acondicionado
+ 
             from demandas as d
 			".$list_propostas."
             inner join demandas_status as ds on (d.status = ds.id)
-            inner join cidades as c 
-            inner join uni_medida as um 
-            inner join acondicionado as ac ON  
-                (c.id = d.ger_id_cidade)  
-            and
-                (ac.id = d.acondicionado)
-            and 
-                (um.id = d.uni_medida)
-			and 
-                ".$where."
+
+            inner join cidades as c  ON  (c.id = d.ger_id_cidade)  			
+            	and 
+            ".$where."
             
 				d.removido is null
 			".$filtro2."
@@ -108,10 +101,13 @@ class Demanda_model extends CI_Model {
 						 d.atualizada,
 						 d.residuo,
 						 d.responsavel,
-						 ds.descricao as status, ds.cor,
-						 um.nome as uni_medida_nome,
-						 ac.nome as acondicionado,
-						 d.uni_medida,	
+						 ds.descricao as status, 
+						 ds.cor,
+						 (select nome from uni_medida where id = d.uni_medida) as uni_medida_nome,
+						 (select nome  from acondicionado where id = d.acondicionado) as acondicionado,
+						  d.acondicionado_outro,
+						 d.uni_medida,
+						 d.uni_medida_outro,	
 						 d.status,	
 						 ds.descricao as status_nome,					 
 						 d.img,
@@ -145,12 +141,8 @@ class Demanda_model extends CI_Model {
 						 d.col_uf_estado
 						 
 				 from demandas as d
-				 inner join demandas_status as ds on (d.status = ds.id)
-				 inner join uni_medida as um 
-				 inner join acondicionado as ac ON  
-					(ac.id = d.acondicionado)
-				 and 
-					(um.id = d.uni_medida)
+				 inner join demandas_status as ds on (d.status = ds.id)  
+					
 				 and 
 					d.id= ".(int)$id."
 				limit 1
@@ -181,6 +173,18 @@ class Demanda_model extends CI_Model {
 		}else{
 			$info_completa = true;	
 		}
+		
+		if(empty($row->acondicionado)){
+			$acondicionado = $row->acondicionado_outro;
+		}else{
+			$acondicionado = $row->acondicionado;	
+		}
+		
+		if(empty($row->uni_medida_nome)){
+			$uni_medida_nome = $row->uni_medida_outro;	
+		}else{
+			$uni_medida_nome = $row->uni_medida_nome;
+		}
 	
 		$data = array(
 			/* Dados Demanda ********************/
@@ -200,10 +204,10 @@ class Demanda_model extends CI_Model {
 			'responsavel' =>  $row->responsavel,
 			'residuo' =>  $row->residuo,
 			'img' => $img,
-			'acondicionado' =>  $row->acondicionado,
+			'acondicionado' =>  $acondicionado,
 			'qtd' =>  $row->qtd,
 			'uni_medida' =>  $row->uni_medida,
-			'uni_medida_nome' =>  $row->uni_medida_nome,
+			'uni_medida_nome' =>  $uni_medida_nome,
 			'obs' => $row->obs,
 			
 			/* Dados Empresa Geradora ********************/
@@ -245,13 +249,13 @@ class Demanda_model extends CI_Model {
 	}
     
 	function get_all_medidas(){
-		//$this->db->order_by('ordem','asc');
-		$this->db->order_by('nome','asc');
+
+		  $this->db->order_by('nome','asc');
 	    return $this->db->get('uni_medida')->result();
     }
 	
 	function get_all_acondicionamentos(){
-		//$this->db->order_by('ordem','asc');
+
 		$this->db->order_by('nome','asc');
         return $this->db->get('acondicionado')->result();
     }
@@ -454,6 +458,24 @@ class Demanda_model extends CI_Model {
 		$this->db->set('id_demanda',$id_demanda);
 		$this->db->set('datahora',date('Y-m-d H:i:s'));
 		$this->db->insert('demandas_status_historico');
+	}
+	
+	public  function get_result_status_historico($id_demanda=false){
+		
+		$sql = 'SELECT 
+			dsh.datahora,ds.descricao FROM demandas_status_historico as dsh 
+			INNER JOIN demandas_status as ds 
+			INNER JOIN demandas as dem 
+					ON 
+				(dsh.status=ds.id) 
+					and 
+				(dsh.id_demanda=dem.id) 
+					and
+				dem.ger_id_empresa='.(int) $this->session->userdata['empresa']['id'].'	
+					and
+				dsh.id_demanda = '.(int)$id_demanda.' 
+				 order by dsh.datahora desc';
+		return $this->db->query($sql)->result();	
 	}
         
         function get_abrev_unidade_medida($cod_unidade){

@@ -34,28 +34,29 @@
                     <label><span class="fa fa-chevron-right"></span> Resíduo</label><br>
                     <?php echo $row['residuo']; ?>
                 </div>
-                <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3" >
-                    <label><span class="fa fa-calendar"></span> Data Início / Expiração</label><br>
-                    <?php echo $row['data_inicio'];?> / <?php echo $row['data_validade'];?>
-            	</div>
-                <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3">
-                    <label><i class="fa fa-cube" aria-hidden="true"></i> Acondicionamento</label><br>
-                    <?php echo $row['acondicionado']; ?>
-                </div>
                 <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3">
                     <label><i class="fa fa-cubes" aria-hidden="true"></i> QTD:</label><br>
                     <?php echo $row['qtd']; ?> <?php echo $row['uni_medida_nome']; ?>
                 </div>
-               
+                <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3">
+                    <label><i class="fa fa-cube" aria-hidden="true"></i> Acondicionamento</label><br>
+                    <?php echo $row['acondicionado']; ?>
+                </div>
+                <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3" >
+                    <label><span class="fa fa-calendar"></span> Data Início / Expiração</label><br>
+                    <?php echo $row['data_inicio'];?> - <?php echo $row['data_validade'];?>
+            	</div>
                </div>
     
         
         	<div class="row">
             
+            	<?php if(!empty($row['obs'])){ ?>
             	<div class="form-group col-md-12">
             		<label>Observações:</label><br>
             		<?php echo $row['obs']; ?>
               	</div>
+                <?php } ?>
            		
                 <div class="form-group col-md-12"><hr></div>
                 
