@@ -1,3 +1,4 @@
+
 <?php  if ($this->session->flashdata('msg_proposta')) echo "<div class=\"alert alert-success\">".$this->session->flashdata('msg_proposta')."</div>"; ?>
     
 <ul class="nav nav-tabs" role="tablist">
@@ -7,8 +8,11 @@
     <li class="nav-item">
         <a class="nav-link <?php if ($tab_ativa=='proposta') echo "active"; ?>" href="#propostas" role="tab" data-toggle="tab"><?php echo $tab_proposta; ?></a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link <?php if ($tab_ativa=='inf_coleta') echo "active"; ?>" href="#inf_coleta" role="tab" data-toggle="tab">Informações da Coleta</a>
+    </li>
     
-	<?php if($this->session->userdata['empresa']['funcao']==1){ // Geradora?>
+    <?php if($this->session->userdata['empresa']['funcao']==1){ // Geradora?>
     <li class="nav-item">
         <a class="nav-link" href="#mensagens" role="tab" data-toggle="tab">Mensagens</a>
     </li>
@@ -29,7 +33,8 @@
 	<div id="list_hitorico_status"></div>
   </div>
   <?php } ?>
-  	
+  
+  
   <div role="tabpanel" class="tab-pane  <?php if ($tab_ativa=='demanda') echo "active"; ?>" id="demanda">
 
 	<div class="card">
@@ -50,30 +55,28 @@
                     <label><span class="fa fa-chevron-right"></span> Resíduo</label><br>
                     <?php echo $row['residuo']; ?>
                 </div>
-                <div class="form-group col-12 col-sm-6  col-md-6 col-lg-6 col-xl-3">
-                    <label><i class="fa fa-cubes" aria-hidden="true"></i> QTD:</label><br>
-                    <?php echo $row['qtd']; ?> <?php echo $row['uni_medida_nome']; ?>
-                </div>
-                <div class="form-group col-12 col-sm-6  col-md-6 col-lg-6 col-xl-3">
-                    <label><i class="fa fa-cube" aria-hidden="true"></i> Acondicionamento</label><br>
-                    <?php echo $row['acondicionado']; ?>
-                </div>
                 <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3" >
                     <label><span class="fa fa-calendar"></span> Data Início / Expiração</label><br>
                     <?php echo $row['data_inicio'];?> / <?php echo $row['data_validade'];?>
             	</div>
+                <div class="form-group col-12 col-sm-6  col-md-6 col-lg-6 col-xl-3">
+                    <label><i class="fa fa-cube" aria-hidden="true"></i> Acondicionamento</label><br>
+                    <?php echo $row['acondicionado']; ?>
+                </div>
+                <div class="form-group col-12 col-sm-6  col-md-6 col-lg-6 col-xl-3">
+                    <label><i class="fa fa-cubes" aria-hidden="true"></i> QTD:</label><br>
+                    <?php echo $row['qtd']; ?> <?php echo $row['uni_medida_nome']; ?>
+                </div>
                
                </div>
     
         
         	<div class="row">
-            	
-                <?php if(!empty($row['obs'])){ ?>
+            
             	<div class="form-group col-md-12">
             		<label>Observações:</label><br>
             		<?php echo $row['obs']; ?>
               	</div>
-                <?php } ?>
            		
                 <div class="form-group col-md-12"><hr></div>
                 
@@ -222,11 +225,12 @@
   </div>
     
 <script>
-<?php if($this->session->userdata['empresa']['funcao']==1){ // Geradora?>
-$("#list_hitorico_status").load("<?php echo site_url('demanda/status_demanda_historico/'.$row['id']); ?>");
-$("#list_hitorico_mensagens").load("<?php echo site_url('mensagens/mensagens_demanda/'.$row['id']); ?>");
-<?php } ?>
 $(document).ready(function () {
+  <?php if($this->session->userdata['empresa']['funcao']==1){ // Geradora?>
+  $("#list_hitorico_status").load("<?php echo site_url('demanda/status_demanda_historico/'.$row['id']); ?>");
+  $("#list_hitorico_mensagens").load("<?php echo site_url('mensagens/mensagens_demanda/'.$row['id']); ?>");
+  <?php } ?>
+  
   $(".remover" ).click(function() {
 	if (confirm($(this).attr('title')) == true) {
        location.href= $(this).attr('rel');

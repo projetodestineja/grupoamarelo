@@ -32,16 +32,16 @@
             </div>
           </div>
           <div class="col-xl-3 col-sm-6 mb-3">
-            <div class="card text-white bg-warning o-hidden h-100">
-              <div class="card-body">
-                <div class="card-body-icon">
+            <div class="card text-white bg-warning o-hidden h-100" style="background-color: orange;">
+              <div class="card-body" style="background-color: orange;">
+                <div class="card-body-icon" style="background-color: orange;">
                   <i class="fa fa-fw fa-list"></i>
                 </div>
-                <div class="mr-5">
-                  X Propostas realizadas
+                <div class="mr-5" style="background-color: orange;">
+                  <?php echo $propostas_realizadas; ?> Proposta(s) realizada(s) 
                 </div>
               </div>
-              <a href="#" class="card-footer text-white clearfix small z-1">
+              <a href="#" class="card-footer text-white clearfix small z-1" style="background-color: orange;">
                 <span class="float-left">Ver Propostas</span>
                 <span class="float-right">
                   <i class="fa fa-angle-right"></i>
@@ -56,7 +56,7 @@
                   <i class="fa fa-fw fa-shopping-cart"></i>
                 </div>
                 <div class="mr-5">
-                  X Negócios Fechados
+                  <?php echo $propostas_aceitas; ?> Negócios Fechados
                 </div>
               </div>
               <a href="#" class="card-footer text-white clearfix small z-1">

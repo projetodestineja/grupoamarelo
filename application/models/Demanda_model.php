@@ -39,13 +39,19 @@ class Demanda_model extends CI_Model {
     /*
     * Listamos demandas demandas da empresa
     */
-    public function get_result_demandas_empresa_id($ger_id_empresa, $where, $num_rows=false, $sort = 'd.cadastrada', $order = 'asc', $limit = null, $offset = null) {
+    public function get_result_demandas_empresa_id($ger_id_empresa, $where, $num_rows=false, $list_propostas, $sort = 'd.cadastrada', $order = 'asc', $limit = null, $offset = null) {
        
         if($num_rows==true){
             $filtro = "";
-        }else{
+        } else{
             $filtro = "order by ".$sort." ".$order." limit ".$limit." offset ".$offset."";
-        } 
+		}
+		
+		if($list_propostas){
+			$filtro2 = " group by d.id ";
+		} else{
+			$filtro2 = "";
+		}
         
         $sql =  "
             select 
@@ -56,16 +62,17 @@ class Demanda_model extends CI_Model {
 				(select abreviacao  from acondicionado where id = d.acondicionado) as acondicionado
  
             from demandas as d
+			".$list_propostas."
             inner join demandas_status as ds on (d.status = ds.id)
-            inner join cidades as c  ON  (c.id = d.ger_id_cidade)  
-			
-            	and
-				
-                ".$where."
+
+            inner join cidades as c  ON  (c.id = d.ger_id_cidade)  			
+            	and 
+            ".$where."
             
-                removido is null 
-            ".$filtro."
-        ";
+				d.removido is null
+			".$filtro2."
+			".$filtro."
+		";
         return $this->db->query($sql);
    }
    
@@ -242,11 +249,13 @@ class Demanda_model extends CI_Model {
 	}
     
 	function get_all_medidas(){
-		$this->db->order_by('nome','asc');
+
+		  $this->db->order_by('nome','asc');
 	    return $this->db->get('uni_medida')->result();
     }
 	
 	function get_all_acondicionamentos(){
+
 		$this->db->order_by('nome','asc');
         return $this->db->get('acondicionado')->result();
     }
@@ -293,6 +302,12 @@ class Demanda_model extends CI_Model {
 
     function get_demandas_status(){
         $this->db->where('ativo','1');
+        return $this->db->get('demandas_status')->result();
+	}
+	
+	function get_demandas_status_coletoras(){
+		$this->db->where('ativo','1');
+        $this->db->where('id','2');
         return $this->db->get('demandas_status')->result();
     }
 	
@@ -462,5 +477,10 @@ class Demanda_model extends CI_Model {
 				 order by dsh.datahora desc';
 		return $this->db->query($sql)->result();	
 	}
+        
+        function get_abrev_unidade_medida($cod_unidade){
+             $this->db->where('id',$cod_unidade);
+             return $this->db->get('uni_medida')->row()->abreviacao; 
+        }
         
 }

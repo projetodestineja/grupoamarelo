@@ -33,7 +33,7 @@ class Painel extends CI_Controller {
                 $data['total_coletoras'] = $this->empresa_model->count_all(2);
                 $data['total_geradoras_coletoras'] = $this->empresa_model->count_all(3);
                 $data['empresas_bloqueadas'] = $this->empresa_model->count_all_bloqueadas();
-                
+                $data['propostas_recebidas'] = $this->proposta_model->countpropostas();
                 $data['total_demandas'] = $this->demandas_model->count_all(0);
                 $data['demandas_aguardando'] = $this->demandas_model->count_all(1);
                 
