@@ -28,7 +28,7 @@ class Relatorio extends CI_Controller {
             
             $this->load->view('relatorio/relatorio_propostas',$data);
             
-            } else $this->load->view('errors/acesso_negado');;
+            } else $this->load->view('errors/acesso_negado');
 
 	}
 
