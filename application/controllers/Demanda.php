@@ -684,6 +684,21 @@ class Demanda extends CI_Controller {
 		redirect(site_url('demanda'));
     }
 
+	
+	/*
+	*	Listar histórico de modificações de histórico
+	*/
+	public function status_demanda_historico($id_demanda=false){
+		$this->output->unset_template();
+		
+		$data = array();
+		
+		$data['result'] = $this->demanda_model->get_result_status_historico($id_demanda);
+		
+		$this->load->view('demanda/status_historico',$data);	
+		
+	}
+	
     private function validar_form_demanda($id_update=''){
 		
 		$json = array();
