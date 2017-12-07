@@ -65,7 +65,34 @@
     }, 1000, 'easeInOutExpo');
     event.preventDefault();
   });
+	
+  
+  $(".zoom-foto").fancybox({
+    padding: 0,
 
+    openEffect : 'elastic',
+    openSpeed  : 450,
+
+    closeEffect : 'elastic',
+    closeSpeed  : 350,
+
+    closeClick : true,
+    helpers : {
+        
+		thumbs	: {
+			width	: 50,
+			height	: 50
+		},
+		media : {},
+        overlay : {
+            css : {
+                'background' : 'rgba(255,255,255,0.6)' 
+            }
+        }
+    }
+	
+  });	
+	
   // Call the dataTables jQuery plugin
   $(document).ready(function() {
 	if($("#dataTable").length){
