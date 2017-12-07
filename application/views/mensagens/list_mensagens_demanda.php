@@ -19,5 +19,5 @@
 <?php } ?> 
 </div>
 <?php  }else{  ?>
-  <h5><i class="fa fa-comments" aria-hidden="true"></i> Nenhuma mensagem recebida</h5>
+   Nenhuma mensagem recebida
 <?php } ?>

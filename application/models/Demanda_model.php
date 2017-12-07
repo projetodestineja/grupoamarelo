@@ -475,7 +475,7 @@ class Demanda_model extends CI_Model {
 				dem.ger_id_empresa='.(int) $this->session->userdata['empresa']['id'].'	
 					and
 				dsh.id_demanda = '.(int)$id_demanda.' 
-				 order by dsh.datahora desc';
+				 order by dsh.datahora asc,dsh.id desc';
 		return $this->db->query($sql)->result();	
 	}
         
