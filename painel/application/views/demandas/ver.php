@@ -25,7 +25,13 @@
       
 		<div class="form-row">
             <div class="col-md-2">
-                <img src="<?php echo $row['img']; ?>" alt="..." class="img-fluid"  >
+                <?php if(!empty($row['img_media'])){ ?>
+            	<a href="<?php echo $row['img_media']; ?>" class="zoom-foto" title="<?php echo $row['residuo']; ?>" >
+                	<img src="<?php echo $row['img']; ?>" alt="..." class="img-fluid" >
+                </a>
+                <?php }else{ ?>
+                	<img src="<?php echo $row['img']; ?>" alt="..." class="img-fluid" >
+                <?php } ?>
             </div>
         	<div class="col-md-10">
          <div class="resposta_json" ></div>

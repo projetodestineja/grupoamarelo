@@ -13,6 +13,11 @@ class Demandas extends CI_Controller {
 	}
 
 	private function _init(){
+		
+		//fancybox
+		$this->load->js('assets/pluguins/fancybox/source/jquery.fancybox.js');
+		$this->load->css('assets/pluguins/fancybox/source/jquery.fancybox.css');
+		
 		$this->output->set_template('default');
 	}
 

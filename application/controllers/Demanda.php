@@ -24,6 +24,10 @@ class Demanda extends CI_Controller {
 
         $this->load->css('painel/assets/pluguins/jasny-bootstrap/css/jasny-bootstrap.min.css');
         $this->load->js('painel/assets/pluguins/jasny-bootstrap/js/jasny-bootstrap.min.js');
+		
+		//fancybox
+		$this->load->js('painel/assets/pluguins/fancybox/source/jquery.fancybox.js');
+		$this->load->css('painel/assets/pluguins/fancybox/source/jquery.fancybox.css');
 
         /*         * **** Busca cep ************* */
         $this->load->js('painel/assets/pluguins/buscacep.js');
@@ -300,8 +304,10 @@ class Demanda extends CI_Controller {
 		$img = 'uploads/empresa/'.$row->ger_id_empresa.'/demanda/mini/'.$row->img;
 		if(is_file($img)){
 			$data['img_capa'] = base_url($img);
+			$data['img_media'] = base_url('uploads/empresa/'.$row->ger_id_empresa.'/demanda/media/'.$row->img);
 		}else{
 			$data['img_capa'] = base_url('painel/assets/img/demanda_sem_img.jpg');
+			$data['img_media'] = '';
 		}
 		$data['responsavel'] =  $row->responsavel;
 		$data['residuo'] =  $row->residuo;
