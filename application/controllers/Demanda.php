@@ -445,6 +445,7 @@ class Demanda extends CI_Controller {
 					'atualizada' => date('Y-m-d H:i:s'),
 					'data_inicio' => $data_inicio,
 					'data_validade' => $data_validade,
+					'status' => 2,
 					
 					'responsavel' => $this->input->post('responsavel'), 
 					'residuo' => $this->input->post('residuo'),
