@@ -89,7 +89,7 @@
                 
                 <?php if (!empty($pr->removido)) { ?>
                 <div class="form-row">
-                    <div class="form-group col-12 alert alert-danger">
+                    <div class="form-group col-12 alert alert-danger" style="font-weight: bold;">
                          Proposta removida em <?php echo date('d/m/Y', strtotime(str_replace("/","-",$pr->removido))); ?>. Motivo: <?php echo $pr->motivo_remocao; ?>
                     </div>
                 </div>
