@@ -5,7 +5,7 @@ class Relatorio extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-                $this->load->library('fpdf');
+                $this->load->library('Fpdf');
                 $this->load->model(array('proposta_model','demanda_model','login_model'));
                 $this->login_model->restrito();
 	}

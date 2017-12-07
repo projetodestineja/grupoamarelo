@@ -565,6 +565,7 @@ class Demanda extends CI_Controller {
 
             // salva local de destinação final se o post for do btsalvalocal
             if ($this->input->post('btsalvarlocal')) {
+                $data4['nome_local'] = $this->input->post('nome_local');
                 $data4['id_demanda'] = $this->input->post('id_demanda');
                 $data4['id_empresa_coletora'] = $this->input->post('id_empresa_coletora');
                 $data4['cep'] = $this->input->post('cep');
@@ -577,6 +578,8 @@ class Demanda extends CI_Controller {
                 $data4['obs'] = $this->input->post('obs');
 
                 $this->destinacao_model->gravar($data4);
+                $this->demanda_model->muda_status($data4['id_demanda'],4); //finalizando status da demanda
+                $this->demanda_model->set_historico(4,$data4['id_demanda']);
             }
 
             // se estiver cancelando uma proposta

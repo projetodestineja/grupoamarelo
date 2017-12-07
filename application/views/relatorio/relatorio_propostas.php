@@ -6,8 +6,8 @@ $this->fpdf->SetFont('Arial','B',14);
 
 $titulo = 'Relatório de Propostas Recebidas Para Coleta de Resíduo';
 
-$this->fpdf->Image(site_url('painel/assets/img/destinejalogo.png') , 160 ,10, 35 , 10,'PNG');
-$this->fpdf->Cell(186,10,$titulo,0,0,'l');
+$this->fpdf->Image(site_url('painel/assets/img/destinejalogo.png') , 12 ,10, 35 , 10,'PNG');
+$this->fpdf->Cell(186,10,$titulo,0,0,'R');
 
 $this->fpdf->Ln(15);
 $this->fpdf->SetFont('Arial','b',12);

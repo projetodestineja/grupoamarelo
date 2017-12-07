@@ -12,6 +12,12 @@
             <form action="" method="POST">    
                 <input hidden type="text" class="form-control" id="id_demanda" name="id_demanda" value="<?php if (isset($id_demanda)) echo $id_demanda;?>" >
                 <input hidden type="text" class="form-control" id="id_empresa_coletora" name="id_empresa_coletora" value="<?php if (isset($id_empresa_coletora)) echo $id_empresa_coletora;?>" >
+               <div class="form-row">
+                <div class="form-group col-md-12">
+                        <label for="nome_local" class="col-form-label">Nome do local de destinação final</label>
+                        <input type="text" class="form-control" id="nome_local" name="nome_local" value="<?php if (isset($nome_local)) echo $nome_local;?>" <?php if (isset($obs) || ($this->session->userdata['empresa']['funcao'] == 1)) echo "disabled";?> >
+                </div>
+               </div>
                 <div class="form-row">
                     <div class="form-group col-md-2 required">
                         <label for="cep" class="col-form-label">CEP</label>

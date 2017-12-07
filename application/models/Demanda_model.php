@@ -487,4 +487,11 @@ class Demanda_model extends CI_Model {
              return $this->db->get('uni_medida')->row()->abreviacao; 
         }
         
+        function muda_status($id_demanda,$status){
+		$this->db->where('id',$id_demanda);
+		$this->db->set('atualizada',date('Y-m-d H:i:s'));
+		$this->db->set('status',$status);
+		$this->db->update('demandas');
+		
+	}
 }
