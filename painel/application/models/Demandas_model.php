@@ -105,8 +105,10 @@ class Demandas_model extends CI_Model {
 		//print_r($row);
 
 		$capa = '../uploads/empresa/'.$row->ger_id_empresa.'/demanda/mini/'.$row->img;
+		$capa_media = '../uploads/empresa/'.$row->ger_id_empresa.'/demanda/media/'.$row->img;
 
 		$img = (is_file( $capa)?base_url($capa):base_url('assets/img/demanda_sem_img.jpg')); 
+		$img_media = (is_file( $capa)?base_url($capa_media):'');
 		
 		if(empty($row->acondicionado)){
 			$acondicionado = $row->acondicionado_outro;
@@ -135,6 +137,7 @@ class Demandas_model extends CI_Model {
 			'responsavel' =>  $row->responsavel,
 			'residuo' =>  $row->residuo,
 			'img' => $img,
+			'img_media' => $img_media,
 			'acondicionado' =>  $acondicionado,
 			'qtd' =>  $row->qtd,
 			'uni_medida' =>  $row->uni_medida,
@@ -196,7 +199,7 @@ class Demandas_model extends CI_Model {
 		if($id_demanda){
 			$where.= ' and dsh.id_demanda = '.(int)$id_demanda.' ';	
 		}
-		$sql = 'SELECT dsh.datahora,ds.descricao FROM demandas_status_historico as dsh INNER JOIN demandas_status as ds ON (dsh.status=ds.id) '.$where.' order by dsh.datahora desc';
+		$sql = 'SELECT dsh.datahora,ds.descricao FROM demandas_status_historico as dsh INNER JOIN demandas_status as ds ON (dsh.status=ds.id) '.$where.' order by dsh.datahora desc,dsh.id desc';
 		return $this->db->query($sql)->result();	
 	}
 
