@@ -25,7 +25,7 @@
       
 		<div class="form-row">
             <div class="col-md-2">
-                <img src="<?php echo $row['img']; ?>" alt="...">
+                <img src="<?php echo $row['img']; ?>" alt="..." class="img-fluid"  >
             </div>
         	<div class="col-md-10">
          <div class="resposta_json" ></div>
