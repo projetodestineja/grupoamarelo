@@ -8,6 +8,14 @@
         
         
         <div class="card-block">
+        
+        	
+            <?php
+			 if (isset($obs) || $this->session->userdata['empresa']['funcao'] ==2){
+				$this->load->view('coleta/form_upload_comprovante'); 
+			 }
+			?>
+             
             <div style="padding:15px;">
             <form action="" method="POST">    
                 <input hidden type="text" class="form-control" id="id_demanda" name="id_demanda" value="<?php if (isset($id_demanda)) echo $id_demanda;?>" >
@@ -73,8 +81,13 @@
             </div>
         </div>
         
+       
+        
     </div>
-    <?PHP } else echo "Não existe destinação final cadastrada pela empresa responsável pela coleta do resíduo." ?>    
+    
+    
+    
+    <?php } else echo "Não existe destinação final cadastrada pela empresa responsável pela coleta do resíduo." ?>    
 </div>
 
 <script>

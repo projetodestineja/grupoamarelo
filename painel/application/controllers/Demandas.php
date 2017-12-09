@@ -8,7 +8,7 @@ class Demandas extends CI_Controller {
     $this->login_model->restrito();
 		$this->load->model('demandas_model');
 		$this->load->model('endereco_model');
-		$this->load->library(array('pagination'));
+		$this->load->library(array('pagination','util'));
 		$this->_init();
 	}
 
@@ -281,5 +281,103 @@ class Demandas extends CI_Controller {
 		
 		$this->load->view('demandas/filtro',$data);
 	}
+	
+	
+	/*
+	*	Cadastrar arquivo comprovante demanda
+	*/
+	public function comprovante_arquivo_add($id_demanda = 0) {
+		
+        $this->output->unset_template();
+
+        $json = array();
+
+        if ($id_demanda == 0) {
+            $json['error'] = $json['error_empresa'] = 'Erro o identificar demanda';
+        }
+       
+        if (!is_uploaded_file($_FILES['licenca']['tmp_name'])) {
+			
+			 $json['error'] = $json['error_empresa'] = 'Selecione o arquivo a ser cadastrado';	
+			
+		}else{
+			
+			$this->load->library('upload');
+			
+            $dir_upload = '../uploads/demandas/'.$id_demanda; //diretório para upload
+            
+			if (!is_dir($dir_upload)) { 
+                mkdir($dir_upload, 0777, true);   
+            }
+
+            // Config upload
+			$config['upload_path'] = $dir_upload;
+            $config['allowed_types'] = 'pdf';
+            $config['file_name'] = date('Y-m-d_H-i') . '_ID' . $id_demanda . '_' . rand(1000, 9999); // Data Upload / ID empresa / Rand entre 1000 e 9999 
+            $config['max_filename_increment'] = 300;
+            $config['max_size'] = 10240; //(10*1024kb) = 10MB
+            $config['max_width'] = 5024;
+            $config['max_height'] = 5068;
+
+            $this->upload->initialize($config);
+
+            if (!$this->upload->do_upload('licenca')) {
+                $json['error'] = $json['error_licenca'] = $this->upload->display_errors('', '');
+            } else {
+                $upload = $this->upload->data();
+                $nome_arquivo = $upload['file_name'];
+            }
+        }
+
+        if (!$this->input->post('titulo')) {
+            $json['error'] = $json['error_titulo'] = 'Digite o nome do arquivo';
+        }
+
+        if (!$json) {
+			
+            $this->demandas_model->comprovante_arquivo_insert($this->input->post(), $nome_arquivo, $id_demanda);
+            $json['resposta'] = 'Arquivo cadastrado com sucesso';
+            $json['id_demanda'] = $id_demanda;
+			$json['ok'] = true;
+        }
+
+        echo json_encode($json);
+    }
+	
+	
+	 public function arquivo_download($id_arquivo) {
+
+        $this->output->unset_template();
+
+        $row = $this->demandas_model->comprovante_arquivo_list_row($id_arquivo);
+		
+		if(isset($row)){
+			
+			$arquivo = '../uploads/demandas/' . $row->id_demanda. '/' . $row->arquivo;
+			
+			$nome_saida = $row->titulo;
+			
+			if (is_file($arquivo)) {
+				$this->util->ArquivoVer($arquivo, $nome_saida);
+			} else {
+				echo 'arquivo não encontrado';
+				exit;
+			}
+		}else{
+			echo 'Erro interno';
+			exit;
+		}
+    }
+	
+	public function comprovante_arquivo_list($id_demanda) {
+		
+		$this->output->unset_template();
+		
+        $id_empresa = (int) $this->session->userdata['empresa']['id'];
+        
+        $data['result'] = $this->demandas_model->comprovante_arquivo_list_result($id_demanda);
+
+        $this->load->view('coleta/comprovante_arquivo_list', $data);
+    }
 
 }

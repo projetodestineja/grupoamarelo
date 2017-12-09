@@ -237,5 +237,65 @@ class Demandas_model extends CI_Model {
                                     and MONTH(cadastrada) = $mes")->row();
         } else return 0;
 	}
+	
+	
+	function comprovante_arquivo_insert($post, $nome_arquivo, $id_demanda){
+		
+		$data = array(
+			'titulo' => $post['titulo'],
+			'arquivo' => $nome_arquivo,
+			'id_demanda' => $id_demanda
+		);
+		
+		$this->db->insert('demandas_comprovante_arquivo',$data);
+	}
+	
+	function comprovante_arquivo_list_result($id_demanda){
+		
+		
+        $sql = 'SELECT 
+		dca.id,
+		dca.titulo,
+		dca.cadastrado,
+		dca.arquivo
+		FROM 
+		' . $this->db->dbprefix('demandas_comprovante_arquivo') . ' dca 
+		INNER JOIN 
+		' . $this->db->dbprefix('demandas') . ' d 
+		INNER JOIN 
+		' . $this->db->dbprefix('destinacao_final_residuo') . ' dfr   
+		ON (dca.id_demanda = d.id)
+			and
+		dca.id_demanda = ' . (int)$id_demanda . ' 
+			and
+		dfr.id_demanda = ' . (int)$id_demanda . ' 
+		
+		order by dca.id desc
+		';
+		
+        return $this->db->query($sql)->result();
+  	}
+	
+	function comprovante_arquivo_list_row($id){
+		
+		
+        $sql = 'SELECT 
+		dca.titulo,
+		dca.id_demanda,
+		dca.arquivo
+		FROM 
+		' . $this->db->dbprefix('demandas_comprovante_arquivo') . ' dca 
+		INNER JOIN 
+		' . $this->db->dbprefix('demandas') . ' d  
+		INNER JOIN 
+		' . $this->db->dbprefix('destinacao_final_residuo') . ' dfr   
+		ON (dca.id_demanda = d.id)
+			and
+		dca.id = ' . (int)$id . ' 
+		 limit 1
+		';
+
+        return $this->db->query($sql)->row();
+  	}
     
 }
