@@ -9,7 +9,7 @@
         <a class="nav-link <?php if ($tab_ativa=='proposta') echo "active"; ?>" href="#propostas" role="tab" data-toggle="tab"><?php echo $tab_proposta; ?></a>
     </li>
     <li class="nav-item">
-        <a class="nav-link <?php if ($tab_ativa=='inf_coleta') echo "active"; ?>" href="#inf_coleta" role="tab" data-toggle="tab">Comprovante de destinação</a>
+        <a class="nav-link <?php if ($tab_ativa=='inf_coleta') echo "active"; ?>" href="#inf_coleta" role="tab" data-toggle="tab">Comprovante de Destinação</a>
     </li>
     
     <?php if($this->session->userdata['empresa']['funcao']==1){ // Geradora?>

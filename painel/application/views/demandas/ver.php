@@ -232,7 +232,10 @@
 	</div>
     
     <div role="tabpanel" class="tab-pane" id="propostas_recebidas">
-    	<div id="list_propostas_recebidas" ><img src="<?php echo base_url('assets/img/ajax-loader.gif') ?>" ></div>
+    	
+		<?php $this->load->view('coleta/form_upload_comprovante'); ?>
+        <div id="list_propostas_recebidas" ><img src="<?php echo base_url('assets/img/ajax-loader.gif') ?>" ></div>
+        
     </div>
     
     <div role="tabpanel" class="tab-pane" id="historico_status">
