@@ -23,6 +23,7 @@ header('Content-Type: text/html; charset=utf-8');
             echo '<link rel="canonical" href="' . $canonical . '" />';
         }
         ?>
+        <link rel="icon" href="<?php echo site_url('painel/assets/img/favicon.ico')?>" />
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
         <!-- Bootstrap core CSS -->
         <link href="<?php echo base_url('painel/assets/pluguins/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">
@@ -73,11 +74,11 @@ header('Content-Type: text/html; charset=utf-8');
         </ol>
         <?php } ?>
 
-        <div class="row" >
-            <div class="col-md-8">
-                <h1 style="font-size:27px;"><?php echo $title; ?></h1>
+        <div class="row" style="margin-top:15px;">
+            <div class="col-md-6">
+                <h1 style="font-size:27px; margin-bottom:30px;"><?php echo $title; ?></h1>
             </div>
-            <div class="col-md-4 text-right">
+            <div class="col-md-6 text-right">
             <span id="colvis"></span>
             <?php
 				if(isset($menu_opcao_direita)){

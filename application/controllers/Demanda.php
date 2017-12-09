@@ -1,161 +1,206 @@
 <?php
+header('Content-Type: text/html; charset=utf-8');
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Demanda extends CI_Controller {
 
-	function __construct(){
-		parent::__construct();
-		
-		// ACESSO RESTRITO
-		$this->login_model->restrito();
+    function __construct() {
+        parent::__construct();
 
-        $this->load->model(array('empresa_model', 'demanda_model', 'endereco_model','estado_model','proposta_model'));
-		$this->load->library(array('form_validation','util','upload','pagination'));
-		$this->_init();
-	}
+        // ACESSO RESTRITO
+        $this->login_model->restrito();
 
-    private function _init(){  
-		     
-		/****** Pluguin Calendário Input **************/
+        $this->load->model(array('empresa_model', 'demanda_model', 'endereco_model', 'estado_model', 'proposta_model', 'destinacao_model', 'cidade_model'));
+        $this->load->library(array('form_validation', 'util', 'upload', 'pagination'));
+        $this->_init();
+    }
+
+    private function _init() {
+
+        /*         * **** Pluguin Calendário Input ************* */
         $this->load->css('painel/assets/pluguins/datepicker/css/bootstrap-datepicker.min.css');
         $this->load->js('painel/assets/pluguins/datepicker/js/bootstrap-datepicker.min.js');
         $this->load->js('painel/assets/pluguins/datepicker/locales/bootstrap-datepicker.pt-BR.min.js');
-			
-		$this->load->css('painel/assets/pluguins/jasny-bootstrap/css/jasny-bootstrap.min.css');
-		$this->load->js('painel/assets/pluguins/jasny-bootstrap/js/jasny-bootstrap.min.js');
+
+        $this->load->css('painel/assets/pluguins/jasny-bootstrap/css/jasny-bootstrap.min.css');
+        $this->load->js('painel/assets/pluguins/jasny-bootstrap/js/jasny-bootstrap.min.js');
 		
-        /****** Busca cep **************/
+		//fancybox
+		$this->load->js('painel/assets/pluguins/fancybox/source/jquery.fancybox.js');
+		$this->load->css('painel/assets/pluguins/fancybox/source/jquery.fancybox.css');
+
+        /*         * **** Busca cep ************* */
         $this->load->js('painel/assets/pluguins/buscacep.js');
-           
-        
-		$this->output->set_template('default');
-		 
-	}
-        
-	public function index(){
-	   
-		// Geradora
+
+
+        $this->output->set_template('default');
+    }
+
+    public function index() {
+
+        // Geradora
         if ($this->session->userdata['empresa']['funcao']==1){ 
-		   
-			$dados['demandas'] = $this->demanda_model->lista_demandasbyid($this->session->userdata['empresa']['id']);
 			
-			$this->output->set_common_meta('Demandas da Geradora de Resíduos','',''); 
-            $dados['menu_opcao_direita'][] = anchor(
-				'demanda/add',
-				'<i class="fa fa-fw fa-plus"></i> Nova Demanda',
-				'class="btn btn-primary btn-sm not-focusable" data-toggle="tooltip" title="Clique aqui para cadastrar uma demanda"'
-			);
-			$dados['url_ajax'] = site_url('demanda/get_list');
-			
-        } else
-        if ($this->session->userdata['empresa']['funcao']==2){
-			
-			$row = $this->empresa_model->get_row_empresa($this->session->userdata['empresa']['id']);
-			
-            $nome_estado = $this->estado_model->busca_nomeestadobyuf($row->uf_estado);
-            $data['local'] = $nome_estado;
-			
-            if ($this->input->get('cidade')){
-				
-				$this->load->model('cidade_model');
-				$cidade = $this->cidade_model->getcidadebyid($this->input->get('cidade'));
-				
-				//$dados['demandas'] = $this->demanda_model->lista_demandasbycidade($this->session->userdata['empresa']['id_cidade']);
-				
-				$this->output->set_common_meta('Demandas para Coleta em '.$cidade->nome_cidade.'/'.$cidade->uf,'',''); 
-				
-            }else if ($this->input->get('estado')){
-				
-				$this->output->set_common_meta('Demandas para Coleta em '.$this->input->get('estado'),'',''); 
-				
-			}else{
-				
-				$this->output->set_common_meta('Demandas para Coleta','',''); 
-				
-			}
-			
-			/*
-			* Montamos a url para o ajax
-			*/
-			$url_ajax = 'demanda/get_list/?';
-			if($this->input->get('cidade')){
-				$url_ajax.='&cidade='.$this->input->get('cidade');
-			}
-			if($this->input->get('estado')){
-				$url_ajax.='&estado='.$this->input->get('estado');
-			}
-			if($this->input->get('status')){
-				$url_ajax.='&status='.$this->input->get('status');
-			}
-			if($this->input->get('categoria')){
-				$url_ajax.='&categoria='.$this->input->get('categoria');
-			}
-			$dados['url_ajax'] = site_url($url_ajax);
-			
-			$dados['menu_opcao_direita'][] = anchor(
-				'demanda/modal_filtro',
-				'<i class="fa fa-fw fa-filter"></i> Filtro',
-				'class="btn btn-primary btn-sm not-focusable" rel="modal_add_edit" data-toggle="tooltip" title="Fazer Filtro"'
-			);
-			
-        } 
+			 $dados['demandas'] = $this->demanda_model->lista_demandasbyid($this->session->userdata['empresa']['id']);
+			 
+			 $this->output->set_common_meta('Demandas da Geradora de Resíduos','',''); 
+			 $dados['menu_opcao_direita'][] = anchor(
+				 'demanda/add',
+				 '<i class="fa fa-fw fa-plus"></i> Nova Demanda',
+				 'class="btn btn-primary btn-sm not-focusable" data-toggle="tooltip" title="Clique aqui para cadastrar uma demanda"'
+			 );
+			 $dados['url_ajax'] = site_url('demanda/get_list');
+			 
+		 } else
+		 if ($this->session->userdata['empresa']['funcao']==2){
+			 
+			 $row = $this->empresa_model->get_row_empresa($this->session->userdata['empresa']['id']);
+			 
+			 $nome_estado = $this->estado_model->busca_nomeestadobyuf($row->uf_estado);
+			 $data['local'] = $nome_estado;
+			 
+			 if ($this->input->get('cidade')){
+				 
+				 $this->load->model('cidade_model');
+				 $cidade = $this->cidade_model->getcidadebyid($this->input->get('cidade'));
+				 
+				 //$dados['demandas'] = $this->demanda_model->lista_demandasbycidade($this->session->userdata['empresa']['id_cidade']);
+				 
+				 $this->output->set_common_meta('Demandas para Coleta em '.$cidade->nome_cidade.'/'.$cidade->uf,'',''); 
+				 
+			 }else if ($this->input->get('estado')){
+				 
+				 $this->output->set_common_meta('Demandas para Coleta em '.$this->input->get('estado'),'',''); 
+				 
+			 }else if ($this->input->get('propostas')){
+				 
+				 $this->output->set_common_meta('Demandas que Enviei Proposta','','');
+ 
+			 } else if ($this->input->get('propostas_aceitas')){
+ 
+				 $this->output->set_common_meta('Demandas com Proposta Aceita','','');
+ 
+			 } else{
+				 
+				 $this->output->set_common_meta('Demandas para Coleta','',''); 
+				 
+			 }
+			 
+			 /*
+			 * Montamos a url para o ajax
+			 */
+			 $url_ajax = 'demanda/get_list/?';
+			 if($this->input->get('cidade')){
+				 $url_ajax.='&cidade='.$this->input->get('cidade');
+			 }
+			 if($this->input->get('estado')){
+				 $url_ajax.='&estado='.$this->input->get('estado');
+			 }
+			 if($this->input->get('status')){
+				 $url_ajax.='&status='.$this->input->get('status');
+			 }
+			 if($this->input->get('categoria')){
+				 $url_ajax.='&categoria='.$this->input->get('categoria');
+			 }
+			 if($this->input->get('propostas')){
+				 $url_ajax.='&propostas='.$this->input->get('propostas');
+			 }if($this->input->get('propostas_aceitas')){
+				 $url_ajax.='&propostas_aceitas='.$this->input->get('propostas_aceitas');
+			 }
+			 $dados['url_ajax'] = site_url($url_ajax);
+			 
+			 $dados['menu_opcao_direita'][] = anchor(
+				 'demanda?propostas=1',
+				 '<i class="fa fa-fw fa-handshake-o"></i> Propostas Enviadas',
+				 'class="btn btn-info btn-sm not-focusable" data-toggle="tooltip" title="Listar as demandas que enviei proposta"'
+			 );
+ 
+			 $dados['menu_opcao_direita'][] = anchor(
+				 'demanda?propostas_aceitas=1',
+				 '<i class="fa fa-fw fa-thumbs-o-up"></i> Propostas Aceitas',
+				 'class="btn btn-info btn-sm not-focusable" data-toggle="tooltip" title="Listar as demandas que minha proposta foi aceita"'
+			 );
+ 
+			 $dados['menu_opcao_direita'][] = anchor(
+				 'demanda/',
+				 '<i class="fa fa-fw fa-list"></i>',
+				 'class="btn btn-primary btn-sm not-focusable" data-toggle="tooltip" title="Listar todas as demandas"'
+			 );
+ 
+			 $dados['menu_opcao_direita'][] = anchor(
+				 'demanda/modal_filtro',
+				 '<i class="fa fa-fw fa-filter"></i>',
+				 'class="btn btn-primary btn-sm not-focusable" rel="modal_add_edit" data-toggle="tooltip" title="Filtrar as demandas"'
+			 );
+			 
+		 } 
+		 
+		   $this->load->view('demanda/index',$dados);
+    }
+
+    public function get_list() {
+
+        $this->output->unset_template();
 		
-      	$this->load->view('demanda/index',$dados);
-	}
-
-
-	public function get_list(){
+				$data = array();
+				$result = array();
+				$where = '';
+				$prefix = '';
+				$id_empresa = $this->session->userdata['empresa']['id'];
+				$list_propostas = '';
 		
-		$this->output->unset_template();
-
-		$data = array();
-		$result = array();
-		$where = '';
-		$prefix = '';
-		$id_empresa = $this->session->userdata['empresa']['id'];
-
-		if($this->session->userdata['empresa']['funcao']==1){ // 1 Geradora
-			$where.= " d.ger_id_empresa = '".(int)$id_empresa."' and  ";
-		}else
-		if($this->session->userdata['empresa']['funcao']==2){ // 2 Coletora
-			if($this->input->get('cidade')){
-				$where.= " d.ger_id_cidade = '".(int)$this->input->get('cidade')."' and  ";
-				$prefix = '&estado='.$this->input->get('estado').'&cidade='.$this->input->get('cidade');
-			}
-			if($this->input->get('status')){
-				$where.= " d.status = ".$this->input->get('status')." and  ";
-				$prefix = '&status='.$this->input->get('status');
-			}
-			if($this->input->get('estado')){
-				$where.= " d.ger_uf_estado = '".$this->input->get('estado')."' and  ";
-				$prefix = '&estado='.$this->input->get('estado');
-			}
-			if($this->input->get('categoria')){
-				$where.= " d.id_cat_residuo = ".$this->input->get('categoria')." and  ";
-				$prefix = '&categoria='.$this->input->get('categoria');
-			}
-		}
+				if($this->session->userdata['empresa']['funcao']==1){ // 1 Geradora
+					$where.= " d.ger_id_empresa = '".(int)$id_empresa."' and  ";
+				}else
+				if($this->session->userdata['empresa']['funcao']==2){ // 2 Coletora
+					if($this->input->get('cidade')){
+						$where.= " d.ger_id_cidade = '".(int)$this->input->get('cidade')."' and  ";
+						$prefix = '&estado='.$this->input->get('estado').'&cidade='.$this->input->get('cidade');
+					}
+					/*if($this->input->get('status')){
+						$where.= " d.status = ".$this->input->get('status')." and  ";
+						$prefix = '&status='.$this->input->get('status');
+					}*/
+					if($this->input->get('estado')){
+						$where.= " d.ger_uf_estado = '".$this->input->get('estado')."' and  ";
+						$prefix = '&estado='.$this->input->get('estado');
+					}
+					if($this->input->get('categoria')){
+						$where.= " d.id_cat_residuo = ".$this->input->get('categoria')." and  ";
+						$prefix = '&categoria='.$this->input->get('categoria');
+					}
+					//caso o gerador queira listar somente demandas que ele enviou proposta
+					if($this->input->get('propostas')){
+						$list_propostas = " join propostas as prp on (d.id = prp.id_demanda) and (prp.id_empresa_coletora = ".$id_empresa.") ";
+						$where.= " d.status = 2 and  ";
+						$prefix = '&propostas='.$this->input->get('propostas');
+					} else if($this->input->get('propostas_aceitas')){
+						$list_propostas = " join propostas as prp on (d.id = prp.id_demanda) and (prp.id_empresa_coletora = ".$id_empresa.") and (prp.aceita = 'Sim') ";
+						$prefix = '&propostas_aceitas='.$this->input->get('propostas_aceitas');
+					}else{
+						$where.= " d.status = 2 and ";
+					}
+				}
+				
+				$config = array(
+					"base_url" => base_url('demanda/get_list/'),
+					"reuse_query_string" => true,
+					"per_page" => 5, //Quantiade de registros litados
+					"uri_segment" => 3, //URI a ser pegado para identificar a página a ser visualizada
+					"total_rows" => $this->demanda_model->get_result_demandas_empresa_id($id_empresa,$where,true,$list_propostas)->num_rows(),
+					"first_link" => TRUE,
+					"last_link" => TRUE
+				);
 		
-		$config = array(
-			"base_url" => base_url('demanda/get_list/'),
-			"reuse_query_string" => true,
-			"per_page" => 5, //Quantiade de registros litados
-			"uri_segment" => 3, //URI a ser pegado para identificar a página a ser visualizada
-			"total_rows" => $this->demanda_model->get_result_demandas_empresa_id($id_empresa,$where,true)->num_rows(),
-			"first_link" => TRUE,
-			"last_link" => TRUE
-		);
+				$this->pagination->initialize($config);
+				$data['pagination'] = $this->pagination->create_links();
+				$offset = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+				$data['result'] = $this->demanda_model->get_result_demandas_empresa_id($id_empresa,$where,false,$list_propostas,'d.cadastrada','desc',$config['per_page'],$offset)->result();
+				
+				$this->load->view('demanda/list',$data);
+    }
 
-		$this->pagination->initialize($config);
-		$data['pagination'] = $this->pagination->create_links();
-		$offset = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-		$data['result'] = $this->demanda_model->get_result_demandas_empresa_id($id_empresa,$where,false,'d.cadastrada','desc',$config['per_page'],$offset)->result();
-		
-		$this->load->view('demanda/list',$data);
-	}
-	
-	
-	/*
+    /*
 	*	Página Adicionar Demanda
 	*/
 	public function add(){
@@ -185,8 +230,10 @@ class Demanda extends CI_Controller {
 		$data['residuo'] = '';
 		$data['categoria_residuo'] = '';
 		$data['acondicionado'] = '';
+		$data['acondicionado_outro'] = '';
 		$data['qtd'] = '';
 		$data['uni_medida'] = '';
+		$data['uni_medida_outro'] = '';
 		$data['obs'] = '';
 		
 		/* Dados Empresa Geradora ********************/
@@ -257,15 +304,19 @@ class Demanda extends CI_Controller {
 		$img = 'uploads/empresa/'.$row->ger_id_empresa.'/demanda/mini/'.$row->img;
 		if(is_file($img)){
 			$data['img_capa'] = base_url($img);
+			$data['img_media'] = base_url('uploads/empresa/'.$row->ger_id_empresa.'/demanda/media/'.$row->img);
 		}else{
 			$data['img_capa'] = base_url('painel/assets/img/demanda_sem_img.jpg');
+			$data['img_media'] = '';
 		}
 		$data['responsavel'] =  $row->responsavel;
 		$data['residuo'] =  $row->residuo;
 		$data['categoria_residuo'] = $row->categoria_residuo;
 		$data['acondicionado'] =  $row->acondicionado;
+		$data['acondicionado_outro'] =  $row->acondicionado_outro;
 		$data['qtd'] =  $row->qtd;
 		$data['uni_medida'] =  $row->uni_medida;
+		$data['uni_medida_outro'] =  $row->uni_medida_outro;
 		$data['obs'] = $row->obs;
 		
 		/* Dados Empresa Geradora ********************/
@@ -310,40 +361,39 @@ class Demanda extends CI_Controller {
 
 		$this->load->view('demanda/form_cad_demanda',$data);
 	}
-	
-	public function modal_filtro(){
-		$this->output->unset_template();
-		$data = array();
-		$data['title'] = "Filtrar Demandas";
-		
-		// dados da empresa geradora
-		$id_empresa = (int) $this->session->userdata['empresa']['id'];
-		
-		$row = $this->empresa_model->consultar_coletoraId($id_empresa);
-		if (!$row) {
-			$this->session->set_flashdata('resposta_erro', 'Empresa não identificada.');
-			redirect(site_url('demanda'));
-		}
-		
-		$data['col_id_cidade'] = $row->id_cidade;
-		$data['col_uf_estado'] = $row->uf_estado;
-		
-		// Listamos todos estados normalmente
-		$data['estados'] = $this->endereco_model->get_all_estados(); 
-		
-		$uf = ($this->input->post('estado') ? $this->input->post('estado') : $row->uf_estado);
-		$data['cidades'] = $this->endereco_model->get_all_cidades($uf); //<-UF no EDIT pra listar apenas a cidades do estado selecionado
-		
-		// Categorias de resíduos 
-		$data['categorias_residuos'] = $this->demanda_model->get_categorias_residuos();
 
-		// Status de demandas 
-		$data['demandas_status'] = $this->demanda_model->get_demandas_status();
-		
-		$this->load->view('demanda/filtro',$data);
-	}
-	
-	public function form_post($id_update=''){
+    public function modal_filtro() {
+        $this->output->unset_template();
+        $data = array();
+        $data['title'] = "Filtrar Demandas";
+
+        // dados da empresa geradora
+        $id_empresa = (int) $this->session->userdata['empresa']['id'];
+
+        $row = $this->empresa_model->consultar_coletoraId($id_empresa);
+        if (!$row) {
+            $this->session->set_flashdata('resposta_erro', 'Empresa não identificada.');
+            redirect(site_url('demanda'));
+        }
+
+        $data['col_id_cidade'] = $row->id_cidade;
+        $data['col_uf_estado'] = $row->uf_estado;
+
+        // Listamos todos estados normalmente
+        $data['estados'] = $this->endereco_model->get_all_estados();
+
+        $uf = ($this->input->post('estado') ? $this->input->post('estado') : $row->uf_estado);
+        $data['cidades'] = $this->endereco_model->get_all_cidades($uf); //<-UF no EDIT pra listar apenas a cidades do estado selecionado
+        // Categorias de resíduos 
+        $data['categorias_residuos'] = $this->demanda_model->get_categorias_residuos();
+
+        // Status de demandas 
+        $data['demandas_status'] = $this->demanda_model->get_demandas_status();
+
+        $this->load->view('demanda/filtro', $data);
+    }
+
+   public function form_post($id_update=''){
 		
 		$this->output->unset_template();
 		$json = array();
@@ -393,18 +443,24 @@ class Demanda extends CI_Controller {
 				$data_inicio = ($this->input->post('data_inicio')?date('Y-m-d', strtotime(str_replace("/","-",$this->input->post('data_inicio')))):'');
 				$data_validade = ($this->input->post('data_validade')?date('Y-m-d', strtotime(str_replace("/","-",$this->input->post('data_validade')))):'');
 				
+				$acondicionado_outro = ($this->input->post('acondicionado')==0?$this->input->post('acondicionado_outro'):NULL);
+				$uni_medida_outro = ($this->input->post('uni_medida')==0?$this->input->post('uni_medida_outro'):NULL);
+				
 				$data = array(
 					//informações do resíduo
 					'atualizada' => date('Y-m-d H:i:s'),
 					'data_inicio' => $data_inicio,
 					'data_validade' => $data_validade,
+					'status' => 2,
 					
 					'responsavel' => $this->input->post('responsavel'), 
 					'residuo' => $this->input->post('residuo'),
 					'categoria_residuo' => $this->input->post('categoria_residuo'),
 					'acondicionado' => $this->input->post('acondicionado'),
+					'acondicionado_outro' => $acondicionado_outro,
 					'qtd' => $this->input->post('qtd'),
 					'uni_medida' => $this->input->post('uni_medida'),
+					'uni_medida_outro' => $uni_medida_outro,
 					'obs' => $this->input->post('obs'),
 					
 					// Dados da empresa Geradora (solicitou demanda)
@@ -447,130 +503,320 @@ class Demanda extends CI_Controller {
 		
 		echo json_encode($json);
 	}
-	
-	
-	/*
-	*	Visualizar demanda
-	*/
-	public function visualizar($id_demanda){
-		$data = array();
-		$data['title'] = 'Demanda #'.$id_demanda;
-		
-		//Title / Description / Tags
-		$this->output->set_common_meta($data['title'], '', ''); 
-		
-		$data['menu_mapa'] = array(
-			'Demandas' => $this->uri->segment(1),
-			'Visualizar' => ''
-		);
-		
-		$data['hoje'] = date("Y-m-d");
-		
-		$row = $this->demanda_model->get_row_demanda_ver($id_demanda);
-		$data['row'] = $row;
-		
-		if ($this->input->post('validade'))
-			$data['tab_ativa'] = 'proposta'; 
-		else
-			$data['tab_ativa'] = 'demanda';
-		
-			$data['menu_opcao_direita'][] = '
+
+    /*
+     * 	Visualizar demanda
+     */
+
+    public function visualizar($id_demanda) {
+//teste
+        $data = array();
+        $data['title'] = 'Demanda #' . $id_demanda;
+
+        //Title / Description / Tags
+        $this->output->set_common_meta($data['title'], '', '');
+
+        $data['menu_mapa'] = array(
+            'Demandas' => $this->uri->segment(1),
+            'Visualizar' => ''
+        );
+
+        $data['hoje'] = date("Y-m-d");
+
+        $row = $this->demanda_model->get_row_demanda_ver($id_demanda);
+        $data['row'] = $row;
+
+        if ($this->input->post('validade'))
+            $data['tab_ativa'] = 'proposta';
+        else
+            $data['tab_ativa'] = 'demanda';
+
+        $data['menu_opcao_direita'][] = '
 			<a href="javascript:window.history.go(-1)" class="btn btn-info btn-sm not-focusable" >
 				<i class="fa fa-fw fa-undo"></i> Voltar
 			</a>';
-		
-		if($row['status']==6){
-			$data['menu_opcao_direita'][] = '
-			<a href="'.site_url('demanda/edit/'.$row['id']).'" class="btn btn-warning btn-sm not-focusable" >
-				<i class="fa fa-fw fa-pencil-square-o"></i> Atualizar
-			</a>';
-		}
 
-		$data['menu_opcao_direita'][] = '
-		<a href="javascript:vid(0)" title="Remover Demanda '.$row['residuo'].' ? " rel="'.site_url('demanda/delete/'.$row['id']).'" class="btn btn-sm btn-danger remover" >
-			<i class="fa fa-close" ></i> Remover 
-		</a>';
-		
-		if($this->session->userdata['empresa']['funcao']==2){ 
-			//$this->load->view('proposta/proposta',$data);
-			$data['tab_proposta'] = 'Enviar Proposta';
-			if ($this->input->post('btcancelar')){
-					$this->proposta_model->delete($id_demanda,$this->session->userdata['empresa']['id']);
-					$this->session->set_flashdata('msg_proposta', "Proposta cancelada com sucesso.");
-			} else{    
-				
-				if ($this->input->post('validade')){
-					
-					$dados['cobranca'] = $this->input->post('cobranca');
-					$dados['id_empresa_coletora'] = $this->session->userdata['empresa']['id'];
-					$dados['id_demanda'] = $id_demanda;
-					$dados['valor'] = $this->input->post('valor_coleta');
-					$dados['frete'] = $this->input->post('valor_frete');
-					$dados['total'] = $this->input->post('valor_total');
-					$dados['condicoes_pagamento'] = $this->input->post('condicoes');
-					$dados['prazo_coleta'] = $this->input->post('prazo');
-					$validade = str_replace("/", "-", $this->input->post('validade'));
-					$validade =  date('Y-m-d', strtotime($validade));
-					$dados['validade_proposta'] = $validade;
-					$dados['observacoes'] = $this->input->post('obs');
-					$dados['aceita'] = 'Não';
-					
-					$this->form_validation->set_rules('cobranca', 'cobranca', 'required');
-					
-					if ($this->form_validation->run() == TRUE){
-						$this->proposta_model->salvar($dados);
-						$this->session->set_flashdata('msg_proposta', "Proposta cadastrada com sucesso.");
-						
-					} else $this->session->set_flashdata('msg_proposta', "Erro ao cadastrar proposta.");
-				}
+        // mostra os botoes de controle de demanda somente se for geradora
+        if ($this->session->userdata['empresa']['funcao'] == 1) {
+
+            if ($row['status'] == 6) {
+                	$data['menu_opcao_direita'][] = '
+                           <a href="' . site_url('demanda/edit/' . $row['id']) . '" class="btn btn-warning btn-sm not-focusable" >
+                                  <i class="fa fa-fw fa-pencil-square-o"></i> Atualizar
+                         </a>';
 			}
-			$data2 = $this->proposta_model->getrow($id_demanda,$this->session->userdata['empresa']['id']);
-			if (isset($data2->aceita) && ($data2->aceita=='Sim')) $this->session->set_flashdata('msg_proposta', "<b>Parabéns!</b> Esta proposta foi aceita.");
-			$this->load->view('demanda/ver',$data);
-			$this->load->view('proposta/proposta',$data2);
-                  
-		}else{
-			//verifica se demanda já tem proposta aceita
-			$proposta_aceita = $this->proposta_model->consultar_proposta_aceita($id_demanda);
-			if (!$proposta_aceita) {
-				//listar as propostas recebidas se ainda nenhuma foi aceita
-				$data['propostas'] = $this->proposta_model->get_proposta($id_demanda);
-				$data['tab_proposta'] = 'Propostas Recebidas';
-				$this->load->view('demanda/ver',$data);
-				$this->load->view('proposta/lista_propostas',$data);
-			} else{
-				//listar somente a proposta aceita
-				$data['propostas'] = $proposta_aceita;
-				$data['tab_proposta'] = 'Proposta Aceita';
-				$this->load->view('demanda/ver',$data);
-				$this->load->view('proposta/lista_propostas',$data);
-			}
-		}
-	}
 
-
-	public function delete($id){
-		$this->output->unset_template();
-
-		$id_empresa = $this->session->userdata['empresa']['id'];
-		$row = $this->demanda_model->get_row_demanda($id);
-
-		if($id_empresa!=$row->ger_id_empresa){
 			
-			$this->session->set_flashdata('resposta_erro', 'Acesso negado para remover demanda.');
-			redirect(site_url('demanda'));
+
+            /*$data['menu_opcao_direita'][] = '
+				<a href="javascript:vid(0)" title="Remover Demanda ' . $row['residuo'] . ' ? " rel="' . site_url('demanda/delete/' . $row['id']) . '" class="btn btn-sm btn-danger remover" >
+						<i class="fa fa-close" ></i> Remover 
+				</a>';*/
+        }
+
+        if ($this->session->userdata['empresa']['funcao'] == 2) {
+
+            $data['tab_proposta'] = 'Enviar Proposta';
+
+            // salva local de destinação final se o post for do btsalvalocal
+            if ($this->input->post('btsalvarlocal')) {
+                $data4['nome_local'] = $this->input->post('nome_local');
+                $data4['id_demanda'] = $this->input->post('id_demanda');
+                $data4['id_empresa_coletora'] = $this->input->post('id_empresa_coletora');
+                $data4['cep'] = $this->input->post('cep');
+                $data4['rua'] = $this->input->post('rua');
+                $data4['numero'] = $this->input->post('numero');
+                $data4['complemento'] = $this->input->post('complemento');
+                $data4['bairro'] = $this->input->post('bairro');
+                $data4['uf_estado'] = $this->input->post('estado');
+                $data4['id_cidade'] = $this->input->post('cidade');
+                $data4['obs'] = $this->input->post('obs');
+
+                $this->destinacao_model->gravar($data4);
+                $this->demanda_model->muda_status($data4['id_demanda'],4); //finalizando status da demanda
+                $this->demanda_model->set_historico(4,$data4['id_demanda']);
+            }
+
+            // se estiver cancelando uma proposta
+            if ($this->input->post('btcancelar')) {
+                $id_proposta = $this->input->post('id_proposta');
+                $motivo_remocao = $this->input->post('motivo_cancelamento');
+                $this->proposta_model->delete($id_proposta, $motivo_remocao);
+                $this->session->set_flashdata('msg_proposta', "Proposta cancelada com sucesso.");
+            } else {
+                // caso o formulário de proposta esteja setado no post
+                if ($this->input->post('validade')) {
+
+                    $dados['cobranca'] = $this->input->post('cobranca');
+                    $dados['id_empresa_coletora'] = $this->session->userdata['empresa']['id'];
+                    $dados['id_demanda'] = $id_demanda;
+                    $dados['valor'] = str_replace('.','',$this->input->post('valor_coleta'));
+                    $dados['valor'] = floatval(str_replace(',','.',$dados['valor']));
+                    $dados['frete'] = str_replace('.','',$this->input->post('valor_frete'));
+                    $dados['frete'] = floatval(str_replace(',','.',$dados['frete']));
+                    $dados['qtde_viagens'] = $this->input->post('qtde_viagens');
+                    $dados['total'] = str_replace('.','',$this->input->post('valor_total'));
+                    $dados['total'] = floatval(str_replace(',','.',$dados['total']));
+                    $dados['condicoes_pagamento'] = $this->input->post('condicoes');
+                    $dados['prazo_coleta'] = $this->input->post('prazo');
+                    $validade = str_replace("/", "-", $this->input->post('validade'));
+                    $validade = date('Y-m-d', strtotime($validade));
+                    $dados['validade_proposta'] = $validade;
+                    $dados['observacoes'] = $this->input->post('obs');
+                    $dados['aceita'] = 'Não';
+
+                    $this->form_validation->set_rules('cobranca', 'cobranca', 'required');
+
+                    if ($this->form_validation->run() == TRUE) {
+                        $this->proposta_model->salvar($dados);
+                        $this->session->set_flashdata('msg_proposta', "Proposta cadastrada com sucesso.");
+                    } else
+                        $this->session->set_flashdata('msg_proposta', "Erro ao cadastrar proposta.");
+                }
+            }
+
+
+            $data2 = $this->proposta_model->getrow($id_demanda, $this->session->userdata['empresa']['id']);
+            $data2['qtd'] = $data['row']['qtd']; // pega quantidade cadastrada na demanda para usar no formulário proposta
+            $data2['uni_medida'] = $this->demanda_model->get_abrev_unidade_medida($data['row']['uni_medida']); // pega unidade de medida do banco para usar no formulário proposta
+            if (isset($data2['aceita']) && ($data2['aceita'] == 'Sim')){
+                $data['tab_proposta'] = 'Proposta Aceita';
+                $this->session->set_flashdata('msg_proposta', "<b>Parabéns!</b> A proposta foi aceita.");
+            }
+			
+			
+			if ($this->session->userdata['empresa']['funcao'] == 1 || isset($data4['obs'])) {
+				$data['menu_opcao_direita'][] = '
+				<a rel="modal_add_edit" data-target="" data-toggle="tooltip" title="Remover Demanda" class="btn btn-sm btn-danger" href="'.site_url('demanda/delete/'.$row['id']).'">
+						<i class="fa fa-close" ></i> Remover 
+				</a>';
+			}
+			  
+            $this->load->view('demanda/ver', $data);
+            $this->load->view('proposta/proposta', $data2);
+			
+        }else {
+			
+            //verifica se demanda já tem proposta aceita
+            $proposta_aceita = $this->proposta_model->consultar_proposta_aceita($id_demanda);
+            if (!$proposta_aceita) {
+                //listar as propostas recebidas se ainda nenhuma foi aceita
+                $data['propostas'] = $this->proposta_model->get_proposta($id_demanda);
+                $data['tab_proposta'] = 'Propostas Recebidas';
+                $this->load->view('demanda/ver', $data);
+                $this->load->view('proposta/lista_propostas', $data);
+            } else {
+                //listar somente a proposta aceita
+                $data['propostas'] = $proposta_aceita;
+                $data['tab_proposta'] = 'Proposta Aceita';
+                $this->load->view('demanda/ver', $data);
+                $this->load->view('proposta/lista_propostas', $data);
+            }
+        }
+
+
+        $data3 = $this->destinacao_model->getrow($id_demanda);
+        if ($data3['id_cidade'])
+            $data3['nome_cidade'] = $this->cidade_model->getnomecidadebyid($data3['id_cidade']);
+			$data3['estados'] = $this->estado_model->lista_estados();
+			$data3['id_demanda'] = $id_demanda;
+
+        
+        if ((isset($data2['aceita']) && ($data2['aceita'] == 'Sim')) || (isset($proposta_aceita)) )
+            $this->load->view('coleta/inf_coleta', $data3);
+    }
+
+    public function delete($id) {
+        $this->output->unset_template();
+
+        $id_empresa = $this->session->userdata['empresa']['id'];
+        $row = $this->demanda_model->get_row_demanda($id);
+
+        if ($id_empresa != $row->ger_id_empresa) {
+
+            $this->session->set_flashdata('resposta_erro', 'Acesso negado para remover demanda.');
+            redirect(site_url('demanda'));
+        } else {
+
+			$data = array();
+			$data['title'] = "Deseja remover a demanda?";
+			$data['id'] = $id;
+
+			$this->load->view('demanda/cancelar',$data);
+        }
+	}
+	
+	public function delete_motivo() {
+        $this->output->unset_template();
 		
-		}else{
+		$motivo = $this->input->post('motivo_cancela');
+		$id = $this->input->post('id');
+        $id_empresa = $this->session->userdata['empresa']['id'];
+        $row = $this->demanda_model->get_row_demanda($id);
+			
+		$this->demanda_model->delete($id, $id_empresa, $motivo);
 
-			$this->demanda_model->delete($id,$id_empresa);
+		$this->session->set_flashdata('resposta_erro', 'Demanda removida com sucesso.');
+		redirect(site_url('demanda'));
+    }
 
-			$this->session->set_flashdata('resposta_erro','Demanda removida com sucesso.');
-			redirect(site_url('demanda'));
-		}
+	
+	/*
+	*	Listar histórico de modificações de histórico
+	*/
+	public function status_demanda_historico($id_demanda=false){
+		$this->output->unset_template();
+		
+		$data = array();
+		
+		$data['result'] = $this->demanda_model->get_result_status_historico($id_demanda);
+		
+		$this->load->view('demanda/status_historico',$data);	
+		
 	}
 	
 	
-	private function validar_form_demanda($id_update=''){
+	/*
+	*	Cadastrar arquivo comprovante demanda
+	*/
+	public function comprovante_arquivo_add($id_demanda = 0) {
+		
+        $this->output->unset_template();
+
+        $json = array();
+
+        if ($id_demanda == 0) {
+            $json['error'] = $json['error_empresa'] = 'Erro o identificar demanda';
+        }
+       
+        if (!is_uploaded_file($_FILES['licenca']['tmp_name'])) {
+			
+			 $json['error'] = $json['error_empresa'] = 'Selecione o arquivo a ser cadastrado';	
+			
+		}else{
+			
+			$this->load->library('upload');
+			
+            $dir_upload = './uploads/demandas/'.$id_demanda; //diretório para upload
+            
+			if (!is_dir($dir_upload)) { 
+                mkdir($dir_upload, 0777, true);   
+            }
+
+            // Config upload
+			$config['upload_path'] = $dir_upload;
+            $config['allowed_types'] = 'pdf';
+            $config['file_name'] = date('Y-m-d_H-i') . '_ID' . $id_demanda . '_' . rand(1000, 9999); // Data Upload / ID empresa / Rand entre 1000 e 9999 
+            $config['max_filename_increment'] = 300;
+            $config['max_size'] = 10240; //(10*1024kb) = 10MB
+            $config['max_width'] = 5024;
+            $config['max_height'] = 5068;
+
+            $this->upload->initialize($config);
+
+            if (!$this->upload->do_upload('licenca')) {
+                $json['error'] = $json['error_licenca'] = $this->upload->display_errors('', '');
+            } else {
+                $upload = $this->upload->data();
+                $nome_arquivo = $upload['file_name'];
+            }
+        }
+
+        if (!$this->input->post('titulo')) {
+            $json['error'] = $json['error_titulo'] = 'Digite o nome do arquivo';
+        }
+
+        if (!$json) {
+			
+            $this->demanda_model->comprovante_arquivo_insert($this->input->post(), $nome_arquivo, $id_demanda);
+            $json['resposta'] = 'Arquivo cadastrado com sucesso';
+            $json['id_demanda'] = $id_demanda;
+			$json['ok'] = true;
+        }
+
+        echo json_encode($json);
+    }
+	
+	
+	 public function arquivo_download($id_arquivo) {
+
+        $this->output->unset_template();
+
+        $row = $this->demanda_model->comprovante_arquivo_list_row($id_arquivo);
+		
+		if(isset($row)){
+			
+			$arquivo = 'uploads/demandas/' . $row->id_demanda. '/' . $row->arquivo;
+			
+			$nome_saida = $row->titulo;
+			
+			if (is_file($arquivo)) {
+				$this->util->ArquivoVer($arquivo, $nome_saida);
+			} else {
+				echo 'arquivo não encontrado';
+				exit;
+			}
+		}else{
+			echo 'Erro interno';
+			exit;
+		}
+    }
+	
+	public function comprovante_arquivo_list($id_demanda) {
+		
+		$this->output->unset_template();
+		
+        $id_empresa = (int) $this->session->userdata['empresa']['id'];
+        
+        $data['result'] = $this->demanda_model->comprovante_arquivo_list_result($id_demanda);
+
+        $this->load->view('coleta/comprovante_arquivo_list', $data);
+    }
+	
+	/*
+	*	Validar Form demanda
+	*/
+    private function validar_form_demanda($id_update=''){
 		
 		$json = array();
 		$this->load->library(array('util'));
@@ -638,19 +884,25 @@ class Demanda extends CI_Controller {
 		if(date('Y-m-d', strtotime(str_replace("/","-",$this->input->post('data_inicio'))) ) < date('Y-m-d') && empty($id_update) ){
 			$json['error'] = $json['error_data_inicio'] = 'A data de início não pode ser menor que a data de hoje: '.date('d/m/Y');
 		}
-				
+		
+		if($this->input->post('acondicionado')=='') {
+           $json['error'] = $json['error_acondicionado'] = 'Selecione opção de como o resíduo está acondidionado';
+		}else
+		if($this->input->post('acondicionado')==0 && $this->input->post('acondicionado_outro')=='') {
+           $json['error'] = $json['error_acondicionado_outro'] = 'Digite como o resíduo está acondidionado';
+		}
+		
 		if($this->input->post('uni_medida')=='') {
            $json['error'] = $json['error_uni_medida'] = 'Selecione a undiade de medida';
+		}else
+		if($this->input->post('uni_medida')==0 && $this->input->post('uni_medida_outro')=='') {
+           $json['error'] = $json['error_uni_medida_outro'] = 'Digite a unidade de medida';
 		}
 		
 		if(!$this->input->post('qtd')) {
            $json['error'] = $json['error_qtd'] = 'Digite a quantidade';
 		}
-		
-		if($this->input->post('acondicionado')=='') {
-           $json['error'] = $json['error_acondicionado'] = 'Selecione opção de como o resíduo está acondidionado';
-		}
-		
+				
 		if(!$this->input->post('residuo')) {
            $json['error'] = $json['error_residuo'] = 'Especifique o resíduo';
 		}
@@ -659,6 +911,6 @@ class Demanda extends CI_Controller {
 		
 	}
 
-	
-
 }
+?>
+

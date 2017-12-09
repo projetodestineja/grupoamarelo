@@ -39,39 +39,40 @@ class Demanda_model extends CI_Model {
     /*
     * Listamos demandas demandas da empresa
     */
-    public function get_result_demandas_empresa_id($ger_id_empresa, $where, $num_rows=false, $sort = 'd.cadastrada', $order = 'asc', $limit = null, $offset = null) {
+    public function get_result_demandas_empresa_id($ger_id_empresa, $where, $num_rows=false, $list_propostas, $sort = 'd.cadastrada', $order = 'asc', $limit = null, $offset = null) {
        
         if($num_rows==true){
             $filtro = "";
-        }else{
+        } else{
             $filtro = "order by ".$sort." ".$order." limit ".$limit." offset ".$offset."";
-        } 
+		}
+		
+		if($list_propostas){
+			$filtro2 = " group by d.id ";
+		} else{
+			$filtro2 = "";
+		}
         
         $sql =  "
             select 
-                d.id, d.residuo, d.img, d.qtd, d.data_inicio, d.data_validade, d.obs, d.ger_id_empresa, d.ger_uf_estado,
+                d.id, d.residuo, d.img, d.qtd, d.data_inicio, d.data_validade, d.obs, d.ger_id_empresa, d.ger_uf_estado, d.acondicionado_outro, d.uni_medida_outro,
                 ds.descricao as status, ds.cor,
                 c.nome_cidade,
-				um.nome as medida,
-				um.abreviacao,
-                ac.nome as acondicionado
-
+				(select abreviacao from uni_medida  where id = d.uni_medida) as medida ,
+				(select abreviacao  from acondicionado where id = d.acondicionado) as acondicionado
+ 
             from demandas as d
+			".$list_propostas."
             inner join demandas_status as ds on (d.status = ds.id)
-            inner join cidades as c 
-            inner join uni_medida as um 
-            inner join acondicionado as ac ON  
-                (c.id = d.ger_id_cidade)  
-            and
-                (ac.id = d.acondicionado)
-            and 
-                (um.id = d.uni_medida)
-            and 
-                ".$where."
+
+            inner join cidades as c  ON  (c.id = d.ger_id_cidade)  			
+            	and 
+            ".$where."
             
-                removido is null 
-            ".$filtro."
-        ";
+				d.removido is null
+			".$filtro2."
+			".$filtro."
+		";
         return $this->db->query($sql);
    }
    
@@ -100,10 +101,13 @@ class Demanda_model extends CI_Model {
 						 d.atualizada,
 						 d.residuo,
 						 d.responsavel,
-						 ds.descricao as status, ds.cor,
-						 um.nome as uni_medida_nome,
-						 ac.nome as acondicionado,
-						 d.uni_medida,	
+						 ds.descricao as status, 
+						 ds.cor,
+						 (select nome from uni_medida where id = d.uni_medida) as uni_medida_nome,
+						 (select nome  from acondicionado where id = d.acondicionado) as acondicionado,
+						  d.acondicionado_outro,
+						 d.uni_medida,
+						 d.uni_medida_outro,	
 						 d.status,	
 						 ds.descricao as status_nome,					 
 						 d.img,
@@ -137,12 +141,8 @@ class Demanda_model extends CI_Model {
 						 d.col_uf_estado
 						 
 				 from demandas as d
-				 inner join demandas_status as ds on (d.status = ds.id)
-				 inner join uni_medida as um 
-				 inner join acondicionado as ac ON  
-					(ac.id = d.acondicionado)
-				 and 
-					(um.id = d.uni_medida)
+				 inner join demandas_status as ds on (d.status = ds.id)  
+					
 				 and 
 					d.id= ".(int)$id."
 				limit 1
@@ -164,14 +164,28 @@ class Demanda_model extends CI_Model {
 		//print_r($row);
 
 		$capa = 'uploads/empresa/'.$row->ger_id_empresa.'/demanda/mini/'.$row->img;
+		$capa_media = 'uploads/empresa/'.$row->ger_id_empresa.'/demanda/media/'.$row->img;
 
 		$img = (is_file( $capa)?base_url($capa):base_url('painel/assets/img/demanda_sem_img.jpg')); 
+		$img_media = (is_file( $capa)?base_url($capa_media):'');
 		
 		// Empresa Coletora com FUNCAO = 2 (não pode visualizar tudo)
 		if($this->session->userdata['empresa']['funcao']==2){ 
 			$info_completa = false;	
 		}else{
 			$info_completa = true;	
+		}
+		
+		if(empty($row->acondicionado)){
+			$acondicionado = $row->acondicionado_outro;
+		}else{
+			$acondicionado = $row->acondicionado;	
+		}
+		
+		if(empty($row->uni_medida_nome)){
+			$uni_medida_nome = $row->uni_medida_outro;	
+		}else{
+			$uni_medida_nome = $row->uni_medida_nome;
 		}
 	
 		$data = array(
@@ -192,10 +206,11 @@ class Demanda_model extends CI_Model {
 			'responsavel' =>  $row->responsavel,
 			'residuo' =>  $row->residuo,
 			'img' => $img,
-			'acondicionado' =>  $row->acondicionado,
+			'img_media' => $img_media,
+			'acondicionado' =>  $acondicionado,
 			'qtd' =>  $row->qtd,
 			'uni_medida' =>  $row->uni_medida,
-			'uni_medida_nome' =>  $row->uni_medida_nome,
+			'uni_medida_nome' =>  $uni_medida_nome,
 			'obs' => $row->obs,
 			
 			/* Dados Empresa Geradora ********************/
@@ -237,13 +252,13 @@ class Demanda_model extends CI_Model {
 	}
     
 	function get_all_medidas(){
-		$this->db->order_by('ordem','asc');
-		$this->db->order_by('nome','asc');
+
+		  $this->db->order_by('nome','asc');
 	    return $this->db->get('uni_medida')->result();
     }
 	
 	function get_all_acondicionamentos(){
-		$this->db->order_by('ordem','asc');
+
 		$this->db->order_by('nome','asc');
         return $this->db->get('acondicionado')->result();
     }
@@ -291,6 +306,12 @@ class Demanda_model extends CI_Model {
     function get_demandas_status(){
         $this->db->where('ativo','1');
         return $this->db->get('demandas_status')->result();
+	}
+	
+	function get_demandas_status_coletoras(){
+		$this->db->where('ativo','1');
+        $this->db->where('id','2');
+        return $this->db->get('demandas_status')->result();
     }
 	
     function get_result($sort = 'id', $order = 'asc', $limit = null, $offset = null) {
@@ -309,13 +330,14 @@ class Demanda_model extends CI_Model {
 	     return $this->db->count_all($this->table);
     }
 
-    public function delete($id, $id_empresa){
+    public function delete($id, $id_empresa, $motivo=false){
              
         //$this->delete_img($id); * Não deletar imagem, essa demanda pode ser consultada depois
 
         $this->db->where('ger_id_empresa',(int)$id_empresa);
         $this->db->where('id',(int)$id);
-        $this->db->set('removido',date('Y-m-d H:i:s'));
+		$this->db->set('removido',date('Y-m-d H:i:s'));
+		$this->db->set('motivo_cancel',$motivo);
         $this->db->update('demandas');
     }
       
@@ -441,5 +463,99 @@ class Demanda_model extends CI_Model {
 		$this->db->set('datahora',date('Y-m-d H:i:s'));
 		$this->db->insert('demandas_status_historico');
 	}
+	
+	public  function get_result_status_historico($id_demanda=false){
+		
+		$sql = 'SELECT 
+			dsh.datahora,ds.descricao FROM demandas_status_historico as dsh 
+			INNER JOIN demandas_status as ds 
+			INNER JOIN demandas as dem 
+					ON 
+				(dsh.status=ds.id) 
+					and 
+				(dsh.id_demanda=dem.id) 
+					and
+				dem.ger_id_empresa='.(int) $this->session->userdata['empresa']['id'].'	
+					and
+				dsh.id_demanda = '.(int)$id_demanda.' 
+				 order by dsh.datahora asc,dsh.id desc';
+		return $this->db->query($sql)->result();	
+	}
         
+        function get_abrev_unidade_medida($cod_unidade){
+             $this->db->where('id',$cod_unidade);
+             return $this->db->get('uni_medida')->row()->abreviacao; 
+        }
+        
+        function muda_status($id_demanda,$status){
+		$this->db->where('id',$id_demanda);
+		$this->db->set('atualizada',date('Y-m-d H:i:s'));
+		$this->db->set('status',$status);
+		$this->db->update('demandas');
+		
+	}
+	
+	function comprovante_arquivo_insert($post, $nome_arquivo, $id_demanda){
+		
+		$data = array(
+			'titulo' => $post['titulo'],
+			'arquivo' => $nome_arquivo,
+			'id_demanda' => $id_demanda
+		);
+		
+		$this->db->insert('demandas_comprovante_arquivo',$data);
+	}
+	
+	function comprovante_arquivo_list_result($id_demanda){
+		
+		$id_empresa = (int) $this->session->userdata['empresa']['id'];
+		
+        $sql = 'SELECT 
+		dca.id,
+		dca.titulo,
+		dca.cadastrado,
+		dca.arquivo
+		FROM 
+		' . $this->db->dbprefix('demandas_comprovante_arquivo') . ' dca 
+		INNER JOIN 
+		' . $this->db->dbprefix('demandas') . ' d 
+		INNER JOIN 
+		' . $this->db->dbprefix('destinacao_final_residuo') . ' dfr   
+		ON (dca.id_demanda = d.id)
+			and
+		dca.id_demanda = ' . (int)$id_demanda . ' 
+			and
+		dfr.id_demanda = ' . (int)$id_demanda . ' 
+			and	
+		( d.ger_id_empresa = '.$id_empresa.' or dfr.id_empresa_coletora = '.$id_empresa.' )
+		
+		order by dca.id desc
+		';
+		
+        return $this->db->query($sql)->result();
+  	}
+	
+	function comprovante_arquivo_list_row($id){
+		
+		$id_empresa = (int) $this->session->userdata['empresa']['id'];
+		
+        $sql = 'SELECT 
+		dca.titulo,
+		dca.id_demanda,
+		dca.arquivo
+		FROM 
+		' . $this->db->dbprefix('demandas_comprovante_arquivo') . ' dca 
+		INNER JOIN 
+		' . $this->db->dbprefix('demandas') . ' d  
+		INNER JOIN 
+		' . $this->db->dbprefix('destinacao_final_residuo') . ' dfr   
+		ON (dca.id_demanda = d.id)
+			and
+		dca.id = ' . (int)$id . ' 
+			and
+		( d.ger_id_empresa = '.$id_empresa.' or dfr.id_empresa_coletora = '.$id_empresa.' ) limit 1
+		';
+
+        return $this->db->query($sql)->row();
+  	}
 }

@@ -10,38 +10,56 @@
       
        	<div class="form-row">
         
-		<div class="form-group col-md-4 required">
+		<div class="form-group col-md-3 required">
 			<label for="residuo" class="col-form-label">Especifique o resíduo:</label>
 			<input type="text" class="form-control" id="input-residuo" value="<?php echo $residuo; ?>" name="residuo" placeholder="Ex.: Oléo de cozinha usado">
 		</div>
-      
-		<div class="form-group col-md-4 required">
-			<label for="acondicionado" class="col-form-label">Como o resíduo está acondicionado?</label>
-			<select class="form-control" id="input-acondicionado" name="acondicionado" >
-            <option value="">Selecione</option>
-            <?php foreach($acondicionamentos as $n){?>
-                <option value="<?php echo $n->id; ?>" <?php echo ($n->id==$acondicionado?'selected':''); ?>  ><?php echo $n->abreviacao;?> - <?php echo $n->nome;?></option>
-            <?php } ?>
-		 </select>
-    	</div>
-    
-       <div class="form-group col-md-2 required">
+      	
+        <div class="form-group col-md-2 required">
 			<label for="qtd" class="col-form-label">Quantidade:</label>
 			<input type="tel" class="form-control" id="input-qtd" value="<?php echo $qtd; ?>" name="qtd" placeholder="Ex.: 11,5">
        </div>
        
-	   <div class="form-group col-md-2 required">
-        <label for="uni_medida" class="col-form-label">Uni. de medida:</label>
-         <select class="form-control" name="uni_medida" id="input-uni-medida" >
-            <option value="">Selecione</option>
-            <?php foreach($medidas as $n){?>
-                <option value="<?php echo $n->id; ?>" <?php echo ($n->id==$uni_medida?'selected':''); ?>  ><?php echo $n->abreviacao;?> - <?php echo $n->nome;?></option>
-            <?php } ?>
-		 </select>
-	  </div>
+       
+       <div class="form-group <?php echo ($uni_medida=='0'?'col-md-2':'col-md-3'); ?> required" id="box-uni-medida" >
+        	<label for="uni_medida" class="col-form-label">Uni. de medida:</label>
+             <select class="form-control" name="uni_medida" id="input-uni-medida" >
+                <option value="">Selecione</option>
+                <?php foreach($medidas as $n){?>
+                    <option value="<?php echo $n->id; ?>" <?php echo ($n->id==$uni_medida?'selected':''); ?>  ><?php echo $n->abreviacao;?> - <?php echo $n->nome;?></option>
+                <?php } ?>
+                <option value="0" <?php echo ($uni_medida=='0'?'selected':''); ?> >Outro</option>
+             </select>
+	   </div>
+      
+       <div class="form-group col-md-1 required" style="display:<?php echo ($uni_medida=='0'?'block':'none'); ?>" id="box-uni-medida-outro" >
+			<label for="uni-medida-outro" class="col-form-label">Medida:</label>
+			<input type="text" class="form-control" id="input-uni-medida-outro" value="<?php echo $uni_medida_outro; ?>" name="uni_medida_outro" placeholder="Informe a uni. medida">
+       </div>
+       
+		<div class="form-group <?php echo ($acondicionado=='0'?'col-md-2':'col-md-4'); ?> required" id="box-acondicionado" >
+			<label for="acondicionado" class="col-form-label">Como está acondicionado?</label>
+			<select class="form-control" id="input-acondicionado" name="acondicionado" >
+                <option value="" >Selecione</option>
+                <?php foreach($acondicionamentos as $n){?>
+                	<option value="<?php echo $n->id; ?>" <?php echo ($n->id==$acondicionado?'selected':''); ?>  ><?php echo $n->abreviacao;?> - <?php echo $n->nome;?></option>
+                <?php } ?>
+                <option value="0" <?php echo ($acondicionado=='0'?'selected':''); ?> >Outro</option>
+		 	</select>
+    	</div>
+        
+        <div class="form-group col-md-2 required" style="display:<?php echo ($acondicionado=='0'?'block':'none'); ?>" id="box-acondicionado-outro" >
+			<label for="acondicionado-outro" class="col-form-label">Como está acondicionado?</label>
+			<input type="text" class="form-control" id="input-acondicionado-outro" value="<?php echo $acondicionado_outro; ?>" name="acondicionado_outro" placeholder="Informe o acondicionamento">
+        </div>
+       
+        
+       
+	    
+      
+       
 
-
-	  <div class="form-group col-md-12">
+	   <div class="form-group col-md-12">
 			<label for="acondicionado" class="col-form-label">Categoria resíduo:</label>
 			<select class="form-control" id="input-categoria-residuo" name="categoria_residuo" >
             <option value="0">Indefinido</option>
@@ -92,10 +110,10 @@
               
             </div>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-9" >
         	<div class="row">
-            <div class="form-group col-md-6 required" >
-			<label for="data_inicio" class="col-form-label">Data início</label>
+            <div class="form-group col-md-6 required">
+                <label for="data_inicio" class="col-form-label">Data início <i class="fa fa-info-circle" data-toggle="tooltip" title="Data início para recebimento de propostas"></i></label>
             <div class="input-group" >
 			<input name="data_inicio" class="form-control date" value="<?php echo $data_inicio;?>" placeholder="dd/mm/aaaa" id="input-data-inicio" >
             <label class="input-group-addon btn" for="testdate">
@@ -103,8 +121,8 @@
             </label>
            </div>    
 		</div>
-		<div class="form-group col-md-6  required" style="padding-left:0" >
-			<label for="data_validade" class="col-form-label">Data de expiração</label>
+		<div class="form-group col-md-6 required" style="padding-left:0">
+			<label for="data_validade" class="col-form-label">Data limite <i class="fa fa-info-circle" data-toggle="tooltip" title="Data limite para recebimento de propostas"></i></label>
             <div class="input-group" >
 			<input name="data_validade" class="form-control date" value="<?php echo $data_validade;?>" placeholder="dd/mm/aaaa" id="input-data-validade"  >
             <label class="input-group-addon btn" for="testdate">
@@ -125,7 +143,9 @@
 
 	<br />
 
-
+	<div class="alert alert-info" role="alert">
+		<i class="fa fa-asterisk"></i> Altere os campos abaixo caso os dados de contato e/ou endereço sejam diferentes do cadastro.
+	</div>
 
 	<div class="card">
       <h5 class="card-header"><i class="fa fa-comment" ></i> Contato para Demanda</h5>
@@ -313,7 +333,22 @@ function send_form(){
 			if (json['error_data_validade']) {
 				$(form_ind+' #input-data-validade').parent().parent().addClass('has-error');
 			}
-
+			
+			if (json['error_acondicionado']) {
+				$(form_ind+' #input-acondicionado').parent().addClass('has-error');
+				$(form_ind+' #input-acondicionado').focus();
+			}
+			
+			if (json['error_acondicionado_outro']) {
+				$(form_ind+' #input-acondicionado-outro').parent().addClass('has-error');
+				$(form_ind+' #input-acondicionado-outro').focus();
+			}
+			
+			if (json['error_uni_medida_outro']) {
+				$(form_ind+' #input-uni-medida-outro').parent().addClass('has-error');
+				$(form_ind+' #input-uni-medida-outro').focus();
+			}
+			
 			if (json['error_uni_medida']) {
 				$(form_ind+' #input-uni-medida').parent().addClass('has-error');
 				$(form_ind+' #input-uni-medida').focus();
@@ -322,11 +357,6 @@ function send_form(){
 			if (json['error_qtd']) {
 				$(form_ind+' #input-qtd').parent().addClass('has-error');
 				$(form_ind+' #input-qtd').focus();
-			}
-			
-			if (json['error_acondicionado']) {
-				$(form_ind+' #input-acondicionado').parent().addClass('has-error');
-				$(form_ind+' #input-acondicionado').focus();
 			}
 				
 			if (json['error_residuo']) {
@@ -393,6 +423,28 @@ $(document).ready(function () {
 		$('input[name=data_inicio]').datepicker('setEndDate', endDate);
 	}).on('clearDate', function (selected) {
 		$('input[name=data_inicio]').datepicker('setEndDate', null);
+	});
+	
+	$("select[name=acondicionado]").change(function () {
+		var id_acondicionado = $(this).val();
+		if(id_acondicionado==0 && id_acondicionado!=''){
+			$('#box-acondicionado-outro').show();
+			$('#box-acondicionado').removeClass('col-md-4').addClass('col-md-2');
+		}else{
+			$('#box-acondicionado-outro').hide();	
+			$('#box-acondicionado').removeClass('col-md-2').addClass('col-md-4');
+		}
+	});
+	
+	$("select[name=uni_medida]").change(function () {
+		var id_uni_medida = $(this).val();
+		if(id_uni_medida==0 && id_uni_medida!=''){
+			$('#box-uni-medida-outro').show();
+			$('#box-uni-medida').removeClass('col-md-3').addClass('col-md-2');
+		}else{
+			$('#box-uni-medida-outro').hide();	
+			$('#box-uni-medida').removeClass('col-md-2').addClass('col-md-3');
+		}
 	});
 	
 	/* Select Estado pra carregar Cidades */

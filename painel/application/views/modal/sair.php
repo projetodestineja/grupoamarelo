@@ -8,7 +8,7 @@
             </button>
           </div>
           <div class="modal-body">
-           Dseja sair do painel?
+           Deseja sair do painel?
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>

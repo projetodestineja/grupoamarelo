@@ -1,6 +1,9 @@
-    <div role="tabpanel" class="tab-pane" id="propostas">
+
+<div role="tabpanel" class="tab-pane" id="propostas">
     	<div id="list_propostas" >
 
+        <?PHP if (!empty($propostas)) { ?>    
+            
         <?php foreach($propostas as $pr){?>
         <div class="card" style="margin-bottom:30px;">
             <div class="card-header">
@@ -30,18 +33,18 @@
                         </div>
 
                         <div class="form-group col-3">
-                            <label><i class="fa fa-th"></i> Valor Resíduo</label>
-                            <br><?php echo "R$ ".$pr->valor; ?>
+                            <label><i class="fa fa-th"></i> Valor unitário resíduo</label>
+                            <br><?php echo "R$ ".number_format($pr->valor, 2, ',', '.'); ?>
                         </div>
 
                         <div class="form-group col-3">
                             <label><i class="fa fa-truck"></i> Valor Frete</label>
-                            <br><?php echo "R$ ".$pr->frete; ?>
+                            <br><?php echo "R$ ".number_format($pr->frete * $pr->qtde_viagens, 2, ',', '.'); ?>
                         </div>
 
                         <div class="form-group col-3">
-                            <label><i class="fa fa-usd"></i> Total</label>
-                            <br><?php echo "R$ ".$pr->total; ?>
+                            <label><i class="fa fa-usd"></i> Total Aproximado</label>
+                            <br><?php echo "R$ ".number_format($pr->total, 2, ',', '.'); ?>
                         </div>
                     </div>
 
@@ -52,9 +55,9 @@
                         </div>
                         <div class="form-group col-4">
                             <label><i class="fa fa-calendar"></i> Prazo para Coleta</label>
-                            <br><?php echo $pr->prazo_coleta; ?>
+                            <br><?php echo $pr->prazo_coleta; ?> dias úteis 
                         </div>
-                        <div class="form-group col-4">
+                        <div class="form-group col-4" <?php echo strtotime($pr->validade_proposta) < strtotime($hoje) ? "style='color:#FF0000;'" : "" ; ?>>
                             <label><i class="fa fa-table"></i> Validade da Proposta</label>
                             <br><?php echo date('d/m/Y', strtotime(str_replace("/","-",$pr->validade_proposta))); ?>
                         </div>
@@ -72,8 +75,11 @@
             </div>
         </div>
         <?php } ?>
+        <?PHP } else echo "Não existem propostas cadastradas pelos coletores de resíduos." ?>      
         </div>
+        <?php if (isset($pr->id_demanda)) { ?>
+            <a href="<?php  echo site_url('relatorio/lista_propostas/'.$pr->id_demanda); ?>" target="_blank" ><button class="btn btn-info"  type="button"  >Imprimir Propostas Recebidas</button></a>
+        <?php } ?>
     </div>
     
     
-</div><!-- NÃO APAGAR ESTE FECHAMENTO DE DIV. ELA FECHA A DIV DE DEMANDA -->
