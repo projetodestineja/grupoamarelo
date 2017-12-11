@@ -1,6 +1,5 @@
 <div class="col-md-12" >
 
-    <h5 style="margin-top:15px; ">Certificado de entrega</h5>
     <?php if($this->session->userdata['empresa']['funcao'] ==2){ ?>
     <form class="form_ajax"  onSubmit="send_form(); return false" action="<?php echo site_url('demanda/comprovante_arquivo_add/'.$id_demanda); ?>" method="POST" enctype="multipart/form-data"  >
         <div class="row" > 
@@ -77,7 +76,8 @@ function send_form(){
 				$(form_ind+' .erro_envio').after('<div class="alert alert-danger" ><i class="fa fa-exclamation-circle"></i> ' + json['error'] + '</div>');
 			}
 			if (json['ok']==true) {
-				 comprovante_arquivo_list(json['id_demanda'])
+				$(form_ind).each(function(){ this.reset(); });
+				comprovante_arquivo_list(json['id_demanda'])
 				alert(json['resposta']);
 			}
 				

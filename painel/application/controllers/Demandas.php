@@ -373,8 +373,6 @@ class Demandas extends CI_Controller {
 		
 		$this->output->unset_template();
 		
-        $id_empresa = (int) $this->session->userdata['empresa']['id'];
-        
         $data['result'] = $this->demandas_model->comprovante_arquivo_list_result($id_demanda);
 
         $this->load->view('coleta/comprovante_arquivo_list', $data);

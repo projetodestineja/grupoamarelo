@@ -6,6 +6,9 @@
         <a class="nav-link" href="#propostas_recebidas" role="tab" data-toggle="tab">Propostas Recebidas</a>
     </li>
     <li class="nav-item">
+        <a class="nav-link" href="#cert_coleta" role="tab" data-toggle="tab">Certificado de Entrega</a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="#historico_status" role="tab" data-toggle="tab">Histórico Status</a>
     </li>
     <li class="nav-item">
@@ -14,6 +17,11 @@
 </ul>
 
 <div class="tab-content">
+
+  <div role="tabpanel" class="tab-pane" id="cert_coleta" >	
+  <?php $this->load->view('coleta/form_upload_comprovante'); ?>
+  </div>	
+    
   <div role="tabpanel" class="tab-pane  active" id="demanda">
 
 	<div class="card">

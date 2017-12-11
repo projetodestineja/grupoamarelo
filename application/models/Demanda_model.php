@@ -535,6 +535,16 @@ class Demanda_model extends CI_Model {
         return $this->db->query($sql)->result();
   	}
 	
+	function tab_cert_entrega($id_demanda){
+		 $this->db->where('id_demanda',$id_demanda);
+		 echo $total =  $this->db->get('destinacao_final_residuo')->num_rows();
+		 if($total==0){
+		 	return false;
+		 }else{
+			return true;	 
+		 }
+	}
+	
 	function comprovante_arquivo_list_row($id){
 		
 		$id_empresa = (int) $this->session->userdata['empresa']['id'];

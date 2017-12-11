@@ -9,14 +9,7 @@
         
         <div class="card-block">
         
-        	
-            <?php
-			 if (isset($obs) || $this->session->userdata['empresa']['funcao'] ==2){
-				$this->load->view('coleta/form_upload_comprovante'); 
-			 }
-			?>
-             
-            <div style="padding:15px;">
+        	 <div style="padding:15px;">
             <form action="" method="POST">    
                 <input hidden type="text" class="form-control" id="id_demanda" name="id_demanda" value="<?php if (isset($id_demanda)) echo $id_demanda;?>" >
                 <input hidden type="text" class="form-control" id="id_empresa_coletora" name="id_empresa_coletora" value="<?php if (isset($id_empresa_coletora)) echo $id_empresa_coletora;?>" >
