@@ -73,7 +73,8 @@ function send_form_comprovante_arquivo(){
 				$(form_ind+' .erro_envio').after('<div class="alert alert-danger" ><i class="fa fa-exclamation-circle"></i> ' + json['error'] + '</div>');
 			}
 			if (json['ok']==true) {
-				 comprovante_arquivo_list(json['id_demanda'])
+				$(form_ind).each(function(){ this.reset(); });
+				comprovante_arquivo_list(json['id_demanda'])
 				alert(json['resposta']);
 			}
 				
