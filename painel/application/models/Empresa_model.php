@@ -291,12 +291,28 @@ class Empresa_model extends CI_Model {
 		
 		$where = '';
 		
-		if(!empty($post['data_inicio']) || !empty($post['data_final'])){
-			
+		if(!empty($post['data_inicio'])){
 			$data_inicio = date('Y-m-d',strtotime(str_replace('/','-',$post['data_inicio'])));
+		}
+		
+		if(!empty($post['data_final'])){
 			$data_final = date('Y-m-d',strtotime(str_replace('/','-',$post['data_final'])));
+		}
+		
+		if(!empty($post['data_inicio']) && !empty($post['data_final'])){
 			
-			$where = ' data_cadastro BETWEEN date("'.$data_inicio.' 00:00:00") AND date("'.$data_final.' 23:59:59") and  ';	
+			$where = ' data_cadastro BETWEEN "'.$data_inicio.' 00:00:00" and "'.$data_final.' 23:59:59" and  ';	
+			
+		}else
+		if(!empty($post['data_inicio'])){
+			
+			$where = ' date(data_cadastro) = "'.$data_inicio.'" and  ';	
+			
+		}else
+		if(!empty($post['data_final'])){
+			
+			$where = ' date(data_cadastro) = "'.$data_final.'" and  ';	
+			
 		}
 		
 		$sql = "SELECT 
