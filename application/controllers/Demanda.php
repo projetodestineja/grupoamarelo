@@ -512,7 +512,8 @@ class Demanda extends CI_Controller {
 //teste
         $data = array();
         $data['title'] = 'Demanda #' . $id_demanda;
-
+		$data['id_demanda'] = $id_demanda;
+		 
         //Title / Description / Tags
         $this->output->set_common_meta($data['title'], '', '');
 
