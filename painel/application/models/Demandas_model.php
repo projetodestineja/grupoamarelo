@@ -259,16 +259,13 @@ class Demandas_model extends CI_Model {
 		dca.cadastrado,
 		dca.arquivo
 		FROM 
-		' . $this->db->dbprefix('demandas_comprovante_arquivo') . ' dca 
+			' . $this->db->dbprefix('demandas_comprovante_arquivo') . ' dca 
 		INNER JOIN 
-		' . $this->db->dbprefix('demandas') . ' d 
-		INNER JOIN 
-		' . $this->db->dbprefix('destinacao_final_residuo') . ' dfr   
+			' . $this->db->dbprefix('demandas') . ' d 
 		ON (dca.id_demanda = d.id)
 			and
 		dca.id_demanda = ' . (int)$id_demanda . ' 
-			and
-		dfr.id_demanda = ' . (int)$id_demanda . ' 
+		
 		
 		order by dca.id desc
 		';

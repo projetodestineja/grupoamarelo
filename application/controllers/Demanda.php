@@ -526,7 +526,9 @@ class Demanda extends CI_Controller {
 
         $row = $this->demanda_model->get_row_demanda_ver($id_demanda);
         $data['row'] = $row;
-
+		
+		$data['tab_cert_entrega'] = $this->demanda_model->tab_cert_entrega($id_demanda);
+		
         if ($this->input->post('validade'))
             $data['tab_ativa'] = 'proposta';
         else
@@ -562,7 +564,7 @@ class Demanda extends CI_Controller {
             // salva local de destinação final se o post for do btsalvalocal
             if ($this->input->post('btsalvarlocal')) {
                 $data4['nome_local'] = $this->input->post('nome_local');
-                $data4['id_demanda'] = $this->input->post('id_demanda');
+				$data4['id_demanda'] = $this->input->post('id_demanda');
                 $data4['id_empresa_coletora'] = $this->input->post('id_empresa_coletora');
                 $data4['cep'] = $this->input->post('cep');
                 $data4['rua'] = $this->input->post('rua');

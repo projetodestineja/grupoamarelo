@@ -11,10 +11,12 @@
     <li class="nav-item">
         <a class="nav-link <?php if ($tab_ativa=='inf_coleta') echo "active"; ?>" href="#inf_coleta" role="tab" data-toggle="tab">Comprovante de Destinação</a>
     </li>
+    <?php if($tab_cert_entrega){ ?>
     <li class="nav-item">
         <a class="nav-link" href="#cert_coleta" role="tab" data-toggle="tab">Certificado de Entrega</a>
     </li>
-    <?php if($this->session->userdata['empresa']['funcao']==1){ // Geradora?>
+    <?php } ?>
+   <?php if($this->session->userdata['empresa']['funcao']==1){ // Geradora?>
     <li class="nav-item">
         <a class="nav-link" href="#mensagens" role="tab" data-toggle="tab">Mensagens</a>
     </li>
@@ -38,9 +40,9 @@
   
   <div role="tabpanel" class="tab-pane" id="cert_coleta" >	
   <?php
-	if (isset($obs) || $this->session->userdata['empresa']['funcao'] ==2){
-		$this->load->view('coleta/form_upload_comprovante'); 
-	}
+  if($tab_cert_entrega){
+  	$this->load->view('coleta/form_upload_comprovante');
+  } 	 
   ?>
   </div>
   
