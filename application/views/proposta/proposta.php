@@ -1,5 +1,5 @@
 <div role="tabpanel" class="tab-pane <?php if ($tab_ativa=='proposta') echo "active"; ?>" id="propostas" name="propostas">
-    
+<?php if ($this->session->userdata['empresa']['ativo']==1) {?>    
     <div class="card">
     <h5 class="card-header"><i class="fa fa-list" ></i> Cadastro de Proposta <?php if (isset($id)) echo "#".$id; ?></h5>
     <div class="card-block">
@@ -90,7 +90,9 @@
     </div>
     </div>
 </div>
-
+<?php } else { ?>  
+    <div class="alert alert-danger"> Seu cadastro ainda não está desbloqueado para realizar propostas. Entre em contato com a Destine Já.</div>
+<?php } ?>  
 
 </div>
 
