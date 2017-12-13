@@ -3,6 +3,12 @@
         <a class="nav-link active" href="#demanda" role="tab" data-toggle="tab">Demanda</a>
     </li>
     <li class="nav-item">
+        <a class="nav-link" href="#propostas_recebidas" role="tab" data-toggle="tab">Propostas Recebidas</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#cert_coleta" role="tab" data-toggle="tab">Certificado de Entrega</a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="#historico_status" role="tab" data-toggle="tab">Histórico Status</a>
     </li>
     <li class="nav-item">
@@ -11,6 +17,11 @@
 </ul>
 
 <div class="tab-content">
+
+  <div role="tabpanel" class="tab-pane" id="cert_coleta" >	
+  <?php $this->load->view('coleta/form_upload_comprovante'); ?>
+  </div>	
+    
   <div role="tabpanel" class="tab-pane  active" id="demanda">
 
 	<div class="card">
@@ -22,7 +33,13 @@
       
 		<div class="form-row">
             <div class="col-md-2">
-                <img src="<?php echo $row['img']; ?>" alt="...">
+                <?php if(!empty($row['img_media'])){ ?>
+            	<a href="<?php echo $row['img_media']; ?>" class="zoom-foto" title="<?php echo $row['residuo']; ?>" >
+                	<img src="<?php echo $row['img']; ?>" alt="..." class="img-fluid" >
+                </a>
+                <?php }else{ ?>
+                	<img src="<?php echo $row['img']; ?>" alt="..." class="img-fluid" >
+                <?php } ?>
             </div>
         	<div class="col-md-10">
          <div class="resposta_json" ></div>
@@ -31,28 +48,29 @@
                     <label><span class="fa fa-chevron-right"></span> Resíduo</label><br>
                     <?php echo $row['residuo']; ?>
                 </div>
-                <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3" >
-                    <label><span class="fa fa-calendar"></span> Data Início / Expiração</label><br>
-                    <?php echo $row['data_inicio'];?> / <?php echo $row['data_validade'];?>
-            	</div>
-                <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3">
-                    <label><i class="fa fa-cube" aria-hidden="true"></i> Acondicionamento</label><br>
-                    <?php echo $row['acondicionado']; ?>
-                </div>
                 <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3">
                     <label><i class="fa fa-cubes" aria-hidden="true"></i> QTD:</label><br>
                     <?php echo $row['qtd']; ?> <?php echo $row['uni_medida_nome']; ?>
                 </div>
-               
+                <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3">
+                    <label><i class="fa fa-cube" aria-hidden="true"></i> Acondicionamento</label><br>
+                    <?php echo $row['acondicionado']; ?>
+                </div>
+                <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3" >
+                    <label><span class="fa fa-calendar"></span> Data Início / Expiração</label><br>
+                    <?php echo $row['data_inicio'];?> - <?php echo $row['data_validade'];?>
+            	</div>
                </div>
     
         
         	<div class="row">
             
+            	<?php if(!empty($row['obs'])){ ?>
             	<div class="form-group col-md-12">
             		<label>Observações:</label><br>
             		<?php echo $row['obs']; ?>
               	</div>
+                <?php } ?>
            		
                 <div class="form-group col-md-12"><hr></div>
                 
@@ -221,6 +239,12 @@
     	<div class="loading_form" ></div>
 	</div>
     
+    <div role="tabpanel" class="tab-pane" id="propostas_recebidas">
+    	
+		<?php $this->load->view('coleta/form_upload_comprovante'); ?>
+        <div id="list_propostas_recebidas" ><img src="<?php echo base_url('assets/img/ajax-loader.gif') ?>" ></div>
+        
+    </div>
     
     <div role="tabpanel" class="tab-pane" id="historico_status">
     	<div id="list_hitorico_status" ><img src="<?php echo base_url('assets/img/ajax-loader.gif') ?>" ></div>
@@ -233,6 +257,7 @@
 </div>
 <script>
 
+$("#list_propostas_recebidas").load("<?php echo site_url('proposta/listar_propostas/'.$row['id']); ?>");
 $("#list_hitorico_status").load("<?php echo site_url('demandas/status_demanda_historico/'.$row['id']); ?>");
 $("#list_hitorico_mensagens").load("<?php echo site_url('mensagens/mensagens_demanda/'.$row['id']); ?>");
 

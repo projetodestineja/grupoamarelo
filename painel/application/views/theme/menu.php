@@ -46,6 +46,12 @@
         </a>
       </li>
     
+      <li class="nav-item menu-v-relatorio" data-toggle="tooltip" data-placement="right" title="Relatórios">
+        <a class="nav-link" href="<?php echo site_url('relatorio'); ?>" >
+          <i class="fa fa-fw fa-download"></i><span class="nav-link-text">Relatórios</span>
+        </a>
+      </li>
+      	
       <li class="nav-item menu-v-usuarios" data-toggle="tooltip" data-placement="right" title="Usuários">
         <a class="nav-link" href="<?php echo site_url('usuarios'); ?>" >
           <i class="fa fa-fw fa-user"></i><span class="nav-link-text">Usuários</span>
@@ -67,6 +73,7 @@
 
 
     <ul class="navbar-nav ml-auto">
+      <!--
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle mr-lg-2" href="#" id="messagesDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fa fa-fw fa-envelope"></i>
@@ -122,7 +129,7 @@
           </a>
         </div>
       </li>
-
+	  -->
 
       <li class="nav-item" >
         <a class="nav-link  mr-lg-2" href="<?php echo site_url('usuarios'); ?>" >

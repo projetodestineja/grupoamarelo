@@ -44,6 +44,7 @@ class Mensagens extends CI_Controller {
             'grid_id' => 'table', // ID tabela html carregamento
             'load_ajax' => site_url("mensagens/ajax_list"), // URL carregamento ajax Json
             'delete_ajax' => site_url("mensagens/deletar"), // URL deletar registro
+			'dir_traducao' => 'painel',
             'columns' => $table_th
         );
 
@@ -154,6 +155,19 @@ class Mensagens extends CI_Controller {
 		}
 		
 		echo json_encode($data);
+	}
+	
+	/*
+	*	Listar Mensagens demanda id X
+	*/
+	public function mensagens_demanda($id_demanda=0){
+		$this->output->unset_template();
+		
+		$data = array();
+		
+		$data['result'] = $this->mensagens_model->get_result_mensagens_demanda($id_demanda);
+		
+		$this->load->view('mensagens/list_mensagens_demanda',$data);	
 	}
 	
 

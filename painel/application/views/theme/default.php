@@ -15,7 +15,8 @@
         if(!empty($canonical)){
             echo '<link rel="canonical" href="'.$canonical.'" />';
         }
-        ?>
+        ?>       
+        <link rel="icon" href="<?php echo site_url('assets/img/favicon.ico')?>" />
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
         <!-- Bootstrap core CSS -->
         <link href="<?php echo base_url('assets/pluguins/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">
@@ -70,11 +71,11 @@
         </ol>
         <?php } ?>
         <div class="row" >
-            <div class="col-md-4">
-                <h1 style="font-size:27px;"><?php echo $title; ?></h1>
+            <div class="col-md-6" style="margin-top:15px;">
+                <h1 style="font-size:27px; margin-bottom:30px;"><?php echo $title; ?></h1>
 
             </div>
-            <div class="col-md-8 text-right">
+            <div class="col-md-6 text-right">
                 <span id="colvis"></span>
                 <?php
 				if(isset($menu_opcao_direita)){

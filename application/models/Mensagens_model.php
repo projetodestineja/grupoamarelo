@@ -33,13 +33,16 @@ class Mensagens_model extends CI_Model {
         $this->_get_datatables_query();
         if($_POST['length'] != -1)
         $this->db->limit($_POST['length'], $_POST['start']);
-        $this->db->where('removida',NULL);
+		
+        $this->db->where('id_empresa',$this->session->userdata['empresa']['id']);
+		$this->db->where('removida',NULL);
         $query = $this->db->get();
         return $query->result();
     }
  
     function count_filtered(){
         $this->_get_datatables_query();
+		$this->db->where('id_empresa',$this->session->userdata['empresa']['id']);
         $this->db->where('removida',NULL);
         $query = $this->db->get();
         return $query->num_rows();
@@ -47,11 +50,13 @@ class Mensagens_model extends CI_Model {
  
     public function count_all(){
         $this->db->where('removida',NULL);
+		$this->db->where('id_empresa',$this->session->userdata['empresa']['id']);
         $this->db->from($this->table);
         return $this->db->count_all_results();
     }
     
 	public function get_all(){
+		$this->db->where('id_empresa',$this->session->userdata['empresa']['id']);
 		$this->db->where('removida',NULL);
 		return $this->db->get($this->table)->result();
 	}

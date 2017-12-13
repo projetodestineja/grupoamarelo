@@ -26,6 +26,12 @@ if (! function_exists('datagrid_js'))
 		//$grid_js.= ' if(altura_navegador<700){ altura_navegador = 700; }';
 		//$grid_js.= 'alert(altura_navegador);';
 		
+		if(isset($config['dir_traducao'])){
+			$url_traducao = base_url($config['dir_traducao'].'/assets/pluguins/datatables/Portuguese-Brasil.json');
+		}else{
+			$url_traducao = base_url('assets/pluguins/datatables/Portuguese-Brasil.json');	
+		}
+		
 		$grid_js.= 'table = $("#'.$config['grid_id'].'").DataTable({ ';
 		$grid_js.= '"processing": true,';
 		$grid_js.= '"serverSide": true,';
@@ -34,7 +40,7 @@ if (! function_exists('datagrid_js'))
 		/*"sPaginationType": "full_numbers",*/
 		$grid_js.= '"order": [],';
 		$grid_js.= '"language": {';
-		$grid_js.= '  "url": "'.base_url('assets/pluguins/datatables/Portuguese-Brasil.json').'"';
+		$grid_js.= '  "url": "'.$url_traducao.'"';
 		$grid_js.= '},';
 		$grid_js.= '"columns": [';
 		

@@ -15,22 +15,19 @@ class Demandas_model extends CI_Model {
 		 
 		 $sql =  "
 				 select 
-						 d.id, d.residuo, d.img, d.qtd, d.data_inicio, d.data_validade, d.obs, d.ger_id_empresa, d.ger_uf_estado,
-						 ds.descricao as status, ds.cor,
-						 c.nome_cidade,
-						 um.nome as medida,
-						 ac.nome as acondicionado
+					d.id, d.residuo, d.img, d.qtd, d.data_inicio, d.data_validade, d.obs, d.ger_id_empresa, d.ger_uf_estado,d.uni_medida_outro,d.uni_medida, d.acondicionado_outro,
+					ds.descricao as status, 
+					ds.cor,
+					c.nome_cidade,
+					(select abreviacao from uni_medida  where id = d.uni_medida) as medida ,
+					(select abreviacao from acondicionado where id = d.acondicionado) as acondicionado
+				
 				 from demandas as d
 				 inner join demandas_status as ds on (d.status = ds.id)
-				 inner join cidades as c 
-				 inner join uni_medida as um 
-				 inner join acondicionado as ac ON  
+				 inner join cidades as c  ON  
+				
 						 (c.id = d.ger_id_cidade)  
-				 and
-						 (ac.id = d.acondicionado)
-				 and 
-						 (um.id = d.uni_medida)
-				 and 
+					 and 
 						 ".$where."
 						 removido is null 
 				 ".$filtro."
@@ -51,10 +48,13 @@ class Demandas_model extends CI_Model {
 						 d.atualizada,
 						 d.residuo,
 						 d.responsavel,
-						 ds.descricao as status, ds.cor,
-						 um.nome as uni_medida_nome,
-						 ac.nome as acondicionado,
-						 d.uni_medida,	
+						 ds.descricao as status, 
+						 ds.cor,
+						 (select nome from uni_medida where id = d.uni_medida) as uni_medida_nome,
+						 (select nome  from acondicionado where id = d.acondicionado) as acondicionado,
+						 d.acondicionado_outro,
+						 d.uni_medida,
+						 d.uni_medida_outro,	
 						 d.status,					 
 						 d.img,
 						 d.qtd,
@@ -88,11 +88,6 @@ class Demandas_model extends CI_Model {
 						 
 				 from demandas as d
 				 inner join demandas_status as ds on (d.status = ds.id)
-				 inner join uni_medida as um 
-				 inner join acondicionado as ac ON  
-					(ac.id = d.acondicionado)
-				 and 
-					(um.id = d.uni_medida)
 				 and 
 					d.id= ".(int)$id."
 				limit 1
@@ -110,8 +105,22 @@ class Demandas_model extends CI_Model {
 		//print_r($row);
 
 		$capa = '../uploads/empresa/'.$row->ger_id_empresa.'/demanda/mini/'.$row->img;
+		$capa_media = '../uploads/empresa/'.$row->ger_id_empresa.'/demanda/media/'.$row->img;
 
 		$img = (is_file( $capa)?base_url($capa):base_url('assets/img/demanda_sem_img.jpg')); 
+		$img_media = (is_file( $capa)?base_url($capa_media):'');
+		
+		if(empty($row->acondicionado)){
+			$acondicionado = $row->acondicionado_outro;
+		}else{
+			$acondicionado = $row->acondicionado;	
+		}
+		
+		if(empty($row->uni_medida_nome)){
+			$uni_medida_nome = $row->uni_medida_outro;	
+		}else{
+			$uni_medida_nome = $row->uni_medida_nome;
+		}
 
 		$data = array(
 			/* Dados Demanda ********************/
@@ -128,10 +137,11 @@ class Demandas_model extends CI_Model {
 			'responsavel' =>  $row->responsavel,
 			'residuo' =>  $row->residuo,
 			'img' => $img,
-			'acondicionado' =>  $row->acondicionado,
+			'img_media' => $img_media,
+			'acondicionado' =>  $acondicionado,
 			'qtd' =>  $row->qtd,
 			'uni_medida' =>  $row->uni_medida,
-			'uni_medida_nome' =>  $row->uni_medida_nome,
+			'uni_medida_nome' =>  $uni_medida_nome,
 			'obs' => $row->obs,
 			
 			/* Dados Empresa Geradora ********************/
@@ -189,7 +199,7 @@ class Demandas_model extends CI_Model {
 		if($id_demanda){
 			$where.= ' and dsh.id_demanda = '.(int)$id_demanda.' ';	
 		}
-		$sql = 'SELECT dsh.datahora,ds.descricao FROM demandas_status_historico as dsh INNER JOIN demandas_status as ds ON (dsh.status=ds.id) '.$where.' order by dsh.datahora desc';
+		$sql = 'SELECT dsh.datahora,ds.descricao FROM demandas_status_historico as dsh INNER JOIN demandas_status as ds ON (dsh.status=ds.id) '.$where.' order by dsh.datahora desc,dsh.id desc';
 		return $this->db->query($sql)->result();	
 	}
 
@@ -227,5 +237,62 @@ class Demandas_model extends CI_Model {
                                     and MONTH(cadastrada) = $mes")->row();
         } else return 0;
 	}
+	
+	
+	function comprovante_arquivo_insert($post, $nome_arquivo, $id_demanda){
+		
+		$data = array(
+			'titulo' => $post['titulo'],
+			'arquivo' => $nome_arquivo,
+			'id_demanda' => $id_demanda
+		);
+		
+		$this->db->insert('demandas_comprovante_arquivo',$data);
+	}
+	
+	function comprovante_arquivo_list_result($id_demanda){
+		
+		
+        $sql = 'SELECT 
+		dca.id,
+		dca.titulo,
+		dca.cadastrado,
+		dca.arquivo
+		FROM 
+			' . $this->db->dbprefix('demandas_comprovante_arquivo') . ' dca 
+		INNER JOIN 
+			' . $this->db->dbprefix('demandas') . ' d 
+		ON (dca.id_demanda = d.id)
+			and
+		dca.id_demanda = ' . (int)$id_demanda . ' 
+		
+		
+		order by dca.id desc
+		';
+		
+        return $this->db->query($sql)->result();
+  	}
+	
+	function comprovante_arquivo_list_row($id){
+		
+		
+        $sql = 'SELECT 
+		dca.titulo,
+		dca.id_demanda,
+		dca.arquivo
+		FROM 
+		' . $this->db->dbprefix('demandas_comprovante_arquivo') . ' dca 
+		INNER JOIN 
+		' . $this->db->dbprefix('demandas') . ' d  
+		INNER JOIN 
+		' . $this->db->dbprefix('destinacao_final_residuo') . ' dfr   
+		ON (dca.id_demanda = d.id)
+			and
+		dca.id = ' . (int)$id . ' 
+		 limit 1
+		';
+
+        return $this->db->query($sql)->row();
+  	}
     
 }
