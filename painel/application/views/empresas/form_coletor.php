@@ -29,15 +29,7 @@
                 <div class="col-md-12">
 
                     <?php if ($id_funcao) { ?>
-                    <div class="row">
-                    <div class="col-md-3">
-                    <label for="id_funcao">Função</label>
-                            <select class="form-control" id="area_atuacao" name="id_funcao">
-                                <option value="1" <?php if ($id_funcao==1) echo "selected"; ?>>Geradora</option>
-                                <option value="2" <?php if ($id_funcao==2) echo "selected"; ?>>Coletora</option>
-                            </select>    
-                    </div>
-                    </div>
+                        <input name="id_funcao" type="hidden" value="<?php echo $id_funcao; ?>" >
                     <?php } ?>  
                             
                     <div class="form-row  required">
