@@ -19,9 +19,17 @@
                 <form id="form_cad_coletor" action="" method="POST">
                     
 					
-					<?php if ($id_funcao) { ?>
-                        <input name="id_funcao" type="hidden" value="<?php echo $id_funcao; ?>" >
-                    <?php } ?>
+                    <?php if ($id_funcao) { ?>
+                    <div class="form-row  required">
+                        <div class="form-group col-md-4 " >
+                            <label for="id_funcao">Função</label>
+                            <select class="form-control" id="id_funcao" name="id_funcao">
+                                <option value="1" <?php if ($id_funcao==1) echo "selected"; ?>>Gerador de Resíduos </option>
+                                <option value="2" <?php if ($id_funcao==2) echo "selected"; ?>>Coletor de Resíduos </option>
+                            </select>
+                        </div>
+                    </div>    
+                    <?php } ?>  
                     
                     <input name="tipo_cadastro" type="hidden" value="<?php echo (strlen($cnpj)<=14?'F':'J'); ?>" >
                     
