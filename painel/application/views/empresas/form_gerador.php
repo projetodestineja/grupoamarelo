@@ -1,5 +1,9 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
+<?php if (!empty($removido))  { ?>
+<div class="alert alert-danger">Esta empresa foi removida em <?php echo date('d/m/Y', strtotime($removido)); ?> </div>
+<?php } ?>
+
 <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item">
         <a class="nav-link active" href="#perfil" role="tab" data-toggle="tab">Perfil</a>
