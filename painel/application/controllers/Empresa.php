@@ -329,10 +329,10 @@ class Empresa extends CI_Controller {
           $data['outra_area_atuacao'] = $data['row_atuacao_principal']->outra_area_atuacao;
         }
 
-
-        //Buscando categorias de residuos coletados
-        $data['categorias_residuos'] = $this->empresa_model->get_all_categorias_residuos($data['id']);
-        
+        if ($data['id_funcao']==2){
+            //Buscando categorias de residuos coletados
+            $data['categorias_residuos'] = $this->empresa_model->get_all_categorias_residuos($data['id']);
+        }
 
         //Trabalho o select no form
         $uf = ($this->input->post('estado') ? $this->input->post('estado') : $row->uf_estado);
@@ -385,7 +385,7 @@ class Empresa extends CI_Controller {
         $data = array(
             //Config
             'tipo_cadastro' => 'J',
-            'id_funcao' => 2,
+            'id_funcao' => $post['id_funcao'],
             //dados empresa
             'cnpj' => $post['cnpj'], // Deixa em branco se for pessoa física
             'cpf' => NULL, //Deixa em branco se for PJ
@@ -459,7 +459,7 @@ class Empresa extends CI_Controller {
         $data = array(
             //Config
             'tipo_cadastro' => $post['tipo_cadastro'],
-            'id_funcao' => 1,
+            'id_funcao' => $post['id_funcao'],
             //dados empresa
             'cnpj' => ($post['tipo_cadastro'] == 'J' ? $post['cnpj'] : ''), // Deixa em branco se for pessoa física
             'cpf' => ($post['tipo_cadastro'] == 'F' ? $post['cpf'] : ''), //Deixa em branco se for PJ
