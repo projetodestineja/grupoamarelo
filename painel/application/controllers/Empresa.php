@@ -210,6 +210,7 @@ class Empresa extends CI_Controller {
             $data['nome_fantasia'] = ($this->input->post('tipo_cadastro') == 'J' ? $this->input->post('nfantasia') : ''); // Deixa em branco se for pessoa física
             $data['nome_responsavel'] = $this->input->post('nresponsavel');
 
+            
             //Contato
             $data['telefone1'] = $this->input->post('telefone1');
             $data['telefone2'] = $this->input->post('telefone2');
@@ -277,7 +278,8 @@ class Empresa extends CI_Controller {
         $data['tipo_cadastro'] = $row->tipo_cadastro;
         $data['id_funcao'] = $row->id_funcao;
         $row_funcao = $this->empresa_model->get_funcao_row($row->id_funcao);
-
+        $data['removido'] = $row->removido;
+        
         //Dados empresa
         $data['cnpj'] = (!empty($row->cnpj)?$row->cnpj:$row->cpf);
         
@@ -338,10 +340,19 @@ class Empresa extends CI_Controller {
         $data['cidades'] = $this->endereco_model->get_all_cidades($uf); //<-UF no EDIT pra listar apenas a cidades do estado selecionado
         
 		//Trabalhamos os botões superior a direita
+        if (!empty($row->removido)){
+            $data['menu_opcao_direita'][] = anchor(
+				site_url('empresa/cancelar_remocao/' . $id . '/1'), 
+				'<i class="fa fa-fw fa-unlock"></i> Cancelar Remoção', 
+				'class="btn btn-danger btn-sm not-focusable" '
+			);
+        }
+        
+        
         if ($row->ativo == 0) {
             $data['menu_opcao_direita'][] = anchor(
 				site_url('empresa/desbloquear/' . $id . '/1'), 
-				'<i class="fa fa-fw fa-unlock"></i> Desbloquear Cadastro', 
+				'<i class="fa fa-fw fa-user-o"></i> Desbloquear Cadastro', 
 				'class="btn btn-info btn-sm not-focusable" '
 			);
         } else {
@@ -742,6 +753,11 @@ class Empresa extends CI_Controller {
         echo json_encode($retorno);
 
         return;
+    }
+    
+    public function cancelar_remocao($id) {
+        $this->empresa_model->cancelar_remocao($id);
+        redirect(site_url('empresa/edit/' . $id));
     }
 	
 }
