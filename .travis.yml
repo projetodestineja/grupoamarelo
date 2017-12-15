@@ -1,0 +1,28 @@
+dist: trusty
+sudo: TRUE
+language: php
+php:
+  - '7.0'
+
+jdk:
+- oraclejdk8
+
+addons:
+  sonarqube:
+    organization: "destineja"
+    token:
+      secure: "$SONAR_TOKEN"
+
+branches:
+  only:
+  - master
+  - dev
+
+script:
+- sonar-scanner
+
+deploy:
+ provider: heroku
+ api-key: 
+  secure: $HEROKU_API_KEY
+ app: projetodestineja
