@@ -1,5 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-
+<?php if (!empty($removido))  { ?>
+<div class="alert alert-danger">Esta empresa foi removida em <?php echo date('d/m/Y', strtotime($removido)); ?> </div>
+<?php } ?>
 <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item">
         <a class="nav-link active" href="#perfil" role="tab" data-toggle="tab">Perfil</a>
@@ -27,7 +29,15 @@
                 <div class="col-md-12">
 
                     <?php if ($id_funcao) { ?>
-                        <input name="id_funcao" type="hidden" value="<?php echo $id_funcao; ?>" >
+                    <div class="form-row  required">
+                        <div class="form-group col-md-4 " >
+                            <label for="id_funcao">Função</label>
+                            <select class="form-control" id="id_funcao" name="id_funcao">
+                                <option value="1" <?php if ($id_funcao==1) echo "selected"; ?>>Gerador de Resíduos </option>
+                                <option value="2" <?php if ($id_funcao==2) echo "selected"; ?>>Coletor de Resíduos </option>
+                            </select>
+                        </div>
+                    </div>    
                     <?php } ?>  
                             
                     <div class="form-row  required">

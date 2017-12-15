@@ -45,7 +45,7 @@ class Empresa_model extends CI_Model {
 		if(isset($get['ativo'])){
 			$this->db->where('ativo',(int)$get['ativo']);	
 		}
-        $this->db->where('removido',NULL);
+        //$this->db->where('removido',NULL);
         $query = $this->db->get();
         return $query->result();
     }
@@ -58,7 +58,7 @@ class Empresa_model extends CI_Model {
 		if(isset($get['ativo'])){
 			$this->db->where('ativo',(int)$get['ativo']);	
 		}
-        $this->db->where('removido',NULL);
+        //$this->db->where('removido',NULL);
         $query = $this->db->get();
         return $query->num_rows();
     }
@@ -70,7 +70,7 @@ class Empresa_model extends CI_Model {
 		if(isset($get['ativo'])){
 			$this->db->where('ativo',(int)$get['ativo']);	
 		}
-        $this->db->where('removido',NULL);
+        //$this->db->where('removido',NULL);
         $this->db->from('empresas');
         return $this->db->count_all_results();
     }
@@ -343,6 +343,10 @@ class Empresa_model extends CI_Model {
 		 FROM empresas WHERE ".$where." removido is null ";
 				 
         return $this->db->query($sql)->result_array();
+    }
+    
+    public function cancelar_remocao( $id) {
+        $this->db->query("UPDATE empresas SET removido = NULL WHERE empresas.id = " . (int) $id . "");
     }
 	
 }
